@@ -2,9 +2,28 @@ import { Button, Platform, StyleSheet } from "react-native";
 
 import { Text, View } from "@/components/Themed";
 import { useAuth } from "@/context/auth";
+import CTextInput from "@/components/inputs/CTextInput";
+import { useState } from "react";
+import { LoginData } from "@/types/auth";
+import CPasswordInput from "@/components/inputs/CPasswordInput";
+import api, { baseURL } from "@/queries/api";
+import axios from "axios";
 
 export default function LoginScreen() {
-  const { signIn } = useAuth();
+  const { setToken } = useAuth();
+  const [loginData, setLoginData] = useState<LoginData>({
+    email: "admin@admin.com",
+    password: "admin",
+  } as LoginData);
+  function handleOnChange(name: string, value: string) {
+    setLoginData((prev: LoginData) => ({ ...prev, [name]: value }));
+  }
+  const handleLogin = async () => {
+    try {
+      const { data } = await axios.post(`${baseURL}users/login/`, loginData);
+      setToken(data.token);
+    } catch (error) {}
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login Page</Text>
@@ -13,7 +32,20 @@ export default function LoginScreen() {
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <Button title="Sign In" color={"orange"} onPress={signIn} />
+      <CTextInput
+        placeholder="Email"
+        name="email"
+        onChange={handleOnChange}
+        value={loginData.email}
+      />
+      <CPasswordInput
+        placeholder="Contraseña"
+        name="password"
+        onChange={handleOnChange}
+        value={loginData.password}
+      />
+
+      <Button title="Sign In" color={"orange"} onPress={handleLogin} />
     </View>
   );
 }

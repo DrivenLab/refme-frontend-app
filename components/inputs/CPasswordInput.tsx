@@ -1,23 +1,25 @@
+import { Input } from "@/types/inputs";
 import {
   StyleProp,
   StyleSheet,
   TextInput,
   View,
   ViewStyle,
+  Text,
 } from "react-native";
-type Props = {
-  containerStyle?: StyleProp<ViewStyle>;
-  placeholder: string;
-  onChangeText?: (value: string) => void;
-  error?: string;
-  name: string;
-};
-function CTextInput(props: Props) {
+type Props = Input;
+function CPasswordInput(props: Props) {
+  function handelOnChange(text: string) {
+    if (props.onChange) props.onChange(props.name, text);
+  }
   return (
     <View style={styles.containerStyle}>
+      <Text>{props.placeholder}</Text>
       <TextInput
         style={styles.innerContainer}
         placeholder={props.placeholder}
+        onChangeText={handelOnChange}
+        value={props.value}
       />
     </View>
   );
@@ -35,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CTextInput;
+export default CPasswordInput;

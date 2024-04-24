@@ -1,7 +1,7 @@
 import { getData } from "@/utils/storage";
 import axios from "axios";
 
-//todo: Ver si puedo usar env in rn
+//todo: Ver si se puede usar env in rn
 const url = false;
 //192.168.100.52
 export const baseURL = url ? url : "http://localhost:8000/api/";

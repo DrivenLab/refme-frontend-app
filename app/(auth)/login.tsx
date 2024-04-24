@@ -4,7 +4,7 @@ import { Text, View } from "@/components/Themed";
 import { useAuth } from "@/context/auth";
 import CTextInput from "@/components/inputs/CTextInput";
 import { useState } from "react";
-import { LoginData } from "@/types/auth";
+import { LoginData } from "@/types/user";
 import CPasswordInput from "@/components/inputs/CPasswordInput";
 import api, { baseURL } from "@/queries/api";
 import axios from "axios";
@@ -15,14 +15,19 @@ export default function LoginScreen() {
     email: "admin@admin.com",
     password: "admin",
   } as LoginData);
+  const [isLoging, setIsLoging] = useState(false);
   function handleOnChange(name: string, value: string) {
     setLoginData((prev: LoginData) => ({ ...prev, [name]: value }));
   }
   const handleLogin = async () => {
+    setIsLoging(true);
     try {
       const { data } = await axios.post(`${baseURL}users/login/`, loginData);
-      setToken(data.token);
-    } catch (error) {}
+      await setToken(data.token);
+    } catch (error) {
+    } finally {
+      setIsLoging(false);
+    }
   };
   return (
     <View style={styles.container}>

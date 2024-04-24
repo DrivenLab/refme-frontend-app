@@ -1,32 +1,72 @@
+import {
+  useEffect,
+  useState,
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useMemo,
+} from "react";
 import { getData, removeData, storeData } from "@/utils/storage";
-import { useRouter, useSegments } from "expo-router";
-import * as React from "react";
-const AuthContext = React.createContext<any>(null);
+import { useRouter, useSegments, usePathname } from "expo-router";
+
+import api from "@/queries/api";
+import { User } from "@/types/user";
+const AuthContext = createContext<any>(null);
 export function useAuth() {
-  return React.useContext(AuthContext);
+  return useContext(AuthContext);
 }
 
-export function AuthProvider({ children }: React.PropsWithChildren) {
+export function AuthProvider({ children }: PropsWithChildren) {
   const rootSegment = useSegments()[0];
+  const pathname = usePathname();
   const router = useRouter();
-  const [token, setToken_] = React.useState<string | null>(null);
+  const [token, setToken_] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const isUserVerified = useMemo(() => {
+    console.log("entered heree---", user?.isVerified);
+    return user?.isVerified ?? false;
+  }, [user?.isVerified]);
 
-  React.useEffect(() => {
+  //Cargamos el token del localstorage
+  useEffect(() => {
     loadToken();
   }, []);
+
+  //Actualizamos los datos del usuario cada vez que el token cambia.
+  useEffect(() => {
+    loadUserProfile();
+  }, [token]);
+
   //Determinar la rutas en base a si el usuario esta o no autenticado.
-  React.useEffect(() => {
+  useEffect(() => {
+    console.log("----", { token, isUserVerified, rootSegment, pathname });
+    /**
+     * Caso 1: Usuario no esta logeado y queire acceder a una ruta protegida.
+     * Caso 2: Usuario esta logeado pero no esta verificado.
+     * Caso 3: Usuario logeado y verificado
+     */
     if (token == null && rootSegment !== "(auth)") {
       router.replace("/(auth)/login");
-    } else if (token && rootSegment !== "(app)") {
+    } else if (token && !isUserVerified && pathname !== "/verify-account") {
+      router.replace("/verify-account");
+    } else if (token && isUserVerified) {
       router.replace("/");
     }
-  }, [token, rootSegment]);
+  }, [token, rootSegment, isUserVerified]);
 
+  //Obtener los datos del usuario.
+  async function loadUserProfile() {
+    try {
+      const { data } = await api.get<User>("users/profile");
+      setUser(data);
+    } catch (error) {}
+  }
   //Obtener token del localstorage.
   async function loadToken() {
-    const response = await getData("token");
-    setToken_(response);
+    const token_ = await getData("token");
+    setToken_(token_);
+    if (token_ == null) return;
+    api.defaults.headers.common.Authorization = `Token ${token_}`;
   }
 
   async function handleSignOut() {
@@ -40,6 +80,8 @@ export function AuthProvider({ children }: React.PropsWithChildren) {
   return (
     <AuthContext.Provider
       value={{
+        user: user,
+        loadUserProfile: loadUserProfile,
         token: token,
         setToken: handleSetToken,
         signOut: handleSignOut,

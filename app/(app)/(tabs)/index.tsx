@@ -1,7 +1,6 @@
 import { Button, StyleSheet, TextInput } from "react-native";
 import { Text, View } from "@/components/Themed";
 import { useAuth } from "@/context/auth";
-
 export default function TabOneScreen() {
   const { signOut } = useAuth();
   return (
@@ -11,7 +10,6 @@ export default function TabOneScreen() {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

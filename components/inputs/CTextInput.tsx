@@ -1,40 +1,21 @@
-import { Input } from "@/types/inputs";
-import {
-  StyleProp,
-  StyleSheet,
-  TextInput,
-  View,
-  ViewStyle,
-  Text,
-} from "react-native";
-type Props = Input;
+import { InputField, VStack, Text, Input } from "@/theme/components";
+import { Input as InputType } from "@/types/inputs";
+import { StyleProp, ViewStyle } from "react-native";
+type Props = InputType;
 function CTextInput(props: Props) {
   function handelOnChange(text: string) {
     if (props.onChange) props.onChange(props.name, text);
   }
   return (
-    <View style={styles.containerStyle}>
-      <Text>{props.placeholder}</Text>
-      <TextInput
-        style={styles.innerContainer}
-        placeholder={props.placeholder}
-        onChangeText={handelOnChange}
-        value={props.value}
-      />
-    </View>
+    <VStack space="sm">
+      <Text color="$secondary0" lineHeight="$xs">
+        {props.placeholder}
+      </Text>
+      <Input>
+        <InputField type="text" onChangeText={handelOnChange} />
+      </Input>
+    </VStack>
   );
 }
-const styles = StyleSheet.create({
-  containerStyle: {
-    width: "100%",
-  },
-  innerContainer: {
-    borderColor: "#eee",
-    borderRadius: 4,
-    backgroundColor: "#f2f3f4",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-});
 
 export default CTextInput;

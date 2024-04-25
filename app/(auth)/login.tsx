@@ -1,4 +1,4 @@
-import { Button, Platform, StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 import { Text, View } from "@/components/Themed";
 import { useAuth } from "@/context/auth";
@@ -8,7 +8,8 @@ import { LoginData } from "@/types/user";
 import CPasswordInput from "@/components/inputs/CPasswordInput";
 import api, { baseURL } from "@/queries/api";
 import axios from "axios";
-
+import { Button, ButtonText, ButtonIcon, AddIcon } from "@/theme/components";
+import { ChevronRight, MoveRightIcon } from "lucide-react-native";
 export default function LoginScreen() {
   const { setToken } = useAuth();
   const [loginData, setLoginData] = useState<LoginData>({
@@ -49,8 +50,16 @@ export default function LoginScreen() {
         onChange={handleOnChange}
         value={loginData.password}
       />
-
-      <Button title="Sign In" color={"orange"} onPress={handleLogin} />
+      <Button
+        size="md"
+        variant="solid"
+        action="primary"
+        isDisabled={false}
+        isFocusVisible={false}
+      >
+        <ButtonText>Ingresar </ButtonText>
+        <ButtonIcon as={ChevronRight} />
+      </Button>
     </View>
   );
 }
@@ -60,6 +69,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    paddingHorizontal: 20,
   },
   title: {
     fontSize: 20,

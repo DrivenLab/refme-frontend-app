@@ -15,12 +15,11 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from "@react-native-community/netinfo";
 import { AuthProvider } from "@/context/auth";
-
+import { GluestackUIProvider, Text, Box } from ".\\..\\theme\\components";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
 } from "expo-router";
-
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: "(tabs)",
@@ -28,7 +27,6 @@ export const unstable_settings = {
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
-
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
@@ -39,20 +37,16 @@ export default function RootLayout() {
   useEffect(() => {
     if (error) throw error;
   }, [error]);
-
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
     }
   }, [loaded]);
-
   if (!loaded) {
     return null;
   }
-
   return <RootLayoutNav />;
 }
-
 const queryClient = new QueryClient();
 const persister = createAsyncStoragePersister({
   storage: AsyncStorage,
@@ -69,20 +63,24 @@ function RootLayoutNav() {
   return (
     <PersistQueryClientProvider
       client={queryClient}
-      persistOptions={{ persister }}
+      persistOptions={{
+        persister,
+      }}
       onSuccess={() =>
         queryClient
           .resumePausedMutations()
           .then(() => queryClient.invalidateQueries())
       }
     >
-      <AuthProvider>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
-          <Slot />
-        </ThemeProvider>
-      </AuthProvider>
+      <GluestackUIProvider>
+        <AuthProvider>
+          <ThemeProvider
+            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          >
+            <Slot />
+          </ThemeProvider>
+        </AuthProvider>
+      </GluestackUIProvider>
     </PersistQueryClientProvider>
   );
 }

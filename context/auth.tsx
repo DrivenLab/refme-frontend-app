@@ -34,12 +34,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   //Actualizamos los datos del usuario cada vez que el token cambia.
   useEffect(() => {
-    loadUserProfile();
+    if (token) loadUserProfile();
   }, [token]);
 
   //Determinar la rutas en base a si el usuario esta o no autenticado.
   useEffect(() => {
-    console.log("----", { token, isUserVerified, rootSegment, pathname });
     /**
      * Caso 1: Usuario no esta logeado y queire acceder a una ruta protegida.
      * Caso 2: Usuario esta logeado pero no esta verificado.

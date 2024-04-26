@@ -1,40 +1,43 @@
-import { Input } from "@/types/inputs";
 import {
-  StyleProp,
-  StyleSheet,
-  TextInput,
-  View,
-  ViewStyle,
+  InputField,
+  VStack,
   Text,
-} from "react-native";
-type Props = Input;
+  Input,
+  InputSlot,
+  InputIcon,
+} from "@/theme/components";
+import { Input as InputType } from "@/types/inputs";
+import { useState } from "react";
+import { EyeIcon, EyeOffIcon } from "lucide-react-native";
+type Props = InputType;
 function CPasswordInput(props: Props) {
+  const [showPassword, setShowPassword] = useState(false);
+  const handleState = () => {
+    setShowPassword((showState) => {
+      return !showState;
+    });
+  };
   function handelOnChange(text: string) {
     if (props.onChange) props.onChange(props.name, text);
   }
   return (
-    <View style={styles.containerStyle}>
-      <Text>{props.placeholder}</Text>
-      <TextInput
-        style={styles.innerContainer}
-        placeholder={props.placeholder}
-        onChangeText={handelOnChange}
-        value={props.value}
-      />
-    </View>
+    <VStack space="sm" width={"100%"}>
+      <Text color="$secondary0">Contraseña</Text>
+      <Input backgroundColor="$grey" borderWidth={0}>
+        <InputField
+          type={showPassword ? "text" : "password"}
+          placeholder="Ingrese su contraseña"
+        />
+        <InputSlot pr="$3" onPress={handleState}>
+          {/* EyeIcon, EyeOffIcon are both imported from 'lucide-react-native' */}
+          <InputIcon
+            as={showPassword ? EyeIcon : EyeOffIcon}
+            color="$darkBlue500"
+          />
+        </InputSlot>
+      </Input>
+    </VStack>
   );
 }
-const styles = StyleSheet.create({
-  containerStyle: {
-    width: "100%",
-  },
-  innerContainer: {
-    borderColor: "#eee",
-    borderRadius: 4,
-    backgroundColor: "#f2f3f4",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-  },
-});
 
 export default CPasswordInput;

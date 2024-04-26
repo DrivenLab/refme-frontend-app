@@ -6,5 +6,6 @@ export type Input = {
   onChange?: (name: string, value: string) => void;
   error?: string;
   name: string;
+  label: string;
   value?: string;
 };

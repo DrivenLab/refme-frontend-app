@@ -7,12 +7,16 @@ function CTextInput(props: Props) {
     if (props.onChange) props.onChange(props.name, text);
   }
   return (
-    <VStack space="sm">
+    <VStack space="sm" width={"100%"}>
       <Text color="$secondary0" lineHeight="$xs">
-        {props.placeholder}
+        {props.label}
       </Text>
-      <Input>
-        <InputField type="text" onChangeText={handelOnChange} />
+      <Input backgroundColor="$grey" borderWidth={0}>
+        <InputField
+          type="text"
+          onChangeText={handelOnChange}
+          placeholder={props.placeholder}
+        />
       </Input>
     </VStack>
   );

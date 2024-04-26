@@ -1,143 +1,143 @@
-import { createInput } from '@gluestack-ui/input';
-import { styled, AsForwarder } from '@gluestack-style/react';
-import { View, Pressable, TextInput } from 'react-native';
+import { createInput } from "@gluestack-ui/input";
+import { styled, AsForwarder } from "@gluestack-style/react";
+import { View, Pressable, TextInput } from "react-native";
 
 const StyledRoot = styled(
   View,
   {
-    'borderWidth': 1,
-    'borderColor': '$background300',
-    'borderRadius': '$sm',
-    'flexDirection': 'row',
-    'overflow': 'hidden',
-    'alignContent': 'center',
+    borderWidth: 1,
+    borderColor: "$background300",
+    borderRadius: "$sm",
+    flexDirection: "row",
+    overflow: "hidden",
+    alignContent: "center",
 
-    ':hover': {
-      borderColor: '$border400',
+    ":hover": {
+      borderColor: "$border400",
     },
 
-    ':focus': {
-      'borderColor': '$primary700',
-      ':hover': {
-        borderColor: '$primary700',
+    ":focus": {
+      borderColor: "$secondary",
+      ":hover": {
+        borderColor: "$primary700",
       },
     },
 
-    ':disabled': {
-      'opacity': 0.4,
-      ':hover': {
-        borderColor: '$background300',
+    ":disabled": {
+      opacity: 0.4,
+      ":hover": {
+        borderColor: "$background300",
       },
     },
 
-    '_input': {
-      py: 'auto',
-      px: '$3',
+    _input: {
+      py: "auto",
+      px: "$3",
     },
 
-    '_icon': {
-      color: '$text400',
+    _icon: {
+      color: "$text400",
     },
 
-    'variants': {
+    variants: {
       size: {
         xl: {
-          h: '$12',
+          h: "$12",
           _input: {
             props: {
-              size: 'xl',
+              size: "xl",
             },
           },
           _icon: {
             props: {
-              size: 'xl',
+              size: "xl",
             },
           },
         },
         lg: {
-          h: '$11',
+          h: "$11",
           _input: {
             props: {
-              size: 'lg',
+              size: "lg",
             },
           },
           _icon: {
             props: {
-              size: 'lg',
+              size: "lg",
             },
           },
         },
         md: {
-          h: '$10',
+          h: "$10",
           _input: {
             props: {
-              size: 'md',
+              size: "md",
             },
           },
           _icon: {
             props: {
-              size: 'sm',
+              size: "sm",
             },
           },
         },
         sm: {
-          h: '$9',
+          h: "$9",
           _input: {
             props: {
-              size: 'sm',
+              size: "sm",
             },
           },
           _icon: {
             props: {
-              size: 'xs',
+              size: "xs",
             },
           },
         },
       },
       variant: {
         underlined: {
-          '_input': {
+          _input: {
             _web: {
               outlineWidth: 0,
-              outline: 'none',
+              outline: "none",
             },
-            px: '$0',
+            px: "$0",
           },
 
-          'borderWidth': 0,
-          'borderRadius': 0,
-          'borderBottomWidth': '$1',
+          borderWidth: 0,
+          borderRadius: 0,
+          borderBottomWidth: "$1",
 
-          ':focus': {
-            borderColor: '$primary700',
+          ":focus": {
+            borderColor: "$primary700",
             _web: {
-              boxShadow: 'inset 0 -1px 0 0 $primary700',
+              boxShadow: "inset 0 -1px 0 0 $primary700",
             },
           },
 
-          ':invalid': {
-            'borderBottomWidth': 2,
-            'borderBottomColor': '$error700',
-            '_web': {
-              boxShadow: 'inset 0 -1px 0 0 $error700',
+          ":invalid": {
+            borderBottomWidth: 2,
+            borderBottomColor: "$error700",
+            _web: {
+              boxShadow: "inset 0 -1px 0 0 $error700",
             },
-            ':hover': {
-              borderBottomColor: '$error700',
+            ":hover": {
+              borderBottomColor: "$error700",
             },
-            ':focus': {
-              'borderBottomColor': '$error700',
-              ':hover': {
-                borderBottomColor: '$error700',
+            ":focus": {
+              borderBottomColor: "$error700",
+              ":hover": {
+                borderBottomColor: "$error700",
                 _web: {
-                  boxShadow: 'inset 0 -1px 0 0 $error700',
+                  boxShadow: "inset 0 -1px 0 0 $error700",
                 },
               },
             },
-            ':disabled': {
-              ':hover': {
-                borderBottomColor: '$error700',
+            ":disabled": {
+              ":hover": {
+                borderBottomColor: "$error700",
                 _web: {
-                  boxShadow: 'inset 0 -1px 0 0 $error700',
+                  boxShadow: "inset 0 -1px 0 0 $error700",
                 },
               },
             },
@@ -145,42 +145,42 @@ const StyledRoot = styled(
         },
 
         outline: {
-          '_input': {
+          _input: {
             _web: {
               outlineWidth: 0,
-              outline: 'none',
+              outline: "none",
             },
           },
 
-          ':focus': {
-            borderColor: '$primary700',
+          ":focus": {
+            borderColor: "$red",
             _web: {
-              boxShadow: 'inset 0 0 0 1px $primary700',
+              boxShadow: "inset 0 0 0 1px $primary700",
             },
           },
 
-          ':invalid': {
-            'borderColor': '$error700',
-            '_web': {
-              boxShadow: 'inset 0 0 0 1px $error700',
+          ":invalid": {
+            borderColor: "$error700",
+            _web: {
+              boxShadow: "inset 0 0 0 1px $error700",
             },
-            ':hover': {
-              borderColor: '$error700',
+            ":hover": {
+              borderColor: "$error700",
             },
-            ':focus': {
-              'borderColor': '$error700',
-              ':hover': {
-                borderColor: '$error700',
+            ":focus": {
+              borderColor: "$error700",
+              ":hover": {
+                borderColor: "$error700",
                 _web: {
-                  boxShadow: 'inset 0 0 0 1px $error700',
+                  boxShadow: "inset 0 0 0 1px $error700",
                 },
               },
             },
-            ':disabled': {
-              ':hover': {
-                borderColor: '$error700',
+            ":disabled": {
+              ":hover": {
+                borderColor: "$error700",
                 _web: {
-                  boxShadow: 'inset 0 0 0 1px $error700',
+                  boxShadow: "inset 0 0 0 1px $error700",
                 },
               },
             },
@@ -188,45 +188,45 @@ const StyledRoot = styled(
         },
 
         rounded: {
-          'borderRadius': 999,
+          borderRadius: 999,
 
-          '_input': {
-            px: '$4',
+          _input: {
+            px: "$4",
             _web: {
               outlineWidth: 0,
-              outline: 'none',
+              outline: "none",
             },
           },
 
-          ':focus': {
-            borderColor: '$primary700',
+          ":focus": {
+            borderColor: "$primary700",
             _web: {
-              boxShadow: 'inset 0 0 0 1px $primary700',
+              boxShadow: "inset 0 0 0 1px $primary700",
             },
           },
 
-          ':invalid': {
-            'borderColor': '$error700',
-            '_web': {
-              boxShadow: 'inset 0 0 0 1px $error700',
+          ":invalid": {
+            borderColor: "$error700",
+            _web: {
+              boxShadow: "inset 0 0 0 1px $error700",
             },
-            ':hover': {
-              borderColor: '$error700',
+            ":hover": {
+              borderColor: "$error700",
             },
-            ':focus': {
-              'borderColor': '$error700',
-              ':hover': {
-                borderColor: '$error700',
+            ":focus": {
+              borderColor: "$error700",
+              ":hover": {
+                borderColor: "$error700",
                 _web: {
-                  boxShadow: 'inset 0 0 0 1px $error700',
+                  boxShadow: "inset 0 0 0 1px $error700",
                 },
               },
             },
-            ':disabled': {
-              ':hover': {
-                borderColor: '$error700',
+            ":disabled": {
+              ":hover": {
+                borderColor: "$error700",
                 _web: {
-                  boxShadow: 'inset 0 0 0 1px $error700',
+                  boxShadow: "inset 0 0 0 1px $error700",
                 },
               },
             },
@@ -235,65 +235,65 @@ const StyledRoot = styled(
       },
     },
 
-    'defaultProps': {
-      size: 'md',
-      variant: 'outline',
+    defaultProps: {
+      size: "md",
+      variant: "outline",
     },
   },
   {
-    descendantStyle: ['_input', '_icon'],
+    descendantStyle: ["_input", "_icon"],
   }
 );
 
 const StyledIcon = styled(
   AsForwarder,
   {
-    color: '$background800',
+    color: "$background800",
     variants: {
       size: {
-        '2xs': {
-          h: '$3',
-          w: '$3',
+        "2xs": {
+          h: "$3",
+          w: "$3",
           props: {
             // @ts-ignore
             size: 12,
           },
         },
-        'xs': {
-          h: '$3.5',
-          w: '$3.5',
+        xs: {
+          h: "$3.5",
+          w: "$3.5",
           props: {
             //@ts-ignore
             size: 14,
           },
         },
-        'sm': {
-          h: '$4',
-          w: '$4',
+        sm: {
+          h: "$4",
+          w: "$4",
           props: {
             //@ts-ignore
             size: 16,
           },
         },
-        'md': {
-          h: '$4.5',
-          w: '$4.5',
+        md: {
+          h: "$4.5",
+          w: "$4.5",
           props: {
             //@ts-ignore
             size: 18,
           },
         },
-        'lg': {
-          h: '$5',
-          w: '$5',
+        lg: {
+          h: "$5",
+          w: "$5",
           props: {
             //@ts-ignore
             size: 20,
           },
         },
-        'xl': {
-          h: '$6',
-          w: '$6',
+        xl: {
+          h: "$6",
+          w: "$6",
           props: {
             //@ts-ignore
             size: 24,
@@ -302,19 +302,19 @@ const StyledIcon = styled(
       },
     },
     props: {
-      size: 'md',
+      size: "md",
       // @ts-ignore
-      fill: 'none',
+      fill: "none",
     },
   },
   {
-    resolveProps: ['stroke', 'fill'],
-    ancestorStyle: ['_icon'],
+    resolveProps: ["stroke", "fill"],
+    ancestorStyle: ["_icon"],
   },
   {
     propertyTokenMap: {
-      stroke: 'colors',
-      fill: 'colors',
+      stroke: "colors",
+      fill: "colors",
     },
   }
 );
@@ -322,16 +322,16 @@ const StyledIcon = styled(
 const StyledSlot = styled(
   Pressable,
   {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     _web: {
-      ':disabled': {
-        cursor: 'not-allowed',
+      ":disabled": {
+        cursor: "not-allowed",
       },
     },
   },
   {
-    descendantStyle: ['_icon'],
+    descendantStyle: ["_icon"],
   }
 );
 
@@ -339,73 +339,73 @@ const StyledInputField = styled(
   TextInput,
   {
     flex: 1,
-    color: '$text900',
+    color: "$text900",
 
     props: {
-      placeholderTextColor: '$text500',
+      placeholderTextColor: "$text500",
     },
 
     _web: {
-      'cursor': 'text',
-      ':disabled': {
-        cursor: 'not-allowed',
+      cursor: "text",
+      ":disabled": {
+        cursor: "not-allowed",
       },
     },
 
     variants: {
       size: {
-        '2xs': {
-          fontSize: '$2xs',
+        "2xs": {
+          fontSize: "$2xs",
         },
-        'xs': {
-          fontSize: '$xs',
-        },
-
-        'sm': {
-          fontSize: '$sm',
+        xs: {
+          fontSize: "$xs",
         },
 
-        'md': {
-          fontSize: '$md',
+        sm: {
+          fontSize: "$sm",
         },
 
-        'lg': {
-          fontSize: '$lg',
+        md: {
+          fontSize: "$md",
         },
 
-        'xl': {
-          fontSize: '$xl',
+        lg: {
+          fontSize: "$lg",
         },
 
-        '2xl': {
-          fontSize: '$2xl',
+        xl: {
+          fontSize: "$xl",
         },
 
-        '3xl': {
-          fontSize: '$3xl',
+        "2xl": {
+          fontSize: "$2xl",
         },
 
-        '4xl': {
-          fontSize: '$4xl',
+        "3xl": {
+          fontSize: "$3xl",
         },
 
-        '5xl': {
-          fontSize: '$5xl',
+        "4xl": {
+          fontSize: "$4xl",
         },
 
-        '6xl': {
-          fontSize: '$6xl',
+        "5xl": {
+          fontSize: "$5xl",
+        },
+
+        "6xl": {
+          fontSize: "$6xl",
         },
       },
     },
   },
   {
-    ancestorStyle: ['_input'],
-    resolveProps: ['placeholderTextColor'],
+    ancestorStyle: ["_input"],
+    resolveProps: ["placeholderTextColor"],
   },
   {
     propertyTokenMap: {
-      placeholderTextColor: 'colors',
+      placeholderTextColor: "colors",
     },
   }
 );

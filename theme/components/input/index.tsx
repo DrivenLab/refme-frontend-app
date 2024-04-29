@@ -17,9 +17,9 @@ const StyledRoot = styled(
     },
 
     ":focus": {
-      borderColor: "$secondary",
+      borderColor: "$red",
       ":hover": {
-        borderColor: "$primary700",
+        borderColor: "$red",
       },
     },
 
@@ -109,7 +109,7 @@ const StyledRoot = styled(
           borderBottomWidth: "$1",
 
           ":focus": {
-            borderColor: "$primary700",
+            borderColor: "$red",
             _web: {
               boxShadow: "inset 0 -1px 0 0 $primary700",
             },
@@ -342,7 +342,7 @@ const StyledInputField = styled(
     color: "$text900",
 
     props: {
-      placeholderTextColor: "$text500",
+      placeholderTextColor: "#666666",
     },
 
     _web: {

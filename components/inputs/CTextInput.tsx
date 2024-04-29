@@ -16,6 +16,7 @@ function CTextInput(props: Props) {
           type="text"
           onChangeText={handelOnChange}
           placeholder={props.placeholder}
+          value={props.value}
         />
       </Input>
     </VStack>

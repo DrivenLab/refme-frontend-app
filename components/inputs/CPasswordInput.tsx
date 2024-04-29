@@ -27,12 +27,14 @@ function CPasswordInput(props: Props) {
         <InputField
           type={showPassword ? "text" : "password"}
           placeholder="Ingrese su contraseña"
+          value={props.value}
+          onChangeText={handelOnChange}
         />
         <InputSlot pr="$3" onPress={handleState}>
           {/* EyeIcon, EyeOffIcon are both imported from 'lucide-react-native' */}
           <InputIcon
             as={showPassword ? EyeIcon : EyeOffIcon}
-            color="$darkBlue500"
+            color="$secondary0"
           />
         </InputSlot>
       </Input>

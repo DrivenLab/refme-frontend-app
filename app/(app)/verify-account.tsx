@@ -9,7 +9,6 @@ export default function ModalScreen() {
       <Text style={styles.title}>
         Esta es la pantalla para verificar los datos del usuario.
       </Text>
-      <CBtn title="Activar cuenta" />
       <View
         style={styles.separator}
         lightColor="#eee"

@@ -1,7 +1,7 @@
-import { VStack, Text } from "@/theme/components";
+import { VStack, Text, ButtonSpinner } from "@/theme/components";
 import { useAuth } from "@/context/auth";
 import CTextInput from "@/components/inputs/CTextInput";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { LoginData } from "@/types/user";
 import CPasswordInput from "@/components/inputs/CPasswordInput";
 import api, { baseURL } from "@/queries/api";
@@ -19,18 +19,24 @@ export default function LoginScreen() {
     email: "admin@admin.com",
     password: "admin",
   } as LoginData);
-  const [isLoging, setIsLoging] = useState(false);
+  const isBtnFormValid = useMemo(
+    () => Boolean(loginData.email.length && loginData.password.length),
+    [loginData]
+  );
+  const [isLogging, setIsLogging] = useState(false);
   function handleOnChange(name: string, value: string) {
     setLoginData((prev: LoginData) => ({ ...prev, [name]: value }));
   }
   const handleLogin = async () => {
-    setIsLoging(true);
+    setIsLogging(true);
     try {
+      console.log("lgin");
       const { data } = await axios.post(`${baseURL}users/login/`, loginData);
       await setToken(data.token);
+      console.log("lgin---", data.token);
     } catch (error) {
     } finally {
-      setIsLoging(false);
+      setIsLogging(false);
     }
   };
   return (
@@ -71,13 +77,20 @@ export default function LoginScreen() {
           size="md"
           variant="solid"
           action="primary"
-          isDisabled={false}
-          isFocusVisible={false}
+          isDisabled={!isBtnFormValid}
+          isFocusVisible={isLogging}
           rounded={"$full"}
           marginTop={20}
+          onPress={handleLogin}
         >
-          <ButtonText>Ingresar </ButtonText>
-          <ButtonIcon as={ChevronRight} />
+          {isLogging ? (
+            <ButtonSpinner mr="$1" />
+          ) : (
+            <>
+              <ButtonText>Ingresar </ButtonText>
+              <ButtonIcon as={ChevronRight} />
+            </>
+          )}
         </Button>
       </VStack>
     </VStack>

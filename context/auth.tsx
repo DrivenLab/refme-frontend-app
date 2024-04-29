@@ -48,9 +48,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
     if (token == null && rootSegment !== "(auth)") {
       router.replace("/(auth)/login");
     } else if (token && !isUserVerified && pathname !== "/verify-account") {
-      router.replace("/");
+      router.replace("/home");
     } else if (token && isUserVerified) {
-      router.replace("/");
+      router.replace("/home");
     }
   }, [token, rootSegment, isUserVerified]);
 

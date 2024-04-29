@@ -1,12 +1,10 @@
-import { Button, StyleSheet, TextInput } from "react-native";
+import { StyleSheet } from "react-native";
+import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
-import { useAuth } from "@/context/auth";
-export default function TabOneScreen() {
-  const { signOut } = useAuth();
+export default function TabTwoScreen() {
   return (
     <View style={styles.container}>
-      <Text>Pantalla 1</Text>
-      <Button title="Sign Out" color={"orange"} onPress={signOut} />
+      <Text style={styles.title}>Estadisticas</Text>
     </View>
   );
 }

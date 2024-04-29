@@ -1,15 +1,28 @@
+import {
+  Button,
+  ButtonIcon,
+  ButtonSpinner,
+  ButtonText,
+} from "@gluestack-ui/themed";
+import { ComponentProps } from "react";
 import { StyleSheet } from "react-native";
 import { Pressable } from "react-native";
-type Props = {
+export interface CBtnProps extends ComponentProps<typeof Button> {}
+
+interface Props extends CBtnProps {
   title: string;
-  disabled?: boolean;
-  onPress?: () => void;
-};
-function CBtn({ title, onPress }: Props) {
+  isLoading?: boolean;
+}
+function CBtn({ title, ...props }: Props) {
   return (
-    <Pressable onPress={onPress} style={styles.container}>
-      {title}
-    </Pressable>
+    <Button
+      isDisabled={props.isDisabled}
+      onPress={props.onPress}
+      mt={props.mt}
+      rounded="$full"
+    >
+      {props.isLoading ? <ButtonSpinner /> : <ButtonText> {title} </ButtonText>}
+    </Button>
   );
 }
 const styles = StyleSheet.create({

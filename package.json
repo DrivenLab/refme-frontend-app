@@ -27,6 +27,7 @@
     "@tanstack/react-query-persist-client": "^5.28.9",
     "axios": "^1.6.8",
     "expo": "~50.0.14",
+    "expo-asset": "~9.0.2",
     "expo-av": "~13.10.5",
     "expo-file-system": "~16.0.8",
     "expo-font": "~11.10.3",

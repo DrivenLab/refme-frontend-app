@@ -6,9 +6,9 @@ function CTextInput(props: Props) {
     if (props.onChange) props.onChange(props.name, text);
   }
   return (
-    <VStack width={"100%"}>
+    <VStack width={"100%"} space="md">
       <Text>{props.label}</Text>
-      <Input borderWidth={0}>
+      <Input borderWidth={1}>
         <InputField
           type="text"
           onChangeText={handelOnChange}

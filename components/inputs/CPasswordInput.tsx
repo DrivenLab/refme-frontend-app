@@ -21,9 +21,9 @@ function CPasswordInput(props: Props) {
     if (props.onChange) props.onChange(props.name, text);
   }
   return (
-    <VStack>
+    <VStack space="md">
       <Text>Contraseña</Text>
-      <Input borderWidth={0}>
+      <Input borderWidth={1} backgroundColor="grey900">
         <InputField
           type={showPassword ? "text" : "password"}
           placeholder="Ingrese su contraseña"

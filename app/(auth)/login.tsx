@@ -3,19 +3,19 @@ import CTextInput from "@/components/inputs/CTextInput";
 import { useMemo, useState } from "react";
 import { LoginData } from "@/types/user";
 import CPasswordInput from "@/components/inputs/CPasswordInput";
-import api, { baseURL } from "@/queries/api";
+import { baseURL } from "@/queries/api";
 import axios from "axios";
 import { Image } from "expo-image";
 import { StyleSheet, View } from "react-native";
-const blurhash =
-  "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
-
+import CBtn from "@/components/CBtn";
+import { Box, Text, VStack } from "@gluestack-ui/themed";
 export default function LoginScreen() {
   const { setToken } = useAuth();
   const [loginData, setLoginData] = useState<LoginData>({
     email: "admin@admin.com",
     password: "admin",
   } as LoginData);
+  const [error, setError] = useState("");
   const isBtnFormValid = useMemo(
     () => Boolean(loginData.email.length && loginData.password.length),
     [loginData]
@@ -27,28 +27,41 @@ export default function LoginScreen() {
   const handleLogin = async () => {
     setIsLogging(true);
     try {
-      console.log("lgin");
       const { data } = await axios.post(`${baseURL}users/login/`, loginData);
       await setToken(data.token);
-      console.log("lgin---", data.token);
-    } catch (error) {
+    } catch (error: any) {
+      console.log("eror", error.response.status);
+      if (error.response.status === 400)
+        setError("Usuario o Contraseña inconrrecta.");
+      else setError("Error, intentelo más tarde.");
     } finally {
       setIsLogging(false);
     }
   };
   return (
-    <View>
+    <VStack space="md">
       <Image
+        source={require("@/assets/images/login_referee.png")}
         style={styles.login_referee_img}
-        source="assets/images/login_referee.png"
         contentFit="cover"
       />
       <Image
-        style={styles.image}
-        source="assets/images/refme_logo.png"
+        source={require("@/assets/images/refme_logo.png")}
+        style={styles.refme_logo}
         contentFit="contain"
       />
-      <View>
+      <VStack space="md" paddingHorizontal={39}>
+        {error && (
+          <Box
+            bg="$red200"
+            paddingHorizontal={10}
+            paddingVertical={5}
+            borderRadius={5}
+          >
+            <Text>{error}</Text>
+          </Box>
+        )}
+
         <CTextInput
           placeholder="Ingrese su correo"
           name="email"
@@ -63,8 +76,15 @@ export default function LoginScreen() {
           onChange={handleOnChange}
           value={loginData.password}
         />
-      </View>
-    </View>
+        <CBtn
+          isDisabled={!isBtnFormValid}
+          title="Ingresar"
+          isLoading={isLogging}
+          onPress={handleLogin}
+          mt={30}
+        />
+      </VStack>
+    </VStack>
   );
 }
 const styles = StyleSheet.create({
@@ -77,8 +97,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  image: {
+  refme_logo: {
     height: 30,
     width: "100%",
+    marginVertical: 30,
   },
 });

@@ -23,7 +23,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [token, setToken_] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const isUserVerified = useMemo(() => {
-    console.log("---", user, user?.isVerified);
     return user?.isVerified ?? false;
   }, [user]);
 
@@ -34,7 +33,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   //Actualizamos los datos del usuario cada vez que el token cambia.
   useEffect(() => {
-    console.log("token", token, Boolean(token));
     if (token) loadUserProfile();
   }, [token]);
 
@@ -64,7 +62,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
   //Obtener token del localstorage.
   async function loadToken() {
     const token_ = await getData("token");
-    console.log("loading token", token);
     setToken_(token_);
     if (token_ == null) return;
     api.defaults.headers.common.Authorization = `Token ${token_}`;

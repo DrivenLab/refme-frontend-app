@@ -4,6 +4,8 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
+import { GluestackUIProvider } from "@gluestack-ui/themed";
+import { config } from "@gluestack-ui/config"; // Optional if you want to use default theme
 import { useFonts } from "expo-font";
 import { Slot, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -15,7 +17,6 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from "@react-native-community/netinfo";
 import { AuthProvider } from "@/context/auth";
-import { GluestackUIProvider, Text, Box } from ".\\..\\theme\\components";
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -72,7 +73,7 @@ function RootLayoutNav() {
           .then(() => queryClient.invalidateQueries())
       }
     >
-      <GluestackUIProvider>
+      <GluestackUIProvider config={config}>
         <AuthProvider>
           <ThemeProvider
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}

@@ -4,7 +4,7 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { GluestackUIProvider } from "@gluestack-ui/themed";
+import { GluestackUIProvider, StyledProvider } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config"; // Optional if you want to use default theme
 import { useFonts } from "expo-font";
 import { Slot, Stack } from "expo-router";

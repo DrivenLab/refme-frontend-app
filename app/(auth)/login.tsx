@@ -30,10 +30,9 @@ export default function LoginScreen() {
       const { data } = await axios.post(`${baseURL}users/login/`, loginData);
       await setToken(data.token);
     } catch (error: any) {
-      console.log("eror", error.response.status);
-      if (error.response.status === 400)
+      if (error?.response?.status === 400)
         setError("Usuario o Contraseña inconrrecta.");
-      else setError("Error, intentelo más tarde.");
+      else setError("Error, inténtelo más tarde.");
     } finally {
       setIsLogging(false);
     }

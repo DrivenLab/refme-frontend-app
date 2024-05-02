@@ -17,6 +17,7 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from "@react-native-community/netinfo";
 import { AuthProvider } from "@/context/auth";
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,

@@ -20,6 +20,7 @@ export default function TabLayout() {
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+      <Stack.Screen name="workouts" options={{ headerShown: true }} />
     </Stack>
   );
 }

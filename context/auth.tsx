@@ -20,7 +20,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const rootSegment = useSegments()[0];
   const pathname = usePathname();
   const router = useRouter();
-  const [token, setToken_] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const isUserVerified = useMemo(() => {
     return user?.isVerified ?? false;
@@ -33,7 +33,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   //Actualizamos los datos del usuario cada vez que el token cambia.
   useEffect(() => {
-    if (token) loadUserProfile();
+    if (token?.length !== 0) loadUserProfile();
   }, [token]);
 
   //Determinar la rutas en base a si el usuario esta o no autenticado.
@@ -56,24 +56,26 @@ export function AuthProvider({ children }: PropsWithChildren) {
   async function loadUserProfile() {
     try {
       const { data } = await api.get<User>("users/profile");
+      //console.log("loading user profile", data);
+
       setUser(data);
     } catch (error) {}
   }
   //Obtener token del localstorage.
   async function loadToken() {
     const token_ = await getData("token");
-    setToken_(token_);
+    setToken(token_);
     if (token_ == null) return;
     api.defaults.headers.common.Authorization = `Token ${token_}`;
   }
 
   async function handleSignOut() {
     await removeData("token");
-    setToken_(null);
+    setToken(null);
   }
-  async function handleSetToken(token: string) {
-    await storeData({ name: "token", value: token });
-    setToken_(token);
+  async function handleSetToken(token_: string) {
+    await storeData({ name: "token", value: token_ });
+    setToken(token_);
   }
   return (
     <AuthContext.Provider

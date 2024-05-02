@@ -6,9 +6,10 @@ import CPasswordInput from "@/components/inputs/CPasswordInput";
 import { baseURL } from "@/queries/api";
 import axios from "axios";
 import { Image } from "expo-image";
-import { StyleSheet, View } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
 import { Box, Text, VStack } from "@gluestack-ui/themed";
+
 export default function LoginScreen() {
   const { setToken } = useAuth();
   const [loginData, setLoginData] = useState<LoginData>({
@@ -38,52 +39,54 @@ export default function LoginScreen() {
     }
   };
   return (
-    <VStack space="md">
-      <Image
-        source={require("@/assets/images/login_referee.png")}
-        style={styles.login_referee_img}
-        contentFit="cover"
-      />
-      <Image
-        source={require("@/assets/images/refme_logo.png")}
-        style={styles.refme_logo}
-        contentFit="contain"
-      />
-      <VStack space="md" paddingHorizontal={39}>
-        {error && (
-          <Box
-            bg="$red200"
-            paddingHorizontal={10}
-            paddingVertical={5}
-            borderRadius={5}
-          >
-            <Text>{error}</Text>
-          </Box>
-        )}
+    <SafeAreaView>
+      <VStack space="md">
+        <Image
+          source={require("@/assets/images/login_referee.png")}
+          style={styles.login_referee_img}
+          contentFit="cover"
+        />
+        <Image
+          source={require("@/assets/images/refme_logo.png")}
+          style={styles.refme_logo}
+          contentFit="contain"
+        />
+        <VStack space="md" paddingHorizontal={39}>
+          {error && (
+            <Box
+              bg="$red200"
+              paddingHorizontal={10}
+              paddingVertical={5}
+              borderRadius={5}
+            >
+              <Text>{error}</Text>
+            </Box>
+          )}
 
-        <CTextInput
-          placeholder="Ingrese su correo"
-          name="email"
-          label="Correo"
-          onChange={handleOnChange}
-          value={loginData.email}
-        />
-        <CPasswordInput
-          placeholder="Ingrese su contraseña"
-          label="Contraseña"
-          name="password"
-          onChange={handleOnChange}
-          value={loginData.password}
-        />
-        <CBtn
-          isDisabled={!isBtnFormValid}
-          title="Ingresar"
-          isLoading={isLogging}
-          onPress={handleLogin}
-          mt={30}
-        />
+          <CTextInput
+            placeholder="Ingrese su correo"
+            name="email"
+            label="Correo"
+            onChange={handleOnChange}
+            value={loginData.email}
+          />
+          <CPasswordInput
+            placeholder="Ingrese su contraseña"
+            label="Contraseña"
+            name="password"
+            onChange={handleOnChange}
+            value={loginData.password}
+          />
+          <CBtn
+            isDisabled={!isBtnFormValid}
+            title="Ingresar"
+            isLoading={isLogging}
+            onPress={handleLogin}
+            mt={30}
+          />
+        </VStack>
       </VStack>
-    </VStack>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({

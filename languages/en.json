@@ -10,5 +10,8 @@
   "official_test": "Official Tests",
   "new": "New",
   "video_test": "Video Test",
-  "topics": "Topics"
+  "topics": "Topics",
+  "download": "Download",
+  "workout_pending": "Pending",
+  "workout_finished": "Finished"
 }

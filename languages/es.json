@@ -1,3 +1,14 @@
 {
-  "dm": "Toma de decisión"
+  "question1_home": "¿Qué vas a entrenar hoy?",
+  "workout": "Entrenamiento",
+  "personal": "Personal",
+  "dm": "Toma de decisión",
+  "videos_available": "Te quedan 20 videos disponibles",
+  "official_test_workout": "Entrenamiento Oficiales",
+  "official_training": "Ejercicios Oficiales",
+  "up_to_date": "Estás al día",
+  "official_test": "Test oficiales",
+  "new": "Nuevo",
+  "video_test": "Video Test",
+  "topics": "Tópicos"
 }

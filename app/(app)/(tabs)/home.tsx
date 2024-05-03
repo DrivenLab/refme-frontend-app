@@ -2,29 +2,33 @@ import { Button, StyleSheet, TextInput } from "react-native";
 import { ScrollView, Text, VStack, View } from "@gluestack-ui/themed";
 import PersonalWorkoutCard from "@/components/home/PersonalWorkoutCard";
 import SectionItem from "@/components/home/SectionItem";
-
+import i18n from "@/languages/i18n";
 const SECTION_ITEMS_OPTIONS = [
   {
     bgImage: require("@/assets/images/official_training_home.png"),
-    title: "Ejercicios oficiales",
+    iconImage: require("@/assets/images/icons/referee_whistle.png"),
+    title: i18n.t("official_training"),
     hasNewItems: true,
     iconName: "",
   },
   {
     bgImage: require("@/assets/images/official_test_home.png"),
-    title: "Test oficiales",
+    iconImage: require("@/assets/images/icons/clipboard-list-svgrepo-com.png"),
+    title: i18n.t("official_test"),
     hasNewItems: false,
     iconName: "",
   },
   {
     bgImage: require("@/assets/images/video_test_home.png"),
-    title: "Video Test",
+    iconImage: require("@/assets/images/icons/video_folder.png"),
+    title: i18n.t("video_test"),
     hasNewItems: false,
     iconName: "",
   },
   {
     bgImage: require("@/assets/images/topic_home.png"),
-    title: "Tópicos",
+    iconImage: require("@/assets/images/icons/topic_list.png"),
+    title: i18n.t("topics"),
     hasNewItems: false,
     iconName: "",
   },
@@ -32,32 +36,22 @@ const SECTION_ITEMS_OPTIONS = [
 export default function TabOneScreen() {
   return (
     <ScrollView style={styles.container} px={"$3"}>
-      <VStack space="md" flex={1}>
+      <VStack space="md" flex={1} paddingBottom={10}>
         <Text fontWeight="bold" fontSize={24} color="black">
-          ¿Qué vas a entrenar hoy?
+          {i18n.t("question1_home")}
         </Text>
         <PersonalWorkoutCard />
         <Text fontWeight="bold" fontSize={24} color="black">
-          Entrenamientos Oficiales{" "}
+          {i18n.t("official_test_workout")}
         </Text>
         {SECTION_ITEMS_OPTIONS.slice(0, 2).map((s, i) => (
-          <SectionItem
-            bgImage={s.bgImage}
-            title={s.title}
-            hasNewItems={s.hasNewItems}
-            key={i}
-          />
+          <SectionItem {...s} key={i} />
         ))}
         <Text fontWeight="bold" fontSize={24} color="black">
           E-learnig{" "}
         </Text>
         {SECTION_ITEMS_OPTIONS.slice(2).map((s, i) => (
-          <SectionItem
-            bgImage={s.bgImage}
-            title={s.title}
-            hasNewItems={s.hasNewItems}
-            key={i}
-          />
+          <SectionItem {...s} key={i} />
         ))}
       </VStack>
     </ScrollView>

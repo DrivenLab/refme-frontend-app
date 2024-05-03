@@ -1,3 +1,14 @@
 {
-  "dm": "Desición Making"
+  "question1_home": "What are you going to train today?",
+  "workout": "Workout",
+  "personal": "Personal",
+  "dm": "Decision Making",
+  "videos_available": "You have 20 videos available",
+  "official_test_workout": "Official Workouts",
+  "official_training": "Official Exercises",
+  "up_to_date": "Up to date",
+  "official_test": "Official Tests",
+  "new": "New",
+  "video_test": "Video Test",
+  "topics": "Topics"
 }

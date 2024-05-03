@@ -1,14 +1,28 @@
-import { VStack, Text, Box, View } from "@gluestack-ui/themed";
+import {
+  VStack,
+  Text,
+  Box,
+  View,
+  Badge,
+  BadgeText,
+  GlobeIcon,
+  BadgeIcon,
+  CalendarDaysIcon,
+  Icon,
+} from "@gluestack-ui/themed";
 import React from "react";
 import { Pressable, StyleSheet } from "react-native";
 import { ImageBackground } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
+import { Image } from "expo-image";
+import i18n from "@/languages/i18n";
 type Props = {
   bgImage: any;
   title: string;
   hasNewItems: boolean;
   iconName?: string;
+  iconImage: string;
 };
 const SectionItem = (props: Props) => {
   return (
@@ -18,7 +32,6 @@ const SectionItem = (props: Props) => {
           source={props.bgImage}
           style={styles.backgroundImage}
           resizeMode="cover"
-          borderRadius={10}
         >
           <LinearGradient // Background Linear Gradient
             colors={["#090B22", "#090B22", "#090B22", "rgba(9, 11, 34, 0)"]}
@@ -27,12 +40,30 @@ const SectionItem = (props: Props) => {
             end={{ x: 1, y: 0 }}
             style={styles.backgroundLinearGradient}
           >
-            <Box flex={1} flexDirection="column" alignItems="center">
+            <Box w={80} h={45} mx={10}>
+              <Image
+                source={props.iconImage}
+                contentFit="contain"
+                style={{ width: "100%", height: "100%" }}
+              />
+            </Box>
+            <Box flex={1} flexDirection="column">
               <Text fontWeight="bold" fontSize={20} style={{ color: "white" }}>
                 {props.title}
               </Text>
               <Text fontSize={16} style={{ color: "white" }}>
-                {props.hasNewItems ? "Estas al día" : "¡Nuevo!"}
+                {props.hasNewItems ? (
+                  <Badge
+                    size="md"
+                    variant="solid"
+                    rounded="$full"
+                    bg="$orange500"
+                  >
+                    <BadgeText color="white">{i18n.t("new")}</BadgeText>
+                  </Badge>
+                ) : (
+                  `¡${i18n.t("up_to_date")}!`
+                )}
               </Text>
             </Box>
           </LinearGradient>
@@ -48,13 +79,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
     flexDirection: "row",
   },
   backgroundImage: {
     height: 150,
     width: "100%",
     flex: 1,
-    borderRadius: 10,
   },
 });

@@ -10,7 +10,7 @@ type Props = {
 };
 function CTab({ currentTab, tabs, changeCurrentTab }: Props) {
   return (
-    <Box flexDirection="row" my={"$2"}>
+    <Box flexDirection="row">
       {tabs.map((tab, index) => (
         <Pressable
           onPress={() => changeCurrentTab(tab.value)}

@@ -72,6 +72,9 @@ const WORKOUT_LIST: Workout[] = [
     organization: 2,
   },
 ];
+type Props = {
+  state: "pending" | "finished";
+};
 const WorkoutList = () => {
   return (
     <FlatList

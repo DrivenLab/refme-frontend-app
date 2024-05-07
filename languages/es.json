@@ -13,5 +13,8 @@
   "topics": "Tópicos",
   "download": "Descargar",
   "workout_pending": "Pendientes",
-  "workout_finished": "Realizados"
+  "workout_finished": "Realizados",
+  "sent_by": "Enviado por",
+  "message": "Mensaje",
+  "cognitive_ability": "Habilidad cognitiva"
 }

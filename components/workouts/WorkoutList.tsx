@@ -1,7 +1,7 @@
 import React from "react";
 import { Workout } from "@/types/workout";
 import WorkoutItem from "./WorkoutItem";
-import { FlatList } from "@gluestack-ui/themed";
+import { FlatList, Text } from "@gluestack-ui/themed";
 import { ListRenderItemInfo } from "react-native";
 const WORKOUT_LIST: Workout[] = [
   {
@@ -74,16 +74,24 @@ const WORKOUT_LIST: Workout[] = [
 ];
 type Props = {
   state: "pending" | "finished";
+  isUpToDate?: boolean;
+  isEmpty?: boolean;
 };
-const WorkoutList = () => {
+const WorkoutList = ({ state, isUpToDate, isEmpty }: Props) => {
   return (
-    <FlatList
-      data={WORKOUT_LIST}
-      renderItem={({ item }: ListRenderItemInfo<any>) => (
-        <WorkoutItem workout={item} />
+    <>
+      {isEmpty ? (
+        <Text>No HAY ITEMS</Text>
+      ) : (
+        <FlatList
+          data={WORKOUT_LIST}
+          renderItem={({ item }: ListRenderItemInfo<any>) => (
+            <WorkoutItem workout={item} />
+          )}
+          keyExtractor={(item: any) => item.id}
+        />
       )}
-      keyExtractor={(item: any) => item.id}
-    />
+    </>
   );
 };
 

@@ -13,8 +13,9 @@ import CTab from "@/components/CTab";
 import i18n from "@/languages/i18n";
 import { Image } from "expo-image";
 import { AddIcon } from "@gluestack-ui/themed";
+
 const Workouts = () => {
-  const [tab, setTab] = useState("pending");
+  const [tab, setTab] = useState<"pending" | "finished">("pending");
   return (
     <SafeAreaView bg="$white" flex={1}>
       <Image
@@ -32,28 +33,33 @@ const Workouts = () => {
       >
         <Box flexDirection="row" justifyContent="center" bg="$red">
           <Button
-            maxWidth={50}
+            width={60}
             rounded="$full"
-            height={50}
-            bg="$primary50"
+            height={60}
+            bg="$primary"
             borderColor="indigo600"
             position="absolute"
-            top={-20}
+            top={-30}
           >
             {/* EditIcon is imported from 'lucide-react-native' */}
-            <ButtonIcon color="black" as={AddIcon} />
+            <ButtonIcon color="white" as={AddIcon} />
           </Button>
         </Box>
         <CTab
           currentTab={tab}
-          changeCurrentTab={(tab_: string) => setTab(tab_)}
+          changeCurrentTab={(tab_: string) =>
+            setTab(tab_ as "pending" | "finished")
+          }
           tabs={[
             { label: i18n.t("workout_pending"), value: "pending" },
             { label: i18n.t("workout_finished"), value: "finished" },
           ]}
         />
-
-        <WorkoutList />
+        {tab == "pending" ? (
+          <WorkoutList state={tab} isUpToDate={true} isEmpty={true} />
+        ) : (
+          <WorkoutList state={tab} />
+        )}
       </VStack>
     </SafeAreaView>
   );

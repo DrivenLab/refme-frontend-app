@@ -6,6 +6,7 @@ import {
 } from "@react-navigation/native";
 import { GluestackUIProvider, StyledProvider } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config"; // Optional if you want to use default theme
+import { customConfig } from "@/theme/config";
 import { useFonts } from "expo-font";
 import { Slot, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -49,10 +50,10 @@ export default function RootLayout() {
   }
   return <RootLayoutNav />;
 }
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({});
 const persister = createAsyncStoragePersister({
   storage: AsyncStorage,
-  throttleTime: 3000,
+  throttleTime: 1000 * 60 * 60 * 24, // 24 hours,
 });
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
@@ -74,7 +75,7 @@ function RootLayoutNav() {
           .then(() => queryClient.invalidateQueries())
       }
     >
-      <GluestackUIProvider config={config}>
+      <GluestackUIProvider config={customConfig}>
         <AuthProvider>
           <ThemeProvider
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}

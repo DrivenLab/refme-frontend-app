@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import WorkoutList from "@/components/workouts/WorkoutList";
 import {
   Box,
   Button,
@@ -13,9 +12,11 @@ import CTab from "@/components/CTab";
 import i18n from "@/languages/i18n";
 import { Image } from "expo-image";
 import { AddIcon } from "@gluestack-ui/themed";
-
+import { useGetSessions } from "@/queries/session.query";
+import SessionList from "@/components/session/SessionList";
 const Workouts = () => {
   const [tab, setTab] = useState<"pending" | "finished">("pending");
+  const { sessions, isLoadingSession } = useGetSessions();
   return (
     <SafeAreaView bg="$white" flex={1}>
       <Image
@@ -56,9 +57,9 @@ const Workouts = () => {
           ]}
         />
         {tab == "pending" ? (
-          <WorkoutList state={tab} isUpToDate={true} isEmpty={true} />
+          <SessionList sessions={sessions} state={tab} />
         ) : (
-          <WorkoutList state={tab} />
+          <SessionList sessions={sessions} state={tab} />
         )}
       </VStack>
     </SafeAreaView>

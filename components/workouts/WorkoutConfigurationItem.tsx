@@ -3,7 +3,7 @@ import React from "react";
 
 type Props = {
   configName: string;
-  quantity: string | number;
+  quantity?: string | number;
   inSeconds?: boolean;
 };
 const WorkoutConfigItem = (props: Props) => {

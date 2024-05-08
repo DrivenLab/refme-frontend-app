@@ -68,6 +68,7 @@ function RootLayoutNav() {
       client={queryClient}
       persistOptions={{
         persister,
+        //maxAge: 1000 * 60 * 60 * 24, // 24 hours
       }}
       onSuccess={() =>
         queryClient

@@ -73,7 +73,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   async function loadToken() {
     const token_ = await getData("token");
     setToken(token_);
-    if (token_ == null) return;
+    if (token_ === null) return;
     api.defaults.headers.common.Authorization = `Token ${token_}`;
   }
 
@@ -83,6 +83,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }
   async function handleSetToken(token_: string) {
     await storeData({ name: "token", value: token_ });
+    console.log("setting token", token_);
+
     setToken(token_);
   }
   return (

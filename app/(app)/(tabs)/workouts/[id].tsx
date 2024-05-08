@@ -1,13 +1,10 @@
 import React from "react";
-import { Workout } from "@/types/workout";
 import {
   SafeAreaView,
   Text,
   Box,
   VStack,
   Divider,
-  Badge,
-  BadgeText,
   Button,
   ButtonText,
 } from "@gluestack-ui/themed";
@@ -15,74 +12,17 @@ import i18n from "@/languages/i18n";
 import WorkoutConfigItem from "@/components/workouts/WorkoutConfigurationItem";
 import WorkoutMaterial from "@/components/workouts/WorkoutMaterial";
 import WorkoutTypeBadge from "@/components/workouts/WorkoutTypeBadge";
-const WORKOUT: Workout = {
-  id: 2,
-  participants: [],
-  iterations: [
-    {
-      id: 2,
-      answers: [],
-      createdAt: "2024-04-30T20:34:12.238750-04:00",
-      modifiedAt: "2024-04-30T20:34:12.238768-04:00",
-      isActive: true,
-      repetitionNumber: 1,
-      workout: 2,
-    },
-    {
-      id: 3,
-      answers: [],
-      createdAt: "2024-04-30T20:34:12.239788-04:00",
-      modifiedAt: "2024-04-30T20:34:12.239806-04:00",
-      isActive: true,
-      repetitionNumber: 2,
-      workout: 2,
-    },
-    {
-      id: 4,
-      answers: [],
-      createdAt: "2024-04-30T20:34:12.240880-04:00",
-      modifiedAt: "2024-04-30T20:34:12.240899-04:00",
-      isActive: true,
-      repetitionNumber: 3,
-      workout: 2,
-    },
-    {
-      id: 5,
-      answers: [],
-      createdAt: "2024-04-30T20:34:12.241738-04:00",
-      modifiedAt: "2024-04-30T20:34:12.241755-04:00",
-      isActive: true,
-      repetitionNumber: 4,
-      workout: 2,
-    },
-    {
-      id: 6,
-      answers: [],
-      createdAt: "2024-04-30T20:34:12.242612-04:00",
-      modifiedAt: "2024-04-30T20:34:12.242630-04:00",
-      isActive: true,
-      repetitionNumber: 5,
-      workout: 2,
-    },
-  ],
-  createdAt: "2024-04-30T20:34:12.235797-04:00",
-  modifiedAt: "2024-04-30T20:34:12.237076-04:00",
-  isActive: true,
-  name: "Entrenamiento Prueba Final",
-  description: "Es el primer Entrenamiento de prueba con todo",
-  memberType: "re",
-  type: "dm",
-  usageType: "official",
-  material: "dos conos",
-  numberOfRepetitions: 5,
-  numberOfDecisions: 0,
-  excerciseDuration: 5,
-  breakDuration: 21,
-  totalDuration: 130,
-  isDraft: true,
-  organization: 2,
-};
+import { useRoute } from "@react-navigation/native";
+import { useGetWorkoutById } from "@/queries/workouts.query";
+import { useGetSessionById } from "@/queries/session.query";
+import { useLocalSearchParams } from "expo-router";
+
 const WorkoutDetail = () => {
+  const route = useRoute();
+  const { id: idSession } = useLocalSearchParams();
+
+  const { session } = useGetSessionById({ idSession: idSession as string });
+  console.log("idSession", idSession);
   return (
     <SafeAreaView bg="white" flex={1} px="$3" py={"$2"}>
       <VStack space="md">
@@ -103,7 +43,7 @@ const WorkoutDetail = () => {
           <Text fontSize={20} fontWeight="bold" color="black">
             {i18n.t("message")}
           </Text>
-          <Text color="black">{WORKOUT.description}</Text>
+          <Text color="black">{session?.workout?.description}</Text>
         </VStack>
         <Divider />
         <VStack space="sm">
@@ -115,7 +55,7 @@ const WorkoutDetail = () => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <WorkoutTypeBadge type={i18n.t(WORKOUT.type)} />
+            <WorkoutTypeBadge type={i18n.t(session?.workout?.type || "s")} />
             <Button variant="link">
               <ButtonText fontWeight="medium">Ver tutorial</ButtonText>
             </Button>
@@ -136,20 +76,20 @@ const WorkoutDetail = () => {
           </Text>
           <WorkoutConfigItem
             configName="Repeticiones"
-            quantity={WORKOUT.numberOfRepetitions}
+            quantity={session?.workout?.numberOfRepetitions}
           />
           <WorkoutConfigItem
             configName="Desiciones"
-            quantity={WORKOUT.numberOfDecisions}
+            quantity={session?.workout?.numberOfRepetitions}
           />
           <WorkoutConfigItem
             configName="Tiempo de ejercicio"
-            quantity={WORKOUT.excerciseDuration}
+            quantity={session?.workout?.numberOfRepetitions}
             inSeconds={true}
           />
           <WorkoutConfigItem
             configName="Tiempo de pausa"
-            quantity={WORKOUT.breakDuration}
+            quantity={session?.workout?.numberOfRepetitions}
             inSeconds={true}
           />
         </VStack>

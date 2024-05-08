@@ -9,16 +9,23 @@ import {
   Text,
 } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
-import { Link } from "expo-router";
+import { Href, Link } from "expo-router";
 type Props = {
   workout: Workout;
+  navigateTo: string;
 };
 
-const WorkoutItem = ({ workout }: Props) => {
+const WorkoutItem = ({ workout, navigateTo }: Props) => {
   return (
-    <Link href={"/workouts/1/"} asChild>
+    <Link href={navigateTo as Href<string>} asChild>
       <Pressable>
-        <Box rounded={"$md"} px={"$5"} py={"$2"} style={styles.workoutItem}>
+        <Box
+          rounded={"$md"}
+          px={"$5"}
+          py={"$2"}
+          mb={"$4"}
+          style={styles.workoutItem}
+        >
           <Box
             flexDirection="row"
             justifyContent="space-between"

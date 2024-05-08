@@ -11,6 +11,7 @@ import { useRouter, useSegments, usePathname } from "expo-router";
 
 import api from "@/queries/api";
 import { User } from "@/types/user";
+import { Organization } from "@/types/organization";
 const AuthContext = createContext<any>(null);
 export function useAuth() {
   return useContext(AuthContext);
@@ -22,6 +23,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [currentOrganization, setCurrentOrganization] =
+    useState<Organization | null>(null);
   const isUserVerified = useMemo(() => {
     return user?.isVerified ?? false;
   }, [user]);
@@ -52,6 +55,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
     }
   }, [token, rootSegment, isUserVerified]);
 
+  function handleSetUserOrganization(o: Organization) {
+    setCurrentOrganization(o);
+  }
   //Obtener los datos del usuario.
   async function loadUserProfile() {
     try {
@@ -59,6 +65,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
       //console.log("loading user profile", data);
 
       setUser(data);
+      //POR DEFAULT SE SETEA LA PRIMERA ORGANIZACION, ESTO CAMBIAR PARA QUE SEA LO QUE EL USUARIO SELECCIONE.
+      handleSetUserOrganization(data.organizations[0]);
     } catch (error) {}
   }
   //Obtener token del localstorage.
@@ -80,8 +88,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
   return (
     <AuthContext.Provider
       value={{
-        user: user,
-        loadUserProfile: loadUserProfile,
+        user,
+        loadUserProfile,
+        currentOrganization,
         token: token,
         setToken: handleSetToken,
         signOut: handleSignOut,

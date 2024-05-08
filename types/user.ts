@@ -1,3 +1,5 @@
+import { Organization } from "./organization";
+
 export type LoginData = {
   email: string;
   password: string;
@@ -6,8 +8,8 @@ export type LoginData = {
 export type User = {
   id: number;
   email: string;
-  organizations: any[];
-  lastLogin: string;
+  organizations: Organization[];
+  lastLogin: any;
   isSuperuser: boolean;
   firstName: string;
   lastName: string;

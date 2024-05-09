@@ -12,6 +12,7 @@ import { useRouter, useSegments, usePathname } from "expo-router";
 import api from "@/queries/api";
 import { User } from "@/types/user";
 import { Organization } from "@/types/organization";
+import { useQueryClient } from "@tanstack/react-query";
 const AuthContext = createContext<any>(null);
 export function useAuth() {
   return useContext(AuthContext);
@@ -25,6 +26,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
   const [currentOrganization, setCurrentOrganization] =
     useState<Organization | null>(null);
+  const clientQuery = useQueryClient();
   const isUserVerified = useMemo(() => {
     return user?.isVerified ?? false;
   }, [user]);
@@ -63,7 +65,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
     try {
       const { data } = await api.get<User>("users/profile");
       //console.log("loading user profile", data);
-
       setUser(data);
       //POR DEFAULT SE SETEA LA PRIMERA ORGANIZACION, ESTO CAMBIAR PARA QUE SEA LO QUE EL USUARIO SELECCIONE.
       handleSetUserOrganization(data.organizations[0]);
@@ -79,11 +80,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   async function handleSignOut() {
     await removeData("token");
+    clientQuery.clear();
+    clientQuery.removeQueries({ queryKey: ["sessions"] });
     setToken(null);
   }
   async function handleSetToken(token_: string) {
     await storeData({ name: "token", value: token_ });
-    console.log("setting token", token_);
 
     setToken(token_);
   }

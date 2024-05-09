@@ -22,7 +22,6 @@ const useGetWotkouts = () => {
     queryKey: ["workouts"],
     queryFn: getWorkout,
   });
-  console.log("heree----", rest);
   return {
     workouts: data?.data || ([] as Workout[]),
     isLoadingWorkout: isLoading,

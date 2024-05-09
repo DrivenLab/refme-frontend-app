@@ -17,6 +17,7 @@ import SessionList from "@/components/session/SessionList";
 const Workouts = () => {
   const [tab, setTab] = useState<"pending" | "finished">("pending");
   const { sessions, isLoadingSession } = useGetSessions();
+
   return (
     <SafeAreaView bg="$white" flex={1}>
       <Image
@@ -56,12 +57,8 @@ const Workouts = () => {
             { label: i18n.t("workout_finished"), value: "finished" },
           ]}
         />
-        {tab == "pending" ? (
-          <SessionList sessions={sessions} state={tab} />
-        ) : (
-          <SessionList sessions={sessions} state={tab} />
-        )}
       </VStack>
+      <SessionList sessions={sessions} state={tab} />
     </SafeAreaView>
   );
 };

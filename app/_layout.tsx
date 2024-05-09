@@ -50,10 +50,17 @@ export default function RootLayout() {
   }
   return <RootLayoutNav />;
 }
-const queryClient = new QueryClient({});
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      gcTime: 1000 * 60 * 60 * 24, // 24 hours,
+      retry: 1,
+    },
+  },
+});
 const persister = createAsyncStoragePersister({
   storage: AsyncStorage,
-  throttleTime: 1000 * 60 * 60 * 24, // 24 hours,
+  //throttleTime: 1000 * 60 * 60 * 24, // 24 hours,
 });
 function RootLayoutNav() {
   const colorScheme = useColorScheme();

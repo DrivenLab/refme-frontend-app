@@ -13,7 +13,7 @@ import { Box, Text, VStack } from "@gluestack-ui/themed";
 export default function LoginScreen() {
   const { setToken } = useAuth();
   const [loginData, setLoginData] = useState<LoginData>({
-    email: "david@testorg.com",
+    email: "gerardo@dlab.software",
     password: "12345",
   } as LoginData);
   const [error, setError] = useState("");

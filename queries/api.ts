@@ -6,9 +6,10 @@ const url = false;
 //192.168.100.52
 //https://9b4e-181-126-32-247.ngrok-free.app/
 //http://localhost:8000/api/
+
 export const baseURL = url
   ? url
-  : "https://a9b7-181-126-32-247.ngrok-free.app/api/";
+  : "https://cd9c-181-126-32-247.ngrok-free.app/api/";
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
 // If any client changes this (global) instance, it might be a

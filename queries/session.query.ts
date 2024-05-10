@@ -25,7 +25,6 @@ const useGetSessionDetailById = ({
     queryFn: getSession,
     enabled,
   });
-  console.log("is data persisted");
 
   return {
     session: data?.data,

@@ -1,13 +1,6 @@
 import { Workout } from "@/types/workout";
 import { StyleSheet } from "react-native";
-import {
-  Box,
-  Button,
-  ButtonIcon,
-  DownloadIcon,
-  Pressable,
-  Text,
-} from "@gluestack-ui/themed";
+import { Box, Pressable, Text } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
 import { Href, Link } from "expo-router";
 import { useGetSessionDetailById } from "@/queries/session.query";
@@ -27,11 +20,16 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
     }
   );
   const downloadWorkout = () => {
-    console.log("here");
+    /*
+    if (true)
+      downloadVideo({
+        url: `https://cd9c-181-126-32-247.ngrok-free.app/media/Asociacion%20Paraguay%20de%20Futbol/videos/official_training/V25-3-6_zQBoXLJ.mp4`,
+        videoName: "V25-3-6_zQBoXLJ.mp4",
+      });
+      */
     setEnabled(true);
     refetchSession();
   };
-  console.log("session", session);
   return (
     <Link href={`/workouts/${idSession}/` as Href<string>} asChild>
       <Pressable>

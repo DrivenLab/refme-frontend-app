@@ -1,5 +1,7 @@
 {
   "question1_home": "¿Qué vas a entrenar hoy?",
+  "welcome":"¡Hola Luis!, es un placer recibirte.",
+  "update_password":"Dado que tu contraseña actual fue creada por nosotros de forma automática, puedes cambiarla por una creada por ti.",
   "workout": "Entrenamiento",
   "personal": "Personal",
   "dm": "Toma de decisión",
@@ -10,5 +12,16 @@
   "official_test": "Test oficiales",
   "new": "Nuevo",
   "video_test": "Video Test",
-  "topics": "Tópicos"
+  "topics": "Tópicos",
+  "download": "Descargar",
+  "downloaded": "Descargado",
+
+  "workout_pending": "Pendientes",
+  "workout_finished": "Realizados",
+  "sent_by": "Enviado por",
+  "message": "Mensaje",
+  "cognitive_ability": "Habilidad cognitiva",
+  "empty_completed_session": "Aún no tienes ejercicios realizados",
+  "empty_pending_session": "Aún  no te han enviado ejercicios",
+  "sessions_up_to_date": "¡Estás al día con tus ejercicios!"
 }

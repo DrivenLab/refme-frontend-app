@@ -1,3 +1,4 @@
+import { Iteration } from "./session";
 import { User } from "./user";
 
 export interface Workout {
@@ -20,14 +21,4 @@ export interface Workout {
   totalDuration: number;
   isDraft: boolean;
   organization: number;
-}
-
-export interface Iteration {
-  id: number;
-  answers: any[];
-  createdAt: string;
-  modifiedAt: string;
-  isActive: boolean;
-  repetitionNumber: number;
-  workout: number;
 }

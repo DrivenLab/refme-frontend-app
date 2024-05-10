@@ -6,7 +6,7 @@ function CTextInput(props: Props) {
     if (props.onChange) props.onChange(props.name, text);
   }
   return (
-    <VStack width={"100%"} space="md">
+    <VStack width={props.width ?? "100%"} space="md">
       <Text>{props.label}</Text>
       <Input borderWidth={1}>
         <InputField

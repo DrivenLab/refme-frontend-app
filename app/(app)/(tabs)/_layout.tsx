@@ -64,6 +64,11 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
+      {/**TABS HIDDEN */}
+      <Tabs.Screen
+        name="workouts"
+        options={{ headerShown: false, href: null }}
+      />
     </Tabs>
   );
 }

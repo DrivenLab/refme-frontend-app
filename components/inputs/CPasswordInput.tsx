@@ -22,7 +22,7 @@ function CPasswordInput(props: Props) {
   }
   return (
     <VStack space="md">
-      <Text>Contraseña</Text>
+      <Text>{props.label ?? "Contraseña"}</Text>
       <Input borderWidth={1} backgroundColor="grey900">
         <InputField
           type={showPassword ? "text" : "password"}

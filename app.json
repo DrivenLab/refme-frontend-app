@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "refme-pro-app",
-    "slug": "refme-pro-app",
+    "slug": "refme",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -12,31 +12,53 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true
-      }
+      },
+      "bundleIdentifier": "com.nundlab99.refmeproapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.nundlab99.refmeproapp"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-router", "expo-localization"],
+    "plugins": [
+      "expo-router",
+      "expo-localization"
+    ],
     "experiments": {
       "typedRoutes": true
     },
     "locales": {
       "es": "./languages/es.json",
       "en": "./languages/en.json"
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "8164efdf-7782-445a-a13a-aa8c993166dd"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/8164efdf-7782-445a-a13a-aa8c993166dd"
+    },
+    "owner": "dlabsoftware"
   }
 }

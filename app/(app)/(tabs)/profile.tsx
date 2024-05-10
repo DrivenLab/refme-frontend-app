@@ -10,7 +10,7 @@ export default function TabTwoScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{user.username}</Text>
+      <Text style={styles.title}>{user.fullName}</Text>
       <CBtn title="Sign Out" onPress={signOut} />
     </View>
   );

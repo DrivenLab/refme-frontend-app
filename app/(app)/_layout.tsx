@@ -2,7 +2,6 @@ import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { Stack } from "expo-router";
-
 import { useColorScheme } from "@/components/useColorScheme";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -19,6 +18,7 @@ export default function TabLayout() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+
       <Stack.Screen name="modal" options={{ presentation: "modal" }} />
       <Stack.Screen name="workouts" options={{ headerShown: true }} />
     </Stack>

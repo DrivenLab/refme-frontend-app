@@ -1,5 +1,7 @@
 {
   "question1_home": "¿Qué vas a entrenar hoy?",
+  "welcome":"¡Hola Luis!, es un placer recibirte.",
+  "update_password":"Dado que tu contraseña actual fue creada por nosotros de forma automática, puedes cambiarla por una creada por ti.",
   "workout": "Entrenamiento",
   "personal": "Personal",
   "dm": "Toma de decisión",

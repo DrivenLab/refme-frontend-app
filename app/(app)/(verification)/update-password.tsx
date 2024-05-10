@@ -51,7 +51,7 @@ export default function UpdatePasswordScreen() {
       });
     } catch (error: any) {
       if (error?.response?.status === 400)
-        setError("Usuario o Contraseña inconrrecta.");
+        setError("Usuario o Contraseña inconrrectos.");
       else setError("Error, inténtelo más tarde.");
     }
   };

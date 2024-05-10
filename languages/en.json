@@ -22,5 +22,8 @@
   "cognitive_ability": " Cognitive ability",
   "empty_completed_session": "You still have no exercises done",
   "empty_pending_session": "You have not received exercises yet",
-  "sessions_up_to_date": "You're up to date with your exercises!"
+  "sessions_up_to_date": "You're up to date with your exercises!",
+  "generic_error": "Error, please try again later.",
+  "new_password_label":"New password",
+  "confirm_new_password_label":"Repear New password"
 }

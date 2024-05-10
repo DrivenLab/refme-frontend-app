@@ -12,15 +12,16 @@ function TabBarIcon(props: {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
-export default function TabLayout() {
+export default function TabVerificationLayout() {
   const colorScheme = useColorScheme();
 
   return (
     <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="(verification)" options={{ headerShown: false }} />
-
-      <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+      <Stack.Screen name="verify-account" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="update-password"
+        options={{ headerShown: true, headerTitle: "Update Password" }}
+      />
     </Stack>
   );
 }

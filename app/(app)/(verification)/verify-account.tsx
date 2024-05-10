@@ -39,7 +39,7 @@ export default function VerifyAccountScreen() {
     console.log("Gg");
   }
   const handleLogin = async () => {
-    router.replace("/update-password");
+    router.push("/update-password");
   };
   return (
     <SafeAreaView>

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { NewPasswordData } from "@/types/user";
 import CPasswordInput from "@/components/inputs/CPasswordInput";
 import { baseURL } from "@/queries/api";
+import api from "@/queries/api";
 import axios from "axios";
 import { Image } from "expo-image";
 import { SafeAreaView, StyleSheet } from "react-native";
@@ -19,7 +20,6 @@ import {
 import i18n from "@/languages/i18n";
 import { Input as InputType } from "@/types/inputs";
 import { useRouter, useSegments, usePathname } from "expo-router";
-
 export default function UpdatePasswordScreen() {
   const [error, setError] = useState("");
   const { signOut, user, profile } = useAuth();
@@ -46,13 +46,13 @@ export default function UpdatePasswordScreen() {
       setError("Las contraseñas no coinciden.");
     }
     try {
-      const { data } = await axios.post(`${baseURL}users/${user?.id}/`, {
+      const { data } = await api.patch(`users/${user?.id}/`, {
         password: newPassword.new_password,
       });
     } catch (error: any) {
       if (error?.response?.status === 400)
         setError("Usuario o Contraseña inconrrectos.");
-      else setError("Error, inténtelo más tarde.");
+      else setError(i18n.t("generic_error"));
     }
   };
 
@@ -75,12 +75,12 @@ export default function UpdatePasswordScreen() {
           </Text>
 
           <CPasswordInput
-            label="Nueva Contra"
+            label={i18n.t("new_password_label")}
             name="new_password"
             onChange={handleOnChange}
           />
           <CPasswordInput
-            label="Repetir Contra"
+            label={i18n.t("confirm_new_password_label")}
             name="repeat_password"
             onChange={handleOnChange}
           />

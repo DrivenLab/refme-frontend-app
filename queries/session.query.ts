@@ -20,6 +20,7 @@ const useGetSessionDetailById = ({
       `organizations/${currentOrganization.id}/sessions/${idSession}/`
     );
   // Queries
+
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["sessions", idSession],
     queryFn: getSession,

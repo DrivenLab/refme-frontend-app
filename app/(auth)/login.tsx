@@ -25,6 +25,7 @@ export default function LoginScreen() {
   function handleOnChange(name: string, value: string) {
     setLoginData((prev: LoginData) => ({ ...prev, [name]: value }));
   }
+
   const handleLogin = async () => {
     setIsLogging(true);
     try {

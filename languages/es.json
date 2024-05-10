@@ -23,5 +23,8 @@
   "cognitive_ability": "Habilidad cognitiva",
   "empty_completed_session": "Aún no tienes ejercicios realizados",
   "empty_pending_session": "Aún  no te han enviado ejercicios",
-  "sessions_up_to_date": "¡Estás al día con tus ejercicios!"
+  "sessions_up_to_date": "¡Estás al día con tus ejercicios!",
+  "generic_error": "Error, inténtelo más tarde.",
+  "new_password_label":"New password",
+  "confirm_new_password_label":"Repear New password"
 }

@@ -8,7 +8,6 @@ export const storeData = async ({ name, value }: StoreDataProps) => {
   try {
     const jsonValue = JSON.stringify(value);
     const result = await AsyncStorage.setItem(name, jsonValue);
-    console.log("result", result);
   } catch (e) {
     // saving error
   }

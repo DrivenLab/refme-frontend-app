@@ -12,5 +12,16 @@
   "official_test": "Test oficiales",
   "new": "Nuevo",
   "video_test": "Video Test",
-  "topics": "Tópicos"
+  "topics": "Tópicos",
+  "download": "Descargar",
+  "downloaded": "Descargado",
+
+  "workout_pending": "Pendientes",
+  "workout_finished": "Realizados",
+  "sent_by": "Enviado por",
+  "message": "Mensaje",
+  "cognitive_ability": "Habilidad cognitiva",
+  "empty_completed_session": "Aún no tienes ejercicios realizados",
+  "empty_pending_session": "Aún  no te han enviado ejercicios",
+  "sessions_up_to_date": "¡Estás al día con tus ejercicios!"
 }

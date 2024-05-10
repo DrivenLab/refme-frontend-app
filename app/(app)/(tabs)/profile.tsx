@@ -4,10 +4,11 @@ import { Text, View } from "@/components/Themed";
 import { useAuth } from "@/context/auth";
 import { Button } from "@gluestack-ui/themed";
 import CBtn from "@/components/CBtn";
+import { useGetProfile } from "@/queries/users.query";
 
 export default function TabTwoScreen() {
-  const { signOut, user } = useAuth();
-
+  const { signOut } = useAuth();
+  const { profile, isLoadingProfile } = useGetProfile();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{user.fullName}</Text>

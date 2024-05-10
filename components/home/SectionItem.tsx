@@ -26,7 +26,7 @@ type Props = {
 };
 const SectionItem = (props: Props) => {
   return (
-    <Link href={"/workouts"} asChild>
+    <Link href={"/workouts/"} asChild>
       <Pressable>
         <ImageBackground
           source={props.bgImage}

@@ -12,6 +12,13 @@
   "video_test": "Video Test",
   "topics": "Topics",
   "download": "Download",
+  "downloaded": "Downloaded",
   "workout_pending": "Pending",
-  "workout_finished": "Finished"
+  "workout_finished": "Finished",
+  "sent_by": "Sent by",
+  "message": "Message",
+  "cognitive_ability": " Cognitive ability",
+  "empty_completed_session": "You still have no exercises done",
+  "empty_pending_session": "You have not received exercises yet",
+  "sessions_up_to_date": "You're up to date with your exercises!"
 }

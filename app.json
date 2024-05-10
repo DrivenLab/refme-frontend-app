@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "refme-pro-app",
-    "slug": "refme-pro-app",
+    "slug": "refme",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,13 +19,15 @@
       "supportsTablet": true,
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true
-      }
+      },
+      "bundleIdentifier": "com.nundlab99.refmeproapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.nundlab99.refmeproapp"
     },
     "web": {
       "bundler": "metro",
@@ -48,8 +50,15 @@
         "origin": false
       },
       "eas": {
-        "projectId": "265180e6-d9fd-47cf-b37d-21b4a96f8273"
+        "projectId": "8164efdf-7782-445a-a13a-aa8c993166dd"
       }
-    }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/8164efdf-7782-445a-a13a-aa8c993166dd"
+    },
+    "owner": "dlabsoftware"
   }
 }

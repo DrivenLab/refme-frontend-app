@@ -1,7 +1,7 @@
 import { useAuth } from "@/context/auth";
 import CTextInput from "@/components/inputs/CTextInput";
 import { useMemo, useState } from "react";
-import { LoginData } from "@/types/user";
+import { NewPasswordData } from "@/types/user";
 import CPasswordInput from "@/components/inputs/CPasswordInput";
 import { baseURL } from "@/queries/api";
 import axios from "axios";
@@ -25,22 +25,37 @@ export default function UpdatePasswordScreen() {
   const { signOut, user, profile } = useAuth();
   const router = useRouter();
 
-  const [loginData, setLoginData] = useState<LoginData>({
-    email: "admin@admin.com",
-    password: "admin",
-  } as LoginData);
+  const [newPassword, setNewPassword] = useState<NewPasswordData>({
+    new_password: "",
+    repeat_password: "",
+  } as NewPassword);
   const isBtnFormValid = useMemo(
-    () => Boolean(loginData.email.length && loginData.password.length),
-    [loginData]
+    () =>
+      Boolean(
+        newPassword.new_password.length && newPassword.repeat_password.length
+      ),
+    [newPassword]
   );
   const [isLogging, setIsLogging] = useState(false);
 
   function handleOnChange(name: string, value: string) {
-    setLoginData((prev: LoginData) => ({ ...prev, [name]: value }));
+    setNewPassword((prev: NewPassword) => ({ ...prev, [name]: value }));
   }
   const handleLogin = async () => {
-    router.replace("/home");
+    if (newPassword.new_password != newPassword.repeat_password) {
+      setError("Las contraseñas no coinciden.");
+    }
+    try {
+      const { data } = await axios.post(`${baseURL}users/${user?.id}/`, {
+        password: newPassword.new_password,
+      });
+    } catch (error: any) {
+      if (error?.response?.status === 400)
+        setError("Usuario o Contraseña inconrrecta.");
+      else setError("Error, inténtelo más tarde.");
+    }
   };
+
   return (
     <SafeAreaView>
       <VStack space="md">
@@ -61,12 +76,12 @@ export default function UpdatePasswordScreen() {
 
           <CPasswordInput
             label="Nueva Contra"
-            name="newPassword"
+            name="new_password"
             onChange={handleOnChange}
           />
           <CPasswordInput
             label="Repetir Contra"
-            name="repeatNewPassword"
+            name="repeat_password"
             onChange={handleOnChange}
           />
 

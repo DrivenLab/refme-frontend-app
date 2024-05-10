@@ -3,6 +3,11 @@ export type LoginData = {
   password: string;
 };
 
+export type NewPasswordData = {
+  new_password: string;
+  repeat_password: string;
+};
+
 export type User = {
   id: number;
   email: string;

@@ -13,8 +13,8 @@ import { Box, Text, VStack } from "@gluestack-ui/themed";
 export default function LoginScreen() {
   const { setToken } = useAuth();
   const [loginData, setLoginData] = useState<LoginData>({
-    email: "admin@admin.com",
-    password: "admin",
+    email: "gerardo+17@dlab.software",
+    password: "admin12345",
   } as LoginData);
   const [error, setError] = useState("");
   const isBtnFormValid = useMemo(

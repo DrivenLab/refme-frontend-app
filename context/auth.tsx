@@ -84,10 +84,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   async function handleSignOut() {
     await removeData("token");
+    api.defaults.headers.common.Authorization = ``;
     setToken(null);
   }
   async function handleSetToken(token_: string) {
     await storeData({ name: "token", value: token_ });
+    api.defaults.headers.common.Authorization = `Token ${token_}`;
     setToken(token_);
   }
   return (

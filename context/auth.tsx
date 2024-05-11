@@ -39,7 +39,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   //Actualizamos los datos del usuario cada vez que el token cambia.
   useEffect(() => {
-    if (token?.length !== 0) {
+    if (token) {
       loadUserProfile();
       loadProfile();
     }

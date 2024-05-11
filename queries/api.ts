@@ -1,5 +1,5 @@
 import { getData } from "@/utils/storage";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 //todo: Ver si se puede usar env in rn
 const url = false;
@@ -16,17 +16,18 @@ export const baseURL = url ? url : "https://api.refme.dlab.software/api/";
 // for each client)
 const api = axios.create({ baseURL });
 
-const handleError = (error: any) => {
+const handleError = (error: AxiosError) => {
   if (error?.response?.status == 401) {
   }
   let errorMessage = "";
   if (error.response) {
     // The request was made and the server responded with a status code
     // that falls out of the range of 2xx
+    const dataObj = error?.response.data || {};
     if (Array.isArray(error.response.data)) {
       errorMessage = error.response.data[0];
-    } else if (Object.keys(error.response.data).length) {
-      errorMessage = Object.values(error.response.data)[0] as string;
+    } else if (Object.keys(dataObj).length) {
+      errorMessage = Object.values(dataObj)[0] as string;
     }
   } else if (error.request) {
     // The request was made but no response was received

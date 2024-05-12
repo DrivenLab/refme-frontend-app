@@ -7,7 +7,7 @@ const url = false;
 //https://9b4e-181-126-32-247.ngrok-free.app/
 //http://localhost:8000/api/
 //https://api.refme.dlab.software/api/
-export const baseURL = url ? url : "http://192.168.0.19:8000/api/";
+export const baseURL = url ? url : "http://192.168.100.49:8000/api/";
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
 // If any client changes this (global) instance, it might be a

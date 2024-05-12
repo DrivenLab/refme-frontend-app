@@ -20,6 +20,7 @@ import {
 import i18n from "@/languages/i18n";
 import { Input as InputType } from "@/types/inputs";
 import { useRouter, useSegments, usePathname } from "expo-router";
+import { router } from "../../../.expo/types/router";
 export default function UpdatePasswordScreen() {
   const [error, setError] = useState("");
   const { signOut, user, profile } = useAuth();
@@ -53,6 +54,8 @@ export default function UpdatePasswordScreen() {
       if (error?.response?.status === 400)
         setError("Usuario o Contraseña inconrrectos.");
       else setError(i18n.t("generic_error"));
+    } finally {
+      router.push("/about-you");
     }
   };
 

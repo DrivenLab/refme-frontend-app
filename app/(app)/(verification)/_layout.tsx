@@ -3,6 +3,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { Stack } from "expo-router";
 import { useColorScheme } from "@/components/useColorScheme";
+import i18n from "@/languages/i18n";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -20,7 +21,24 @@ export default function TabVerificationLayout() {
       <Stack.Screen name="verify-account" options={{ headerShown: false }} />
       <Stack.Screen
         name="update-password"
-        options={{ headerShown: true, headerTitle: "Update Password" }}
+        options={{
+          headerShown: true,
+          headerTitle: i18n.t("update_password_title"),
+        }}
+      />
+      <Stack.Screen
+        name="about-you"
+        options={{
+          headerShown: true,
+          headerTitle: i18n.t("tell_us_about_you"),
+        }}
+      />
+      <Stack.Screen
+        name="last-step"
+        options={{
+          headerShown: true,
+          headerTitle: i18n.t("last_step"),
+        }}
       />
     </Stack>
   );

@@ -1,7 +1,8 @@
 {
   "question1_home": "What are you going to train today?",
-  "welcome":"¡Hola Luis!, es un placer recibirte.",
+  "welcome":"¡Hola %{name}!, es un placer recibirte.",
   "update_password":"Dado que tu contraseña actual fue creada por nosotros de forma automática, puedes cambiarla por una creada por ti.",
+  "update_password_title":"Update password",
   "workout": "Workout",
   "personal": "Personal",
   "dm": "Decision Making",
@@ -25,5 +26,17 @@
   "sessions_up_to_date": "You're up to date with your exercises!",
   "generic_error": "Error, please try again later.",
   "new_password_label":"New password",
-  "confirm_new_password_label":"Repear New password"
+  "confirm_new_password_label":"Repeat new password",
+  "confirm_personal_data":"To continue, we ask you to confirm the data uploaded by your federation.",
+  "about_you":"We ask you for some information to improve your experience within the App and facilitate the management of your workouts.",
+  "tell_us_about_you":"Tell us about you",
+  "update_info":"Update information",
+  "last_step":"¡Last step!",
+  "add_profile_picture":"Add a profile photo so your work team can easily recognize you.",
+  "upload_profile_picture":"Upload photo",
+  "change_profile_picture":"Change photo",
+  "not_now":"Not now",
+  "finish":"Finish"
+  
+
 }

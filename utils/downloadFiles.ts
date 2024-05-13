@@ -3,7 +3,7 @@ import * as FileSystem from "expo-file-system";
 type Props = {
   url: string;
   videoName: string;
-  setDonwloadProgress: (progressValue: number) => void;
+  setDonwloadProgress?: (progressValue: number) => void;
 };
 
 const downloadVideo = async ({
@@ -15,8 +15,11 @@ const downloadVideo = async ({
     const progress =
       downloadProgress.totalBytesWritten /
       downloadProgress.totalBytesExpectedToWrite;
-    setDonwloadProgress(progress);
-    //console.log("progress", progress);
+    if (setDonwloadProgress) setDonwloadProgress(progress);
+    console.log(
+      `progress of video ${videoName} is ${progress}`,
+      setDonwloadProgress
+    );
   };
   const downloadResumable = FileSystem.createDownloadResumable(
     url,

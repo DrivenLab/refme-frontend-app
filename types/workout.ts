@@ -22,3 +22,7 @@ export interface Workout {
   isDraft: boolean;
   organization: number;
 }
+export type DownloadProgress = {
+  key: string;
+  value: number;
+};

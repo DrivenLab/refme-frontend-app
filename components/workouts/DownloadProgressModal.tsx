@@ -33,7 +33,10 @@ const DownloadProgressModal = ({
       <ModalContent>
         <ModalHeader justifyContent="center">
           <Heading size="lg" textAlign="center">
-            {Math.floor(downloadProgress * 100)} %{" "}
+            {downloadProgress === 1 && isModalOpen
+              ? 99
+              : Math.floor(downloadProgress * 100)}{" "}
+            %{" "}
           </Heading>
         </ModalHeader>
         <ModalBody>

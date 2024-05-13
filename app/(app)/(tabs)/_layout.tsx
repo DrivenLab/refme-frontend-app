@@ -33,7 +33,7 @@ export default function TabLayout() {
         name="statistics"
         options={{
           title: "Estadisticas",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          //tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -54,14 +54,14 @@ export default function TabLayout() {
         name="home"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          //tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Perfil",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          //tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
       {/**TABS HIDDEN */}

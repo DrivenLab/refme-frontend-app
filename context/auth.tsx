@@ -10,9 +10,9 @@ import { getData, removeData, storeData } from "@/utils/storage";
 import { useRouter, useSegments, usePathname } from "expo-router";
 
 import api from "@/queries/api";
-import { User } from "@/types/user";
 import { Organization } from "@/types/organization";
 import { useQueryClient } from "@tanstack/react-query";
+import { User, Profile } from "@/types/user";
 const AuthContext = createContext<any>(null);
 export function useAuth() {
   return useContext(AuthContext);
@@ -27,6 +27,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [currentOrganization, setCurrentOrganization] =
     useState<Organization | null>(null);
   const clientQuery = useQueryClient();
+  const [profile, setProfile] = useState<Profile | null>(null);
   const isUserVerified = useMemo(() => {
     return user?.isVerified ?? false;
   }, [user]);
@@ -38,7 +39,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   //Actualizamos los datos del usuario cada vez que el token cambia.
   useEffect(() => {
-    if (token?.length !== 0) loadUserProfile();
+    if (token?.length !== 0) {
+      loadUserProfile();
+      loadProfile();
+    }
   }, [token]);
 
   //Determinar la rutas en base a si el usuario esta o no autenticado.
@@ -64,10 +68,19 @@ export function AuthProvider({ children }: PropsWithChildren) {
   async function loadUserProfile() {
     try {
       const { data } = await api.get<User>("users/profile");
+
       //console.log("loading user profile", data);
       setUser(data);
       //POR DEFAULT SE SETEA LA PRIMERA ORGANIZACION, ESTO CAMBIAR PARA QUE SEA LO QUE EL USUARIO SELECCIONE.
       handleSetUserOrganization(data.organizations[0]);
+    } catch (error) {}
+  }
+
+  async function loadProfile() {
+    try {
+      const { data } = await api.get<Profile>("profiles");
+
+      setProfile(data);
     } catch (error) {}
   }
   //Obtener token del localstorage.
@@ -96,6 +109,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         user,
         loadUserProfile,
         currentOrganization,
+        profile: profile,
         token: token,
         setToken: handleSetToken,
         signOut: handleSignOut,

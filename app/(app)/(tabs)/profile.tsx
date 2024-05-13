@@ -7,12 +7,11 @@ import CBtn from "@/components/CBtn";
 import { useGetProfile } from "@/queries/users.query";
 
 export default function TabTwoScreen() {
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
   const { profile, isLoadingProfile } = useGetProfile();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{profile?.fullName}</Text>
-
+      <Text style={styles.title}>{user ? user.fullName : ""}</Text>
       <CBtn title="Sign Out" onPress={signOut} />
     </View>
   );

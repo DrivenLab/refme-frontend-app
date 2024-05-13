@@ -8,47 +8,42 @@ import axios from "axios";
 import { Image } from "expo-image";
 import { SafeAreaView, StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
-import { Box, Text, VStack } from "@gluestack-ui/themed";
+import {
+  Box,
+  Text,
+  VStack,
+  HStack,
+  Input,
+  InputField,
+} from "@gluestack-ui/themed";
+import i18n from "@/languages/i18n";
+import { Input as InputType } from "@/types/inputs";
+import { useRouter, useSegments, usePathname } from "expo-router";
 
-export default function LoginScreen() {
-  const { setToken } = useAuth();
-  const [loginData, setLoginData] = useState<LoginData>({
-    email: "gerardo+17@dlab.software",
-    password: "admin12345",
-  } as LoginData);
+export default function VerifyAccountScreen() {
   const [error, setError] = useState("");
+  const { signOut, user, profile } = useAuth();
+  const router = useRouter();
+
+  const [loginData, setLoginData] = useState<LoginData>({
+    email: "admin@admin.com",
+    password: "admin",
+  } as LoginData);
   const isBtnFormValid = useMemo(
     () => Boolean(loginData.email.length && loginData.password.length),
     [loginData]
   );
   const [isLogging, setIsLogging] = useState(false);
+
   function handleOnChange(name: string, value: string) {
-    setLoginData((prev: LoginData) => ({ ...prev, [name]: value }));
+    console.log("Gg");
   }
   const handleLogin = async () => {
-    setIsLogging(true);
-    try {
-      const { data } = await axios.post(
-        `${baseURL}users/member_login/`,
-        loginData
-      );
-      await setToken(data.token);
-    } catch (error: any) {
-      if (error?.response?.status === 400)
-        setError("Usuario o Contraseña inconrrecta.");
-      else setError("Error, inténtelo más tarde.");
-    } finally {
-      setIsLogging(false);
-    }
+    router.replace("/update-password");
   };
   return (
     <SafeAreaView>
       <VStack space="md">
-        <Image
-          source={require("@/assets/images/login_referee.png")}
-          style={styles.login_referee_img}
-          contentFit="cover"
-        />
         <Image
           source={require("@/assets/images/refme_logo.png")}
           style={styles.refme_logo}
@@ -65,24 +60,55 @@ export default function LoginScreen() {
               <Text>{error}</Text>
             </Box>
           )}
+          <Text fontWeight="bold" fontSize={24} color="black">
+            {i18n.t("welcome")}
+          </Text>
+
+          <HStack space="md">
+            {/* Utiliza HStack para colocar los inputs lado a lado */}
+            <CTextInput
+              label="Nombre"
+              name="name"
+              onChange={handleOnChange}
+              value={user?.firstName || ""}
+              width="50%"
+            />
+            <CTextInput
+              label="Apellido"
+              name="lastName"
+              onChange={handleOnChange}
+              value={user?.lastName || ""}
+              width="50%"
+            />
+          </HStack>
+
+          <HStack space="md">
+            {/* Utiliza HStack para colocar los inputs lado a lado */}
+            <CTextInput
+              label="Rol"
+              name="role"
+              onChange={handleOnChange}
+              value={profile ? profile[0].memberType : ""}
+              width="50%"
+            />
+            <CTextInput
+              label="Categoria"
+              name="category"
+              onChange={handleOnChange}
+              value={profile ? profile[0]?.category.toString() : ""}
+              width="50%"
+            />
+          </HStack>
 
           <CTextInput
-            placeholder="Ingrese su correo"
+            label="Email"
             name="email"
-            label="Correo"
             onChange={handleOnChange}
-            value={loginData.email}
-          />
-          <CPasswordInput
-            placeholder="Ingrese su contraseña"
-            label="Contraseña"
-            name="password"
-            onChange={handleOnChange}
-            value={loginData.password}
+            value={user?.email || ""}
           />
           <CBtn
             isDisabled={!isBtnFormValid}
-            title="Ingresar"
+            title="Confirmar"
             isLoading={isLogging}
             onPress={handleLogin}
             mt={30}

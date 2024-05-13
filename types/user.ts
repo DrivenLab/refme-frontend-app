@@ -5,6 +5,11 @@ export type LoginData = {
   password: string;
 };
 
+export type NewPasswordData = {
+  new_password: string;
+  repeat_password: string;
+};
+
 export type User = {
   id: number;
   email: string;
@@ -23,4 +28,28 @@ export type User = {
   isVerified: boolean;
   groups: any[];
   fullName: string;
+};
+
+export type Profile = {
+  id: number;
+  genderName: string;
+  age: number;
+  createdAt: string;
+  modifiedAt: string;
+  isActive: boolean;
+  birthdate: string;
+  fifaEntryYear: number;
+  memberType: string;
+  gender: string;
+  passport: string;
+  phoneNumber: string;
+  address: string;
+  weight: number;
+  height: number;
+  expirationMedicalRecord: string;
+  medicalObservations: string;
+  countries: string;
+  isVerified: boolean;
+  userOrganization: number;
+  category: number;
 };

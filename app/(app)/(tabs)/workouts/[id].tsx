@@ -12,13 +12,12 @@ import i18n from "@/languages/i18n";
 import WorkoutConfigItem from "@/components/workouts/WorkoutConfigurationItem";
 import WorkoutMaterial from "@/components/workouts/WorkoutMaterial";
 import WorkoutTypeBadge from "@/components/workouts/WorkoutTypeBadge";
-import { useRoute } from "@react-navigation/native";
 import { useGetWorkoutById } from "@/queries/workouts.query";
 import { useGetSessionById } from "@/queries/session.query";
-import { useLocalSearchParams } from "expo-router";
+import { Href, useLocalSearchParams } from "expo-router";
+import { Link } from "expo-router";
 
 const WorkoutDetail = () => {
-  const route = useRoute();
   const { id: idSession } = useLocalSearchParams();
 
   const { session } = useGetSessionById({ idSession: idSession as string });
@@ -94,6 +93,11 @@ const WorkoutDetail = () => {
           />
         </VStack>
       </VStack>
+      <Link href={"/workouts/startWorkout/" as Href<string>} asChild>
+        <Button mt={"$3"}>
+          <ButtonText>Empezar Entrenamiento</ButtonText>
+        </Button>
+      </Link>
     </SafeAreaView>
   );
 };

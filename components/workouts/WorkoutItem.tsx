@@ -8,7 +8,7 @@ import { useState } from "react";
 import DownloadSessionBtn from "./DownloadSessionBtn";
 import React from "react";
 import DownloadProgressModal from "./DownloadProgressModal";
-import { downloadVideo, getVideoName } from "@/utils/downloadFiles";
+import { downloadVideo, getVideoName, saveVideo } from "@/utils/downloadFiles";
 type Props = {
   workout: Workout;
   idSession: number;
@@ -51,7 +51,14 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
 
         // las peticiones tendrán 100 o menos promesas pendientes.
         // Promise.all esperará hasta que todas las promesas se resuelvan y después toma el siguiente 100.
-        const data_ = await Promise.all(promises);
+        const videos = await Promise.all(promises);
+        console.log("videos", videos);
+        /*
+        videos.forEach((v) => {
+          if (v)
+            saveVideo(v?.uri, v.videoName, v.mimeType || "application/mp4");
+        });
+        */
         setWasDownloaded(true);
       } catch (error) {
       } finally {

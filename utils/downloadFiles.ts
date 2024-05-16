@@ -6,6 +6,7 @@ type Props = {
   url: string;
   videoName: string;
   setDonwloadProgress?: (progressValue: number) => void;
+  idIteration: number;
 };
 export class SessionDownload {
   idSession: number;
@@ -49,6 +50,7 @@ const downloadVideo = async ({
   url,
   videoName,
   setDonwloadProgress,
+  idIteration,
 }: Props) => {
   const callback = (downloadProgress: any) => {
     const progress =
@@ -63,15 +65,10 @@ const downloadVideo = async ({
     callback
   );
   try {
-    console.log({ url, videoName });
+    console.log("ooooo", { url, videoName });
     const data = await downloadResumable.downloadAsync();
     if (data?.uri) {
-      /*
-      const base64 = await FileSystem.readAsStringAsync(data?.uri, {
-        encoding: FileSystem.EncodingType.Base64,
-      });
-*/
-      return { ...data, videoName };
+      return { uri: data.uri, idIteration };
     }
   } catch (e) {
     console.error("eerrrr", e, url, videoName);

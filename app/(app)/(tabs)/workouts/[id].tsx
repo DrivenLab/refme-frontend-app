@@ -12,16 +12,13 @@ import i18n from "@/languages/i18n";
 import WorkoutConfigItem from "@/components/workouts/WorkoutConfigurationItem";
 import WorkoutMaterial from "@/components/workouts/WorkoutMaterial";
 import WorkoutTypeBadge from "@/components/workouts/WorkoutTypeBadge";
-import { useGetWorkoutById } from "@/queries/workouts.query";
 import { useGetSessionById } from "@/queries/session.query";
 import { Href, useLocalSearchParams } from "expo-router";
 import { Link } from "expo-router";
 
 const WorkoutDetail = () => {
   const { id: idSession } = useLocalSearchParams();
-
   const { session } = useGetSessionById({ idSession: idSession as string });
-  console.log("idSession", idSession);
   return (
     <SafeAreaView bg="white" flex={1} px="$3" py={"$2"}>
       <VStack space="md">

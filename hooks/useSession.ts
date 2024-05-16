@@ -15,7 +15,7 @@ const useSession = ({ idSession }: Props) => {
   const [session, setSession] = useState<Session>();
   const [wasSessionDownlaoded, setWasSessionDownlaoded] = useState(false);
   const queryClient = useQueryClient();
-  const { isRefetchingSession, refetchSession } = useGetSessionDetailById({
+  const { refetchSession } = useGetSessionDetailById({
     idSession,
     enabled: enableQuery,
   });
@@ -25,7 +25,6 @@ const useSession = ({ idSession }: Props) => {
       "sessions",
       idSession,
     ]);
-    console.log("runnig use Effect", idSession, data?.data);
     if (data) {
       setWasSessionDownlaoded(true);
       setSession(data?.data);

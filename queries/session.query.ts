@@ -43,7 +43,6 @@ const useGetSessionById = ({ idSession }: { idSession: string | number }) => {
 const useGetSessions = () => {
   const { currentOrganization } = useAuth();
   //Get Data
-  console.log("current org", currentOrganization);
   const getSessions = () =>
     api.get<Session[]>(`organizations/${currentOrganization.id}/sessions/`);
   // Queries
@@ -51,7 +50,6 @@ const useGetSessions = () => {
     queryKey: ["sessions"],
     queryFn: getSessions,
   });
-  console.log("rest", rest);
   return {
     sessions: data?.data || ([] as Session[]),
     isLoadingSession: isLoading,

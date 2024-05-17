@@ -52,12 +52,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
      * Caso 2: Usuario esta logeado pero no esta verificado.
      * Caso 3: Usuario logeado y verificado
      */
+
     if (token == null && rootSegment !== "(auth)") {
       router.replace("/(auth)/login");
-    } else if (token && !isUserVerified && pathname !== "/verify-account") {
-      router.replace("/(verification)/verify-account");
     } else if (token && isUserVerified) {
       router.replace("/home");
+    } else if (token && !isUserVerified && pathname !== "/verify-account") {
+      router.replace("/(verification)/verify-account");
     }
   }, [token, rootSegment, isUserVerified]);
 

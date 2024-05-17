@@ -2,7 +2,10 @@ import { Button, StyleSheet, TextInput } from "react-native";
 import { ScrollView, Text, VStack, View } from "@gluestack-ui/themed";
 import PersonalWorkoutCard from "@/components/home/PersonalWorkoutCard";
 import SectionItem from "@/components/home/SectionItem";
+import { useAuth } from "@/context/auth";
+
 import i18n from "@/languages/i18n";
+
 const SECTION_ITEMS_OPTIONS = [
   {
     bgImage: require("@/assets/images/official_training_home.png"),
@@ -34,26 +37,40 @@ const SECTION_ITEMS_OPTIONS = [
   },
 ];
 export default function TabOneScreen() {
+  const { signOut, user } = useAuth();
+  const userRole = user?.role;
   return (
     <ScrollView style={styles.container} px={"$3"}>
       <VStack space="md" flex={1} paddingBottom={10}>
-        <Text fontWeight="bold" fontSize={24} color="black">
-          {i18n.t("question1_home")}
-        </Text>
-
-        <PersonalWorkoutCard />
-        <Text fontWeight="bold" fontSize={24} color="black">
-          {i18n.t("official_test_workout")}
-        </Text>
-        {SECTION_ITEMS_OPTIONS.slice(0, 2).map((s, i) => (
-          <SectionItem {...s} key={i} />
-        ))}
-        <Text fontWeight="bold" fontSize={24} color="black">
-          E-learnig{" "}
-        </Text>
-        {SECTION_ITEMS_OPTIONS.slice(2).map((s, i) => (
-          <SectionItem {...s} key={i} />
-        ))}
+        {userRole === "member" ? (
+          <>
+            <Text fontWeight="bold" fontSize={24} color="black">
+              {i18n.t("question1_home")}
+            </Text>
+            <PersonalWorkoutCard />
+            <Text fontWeight="bold" fontSize={24} color="black">
+              {i18n.t("official_test_workout")}
+            </Text>
+            {SECTION_ITEMS_OPTIONS.slice(0, 2).map((s, i) => (
+              <SectionItem {...s} key={i} />
+            ))}
+            <Text fontWeight="bold" fontSize={24} color="black">
+              E-learnig{" "}
+            </Text>
+            {SECTION_ITEMS_OPTIONS.slice(2).map((s, i) => (
+              <SectionItem {...s} key={i} />
+            ))}
+          </>
+        ) : userRole === "instructor" ? (
+          <>
+            <Text fontWeight="bold" fontSize={24} color="black">
+              {i18n.t("official_test_workout")}
+            </Text>
+            {SECTION_ITEMS_OPTIONS.slice(0, 2).map((s, i) => (
+              <SectionItem {...s} key={i} />
+            ))}
+          </>
+        ) : null}
       </VStack>
     </ScrollView>
   );

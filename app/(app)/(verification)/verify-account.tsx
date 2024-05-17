@@ -1,7 +1,6 @@
 import { useAuth } from "@/context/auth";
 import CTextInput from "@/components/inputs/CTextInput";
 import { useMemo, useState } from "react";
-import { LoginData } from "@/types/user";
 import CPasswordInput from "@/components/inputs/CPasswordInput";
 import { baseURL } from "@/queries/api";
 import axios from "axios";
@@ -30,23 +29,22 @@ export default function VerifyAccountScreen() {
   const [error, setError] = useState("");
   const { signOut, user, profile } = useAuth();
   const router = useRouter();
-  const [name, setName] = useState(user?.firstName || "ad");
-  const [loginData, setLoginData] = useState<LoginData>({
-    email: "admin@admin.com",
-    password: "admin",
-  } as LoginData);
-  const isBtnFormValid = useMemo(
-    () => Boolean(loginData.email.length && loginData.password.length),
-    [loginData]
-  );
+  const [name, setName] = useState(user?.firstName || "");
+
   const [isLogging, setIsLogging] = useState(false);
 
   function handleOnChange(name: string, value: string) {
-    console.log("Gg");
+    console.log("pass");
   }
   const handleLogin = async () => {
     router.push("/update-password");
   };
+  if (!user) {
+    return <Text>Loading...</Text>;
+  }
+
+  const memberType = user.memberType;
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <VStack style={{ flex: 1 }}>
@@ -129,7 +127,7 @@ export default function VerifyAccountScreen() {
               name="role"
               onChangeText={setName}
               onChange={handleOnChange}
-              value={profile ? profile[0].memberType : ""}
+              value={profile && profile.length > 0 ? profile[0].memberType : ""}
               containerStyle={{ width: "50%" }}
               isDisabled
             />
@@ -152,7 +150,6 @@ export default function VerifyAccountScreen() {
             isDisabled
           />
           <CBtn
-            isDisabled={!isBtnFormValid}
             title="Confirmar"
             isLoading={isLogging}
             onPress={handleLogin}

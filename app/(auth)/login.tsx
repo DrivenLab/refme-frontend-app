@@ -14,7 +14,7 @@ export default function LoginScreen() {
   const { setToken } = useAuth();
   const [loginData, setLoginData] = useState<LoginData>({
     email: "gerardo+17@dlab.software",
-    password: "admin12345",
+    password: "12345",
   } as LoginData);
   const [error, setError] = useState("");
   const isBtnFormValid = useMemo(
@@ -33,6 +33,7 @@ export default function LoginScreen() {
         `${baseURL}users/member_login/`,
         loginData
       );
+
       await setToken(data.token);
     } catch (error: any) {
       if (error?.response?.status === 400)
@@ -71,7 +72,7 @@ export default function LoginScreen() {
             placeholder="Ingrese su correo"
             name="email"
             label="Correo"
-            onChange={handleOnChange}
+            onChangeText={(value) => handleOnChange("email", value)}
             value={loginData.email}
           />
           <CPasswordInput
@@ -82,7 +83,6 @@ export default function LoginScreen() {
             value={loginData.password}
           />
           <CBtn
-            isDisabled={!isBtnFormValid}
             title="Ingresar"
             isLoading={isLogging}
             onPress={handleLogin}

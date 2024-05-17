@@ -4,14 +4,15 @@ import React, { useState } from "react";
 import CVideo from "../CVideo";
 import SessionBeginning from "./SessionBeginning";
 import SessionGetReady from "./SessionGetReady";
+import SessionWorkout from "./SessionWorkout";
 type Props = {
   iteration: Iteration;
 };
 type Steps =
   | "beginning"
-  | "getReady"
+  | "getReadyForWorkout"
   | "workout"
-  | "readyForVideo"
+  | "getReadyForVideo"
   | "video"
   | "desicion"
   | "rpe";
@@ -28,13 +29,15 @@ const SessionIteration = ({ iteration }: Props) => {
       {steps === "beginning" ? (
         <>
           <SessionBeginning
-            onFinishCountdown={() => handleFinishCountdown("getReady")}
+            onFinishCountdown={() =>
+              handleFinishCountdown("getReadyForWorkout")
+            }
           />
         </>
-      ) : steps === "getReady" ? (
+      ) : steps === "getReadyForWorkout" ? (
         <>
           <SessionGetReady
-            onFinishCountdown={() => handleFinishCountdown("video")}
+            onFinishCountdown={() => handleFinishCountdown("workout")}
           >
             <Text fontSize={30} textAlign="center">
               <Text fontWeight="bold" fontSize={30}>
@@ -44,6 +47,20 @@ const SessionIteration = ({ iteration }: Props) => {
               <Text fontWeight="bold" fontSize={30}>
                 ejercicio físico
               </Text>
+            </Text>
+          </SessionGetReady>
+        </>
+      ) : steps === "workout" ? (
+        <SessionWorkout
+          onFinishCountdown={() => handleFinishCountdown("getReadyForVideo")}
+        />
+      ) : steps === "getReadyForVideo" ? (
+        <>
+          <SessionGetReady
+            onFinishCountdown={() => handleFinishCountdown("video")}
+          >
+            <Text fontSize={30} textAlign="center">
+              Mira el video y toma una desición
             </Text>
           </SessionGetReady>
         </>

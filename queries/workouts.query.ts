@@ -9,12 +9,9 @@ const useGetWorkoutById = ({ idWorkout }: { idWorkout?: string | number }) => {
   const data = queryClient.getQueryData<AxiosResponse<Workout[]>>(["workouts"]);
 
   const workout = data?.data.find((w) => w.id == idWorkout) || ({} as Workout);
-  console.log("w----", workout, data?.data, idWorkout);
   return { workout };
 };
 const useGetWotkouts = () => {
-  const { currentOrganization } = useAuth();
-  console.log("currentOrganization", currentOrganization);
   //Get Data
   const getWorkout = () => api.get<Workout[]>(`organizations/5/workouts/`);
   // Queries

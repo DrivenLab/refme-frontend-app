@@ -3,68 +3,66 @@ import { StyleSheet } from "react-native";
 import { Box, Pressable, Text } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
 import { Href, Link } from "expo-router";
-import { useGetSessionDetailById } from "@/queries/session.query";
-import { useState } from "react";
 import DownloadSessionBtn from "./DownloadSessionBtn";
+import React from "react";
+import DownloadProgressModal from "./DownloadProgressModal";
+import useSession from "@/hooks/useSession";
 type Props = {
   workout: Workout;
   idSession: number;
 };
 
 const WorkoutItem = ({ workout, idSession }: Props) => {
-  const [enabled, setEnabled] = useState(false);
-  const { session, isLoadingSession, refetchSession } = useGetSessionDetailById(
-    {
-      idSession,
-      enabled,
-    }
-  );
-  const downloadWorkout = () => {
-    /*
-    if (true)
-      downloadVideo({
-        url: `https://cd9c-181-126-32-247.ngrok-free.app/media/Asociacion%20Paraguay%20de%20Futbol/videos/official_training/V25-3-6_zQBoXLJ.mp4`,
-        videoName: "V25-3-6_zQBoXLJ.mp4",
-      });
-      */
-    setEnabled(true);
-    refetchSession();
-  };
+  const {
+    downloadSession,
+    downloadProgress,
+    isDownloading,
+    setIsDownloading,
+    wasSessionDownlaoded,
+  } = useSession({ idSession: idSession });
+
   return (
-    <Link href={`/workouts/${idSession}/` as Href<string>} asChild>
-      <Pressable>
-        <Box
-          rounded={"$md"}
-          px={"$5"}
-          py={"$2"}
-          mb={"$4"}
-          style={styles.workoutItem}
-        >
+    <>
+      <DownloadProgressModal
+        isModalOpen={isDownloading}
+        setIsModalOpen={(value) => setIsDownloading(value)}
+        downloadProgress={downloadProgress}
+      />
+      <Link href={`/workouts/${idSession}/` as Href<string>} asChild>
+        <Pressable>
           <Box
-            flexDirection="row"
-            justifyContent="space-between"
-            alignItems="center"
-            alignContent="center"
-            style={{ borderBottomWidth: 2, borderBottomColor: "#ede18a" }}
-            py={"$1"}
+            rounded={"$md"}
+            px={"$5"}
+            py={"$2"}
+            mb={"$4"}
+            style={styles.workoutItem}
           >
-            <Box>
-              <Text>{i18n.t("dm")}</Text>
+            <Box
+              flexDirection="row"
+              justifyContent="space-between"
+              alignItems="center"
+              alignContent="center"
+              style={{ borderBottomWidth: 2, borderBottomColor: "#ede18a" }}
+              py={"$1"}
+            >
+              <Box>
+                <Text>{i18n.t("dm")}</Text>
+              </Box>
+              <DownloadSessionBtn
+                wasDownloaded={wasSessionDownlaoded}
+                downloadSession={downloadSession}
+              />
             </Box>
-            <DownloadSessionBtn
-              wasDownloaded={session !== undefined}
-              downloadSession={downloadWorkout}
-            />
+            <Box>
+              <Text fontWeight="bold" color="black" fontSize={20} py={"$2"}>
+                {workout.name}
+              </Text>
+              <Text>{workout.description}</Text>
+            </Box>
           </Box>
-          <Box>
-            <Text fontWeight="bold" color="black" fontSize={20} py={"$2"}>
-              {workout.name}
-            </Text>
-            <Text>{workout.description}</Text>
-          </Box>
-        </Box>
-      </Pressable>
-    </Link>
+        </Pressable>
+      </Link>
+    </>
   );
 };
 

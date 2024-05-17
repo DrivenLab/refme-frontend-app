@@ -87,7 +87,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
   //Obtener token del localstorage.
   async function loadToken() {
     const token_ = await getData("token");
-    console.log("loading token", token_);
 
     setToken(token_);
     if (token_ === null) return;
@@ -96,7 +95,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   async function handleSignOut() {
     await removeData("token");
-    console.log("signing out,aaaa");
 
     clientQuery.clear();
     setProfile(null);

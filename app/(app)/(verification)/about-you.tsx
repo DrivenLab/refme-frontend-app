@@ -52,16 +52,15 @@ export default function AboutYouScreen() {
       setError("Las contraseñas no coinciden.");
     }
     try {
+      console.log("profileData", profile);
+
       const { data } = await api.patch(
         `profiles/${profile[0]?.id}/`,
         profileData
       );
-    } catch (error: any) {
-      if (error?.response?.status === 400)
-        setError("Usuario o Contraseña inconrrectos.");
-      else setError(i18n.t("generic_error"));
-    } finally {
       router.push("/last-step");
+    } catch (error: any) {
+      setError(error);
     }
   };
 

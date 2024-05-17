@@ -39,7 +39,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   //Actualizamos los datos del usuario cada vez que el token cambia.
   useEffect(() => {
-    if (token?.length !== 0) {
+    if (token) {
       loadUserProfile();
       loadProfile();
     }
@@ -86,6 +86,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
   //Obtener token del localstorage.
   async function loadToken() {
     const token_ = await getData("token");
+    console.log("loading token", token_);
+
     setToken(token_);
     if (token_ === null) return;
     api.defaults.headers.common.Authorization = `Token ${token_}`;
@@ -93,7 +95,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   async function handleSignOut() {
     await removeData("token");
+    console.log("signing out,aaaa");
+
     clientQuery.clear();
+    setProfile(null);
+    setUser(null);
     clientQuery.removeQueries({ queryKey: ["sessions"] });
     setToken(null);
   }

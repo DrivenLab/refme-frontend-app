@@ -1,7 +1,7 @@
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-import { Stack } from "expo-router";
+import { Stack } from "expo-router/stack";
 import { useColorScheme } from "@/components/useColorScheme";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/

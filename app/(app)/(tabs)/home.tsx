@@ -40,6 +40,7 @@ export default function TabOneScreen() {
         <Text fontWeight="bold" fontSize={24} color="black">
           {i18n.t("question1_home")}
         </Text>
+
         <PersonalWorkoutCard />
         <Text fontWeight="bold" fontSize={24} color="black">
           {i18n.t("official_test_workout")}

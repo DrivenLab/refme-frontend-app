@@ -38,9 +38,6 @@ export class SessionDownload {
   download = async () => {
     try {
       const data = await this.downloadResumable.downloadAsync();
-      if (data?.uri) {
-        console.log("uri downloaded", data.uri);
-      }
     } catch (e) {
       //console.error("eerrrr", e, url, videoName);
     }
@@ -65,7 +62,6 @@ const downloadVideo = async ({
     callback
   );
   try {
-    console.log("ooooo", { url, videoName });
     const data = await downloadResumable.downloadAsync();
     if (data?.uri) {
       return { uri: data.uri, idIteration };

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import useSession from "@/hooks/useSession";
 import CVideo from "@/components/CVideo";
@@ -6,9 +6,14 @@ import { SafeAreaView, ScrollView, Text } from "@gluestack-ui/themed";
 import useOrientation from "@/hooks/useOrientation";
 import RotateScreen from "@/components/session/RotateScreen";
 import { ORIENTATION_NUMBER } from "@/constants/Orientation";
+import useStartSession from "@/hooks/useStartSession";
+import SessionIteration from "@/components/session/SessionIteration";
+import { Iteration } from "@/types/session";
 
 const StartWorkout = () => {
-  const { session } = useSession({ idSession: 1 });
+  const { sessionStatus, setSessionStatus, currentIteration } = useStartSession(
+    { idSession: 1 }
+  );
   const { screenOrientation } = useOrientation();
   useEffect(() => {
     //loadFiles();
@@ -16,23 +21,18 @@ const StartWorkout = () => {
 
   return (
     <SafeAreaView style={styles.contentContainer}>
-      <RotateScreen
-        orientation={
-          ORIENTATION_NUMBER[
-            screenOrientation as keyof typeof ORIENTATION_NUMBER
-          ]
-        }
-      />
-
-      {/*
-      <ScrollView>
-        <Text>{screenOrientation}</Text>
-
-        {session?.workout.iterations.map((i) => (
-          <CVideo key={i.id} uri={i.answers[0].video1.video} />
-        ))}
-      </ScrollView>
-      */}
+      {sessionStatus === "pending" ? (
+        <RotateScreen
+          orientation={
+            ORIENTATION_NUMBER[
+              screenOrientation as keyof typeof ORIENTATION_NUMBER
+            ]
+          }
+          onStartWorkout={() => setSessionStatus("inProgress")}
+        />
+      ) : (
+        <SessionIteration iteration={currentIteration || ({} as Iteration)} />
+      )}
     </SafeAreaView>
   );
 };

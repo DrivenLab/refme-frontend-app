@@ -29,7 +29,6 @@ export const useDownloadSession = ({
   const download = async () => {
     try {
       const data = await downloadResumable.downloadAsync();
-      console.log("Finished downloading to ", data?.uri);
     } catch (e) {
       console.error(e);
     }

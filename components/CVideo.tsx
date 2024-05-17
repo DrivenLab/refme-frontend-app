@@ -1,37 +1,45 @@
-import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
-import { View, Text } from "react-native";
+import {
+  AVPlaybackStatus,
+  AVPlaybackStatusSuccess,
+  ResizeMode,
+  Video,
+} from "expo-av";
 import { StyleSheet, Button } from "react-native";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { View } from "@gluestack-ui/themed";
 type Props = {
   uri: string;
+  onFinishVideo: () => void;
 };
-const CVideo = ({ uri }: Props) => {
-  const video = useRef(null);
+const CVideo = ({ uri, onFinishVideo }: Props) => {
+  const video = useRef<any>(null);
   const [status, setStatus] = useState<AVPlaybackStatus>();
+  useEffect(() => {}, []);
   const handleOnPress = () => {
     if (!video.current) return;
-    if (status?.isPlaying) video.current.pauseAsync();
+    if (status?.isLoaded && status.isPlaying) video.current.pauseAsync();
     else video.current.playAsync();
   };
+  const onPlaybackStatusUpdate = (status: AVPlaybackStatus) => {
+    if (status.isLoaded && status.didJustFinish) {
+      onFinishVideo();
+      // Handle the event when the video finishes
+    }
+  };
   return (
-    <View>
+    <View flex={1} bg="$red">
       <Video
         ref={video}
-        style={styles.video}
-        source={{
-          uri,
-        }}
-        useNativeControls
-        resizeMode={ResizeMode.CONTAIN}
-        isLooping
-        onPlaybackStatusUpdate={(status) => setStatus(() => status)}
+        source={{ uri }}
+        rate={1.0}
+        volume={1.0}
+        isMuted={false}
+        resizeMode={ResizeMode.COVER}
+        shouldPlay
+        isLooping={false}
+        onPlaybackStatusUpdate={onPlaybackStatusUpdate}
+        style={{ width: "100%", height: "100%" }}
       />
-      <View style={styles.buttons}>
-        <Button
-          title={status?.isPlaying ? "Pause" : "Play"}
-          onPress={handleOnPress}
-        />
-      </View>
     </View>
   );
 };

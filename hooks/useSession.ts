@@ -95,7 +95,6 @@ const useSession = ({ idSession }: Props) => {
 
     try {
       const response = await Promise.all(downloadVideosPromises);
-      console.log("response", response);
     } catch (error) {}
   };
   const downloadSession = async () => {

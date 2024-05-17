@@ -4,11 +4,12 @@ import CBtn from "../CBtn";
 import { ORIENTATION } from "@/constants/Orientation";
 type Props = {
   orientation: string;
+  onStartWorkout: () => void;
 };
-const RotateScreen = ({ orientation }: Props) => {
+const RotateScreen = ({ orientation, onStartWorkout }: Props) => {
   return (
     <VStack
-      flex={1}
+      height={"100%"}
       bg="$primary0"
       justifyContent="center"
       alignItems="center"
@@ -21,6 +22,7 @@ const RotateScreen = ({ orientation }: Props) => {
         <CBtn
           title="Iniciar entrenamiento"
           isDisabled={ORIENTATION.PORTRAIT == orientation}
+          onPress={onStartWorkout}
         />
       </Box>
     </VStack>

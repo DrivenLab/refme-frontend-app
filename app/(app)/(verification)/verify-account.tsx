@@ -40,7 +40,11 @@ export default function VerifyAccountScreen() {
     router.push("/update-password");
   };
   if (!user) {
-    return <Text>Loading...</Text>;
+    return (
+      <SafeAreaView>
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    );
   }
 
   const memberType = user.memberType;

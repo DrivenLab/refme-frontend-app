@@ -16,10 +16,16 @@ import WorkoutTypeBadge from "@/components/workouts/WorkoutTypeBadge";
 import { useGetSessionById } from "@/queries/session.query";
 import { Href, useLocalSearchParams } from "expo-router";
 import { Link } from "expo-router";
+import { useAuth } from "@/context/auth";
 
 const WorkoutDetail = () => {
-  const { id: idSession } = useLocalSearchParams();
-  const { session } = useGetSessionById({ idSession: idSession as string });
+  const { id: idWorkout } = useLocalSearchParams();
+  const { userRole } = useAuth();
+
+  const { workout } = useGetSessionById({ idWorkout: idWorkout as string });
+
+  const workoutData = userRole === "member" ? workout?.workout : workout;
+
   return (
     <SafeAreaView bg="white" flex={1} px="$3" py={"$2"}>
       <ScrollView>
@@ -41,7 +47,7 @@ const WorkoutDetail = () => {
             <Text fontSize={20} fontWeight="bold" color="black">
               {i18n.t("message")}
             </Text>
-            <Text color="black">{session?.workout?.description}</Text>
+            <Text color="black">{workoutData?.description}</Text>
           </VStack>
           <Divider />
           <VStack space="sm">
@@ -53,7 +59,7 @@ const WorkoutDetail = () => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <WorkoutTypeBadge type={i18n.t(session?.workout?.type || "s")} />
+              <WorkoutTypeBadge type={i18n.t(workoutData?.type || "s")} />
               <Button variant="link">
                 <ButtonText fontWeight="medium">Ver tutorial</ButtonText>
               </Button>
@@ -74,20 +80,20 @@ const WorkoutDetail = () => {
             </Text>
             <WorkoutConfigItem
               configName="Repeticiones"
-              quantity={session?.workout?.numberOfRepetitions}
+              quantity={workoutData?.numberOfRepetitions}
             />
             <WorkoutConfigItem
               configName="Desiciones"
-              quantity={session?.workout?.numberOfRepetitions}
+              quantity={workoutData?.numberOfRepetitions}
             />
             <WorkoutConfigItem
               configName="Tiempo de ejercicio"
-              quantity={session?.workout?.numberOfRepetitions}
+              quantity={workoutData?.numberOfRepetitions}
               inSeconds={true}
             />
             <WorkoutConfigItem
               configName="Tiempo de pausa"
-              quantity={session?.workout?.numberOfRepetitions}
+              quantity={workoutData?.numberOfRepetitions}
               inSeconds={true}
             />
           </VStack>

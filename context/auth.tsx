@@ -32,6 +32,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
     return user?.isVerified ?? false;
   }, [user]);
 
+  const userRole = useMemo(() => {
+    return user?.role ?? false;
+  }, [user]);
+
   //Cargamos el token del localstorage
   useEffect(() => {
     loadToken();
@@ -58,7 +62,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     } else if (token && isUserVerified) {
       router.replace("/home");
     } else if (token && !isUserVerified && pathname !== "/verify-account") {
-      router.replace("/(verification)/verify-account");
+      router.replace("/home");
     }
   }, [token, rootSegment, isUserVerified]);
 
@@ -68,7 +72,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   //Obtener los datos del usuario.
   async function loadUserProfile() {
     try {
-      const { data } = await api.get<User>("users/profile");
+      const { data } = await api.get<User>("users/profile/");
 
       //console.log("loading user profile", data);
       setUser(data);
@@ -79,7 +83,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   async function loadProfile() {
     try {
-      const { data } = await api.get<Profile>("profiles");
+      const { data } = await api.get<Profile>("profiles/");
 
       setProfile(data);
     } catch (error) {}
@@ -114,6 +118,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         user,
         loadUserProfile,
         currentOrganization,
+        userRole,
         profile: profile,
         token: token,
         setToken: handleSetToken,

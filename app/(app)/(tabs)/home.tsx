@@ -37,8 +37,7 @@ const SECTION_ITEMS_OPTIONS = [
   },
 ];
 export default function TabOneScreen() {
-  const { signOut, user } = useAuth();
-  const userRole = user?.role;
+  const { signOut, user, userRole } = useAuth();
   return (
     <ScrollView style={styles.container} px={"$3"}>
       <VStack space="md" flex={1} paddingBottom={10}>

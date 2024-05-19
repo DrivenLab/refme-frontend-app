@@ -82,8 +82,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   backgroundImage: {
-    height: 150,
+    height: 90,
     width: "100%",
     flex: 1,
+    borderRadius: 20,
+    overflow: "hidden",
   },
 });

@@ -75,12 +75,13 @@ export default function LoginScreen() {
             onChangeText={(value) => handleOnChange("email", value)}
             value={loginData.email}
           />
-          <CPasswordInput
+          <CTextInput
             placeholder="Ingrese su contraseña"
             label="Contraseña"
             name="password"
-            onChange={handleOnChange}
+            onChangeText={(value) => handleOnChange("password", value)}
             value={loginData.password}
+            secureTextEntry
           />
           <CBtn
             title="Ingresar"

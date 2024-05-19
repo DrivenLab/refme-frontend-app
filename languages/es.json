@@ -37,5 +37,20 @@
   "upload_profile_picture":"Subir foto",
   "change_profile_picture":"Cambiar foto",
   "not_now":"Ahora no quiero",
-  "finish":"Finalizar"
+  "finish":"Finalizar",
+  "member_type":"Tipo",
+  "type":"Habilidad Cognitiva",
+  "referee":"Árbitro principal",
+  "assistant_referee":"Árbitro asistente",
+  "decision_making":"Toma de decisión",
+  "memory":"Memoria",
+  "recognition":"Reconocimiento",
+  "dm+memory":"Toma de decisión + Memoria",
+  "random":"Aleatorio",
+  "prepare":"Preparar",
+  "configuration":"Configuración",
+  "repetitions":"Repeticiones",
+  "decisions":"Decisiones",
+  "exercise_time":"Tiempo de ejercicio",
+  "pause_time":"Tiempo de pausa"
 }

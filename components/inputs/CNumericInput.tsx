@@ -10,8 +10,9 @@ import {
   FlatList,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import i18n from "@/languages/i18n";
 
-interface CTextInputProps {
+interface CNumericInputProps {
   label: string;
   value: string;
   placeholder: string;
@@ -24,7 +25,7 @@ interface CTextInputProps {
   isDisabled?: boolean;
 }
 
-const CTextInput = ({
+const CNumericInput = ({
   placeholder,
   onChangeText,
   error,
@@ -34,8 +35,7 @@ const CTextInput = ({
   options = [],
   isDisabled,
   ...props
-}: CTextInputProps) => {
-  const [isFocused, setIsFocused] = useState(false);
+}: CNumericInputProps) => {
   const [text, setText] = useState(value);
   const [showDropdown, setShowDropdown] = useState(false);
   const labelPosition = useRef(new Animated.Value(text ? 1 : 0)).current;
@@ -60,11 +60,6 @@ const CTextInput = ({
     setText(text);
     if (onChangeText) {
       onChangeText(text);
-    }
-    if (text) {
-      animatedLabel(1);
-    } else {
-      animatedLabel(isFocused ? 1 : 0);
     }
   };
 
@@ -98,72 +93,47 @@ const CTextInput = ({
   };
 
   return (
-    <View style={[containerStyle]}>
-      <View style={[styles.innerContainer, error && { borderColor: "red" }]}>
-        <Animated.Text style={[styles.label, labelStyle]}>
-          {placeholder}
-        </Animated.Text>
-        <View style={styles.inputContainer}>
-          {options.length > 0 ? (
-            <TouchableOpacity
-              style={styles.touchableContainer}
-              onPress={handleFocus}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.input2}>{text}</Text>
-              <Ionicons name="chevron-down" size={24} color="gray" />
-            </TouchableOpacity>
-          ) : (
-            <TextInput
-              style={styles.input}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              onChangeText={handleTextChange}
-              value={text}
-              textAlignVertical="center"
-              textContentType={secureTextEntry ? "newPassword" : "none"}
-              secureTextEntry={secureTextEntry}
-              editable={!isDisabled}
-            />
-          )}
-        </View>
+    <View
+      style={[
+        styles.innerContainer,
+        { marginTop: 25 },
+        error && { borderColor: "red" },
+      ]}
+    >
+      <Text fontSize={24} color="black">
+        {placeholder}
+      </Text>
+      <View style={styles.valueContainer}>
+        <Ionicons
+          name="remove-circle-outline"
+          size={24}
+          color="gray"
+          onPress={() => handleTextChange(parseInt(value) - 1)} // Reducir el valor en 1
+        />
+        <Text style={{ marginRight: 20, marginLeft: 20 }}>{value}</Text>
+        <Ionicons
+          name="add-circle-outline"
+          size={24}
+          color="gray"
+          onPress={() => handleTextChange(parseInt(value) + 1)} // Incrementar el valor en 1
+        />
       </View>
-      {error && <Text style={styles.errorText}>{error}</Text>}
-      {showDropdown && (
-        <Modal transparent={true} animationType="fade">
-          <TouchableOpacity
-            style={styles.modalOverlay}
-            onPress={() => setShowDropdown(false)}
-          >
-            <View style={styles.dropdown}>
-              <FlatList
-                data={options}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    style={styles.dropdownItem}
-                    onPress={() => handleOptionSelect(item)}
-                  >
-                    <Text>{item}</Text>
-                  </TouchableOpacity>
-                )}
-                keyExtractor={(item, index) => index.toString()}
-              />
-            </View>
-          </TouchableOpacity>
-        </Modal>
-      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   innerContainer: {
-    borderWidth: 1,
-    borderColor: "#eee",
-    borderRadius: 5,
-    height: 60,
-    backgroundColor: "#090B2205",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    alignItems: "center",
+
+    flexDirection: "row",
+  },
+  valueContainer: {
+    justifyContent: "space-between",
+    alignItems: "center",
+
+    flexDirection: "row",
   },
   label: {
     position: "absolute",
@@ -219,4 +189,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CTextInput;
+export default CNumericInput;

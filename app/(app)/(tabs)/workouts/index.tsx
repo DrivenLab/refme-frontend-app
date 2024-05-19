@@ -10,6 +10,7 @@ import {
   FlatList,
 } from "@gluestack-ui/themed";
 import { ListRenderItemInfo } from "react-native";
+import { Link } from "expo-router";
 
 import CTab from "@/components/CTab";
 import i18n from "@/languages/i18n";
@@ -43,18 +44,33 @@ const Workouts = () => {
         bg="$white"
       >
         <Box flexDirection="row" justifyContent="center" bg="$red">
-          <Button
-            width={60}
-            rounded="$full"
-            height={60}
-            bg="$primary"
-            borderColor="indigo600"
-            position="absolute"
-            top={-30}
-          >
-            {/* EditIcon is imported from 'lucide-react-native' */}
-            <ButtonIcon color="white" as={AddIcon} />
-          </Button>
+          {userRole !== "member" ? (
+            <Link href={"/workouts/createWorkout/" as Href<string>} asChild>
+              <Button
+                width={60}
+                rounded="$full"
+                height={60}
+                bg="$primary"
+                borderColor="indigo600"
+                position="absolute"
+                top={-30}
+              >
+                <ButtonIcon color="white" as={AddIcon} />
+              </Button>
+            </Link>
+          ) : (
+            <Button
+              width={60}
+              rounded="$full"
+              height={60}
+              bg="$primary"
+              borderColor="indigo600"
+              position="absolute"
+              top={-30}
+            >
+              <ButtonIcon color="white" as={AddIcon} />
+            </Button>
+          )}
         </Box>
         {userRole === "member" ? (
           <>

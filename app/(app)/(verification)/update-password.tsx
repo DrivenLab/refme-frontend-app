@@ -77,15 +77,21 @@ export default function UpdatePasswordScreen() {
             {i18n.t("update_password")}
           </Text>
 
-          <CPasswordInput
-            label={i18n.t("new_password_label")}
+          <CTextInput
+            placeholder={i18n.t("confirm_new_password_label")}
+            label={i18n.t("confirm_new_password_label")}
             name="new_password"
-            onChange={handleOnChange}
+            onChangeText={(value) => handleOnChange("new_password", value)}
+            value={newPassword.new_password}
+            secureTextEntry
           />
-          <CPasswordInput
+          <CTextInput
+            placeholder={i18n.t("confirm_new_password_label")}
             label={i18n.t("confirm_new_password_label")}
             name="repeat_password"
-            onChange={handleOnChange}
+            onChangeText={(value) => handleOnChange("repeat_password", value)}
+            value={newPassword.repeat_password}
+            secureTextEntry
           />
 
           <CBtn

@@ -36,7 +36,22 @@
   "upload_profile_picture":"Upload photo",
   "change_profile_picture":"Change photo",
   "not_now":"Not now",
-  "finish":"Finish"
+  "finish":"Finish",
+  "member_type":"Type",
+  "type":"Cognitive ability",
+  "referee":"Referee",
+  "assistant_referee":"Assistant Referee",
+  "decision_making":"Decision Making",
+  "memory":"Memory",
+  "recognition":"Recognition",
+  "dm+memory":"Decision Making + Memory",
+  "random":"Random",
+  "prepare":"Prepare",
+  "configuration":"Configuration",
+  "repetitions":"Repetitions",
+  "decisions":"Decisions",
+  "exercise_time":"Exercise time",
+  "pause_time":"Pause time"
   
 
 }

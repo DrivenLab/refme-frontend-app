@@ -21,10 +21,10 @@ import DownloadProgressModal from "@/components/workouts/DownloadProgressModal";
 import { useAuth } from "@/context/auth";
 
 const WorkoutDetail = () => {
-  const { id: idSession } = useLocalSearchParams();
+  const { id: idWorkout } = useLocalSearchParams();
   const { userRole } = useAuth();
 
-  const { workout } = useGetSessionById({ idWorkout: idSession as string });
+  const { workout } = useGetSessionById({ idWorkout: idWorkout as string });
   const {
     downloadProgress,
     setIsDownloading,
@@ -32,7 +32,7 @@ const WorkoutDetail = () => {
     wasSessionDownlaoded,
     downloadSession,
     session,
-  } = useSession({ idSession: Number(idSession as string) });
+  } = useSession({ idSession: Number(idWorkout as string) });
   const router = useRouter();
   const handleOnPress = () => {
     if (wasSessionDownlaoded)
@@ -71,7 +71,7 @@ const WorkoutDetail = () => {
               <Text fontSize={20} fontWeight="bold" color="black">
                 {i18n.t("message")}
               </Text>
-              <Text color="black">{session?.workout?.description}</Text>
+              <Text color="black">{workoutData?.description}</Text>
             </VStack>
             <Divider />
             <VStack space="sm">
@@ -83,9 +83,7 @@ const WorkoutDetail = () => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <WorkoutTypeBadge
-                  type={i18n.t(session?.workout?.type || "s")}
-                />
+                <WorkoutTypeBadge type={i18n.t(workoutData?.type || "s")} />
                 <Button variant="link">
                   <ButtonText fontWeight="medium">Ver tutorial</ButtonText>
                 </Button>
@@ -106,20 +104,20 @@ const WorkoutDetail = () => {
               </Text>
               <WorkoutConfigItem
                 configName="Repeticiones"
-                quantity={session?.workout?.numberOfRepetitions}
+                quantity={workoutData?.numberOfRepetitions}
               />
               <WorkoutConfigItem
                 configName="Desiciones"
-                quantity={session?.workout?.numberOfRepetitions}
+                quantity={workoutData?.numberOfDecisions}
               />
               <WorkoutConfigItem
                 configName="Tiempo de ejercicio"
-                quantity={session?.workout?.numberOfRepetitions}
+                quantity={workoutData?.excerciseDuration}
                 inSeconds={true}
               />
               <WorkoutConfigItem
                 configName="Tiempo de pausa"
-                quantity={session?.workout?.numberOfRepetitions}
+                quantity={workoutData?.breakDuration}
                 inSeconds={true}
               />
             </VStack>

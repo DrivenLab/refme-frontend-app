@@ -67,7 +67,7 @@ const useGetSessions = () => {
   // Queries
   // Realizar la consulta usando react-query
   const { data, isLoading, isFetched, ...rest } = useQuery({
-    queryKey: ["sessions"], // Asegúrate de invalidar y actualizar según el rol y la organización
+    queryKey: ["sessions"],
     queryFn: getSessions,
   });
   return {

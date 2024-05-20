@@ -56,7 +56,7 @@ const CNumericInput = ({
         error ? { borderColor: "red" } : {},
       ]}
     >
-      <Text fontSize={24} color="black">
+      <Text fontSize={16} color="black">
         {placeholder}
       </Text>
       <View style={styles.valueContainer}>

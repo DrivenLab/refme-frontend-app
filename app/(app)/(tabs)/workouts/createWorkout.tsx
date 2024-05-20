@@ -3,19 +3,20 @@ import CTextInput from "@/components/inputs/CTextInput";
 import CNumericInput from "@/components/inputs/CNumericInput";
 import { useState } from "react";
 import api from "@/queries/api";
-
 import { Image } from "expo-image";
 import { SafeAreaView, StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
 import { Box, Text, VStack } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
 import { useRouter } from "expo-router";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 
 export default function CreateWorkoutScreen() {
   const [error, setError] = useState("");
   const { signOut, user, profile, currentOrganization } = useAuth();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const [type, setType] = useState("");
   const [memberType, setMemberType] = useState("");
@@ -47,8 +48,7 @@ export default function CreateWorkoutScreen() {
     [i18n.t("assistant_referee")]: "ra",
   };
 
-  const handleCreateWorkout = async () => {
-    setError("");
+  const createWorkout = async () => {
     let finalType = typeMapping[type];
     if (type === i18n.t("decision_making")) {
       finalType = memberType === i18n.t("referee") ? "dm" : "dmar";
@@ -56,7 +56,7 @@ export default function CreateWorkoutScreen() {
 
     const workoutData = {
       name: "Workout in APP " + new Date().toString(),
-      description: "Workout Description", // Update as per your logic
+      description: "Workout Description", // Actualiza según tu lógica
       memberType: memberTypeMapping[memberType],
       type: finalType,
       usageType: "official",
@@ -67,21 +67,35 @@ export default function CreateWorkoutScreen() {
       breakDuration: pauseTime,
       isDraft: false,
     };
-    if (!currentOrganization) {
-      //TODO: HANDLE Current org null
-      return;
-    }
-    try {
-      const { data } = await api.post(
-        `organizations/${currentOrganization.id}/workouts/`,
-        workoutData
-      );
 
-      router.replace(`/workouts/${data.id}/`);
-    } catch (err) {
-      const error = err as string;
-      setError(error || "Error, inténtelo más tarde.");
+    if (!currentOrganization) {
+      throw new Error("Current organization is null");
     }
+
+    const { data } = await api.post(
+      `organizations/${currentOrganization.id}/workouts/`,
+      workoutData
+    );
+
+    return data;
+  };
+
+  const mutation = useMutation({
+    mutationFn: createWorkout,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("sessions");
+      const idWorkout = data.id;
+      router.replace(`/workouts/${idWorkout}/`);
+    },
+    onError: (err) => {
+      const error = err as AxiosError;
+      setError(error.message || "Error, inténtelo más tarde.");
+    },
+  });
+
+  const handleCreateWorkout = () => {
+    setError("");
+    mutation.mutate();
   };
 
   return (
@@ -172,6 +186,7 @@ export default function CreateWorkoutScreen() {
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   login_referee_img: {
     height: 200,

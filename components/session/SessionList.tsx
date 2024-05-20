@@ -15,7 +15,6 @@ const SessionList = ({ state, sessions }: Props) => {
     if (state === "finished") return sessions.filter((s) => s.isCompleted);
     else return sessions.filter((s) => !s.isCompleted);
   }, [state, sessions]);
-  //console.log('session',ses)
   return (
     <>
       {sessionFiltered.length === 0 ? (

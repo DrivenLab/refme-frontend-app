@@ -9,7 +9,7 @@ import DownloadProgressModal from "./DownloadProgressModal";
 import useSession from "@/hooks/useSession";
 type Props = {
   workout: Workout;
-  idSession: number;
+  idSession?: number;
 };
 
 const WorkoutItem = ({ workout, idSession }: Props) => {
@@ -20,6 +20,7 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
     setIsDownloading,
     wasSessionDownlaoded,
   } = useSession({ idSession: idSession });
+  const idWorkout = workout.id;
 
   return (
     <>
@@ -28,7 +29,7 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
         onCancelDownload={() => setIsDownloading(false)}
         downloadProgress={downloadProgress}
       />
-      <Link href={`/workouts/${idSession}/` as Href<string>} asChild>
+      <Link href={`/workouts/${idWorkout}/` as Href<string>} asChild>
         <Pressable>
           <Box
             rounded={"$md"}

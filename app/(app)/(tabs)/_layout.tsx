@@ -7,6 +7,7 @@ import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/components/useColorScheme";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { Path, Svg } from "react-native-svg";
+import HomeIconTab from "@/components/HomeIconTab";
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -60,8 +61,8 @@ const StatsIcon = () => {
 const ProfileIcon = () => {
   return (
     <Svg
-      width={28}
-      height={28}
+      width={23}
+      height={22}
       viewBox="0 0 18 22"
       fill="none"
       // xmlns="http://www.w3.org/2000/svg"
@@ -86,12 +87,16 @@ export default function TabLayout() {
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
         //headerShown: false,
+        tabBarStyle: {
+          borderRadius: 20,
+        },
       }}
     >
       <Tabs.Screen
         name="statistics"
         options={{
           title: "Estadisticas",
+          //   tabBarShowLabel: true,
           tabBarIcon: ({ color }) => <StatsIcon />,
           headerRight: () => (
             <Link href="/modal" asChild>
@@ -113,13 +118,15 @@ export default function TabLayout() {
         name="home"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+          tabBarIcon: ({ color }) => <HomeIconTab />,
+          tabBarShowLabel: false,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Perfil",
+          //   tabBarShowLabel: true,
           tabBarIcon: ({ color }) => <ProfileIcon />,
         }}
       />

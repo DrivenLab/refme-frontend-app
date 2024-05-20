@@ -15,11 +15,13 @@ const useGetSessionDetailById = ({
 }) => {
   const { currentOrganization } = useAuth();
   //Get Data
+
   const getSession = () =>
     api.get<Session>(
       `organizations/${currentOrganization.id}/sessions/${idSession}/`
     );
   // Queries
+
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["sessions", idSession],
     queryFn: getSession,
@@ -33,24 +35,41 @@ const useGetSessionDetailById = ({
   };
 };
 /*Esta función obtiene los datos de una sessión, pero lo que está almacenado en el sessions query cache */
-const useGetSessionById = ({ idSession }: { idSession: string | number }) => {
+const useGetSessionById = ({ idWorkout }: { idWorkout: string | number }) => {
   const queryClient = useQueryClient();
+  const { currentOrganization, userRole } = useAuth();
+
   const data = queryClient.getQueryData<AxiosResponse<Session[]>>(["sessions"]);
-  const session = data?.data.find((s) => s.id == idSession);
-  return { session };
+
+  let workout;
+  if (userRole === "member") {
+    workout = data?.data.find((s) => s.workout.id == idWorkout);
+  } else {
+    workout = data?.data.find((s) => s.id == idWorkout);
+  }
+
+  return { workout };
 };
 const useGetSessions = () => {
-  const { currentOrganization } = useAuth();
+  const { currentOrganization, userRole } = useAuth();
   //Get Data
-  console.log("current org", currentOrganization);
-  const getSessions = () =>
-    api.get<Session[]>(`organizations/${currentOrganization.id}/sessions/`);
+  const getSessions = () => {
+    if (userRole === "member") {
+      return api.get<Session[]>(
+        `organizations/${currentOrganization.id}/sessions/`
+      );
+    } else {
+      return api.get<Workout[]>(
+        `organizations/${currentOrganization.id}/workouts/?usage_type=official`
+      );
+    }
+  };
   // Queries
+  // Realizar la consulta usando react-query
   const { data, isLoading, isFetched, ...rest } = useQuery({
-    queryKey: ["sessions"],
+    queryKey: ["sessions"], // Asegúrate de invalidar y actualizar según el rol y la organización
     queryFn: getSessions,
   });
-  console.log("rest", rest);
   return {
     sessions: data?.data || ([] as Session[]),
     isLoadingSession: isLoading,

@@ -32,6 +32,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
     return user?.isVerified ?? false;
   }, [user]);
 
+  const userRole = useMemo(() => {
+    return user?.role ?? false;
+  }, [user]);
+
   //Cargamos el token del localstorage
   useEffect(() => {
     loadToken();
@@ -39,7 +43,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   //Actualizamos los datos del usuario cada vez que el token cambia.
   useEffect(() => {
-    if (token?.length !== 0) {
+    if (token) {
       loadUserProfile();
       loadProfile();
     }
@@ -52,12 +56,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
      * Caso 2: Usuario esta logeado pero no esta verificado.
      * Caso 3: Usuario logeado y verificado
      */
+
     if (token == null && rootSegment !== "(auth)") {
       router.replace("/(auth)/login");
-    } else if (token && !isUserVerified && pathname !== "/verify-account") {
-      router.replace("/home");
     } else if (token && isUserVerified) {
       router.replace("/home");
+    } else if (token && !isUserVerified && pathname !== "/verify-account") {
+      router.replace("/(verification)/verify-account");
     }
   }, [token, rootSegment, isUserVerified]);
 
@@ -67,7 +72,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   //Obtener los datos del usuario.
   async function loadUserProfile() {
     try {
-      const { data } = await api.get<User>("users/profile");
+      const { data } = await api.get<User>("users/profile/");
 
       //console.log("loading user profile", data);
       setUser(data);
@@ -78,7 +83,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   async function loadProfile() {
     try {
-      const { data } = await api.get<Profile>("profiles");
+      const { data } = await api.get<Profile>("profiles/");
 
       setProfile(data);
     } catch (error) {}
@@ -86,6 +91,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   //Obtener token del localstorage.
   async function loadToken() {
     const token_ = await getData("token");
+
     setToken(token_);
     if (token_ === null) return;
     api.defaults.headers.common.Authorization = `Token ${token_}`;
@@ -93,7 +99,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   async function handleSignOut() {
     await removeData("token");
+
     clientQuery.clear();
+    setProfile(null);
+    setUser(null);
     clientQuery.removeQueries({ queryKey: ["sessions"] });
     setToken(null);
   }
@@ -109,6 +118,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         user,
         loadUserProfile,
         currentOrganization,
+        userRole,
         profile: profile,
         token: token,
         setToken: handleSetToken,

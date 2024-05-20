@@ -19,7 +19,9 @@ function CBtn({ title, ...props }: Props) {
       isDisabled={props.isDisabled}
       onPress={props.onPress}
       mt={props.mt}
+      bg={props.bg ? props.bg : "#58DAFC"}
       rounded="$full"
+      style={{ height: 50, borderWidth: 1, borderColor: "#0f0f0f" }} // Agregar la altura deseada aquí
     >
       {props.isLoading ? <ButtonSpinner /> : <ButtonText> {title} </ButtonText>}
     </Button>
@@ -28,7 +30,8 @@ function CBtn({ title, ...props }: Props) {
 const styles = StyleSheet.create({
   container: {
     borderColor: "#eee",
-    borderRadius: 4,
+    borderWidth: 1,
+    borderRadius: 30,
     backgroundColor: "#f2f3f4",
     paddingHorizontal: 16,
     paddingVertical: 12,

@@ -1,28 +1,20 @@
-import React, { useRef, useState } from "react";
-import {
-  Animated,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  TouchableOpacity,
-  Modal,
-  FlatList,
-} from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import i18n from "@/languages/i18n";
+import { Text } from "@gluestack-ui/themed";
 
 interface CNumericInputProps {
-  label: string;
-  value: string;
+  label?: string;
+  value: number;
   placeholder: string;
-  onChangeText: (text: string) => void;
+  onChangeText: (n: number) => void;
   error?: string;
   secureTextEntry?: boolean;
   containerStyle?: Record<string, unknown>;
   width?: string;
   options?: string[]; // Add options prop for dropdown items
   isDisabled?: boolean;
+  unity?: string;
 }
 
 const CNumericInput = ({
@@ -38,10 +30,8 @@ const CNumericInput = ({
   ...props
 }: CNumericInputProps) => {
   const [text, setText] = useState(value);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const labelPosition = useRef(new Animated.Value(text ? 1 : 0)).current;
 
-  const handleTextChange = (text: string) => {
+  const handleTextChange = (text: number) => {
     setText(text);
     if (onChangeText) {
       onChangeText(text);
@@ -49,13 +39,13 @@ const CNumericInput = ({
   };
 
   const incrementValue = () => {
-    const newValue = parseInt(value) + 1;
-    handleTextChange(newValue.toString());
+    const newValue = value + 1;
+    handleTextChange(newValue);
   };
 
   const decrementValue = () => {
-    const newValue = Math.max(0, parseInt(value) - 1); // Ensure the value never goes below 0
-    handleTextChange(newValue.toString());
+    const newValue = Math.max(0, value - 1); // Ensure the value never goes below 0
+    handleTextChange(newValue);
   };
 
   return (
@@ -63,7 +53,7 @@ const CNumericInput = ({
       style={[
         styles.innerContainer,
         { marginTop: 25 },
-        error && { borderColor: "red" },
+        error ? { borderColor: "red" } : {},
       ]}
     >
       <Text fontSize={24} color="black">

@@ -1,5 +1,5 @@
 import { Iteration, Session } from "@/types/session";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import * as FileSystem from "expo-file-system";
 import { useGetSessionDetailById } from "@/queries/session.query";
 import { useQueryClient } from "@tanstack/react-query";
@@ -9,7 +9,6 @@ type Props = {
   idSession: string | number;
 };
 const useSession = ({ idSession }: Props) => {
-  console.log("id session", idSession);
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const [enableQuery, setEnableQuery] = useState(false);

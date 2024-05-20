@@ -125,7 +125,7 @@ export default function AboutYouScreen() {
           </HStack>
 
           <CTextInput
-            placeholder="Vecimiento ficha medica"
+            placeholder="Vencimiento ficha medica"
             onChangeText={(value) => handleOnChange("medicalExpiration", value)}
             value={profileData.medicalExpiration}
           />

@@ -2,9 +2,9 @@ import { Iteration } from "@/types/session";
 import { View, Text } from "@gluestack-ui/themed";
 import React, { useState } from "react";
 import CVideo from "../CVideo";
-import SessionBeginning from "./SessionBeginning";
-import SessionGetReady from "./SessionGetReady";
-import SessionWorkout from "./SessionWorkout";
+import SessionCountDown from "./SessionCountdown";
+import SessionTrainingCountdown from "./SessionTrainingCountdown";
+
 type Props = {
   iteration: Iteration;
 };
@@ -17,9 +17,10 @@ type Steps =
   | "desicion"
   | "rpe";
 const SessionIteration = ({ iteration }: Props) => {
-  const [steps, setSteps] = useState<Steps>("getReadyForVideo");
+  const [steps, setSteps] = useState<Steps>("beginning");
   const handleFinishCountdown = (step: Steps) => {
     // Defer the state update until after the current rendering cycle
+    console.log("strep", step);
     setTimeout(() => {
       setSteps(step);
     }, 0);
@@ -28,42 +29,17 @@ const SessionIteration = ({ iteration }: Props) => {
     <View flex={1}>
       {steps === "beginning" ? (
         <>
-          <SessionBeginning
-            onFinishCountdown={() =>
-              handleFinishCountdown("getReadyForWorkout")
-            }
+          <SessionCountDown
+            onFinishCountdown={() => handleFinishCountdown("workout")}
+            initialCountdown={4}
+            imageName="man_running_ready_to_workout"
           />
         </>
-      ) : steps === "getReadyForWorkout" ? (
-        <>
-          <SessionGetReady
-            onFinishCountdown={() => handleFinishCountdown("workout")}
-          >
-            <Text fontSize={30} textAlign="center" color="black">
-              <Text fontWeight="bold" fontSize={30} color="black">
-                Prepárate{" "}
-              </Text>
-              para el{" "}
-              <Text fontWeight="bold" fontSize={30} color="black">
-                ejercicio físico
-              </Text>
-            </Text>
-          </SessionGetReady>
-        </>
       ) : steps === "workout" ? (
-        <SessionWorkout
-          onFinishCountdown={() => handleFinishCountdown("getReadyForVideo")}
+        <SessionTrainingCountdown
+          onFinishCountdown={() => handleFinishCountdown("video")}
+          initialCountdown={5}
         />
-      ) : steps === "getReadyForVideo" ? (
-        <>
-          <SessionGetReady
-            onFinishCountdown={() => handleFinishCountdown("getReadyForVideo")}
-          >
-            <Text fontSize={30} textAlign="center">
-              Mira el video y toma una desición
-            </Text>
-          </SessionGetReady>
-        </>
       ) : (
         <>
           <CVideo

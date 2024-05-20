@@ -30,3 +30,7 @@ export interface Answer {
   isActive: boolean;
   workoutIteration: number;
 }
+export type IMAGE_NAME =
+  | "man_running_ready_to_workout"
+  | "play_video"
+  | "man_running_with_color";

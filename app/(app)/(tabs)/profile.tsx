@@ -1,34 +1,64 @@
-import { StyleSheet } from "react-native";
-import EditScreenInfo from "@/components/EditScreenInfo";
-import { Text, View } from "@/components/Themed";
+import { SafeAreaView, StyleSheet } from "react-native";
+
+import { View } from "@/components/Themed";
 import { useAuth } from "@/context/auth";
-import { Button } from "@gluestack-ui/themed";
 import CBtn from "@/components/CBtn";
 import { useGetProfile } from "@/queries/users.query";
+import {
+  Avatar,
+  AvatarFallbackText,
+  AvatarImage,
+  Badge,
+  Box,
+  Text,
+  VStack,
+} from "@gluestack-ui/themed";
 
 export default function TabTwoScreen() {
   const { signOut, user } = useAuth();
-  const { profile, isLoadingProfile } = useGetProfile();
+  const initials = "JD" || `${user?.firstName[0]}${user?.lastName[0]}`;
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{user ? user.fullName : ""}</Text>
-      <CBtn title="Sign Out" onPress={signOut} />
-    </View>
+    <SafeAreaView>
+      <VStack justifyContent="space-evenly" height="$full">
+        <Box>
+          <Avatar size="2xl" marginHorizontal="auto" marginTop={10}>
+            <AvatarFallbackText>{initials}</AvatarFallbackText>
+            <AvatarImage
+              source={{
+                uri: user?.profilePicture,
+              }}
+              alt="User Profile picture"
+            />
+          </Avatar>
+          <Box>
+            <Text
+              marginTop={10}
+              fontWeight="$semibold"
+              fontSize={20}
+              marginHorizontal="auto"
+              color="secondary"
+            >
+              {user ? user.fullName : ""}
+            </Text>
+            <Badge
+              backgroundColor="$secondary"
+              rounded="$full"
+              width={100}
+              marginHorizontal="auto"
+              paddingVertical={5}
+            >
+              <Text textAlign="center" color="white" marginHorizontal="auto">
+                {/* {user?.role || ""} */}
+                Referee
+              </Text>
+            </Badge>
+          </Box>
+        </Box>
+        <Box marginHorizontal={20}>
+          <CBtn title="Sign Out" onPress={signOut} />
+        </Box>
+      </VStack>
+    </SafeAreaView>
   );
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
+const styles = StyleSheet.create({});

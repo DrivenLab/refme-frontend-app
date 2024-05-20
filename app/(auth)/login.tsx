@@ -33,8 +33,7 @@ export default function LoginScreen() {
         `${baseURL}users/member_login/`,
         loginData
       );
-
-      await setToken(data.token);
+      setToken(data.token);
     } catch (error: any) {
       if (error?.response?.status === 400)
         setError("Usuario o Contraseña incorrectos.");

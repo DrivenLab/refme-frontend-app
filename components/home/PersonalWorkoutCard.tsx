@@ -53,5 +53,6 @@ const styles = StyleSheet.create({
     width: "100%",
     flex: 1,
     borderRadius: 10,
+    overflow: "hidden",
   },
 });

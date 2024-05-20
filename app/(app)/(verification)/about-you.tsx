@@ -56,9 +56,12 @@ export default function AboutYouScreen() {
         `profiles/${profile[0]?.id}/`,
         profileData
       );
-      router.push("/last-step");
     } catch (error: any) {
-      setError(error);
+      if (error?.response?.status === 400)
+        setError("Usuario o Contraseña incorrectos.");
+      else setError(i18n.t("generic_error"));
+    } finally {
+      router.push("/last-step");
     }
   };
 

@@ -1,26 +1,17 @@
 import { useAuth } from "@/context/auth";
 import CTextInput from "@/components/inputs/CTextInput";
 import CNumericInput from "@/components/inputs/CNumericInput";
-import { useMemo, useState } from "react";
-import { Profile } from "@/types/user";
-import CPasswordInput from "@/components/inputs/CPasswordInput";
+import { useState } from "react";
 import api from "@/queries/api";
-import axios from "axios";
+
 import { Image } from "expo-image";
 import { SafeAreaView, StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
-import {
-  Box,
-  Text,
-  VStack,
-  HStack,
-  Input,
-  InputField,
-  ScrollView,
-} from "@gluestack-ui/themed";
+import { Box, Text, VStack } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
-import { Input as InputType } from "@/types/inputs";
-import { useRouter, useSegments, usePathname } from "expo-router";
+import { useRouter } from "expo-router";
+import { AxiosError } from "axios";
+
 export default function CreateWorkoutScreen() {
   const [error, setError] = useState("");
   const { signOut, user, profile, currentOrganization } = useAuth();
@@ -76,6 +67,10 @@ export default function CreateWorkoutScreen() {
       breakDuration: pauseTime,
       isDraft: false,
     };
+    if (!currentOrganization) {
+      //TODO: HANDLE Current org null
+      return;
+    }
     try {
       const { data } = await api.post(
         `organizations/${currentOrganization.id}/workouts/`,
@@ -83,13 +78,14 @@ export default function CreateWorkoutScreen() {
       );
 
       router.replace(`/workouts/${data.id}/`);
-    } catch (error) {
+    } catch (err) {
+      const error = err as string;
       setError(error || "Error, inténtelo más tarde.");
     }
   };
 
   return (
-    <SafeAreaView bg="$white" flex={1}>
+    <SafeAreaView>
       <Image
         source={require("@/assets/images/workout_list.png")}
         style={{ height: 100, width: "100%" }}
@@ -114,7 +110,7 @@ export default function CreateWorkoutScreen() {
             options={member_type_options}
             error=""
             secureTextEntry={false}
-            containerStyle={(styles.inputContainer, { marginTop: 20 })}
+            containerStyle={{ marginTop: 20 }}
             width="100%"
           />
           <CTextInput
@@ -124,7 +120,7 @@ export default function CreateWorkoutScreen() {
             options={type_options}
             error=""
             secureTextEntry={false}
-            containerStyle={styles.inputContainer}
+            // containerStyle={}
             width="100%"
           />
           <Text fontWeight="bold" fontSize={24} color="black" mt={15}>
@@ -136,7 +132,7 @@ export default function CreateWorkoutScreen() {
             placeholder={i18n.t("repetitions")}
             onChangeText={setRepetitions}
             error=""
-            containerStyle={(styles.inputContainer, { marginTop: 20 })}
+            containerStyle={{ marginTop: 20 }}
             width="100%"
           />
           <CNumericInput
@@ -144,7 +140,7 @@ export default function CreateWorkoutScreen() {
             placeholder={i18n.t("decisions")}
             onChangeText={setDecisions}
             error=""
-            containerStyle={styles.inputContainer}
+            // containerStyle={}
             width="100%"
           />
           <CNumericInput
@@ -153,7 +149,7 @@ export default function CreateWorkoutScreen() {
             onChangeText={setExerciseTime}
             unity="s"
             error=""
-            containerStyle={(styles.inputContainer, { marginTop: 20 })}
+            containerStyle={{ marginTop: 20 }}
             width="100%"
           />
           <CNumericInput
@@ -162,7 +158,7 @@ export default function CreateWorkoutScreen() {
             unity="s"
             onChangeText={setPauseTime}
             error=""
-            containerStyle={styles.inputContainer}
+            // containerStyle={}
             width="100%"
           />
           <CBtn

@@ -5,7 +5,7 @@ export type LoginData = {
   password: string;
 };
 
-export type NewPasswordData = {
+export type NewPasswordType = {
   new_password: string;
   repeat_password: string;
 };

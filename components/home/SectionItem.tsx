@@ -51,7 +51,7 @@ const SectionItem = (props: Props) => {
               <Text fontWeight="bold" fontSize={20} style={{ color: "white" }}>
                 {props.title}
               </Text>
-              <Text fontSize={16} style={{ color: "white" }}>
+              <Text fontSize={16} style={{ color: "white" }} marginTop={5}>
                 {props.hasNewItems ? (
                   <Badge
                     size="md"
@@ -82,8 +82,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   backgroundImage: {
-    height: 150,
+    height: 90,
     width: "100%",
     flex: 1,
+    borderRadius: 20,
+    overflow: "hidden",
   },
 });

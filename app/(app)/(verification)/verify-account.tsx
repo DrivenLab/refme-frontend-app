@@ -39,6 +39,13 @@ export default function VerifyAccountScreen() {
   const handleLogin = async () => {
     router.push("/update-password");
   };
+  if (!user) {
+    return (
+      <SafeAreaView>
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

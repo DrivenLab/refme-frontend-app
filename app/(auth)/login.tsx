@@ -37,7 +37,7 @@ export default function LoginScreen() {
       await setToken(data.token);
     } catch (error: any) {
       if (error?.response?.status === 400)
-        setError("Usuario o Contraseña inconrrecta.");
+        setError("Usuario o Contraseña incorrectos.");
       else setError("Error, inténtelo más tarde.");
     } finally {
       setIsLogging(false);

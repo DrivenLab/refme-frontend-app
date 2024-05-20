@@ -94,7 +94,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
     setToken(token_);
     if (token_ === null) return;
-    api.defaults.headers.common.Authorization = `Token ${token_}`;
+    api.defaults.headers.common["Authorization"] = `Token ${token_}`;
   }
 
   async function handleSignOut() {
@@ -108,7 +108,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }
   async function handleSetToken(token_: string) {
     await storeData({ name: "token", value: token_ });
-    api.defaults.headers.common.Authorization = `Token ${token_}`;
+    api.defaults.headers.common["Authorization"] = `Token ${token_}`;
 
     setToken(token_);
   }

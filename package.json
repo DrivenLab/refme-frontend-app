@@ -31,6 +31,7 @@
     "expo": "51",
     "expo-asset": "~10.0.6",
     "expo-av": "~14.0.4",
+    "expo-camera": "~15.0.9",
     "expo-dev-client": "~3.3.11",
     "expo-file-system": "~16.0.9",
     "expo-font": "~11.10.3",

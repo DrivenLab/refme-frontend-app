@@ -12,7 +12,6 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface CTextInputProps {
-  label: string;
   value: string;
   placeholder: string;
   onChangeText: (text: string) => void;
@@ -99,7 +98,9 @@ const CTextInput = ({
 
   return (
     <View style={[containerStyle]}>
-      <View style={[styles.innerContainer, error && { borderColor: "red" }]}>
+      <View
+        style={[styles.innerContainer, error ? { borderColor: "red" } : {}]}
+      >
         <Animated.Text style={[styles.label, labelStyle]}>
           {placeholder}
         </Animated.Text>

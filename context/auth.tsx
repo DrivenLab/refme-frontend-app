@@ -22,6 +22,7 @@ type AuthContextType = {
   token: string | null;
   setToken: (token: string) => void;
   signOut: () => void;
+  userRole: string | boolean;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -73,7 +74,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     } else if (token && isUserVerified) {
       router.replace("/home");
     } else if (token && !isUserVerified && pathname !== "/verify-account") {
-      router.replace("/(verification)/verify-account");
+      router.replace("/(app)/(verification)/verify-account");
     }
   }, [token, rootSegment, isUserVerified]);
 

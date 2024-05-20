@@ -25,7 +25,7 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
     <>
       <DownloadProgressModal
         isModalOpen={isDownloading}
-        setIsModalOpen={(value) => setIsDownloading(value)}
+        onCancelDownload={() => setIsDownloading(false)}
         downloadProgress={downloadProgress}
       />
       <Link href={`/workouts/${idSession}/` as Href<string>} asChild>

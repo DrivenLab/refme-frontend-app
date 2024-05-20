@@ -9,6 +9,7 @@ type Props = {
   idSession: string | number;
 };
 const useSession = ({ idSession }: Props) => {
+  console.log("id session", idSession);
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const [enableQuery, setEnableQuery] = useState(false);

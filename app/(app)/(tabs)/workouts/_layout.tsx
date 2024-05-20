@@ -3,7 +3,13 @@ import React from "react";
 import { Stack } from "expo-router";
 
 const _layout = () => {
-  return <Stack />;
+  return (
+    <Stack>
+      <Stack.Screen name="index" />
+      <Stack.Screen name="[id]" />
+      <Stack.Screen name="startWorkout" options={{ headerShown: false }} />
+    </Stack>
+  );
 };
 
 export default _layout;

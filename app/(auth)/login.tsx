@@ -46,7 +46,7 @@ export default function LoginScreen() {
     <SafeAreaView>
       <VStack space="md">
         <Image
-          source={require("@/assets/images/login_referee.png")}
+          source={require("@/assets/images/login_bg.jpeg")}
           style={styles.login_referee_img}
           contentFit="cover"
         />

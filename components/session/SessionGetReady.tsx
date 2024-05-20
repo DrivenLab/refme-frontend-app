@@ -1,5 +1,6 @@
-import { View, Text, Box } from "@gluestack-ui/themed";
+import { View, Box } from "@gluestack-ui/themed";
 import React, { useEffect, useState } from "react";
+import { Image } from "expo-image";
 
 type Props = {
   onFinishCountdown: () => void;
@@ -9,7 +10,6 @@ const SessionGetReady = ({ onFinishCountdown, children }: Props) => {
   const [count, setCount] = useState(1);
 
   useEffect(() => {
-    console.log("heree");
     const interval = setInterval(() => {
       setCount((prevCount) => {
         if (prevCount <= 0) {
@@ -30,10 +30,17 @@ const SessionGetReady = ({ onFinishCountdown, children }: Props) => {
       justifyContent="space-evenly"
       flexDirection="row"
       alignItems="center"
-      bg="white"
+      bg="$primary"
     >
-      <Box flex={1} bg="$primary0" height={"100%"} justifyContent="center">
+      <Box flex={2} height={"100%"} justifyContent="center">
         {children}
+      </Box>
+      <Box flex={1}>
+        <Image
+          source={require("@/assets/images/man_running_ready_to_workout.png")}
+          style={{ height: 150, width: "100%" }}
+          contentFit="contain"
+        />
       </Box>
     </View>
   );

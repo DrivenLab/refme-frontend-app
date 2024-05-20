@@ -13,7 +13,18 @@ import api from "@/queries/api";
 import { Organization } from "@/types/organization";
 import { useQueryClient } from "@tanstack/react-query";
 import { User, Profile } from "@/types/user";
-const AuthContext = createContext<any>(null);
+
+type AuthContextType = {
+  user: User | null;
+  loadUserProfile: () => void;
+  currentOrganization: Organization | null;
+  profile: Profile | null;
+  token: string | null;
+  setToken: (token: string) => void;
+  signOut: () => void;
+};
+
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 export function useAuth() {
   return useContext(AuthContext);
 }

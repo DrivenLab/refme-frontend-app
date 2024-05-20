@@ -29,25 +29,28 @@ export type User = {
   groups: any[];
   fullName: string;
 };
-
-export type Profile = {
+export type CreateProfile = {
+  birthdate: string;
+  gender: string;
+  passport: string;
+  nationality: string;
+  phoneNumber: string;
+  address: string;
+  weight: 0;
+  height: 0;
+  medicalExpiration: string;
+  medicalObservations: string;
+};
+export type Profile = CreateProfile & {
   id: number;
   genderName: string;
   age: number;
   createdAt: string;
   modifiedAt: string;
   isActive: boolean;
-  birthdate: string;
   fifaEntryYear: number;
   memberType: string;
-  gender: string;
-  passport: string;
-  phoneNumber: string;
-  address: string;
-  weight: number;
-  height: number;
   expirationMedicalRecord: string;
-  medicalObservations: string;
   countries: string;
   isVerified: boolean;
   userOrganization: number;

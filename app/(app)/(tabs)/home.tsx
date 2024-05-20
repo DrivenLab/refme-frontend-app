@@ -44,17 +44,27 @@ export default function TabOneScreen() {
       <VStack space="md" flex={1} paddingBottom={10}>
         {userRole === "member" ? (
           <>
-            <Text fontWeight="bold" fontSize={24} color="black">
+            <Text
+              fontWeight="$semibold"
+              fontSize={24}
+              color="black"
+              marginTop={5}
+            >
               {i18n.t("question1_home")}
             </Text>
             <PersonalWorkoutCard />
-            <Text fontWeight="bold" fontSize={24} color="black">
+            <Text fontWeight="$semibold" fontSize={24} color="black">
               {i18n.t("official_test_workout")}
             </Text>
             {SECTION_ITEMS_OPTIONS.slice(0, 2).map((s, i) => (
               <SectionItem {...s} key={i} />
             ))}
-            <Text fontWeight="bold" fontSize={24} color="black">
+            <Text
+              fontWeight="$semibold"
+              fontSize={24}
+              color="black"
+              marginVertical={5}
+            >
               E-learnig{" "}
             </Text>
             {SECTION_ITEMS_OPTIONS.slice(2).map((s, i) => (
@@ -63,7 +73,7 @@ export default function TabOneScreen() {
           </>
         ) : userRole === "instructor" ? (
           <>
-            <Text fontWeight="bold" fontSize={24} color="black">
+            <Text fontWeight="$semibold" fontSize={24} color="black">
               {i18n.t("official_test_workout")}
             </Text>
             {SECTION_ITEMS_OPTIONS.slice(0, 2).map((s, i) => (

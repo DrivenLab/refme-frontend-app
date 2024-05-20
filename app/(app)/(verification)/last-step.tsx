@@ -1,41 +1,28 @@
 import { useAuth } from "@/context/auth";
-import CTextInput from "@/components/inputs/CTextInput";
-import { useMemo, useState } from "react";
-import { Profile } from "@/types/user";
-import CPasswordInput from "@/components/inputs/CPasswordInput";
-import { baseURL } from "@/queries/api";
+
+import { useState } from "react";
 import api from "@/queries/api";
-import axios from "axios";
-import { Image } from "expo-image";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
 import {
   Box,
   Text,
   VStack,
-  HStack,
-  Input,
-  InputField,
-  ScrollView,
   Avatar,
-  AvatarBadge,
-  AvatarFallbackText,
   AvatarImage,
   View,
 } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
-import { Input as InputType } from "@/types/inputs";
-import { useRouter, useSegments, usePathname } from "expo-router";
+import { useRouter } from "expo-router";
 
 import * as ImagePicker from "expo-image-picker";
-import { Button } from "@gluestack-ui/themed";
 
 export default function LastStepScreen() {
   const [error, setError] = useState("");
-  const { signOut, user, profile } = useAuth();
+  const { user, profile, loadUserProfile } = useAuth();
   const router = useRouter();
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<string | null>(null);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -52,6 +39,10 @@ export default function LastStepScreen() {
   };
 
   const handleUpdateProfile = async () => {
+    if (!image) {
+      // TODO: Handle image null
+      return;
+    }
     try {
       const formData = new FormData();
       formData.append("profilePicture", {
@@ -64,9 +55,10 @@ export default function LastStepScreen() {
       });
     } catch (error: any) {
       if (error?.response?.status === 400)
-        setError("Usuario o Contraseña inconrrectos.");
+        setError("Usuario o Contraseña incorrectos.");
       else setError(i18n.t("generic_error"));
     } finally {
+      loadUserProfile();
       router.push("/home");
     }
   };
@@ -113,7 +105,7 @@ export default function LastStepScreen() {
               title={i18n.t("change_profile_picture")}
               onPress={pickImage}
               mt={24}
-              bg="#F0f0f0"
+              secondary
             />
           </>
         ) : (
@@ -128,7 +120,7 @@ export default function LastStepScreen() {
               title={i18n.t("not_now")}
               onPress={handleUpdateProfile}
               mt={24}
-              bg="#F0f0f0"
+              secondary
             />
           </>
         )}

@@ -17,7 +17,7 @@ type Steps =
   | "desicion"
   | "rpe";
 const SessionIteration = ({ iteration }: Props) => {
-  const [steps, setSteps] = useState<Steps>("beginning");
+  const [steps, setSteps] = useState<Steps>("getReadyForVideo");
   const handleFinishCountdown = (step: Steps) => {
     // Defer the state update until after the current rendering cycle
     setTimeout(() => {
@@ -39,12 +39,12 @@ const SessionIteration = ({ iteration }: Props) => {
           <SessionGetReady
             onFinishCountdown={() => handleFinishCountdown("workout")}
           >
-            <Text fontSize={30} textAlign="center">
-              <Text fontWeight="bold" fontSize={30}>
+            <Text fontSize={30} textAlign="center" color="black">
+              <Text fontWeight="bold" fontSize={30} color="black">
                 Prepárate{" "}
               </Text>
               para el{" "}
-              <Text fontWeight="bold" fontSize={30}>
+              <Text fontWeight="bold" fontSize={30} color="black">
                 ejercicio físico
               </Text>
             </Text>
@@ -57,7 +57,7 @@ const SessionIteration = ({ iteration }: Props) => {
       ) : steps === "getReadyForVideo" ? (
         <>
           <SessionGetReady
-            onFinishCountdown={() => handleFinishCountdown("video")}
+            onFinishCountdown={() => handleFinishCountdown("getReadyForVideo")}
           >
             <Text fontSize={30} textAlign="center">
               Mira el video y toma una desición

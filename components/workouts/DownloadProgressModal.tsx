@@ -7,15 +7,18 @@ import {
   Heading,
   ModalBody,
   Text,
+  ModalFooter,
+  Button,
+  ButtonText,
 } from "@gluestack-ui/themed";
 type Props = {
   isModalOpen: boolean;
-  setIsModalOpen: (value: boolean) => void;
+  onCancelDownload: () => void;
   downloadProgress: number;
 };
 const DownloadProgressModal = ({
   isModalOpen,
-  setIsModalOpen,
+  onCancelDownload,
   downloadProgress,
 }: Props) => {
   const ref = React.useRef(null);
@@ -23,11 +26,9 @@ const DownloadProgressModal = ({
   return (
     <Modal
       isOpen={isModalOpen}
-      onClose={() => {
-        setIsModalOpen(false);
-      }}
       finalFocusRef={ref}
       closeOnOverlayClick={false}
+      size="lg"
     >
       <ModalBackdrop />
       <ModalContent>
@@ -47,6 +48,20 @@ const DownloadProgressModal = ({
             Estamos descargando tu ejercicio. Por favor no cierres ni salgas de
             esta pantalla hasta que finalice.
           </Text>
+          <ModalFooter justifyContent="center">
+            <Button
+              variant="outline"
+              size="md"
+              action="secondary"
+              mr="$3"
+              onPress={() => {
+                onCancelDownload();
+              }}
+              rounded={"$full"}
+            >
+              <ButtonText>Cancelar</ButtonText>
+            </Button>
+          </ModalFooter>
         </ModalBody>
       </ModalContent>
     </Modal>

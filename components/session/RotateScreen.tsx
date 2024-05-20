@@ -1,6 +1,6 @@
 import React from "react";
-import { View, Text, VStack, Box } from "@gluestack-ui/themed";
-import CBtn from "../CBtn";
+import { Text, VStack, Box, Button, ButtonText } from "@gluestack-ui/themed";
+import { Image } from "expo-image";
 import { ORIENTATION } from "@/constants/Orientation";
 type Props = {
   orientation: string;
@@ -10,20 +10,30 @@ const RotateScreen = ({ orientation, onStartWorkout }: Props) => {
   return (
     <VStack
       height={"100%"}
-      bg="$primary0"
+      bg="$primary"
       justifyContent="center"
       alignItems="center"
       space="md"
     >
-      <Text fontWeight="bold" textAlign="center">
+      <Image
+        source={require("@/assets/images/rotate_phone.png")}
+        style={{ height: 100, width: 100 }}
+        contentFit="contain"
+      />
+      <Text fontWeight="bold" textAlign="center" color="black">
         Gire su pantalla para comenzar
       </Text>
       <Box maxWidth={"80%"}>
-        <CBtn
-          title="Iniciar entrenamiento"
-          isDisabled={ORIENTATION.PORTRAIT == orientation}
+        <Button
+          size="md"
+          mr="$3"
+          bg="$white"
           onPress={onStartWorkout}
-        />
+          isDisabled={ORIENTATION.PORTRAIT == orientation}
+          rounded={"$full"}
+        >
+          <ButtonText color="black">Iniciar entrenamiento</ButtonText>
+        </Button>
       </Box>
     </VStack>
   );

@@ -1,7 +1,7 @@
 import { useAuth } from "@/context/auth";
 import CTextInput from "@/components/inputs/CTextInput";
 import { useMemo, useState } from "react";
-import { NewPasswordData } from "@/types/user";
+import { NewPasswordType } from "@/types/user";
 import CPasswordInput from "@/components/inputs/CPasswordInput";
 import { baseURL } from "@/queries/api";
 import api from "@/queries/api";
@@ -20,16 +20,15 @@ import {
 import i18n from "@/languages/i18n";
 import { Input as InputType } from "@/types/inputs";
 import { useRouter, useSegments, usePathname } from "expo-router";
-import { router } from "../../../.expo/types/router";
 export default function UpdatePasswordScreen() {
   const [error, setError] = useState("");
   const { signOut, user, profile } = useAuth();
   const router = useRouter();
 
-  const [newPassword, setNewPassword] = useState<NewPasswordData>({
+  const [newPassword, setNewPassword] = useState<NewPasswordType>({
     new_password: "",
     repeat_password: "",
-  } as NewPassword);
+  } as NewPasswordType);
   const isBtnFormValid = useMemo(
     () =>
       Boolean(
@@ -40,7 +39,7 @@ export default function UpdatePasswordScreen() {
   const [isLogging, setIsLogging] = useState(false);
 
   function handleOnChange(name: string, value: string) {
-    setNewPassword((prev: NewPassword) => ({ ...prev, [name]: value }));
+    setNewPassword((prev) => ({ ...prev, [name]: value }));
   }
   const handleLogin = async () => {
     if (newPassword.new_password != newPassword.repeat_password) {
@@ -52,7 +51,7 @@ export default function UpdatePasswordScreen() {
       });
     } catch (error: any) {
       if (error?.response?.status === 400)
-        setError("Usuario o Contraseña inconrrectos.");
+        setError("Usuario o Contraseña incorrectos.");
       else setError(i18n.t("generic_error"));
     } finally {
       router.push("/about-you");
@@ -79,16 +78,12 @@ export default function UpdatePasswordScreen() {
 
           <CTextInput
             placeholder={i18n.t("confirm_new_password_label")}
-            label={i18n.t("confirm_new_password_label")}
-            name="new_password"
             onChangeText={(value) => handleOnChange("new_password", value)}
             value={newPassword.new_password}
             secureTextEntry
           />
           <CTextInput
             placeholder={i18n.t("confirm_new_password_label")}
-            label={i18n.t("confirm_new_password_label")}
-            name="repeat_password"
             onChangeText={(value) => handleOnChange("repeat_password", value)}
             value={newPassword.repeat_password}
             secureTextEntry

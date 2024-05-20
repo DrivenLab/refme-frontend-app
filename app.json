@@ -40,8 +40,19 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ],
-      "expo-asset",
-      "expo-font"
+      [
+        "expo-asset",
+        {
+          "assets": ["./assets/images/icons/clipboard-list-svgrepo-com.png"]
+        }
+      ],
+      "expo-font",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

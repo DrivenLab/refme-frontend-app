@@ -6,7 +6,10 @@ import { Pressable } from "react-native";
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/components/useColorScheme";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
-
+import { Path, Svg } from "react-native-svg";
+import HomeIconTab from "@/components/HomeIconTab";
+import ProfileTabBarIcon from "@/components/ProfileTabBarIcon";
+import StatsTabBarIcon from "@/components/StatsTabBarIcon";
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -27,13 +30,19 @@ export default function TabLayout() {
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
         //headerShown: false,
+        tabBarStyle: {
+          borderRadius: 20,
+        },
       }}
     >
       <Tabs.Screen
         name="statistics"
         options={{
           title: "Estadisticas",
-          //tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, focused }) => (
+            <StatsTabBarIcon color={color} isFocused={focused} />
+          ),
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -54,14 +63,18 @@ export default function TabLayout() {
         name="home"
         options={{
           title: "Home",
-          //tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) => <HomeIconTab />,
+          tabBarShowLabel: false,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Perfil",
-          //tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, focused }) => (
+            <ProfileTabBarIcon color={color} isFocused={focused} />
+          ),
         }}
       />
       {/**TABS HIDDEN */}

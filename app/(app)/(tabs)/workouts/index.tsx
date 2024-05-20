@@ -45,7 +45,7 @@ const Workouts = () => {
       >
         <Box flexDirection="row" justifyContent="center" bg="$red">
           {userRole !== "member" ? (
-            <Link href={"/workouts/createWorkout/" as Href<string>} asChild>
+            <Link href="/workouts/createWorkout" asChild>
               <Button
                 width={60}
                 rounded="$full"
@@ -72,7 +72,7 @@ const Workouts = () => {
             </Button>
           )}
         </Box>
-        {userRole === "member" ? (
+        {userRole == "member" ? (
           <>
             <CTab
               currentTab={tab}
@@ -94,17 +94,15 @@ const Workouts = () => {
               </Text>
             </Box>
             {sessions.length === 0 ? (
-              <EmptyWorkouts sessionsCount={0} state={"pending"} />
+              <Box height="$3/4">
+                <EmptyWorkouts sessionsCount={0} state={"pending"} />
+              </Box>
             ) : (
               <FlatList
                 data={sessions}
                 mb={200}
                 renderItem={({ item: session }: ListRenderItemInfo<any>) => (
-                  <WorkoutItem
-                    workout={session}
-                    idWorkout={session.id}
-                    idSession={session.id}
-                  />
+                  <WorkoutItem workout={session} idSession={session.id} />
                 )}
                 keyExtractor={(item: any) => item.id}
               />

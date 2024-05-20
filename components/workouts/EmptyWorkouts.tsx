@@ -19,10 +19,10 @@ const EmptyWorkouts = ({ sessionsCount, state }: Props) => {
       ? i18n.t("empty_completed_session")
       : i18n.t("empty_pending_session");
   return (
-    <VStack justifyContent="center" space="lg" flex={1}>
+    <VStack space="lg" marginVertical="auto">
       <Image
         source={source}
-        style={{ height: 130, width: "100%" }}
+        style={{ height: 130, width: 300, marginHorizontal: "auto" }}
         contentFit="contain"
       />
       <Text textAlign="center" fontWeight="bold">

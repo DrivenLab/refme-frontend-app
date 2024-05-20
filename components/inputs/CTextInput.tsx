@@ -12,8 +12,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface CTextInputProps {
-  label: string;
-  value: string;
+  value: string | number;
   placeholder: string;
   onChangeText: (text: string) => void;
   error?: string;
@@ -99,7 +98,9 @@ const CTextInput = ({
 
   return (
     <View style={[containerStyle]}>
-      <View style={[styles.innerContainer, error && { borderColor: "red" }]}>
+      <View
+        style={[styles.innerContainer, error ? { borderColor: "red" } : {}]}
+      >
         <Animated.Text style={[styles.label, labelStyle]}>
           {placeholder}
         </Animated.Text>
@@ -119,11 +120,12 @@ const CTextInput = ({
               onFocus={handleFocus}
               onBlur={handleBlur}
               onChangeText={handleTextChange}
-              value={text}
+              value={text === 0 ? "" : text + ""}
               textAlignVertical="center"
               textContentType={secureTextEntry ? "newPassword" : "none"}
               secureTextEntry={secureTextEntry}
               editable={!isDisabled}
+              keyboardType={typeof value === "number" ? "numeric" : "default"}
             />
           )}
         </View>

@@ -1,9 +1,6 @@
 import { useAuth } from "@/context/auth";
 import CTextInput from "@/components/inputs/CTextInput";
-import { useMemo, useState } from "react";
-import CPasswordInput from "@/components/inputs/CPasswordInput";
-import { baseURL } from "@/queries/api";
-import axios from "axios";
+import { useState } from "react";
 import { Image } from "expo-image";
 import { SafeAreaView, StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
@@ -12,18 +9,13 @@ import {
   Text,
   VStack,
   HStack,
-  Input,
-  InputField,
   Avatar,
-  AvatarBadge,
-  AvatarFallbackText,
   AvatarImage,
   View,
 } from "@gluestack-ui/themed";
 
 import i18n from "@/languages/i18n";
-import { Input as InputType } from "@/types/inputs";
-import { useRouter, useSegments, usePathname } from "expo-router";
+import { useRouter } from "expo-router";
 
 export default function VerifyAccountScreen() {
   const [error, setError] = useState("");
@@ -33,9 +25,6 @@ export default function VerifyAccountScreen() {
 
   const [isLogging, setIsLogging] = useState(false);
 
-  function handleOnChange(name: string, value: string) {
-    console.log("pass");
-  }
   const handleLogin = async () => {
     router.push("/update-password");
   };
@@ -106,9 +95,7 @@ export default function VerifyAccountScreen() {
             />
             <CTextInput
               placeholder="Apellido"
-              name="lastName"
               onChangeText={setName}
-              onChange={handleOnChange}
               containerStyle={{ width: "50%" }}
               value={user?.lastName || ""}
               isDisabled
@@ -119,18 +106,14 @@ export default function VerifyAccountScreen() {
             {/* Utiliza HStack para colocar los inputs lado a lado */}
             <CTextInput
               placeholder="Rol"
-              name="role"
               onChangeText={setName}
-              onChange={handleOnChange}
               value={profile && profile.length > 0 ? profile[0].memberType : ""}
               containerStyle={{ width: "50%" }}
               isDisabled
             />
             <CTextInput
               placeholder="Categoria"
-              name="category"
               onChangeText={setName}
-              onChange={handleOnChange}
               containerStyle={{ width: "50%" }}
               value={profile ? profile[0]?.category.toString() : ""}
               isDisabled
@@ -140,7 +123,6 @@ export default function VerifyAccountScreen() {
           <CTextInput
             placeholder="Email"
             onChangeText={setName}
-            onChange={handleOnChange}
             value={user?.email || ""}
             isDisabled
           />

@@ -1,43 +1,32 @@
 import { useAuth } from "@/context/auth";
 import CTextInput from "@/components/inputs/CTextInput";
 import { useMemo, useState } from "react";
-import { Profile } from "@/types/user";
-import CPasswordInput from "@/components/inputs/CPasswordInput";
-import { baseURL } from "@/queries/api";
+import { CreateProfile } from "@/types/user";
 import api from "@/queries/api";
-import axios from "axios";
-import { Image } from "expo-image";
-import { SafeAreaView, StyleSheet } from "react-native";
+
+import { StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
-import {
-  Box,
-  Text,
-  VStack,
-  HStack,
-  Input,
-  InputField,
-  ScrollView,
-} from "@gluestack-ui/themed";
+import { Box, Text, VStack, HStack, ScrollView } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
-import { Input as InputType } from "@/types/inputs";
-import { useRouter, useSegments, usePathname } from "expo-router";
+
+import { useRouter } from "expo-router";
 export default function AboutYouScreen() {
   const [error, setError] = useState("");
-  const { signOut, user, profile } = useAuth();
+  const { profile } = useAuth();
   const router = useRouter();
 
-  const [profileData, setProfileData] = useState<Profile>({
+  const [profileData, setProfileData] = useState<CreateProfile>({
     birthdate: "",
     gender: "",
     passport: "",
     nationality: "",
     phoneNumber: "",
     address: "",
-    weight: "",
-    height: "",
-    medical_expiration: "",
-    medical_observations: "",
-  } as Profile);
+    weight: 0,
+    height: 0,
+    medicalExpiration: "",
+    medicalObservations: "",
+  });
   const isBtnFormValid = useMemo(
     () => Boolean(profileData.birthdate.length && profileData.gender.length),
     [profileData]
@@ -45,11 +34,11 @@ export default function AboutYouScreen() {
   const [isLogging, setIsLogging] = useState(false);
 
   function handleOnChange(name: string, value: string) {
-    setProfileData((prev: Profile) => ({ ...prev, [name]: value }));
+    setProfileData((prev) => ({ ...prev, [name]: value }));
   }
   const handleUpdateProfile = async () => {
-    if (profileData.new_password != profileData.repeat_password) {
-      setError("Las contraseñas no coinciden.");
+    if (!profile) {
+      return;
     }
     try {
       const { data } = await api.patch(
@@ -86,7 +75,6 @@ export default function AboutYouScreen() {
             {/* Utiliza HStack para colocar los inputs lado a lado */}
             <CTextInput
               placeholder="Nacimiento"
-              name="birthdate"
               onChangeText={(value) => handleOnChange("birthdate", value)}
               containerStyle={{ width: "50%" }}
               value={profileData.birthdate}
@@ -100,26 +88,22 @@ export default function AboutYouScreen() {
           </HStack>
           <CTextInput
             placeholder="Pasaporte"
-            name="passport"
             onChangeText={(value) => handleOnChange("passport", value)}
             value={profileData.passport}
           />
           <CTextInput
             placeholder="Nacionalidad"
-            name="nationality"
             onChangeText={(value) => handleOnChange("nationality", value)}
             value={profileData.nationality}
           />
           <CTextInput
             placeholder="Celular"
-            name="phoneNumber"
             onChangeText={(value) => handleOnChange("phoneNumber", value)}
             value={profileData.phoneNumber}
           />
 
           <CTextInput
             placeholder="Direccion"
-            name="address"
             onChangeText={(value) => handleOnChange("address", value)}
             value={profileData.address}
           />
@@ -128,14 +112,12 @@ export default function AboutYouScreen() {
             {/* Utiliza HStack para colocar los inputs lado a lado */}
             <CTextInput
               placeholder="Peso"
-              name="weight"
               onChangeText={(value) => handleOnChange("weight", value)}
               value={profileData.weight}
               containerStyle={{ width: "50%" }}
             />
             <CTextInput
               placeholder="Altura"
-              name="height"
               onChangeText={(value) => handleOnChange("height", value)}
               value={profileData.height}
               containerStyle={{ width: "50%" }}
@@ -144,20 +126,16 @@ export default function AboutYouScreen() {
 
           <CTextInput
             placeholder="Vecimiento ficha medica"
-            name="medical_expiration"
-            onChangeText={(value) =>
-              handleOnChange("medical_expiration", value)
-            }
-            value={profileData.medical_expiration}
+            onChangeText={(value) => handleOnChange("medicalExpiration", value)}
+            value={profileData.medicalExpiration}
           />
 
           <CTextInput
             placeholder="Observaciones medicas"
-            name="medical_observations"
             onChangeText={(value) =>
-              handleOnChange("medical_observations", value)
+              handleOnChange("medicalObservations", value)
             }
-            value={profileData.medical_observations}
+            value={profileData.medicalObservations}
           />
 
           <CBtn

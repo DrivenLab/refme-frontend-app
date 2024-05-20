@@ -100,7 +100,11 @@ const Workouts = () => {
                 data={sessions}
                 mb={200}
                 renderItem={({ item: session }: ListRenderItemInfo<any>) => (
-                  <WorkoutItem workout={session} idSession={session.id} />
+                  <WorkoutItem
+                    workout={session}
+                    idWorkout={session.id}
+                    idSession={session.id}
+                  />
                 )}
                 keyExtractor={(item: any) => item.id}
               />

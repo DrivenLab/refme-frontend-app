@@ -84,16 +84,16 @@ const WorkoutDetail = () => {
             />
             <WorkoutConfigItem
               configName="Desiciones"
-              quantity={workoutData?.numberOfRepetitions}
+              quantity={workoutData?.numberOfDecisions}
             />
             <WorkoutConfigItem
               configName="Tiempo de ejercicio"
-              quantity={workoutData?.numberOfRepetitions}
+              quantity={workoutData?.excerciseDuration}
               inSeconds={true}
             />
             <WorkoutConfigItem
               configName="Tiempo de pausa"
-              quantity={workoutData?.numberOfRepetitions}
+              quantity={workoutData?.breakDuration}
               inSeconds={true}
             />
           </VStack>

@@ -28,6 +28,7 @@ interface CNumericInputProps {
 const CNumericInput = ({
   placeholder,
   onChangeText,
+  unity,
   error,
   value,
   secureTextEntry,
@@ -40,22 +41,6 @@ const CNumericInput = ({
   const [showDropdown, setShowDropdown] = useState(false);
   const labelPosition = useRef(new Animated.Value(text ? 1 : 0)).current;
 
-  const handleFocus = () => {
-    setIsFocused(true);
-    animatedLabel(1);
-    if (options.length > 0) {
-      setShowDropdown(true);
-    }
-  };
-
-  const handleBlur = () => {
-    setIsFocused(false);
-    if (!text) {
-      animatedLabel(0);
-    }
-    setTimeout(() => setShowDropdown(false), 200); // Delay to allow option selection
-  };
-
   const handleTextChange = (text: string) => {
     setText(text);
     if (onChangeText) {
@@ -63,33 +48,14 @@ const CNumericInput = ({
     }
   };
 
-  const animatedLabel = (toValue: number) => {
-    Animated.timing(labelPosition, {
-      toValue: toValue,
-      duration: 200,
-      useNativeDriver: false,
-    }).start();
+  const incrementValue = () => {
+    const newValue = parseInt(value) + 1;
+    handleTextChange(newValue.toString());
   };
 
-  const handleOptionSelect = (option: string) => {
-    handleTextChange(option);
-    setShowDropdown(false);
-  };
-
-  const labelStyle = {
-    left: 10,
-    top: labelPosition.interpolate({
-      inputRange: [0, 1],
-      outputRange: [17, 0],
-    }),
-    fontSize: labelPosition.interpolate({
-      inputRange: [0, 1],
-      outputRange: [16, 14],
-    }),
-    color: labelPosition.interpolate({
-      inputRange: [0, 1],
-      outputRange: ["gray", "#888"],
-    }),
+  const decrementValue = () => {
+    const newValue = Math.max(0, parseInt(value) - 1); // Ensure the value never goes below 0
+    handleTextChange(newValue.toString());
   };
 
   return (
@@ -108,14 +74,17 @@ const CNumericInput = ({
           name="remove-circle-outline"
           size={24}
           color="gray"
-          onPress={() => handleTextChange(parseInt(value) - 1)} // Reducir el valor en 1
+          onPress={decrementValue} // Reducir el valor en 1
         />
-        <Text style={{ marginRight: 20, marginLeft: 20 }}>{value}</Text>
+        <Text style={{ marginRight: 20, marginLeft: 20 }}>
+          {value}
+          {unity}
+        </Text>
         <Ionicons
           name="add-circle-outline"
           size={24}
           color="gray"
-          onPress={() => handleTextChange(parseInt(value) + 1)} // Incrementar el valor en 1
+          onPress={incrementValue} // Incrementar el valor en 1
         />
       </View>
     </View>
@@ -126,13 +95,11 @@ const styles = StyleSheet.create({
   innerContainer: {
     justifyContent: "space-between",
     alignItems: "center",
-
     flexDirection: "row",
   },
   valueContainer: {
     justifyContent: "space-between",
     alignItems: "center",
-
     flexDirection: "row",
   },
   label: {

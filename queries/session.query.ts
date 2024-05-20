@@ -15,6 +15,7 @@ const useGetSessionDetailById = ({
 }) => {
   const { currentOrganization } = useAuth();
   //Get Data
+
   const getSession = () =>
     api.get<Session>(
       `organizations/${currentOrganization.id}/sessions/${idSession}/`
@@ -59,7 +60,7 @@ const useGetSessions = () => {
       );
     } else {
       return api.get<Workout[]>(
-        `organizations/2/workouts/?usage_type=official`
+        `organizations/${currentOrganization.id}/workouts/?usage_type=official`
       );
     }
   };

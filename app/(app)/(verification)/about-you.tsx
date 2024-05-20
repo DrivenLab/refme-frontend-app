@@ -52,8 +52,6 @@ export default function AboutYouScreen() {
       setError("Las contraseñas no coinciden.");
     }
     try {
-      console.log("profileData", profile);
-
       const { data } = await api.patch(
         `profiles/${profile[0]?.id}/`,
         profileData

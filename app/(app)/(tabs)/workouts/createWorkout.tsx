@@ -4,7 +4,6 @@ import CNumericInput from "@/components/inputs/CNumericInput";
 import { useMemo, useState } from "react";
 import { Profile } from "@/types/user";
 import CPasswordInput from "@/components/inputs/CPasswordInput";
-import { baseURL } from "@/queries/api";
 import api from "@/queries/api";
 import axios from "axios";
 import { Image } from "expo-image";
@@ -24,7 +23,7 @@ import { Input as InputType } from "@/types/inputs";
 import { useRouter, useSegments, usePathname } from "expo-router";
 export default function CreateWorkoutScreen() {
   const [error, setError] = useState("");
-  const { signOut, user, profile } = useAuth();
+  const { signOut, user, profile, currentOrganization } = useAuth();
   const router = useRouter();
 
   const [type, setType] = useState("");
@@ -43,27 +42,58 @@ export default function CreateWorkoutScreen() {
     i18n.t("random"),
   ];
 
-  function handleOnChange(name: string, value: string) {
-    setProfileData((prev: Profile) => ({ ...prev, [name]: value }));
-  }
+  // Mapeo de valores de la interfaz a los valores reales
+  const typeMapping = {
+    [i18n.t("decision_making")]: "dm",
+    [i18n.t("memory")]: "memory",
+    [i18n.t("recognition")]: "recognition",
+    [i18n.t("dm+memory")]: "dm+memory",
+    [i18n.t("random")]: "random",
+  };
+
+  const memberTypeMapping = {
+    [i18n.t("referee")]: "re",
+    [i18n.t("assistant_referee")]: "ra",
+  };
+
   const handleCreateWorkout = async () => {
-    console.log(type, memberType);
-  };
-  const handleRepetitionsChange = (text: string) => {
-    setRepetitions(parseInt(text)); // Asegúrate de convertir el texto a un número entero
-  };
-  const handleDecisionsChange = (text: string) => {
-    setDecisions(parseInt(text)); // Asegúrate de convertir el texto a un número entero
-  };
-  const handleExerciseTimeChange = (text: string) => {
-    setExerciseTime(parseInt(text)); // Asegúrate de convertir el texto a un número entero
-  };
-  const handlePauseTimeChange = (text: string) => {
-    setPauseTime(parseInt(text)); // Asegúrate de convertir el texto a un número entero
+    setError("");
+    let finalType = typeMapping[type];
+    if (type === i18n.t("decision_making")) {
+      finalType = memberType === i18n.t("referee") ? "dm" : "dmar";
+    }
+
+    const workoutData = {
+      name: "Workout in APP " + new Date().toString(),
+      description: "Workout Description", // Update as per your logic
+      memberType: memberTypeMapping[memberType],
+      type: finalType,
+      usageType: "official",
+      material: "N/A",
+      numberOfRepetitions: repetitions,
+      numberOfDecisions: decisions,
+      excerciseDuration: exerciseTime,
+      breakDuration: pauseTime,
+      isDraft: false,
+    };
+    try {
+      const { data } = await api.post(
+        `organizations/${currentOrganization.id}/workouts/`,
+        workoutData
+      );
+
+      router.replace(`/workouts/${data.id}/`);
+    } catch (error) {
+      setError(error || "Error, inténtelo más tarde.");
+    }
   };
 
   return (
-    <ScrollView style={styles.container} px={"$3"}>
+    <SafeAreaView bg="$white" flex={1}>
+      <Image
+        source={require("@/assets/images/workout_list.png")}
+        style={{ height: 100, width: "100%" }}
+      />
       <VStack space="md">
         <VStack space="md" paddingHorizontal={24} mb={50}>
           {error && (
@@ -104,7 +134,7 @@ export default function CreateWorkoutScreen() {
           <CNumericInput
             value={repetitions}
             placeholder={i18n.t("repetitions")}
-            onChangeText={handleRepetitionsChange}
+            onChangeText={setRepetitions}
             error=""
             containerStyle={(styles.inputContainer, { marginTop: 20 })}
             width="100%"
@@ -120,7 +150,8 @@ export default function CreateWorkoutScreen() {
           <CNumericInput
             value={exerciseTime}
             placeholder={i18n.t("exercise_time")}
-            onChangeText={handleExerciseTimeChange}
+            onChangeText={setExerciseTime}
+            unity="s"
             error=""
             containerStyle={(styles.inputContainer, { marginTop: 20 })}
             width="100%"
@@ -128,7 +159,8 @@ export default function CreateWorkoutScreen() {
           <CNumericInput
             value={pauseTime}
             placeholder={i18n.t("pause_time")}
-            onChangeText={handlePauseTimeChange}
+            unity="s"
+            onChangeText={setPauseTime}
             error=""
             containerStyle={styles.inputContainer}
             width="100%"
@@ -141,7 +173,7 @@ export default function CreateWorkoutScreen() {
           />
         </VStack>
       </VStack>
-    </ScrollView>
+    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({

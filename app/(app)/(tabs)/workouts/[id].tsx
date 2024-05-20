@@ -23,7 +23,7 @@ import { useAuth } from "@/context/auth";
 const WorkoutDetail = () => {
   const { id: idSession } = useLocalSearchParams();
   const { userRole } = useAuth();
-  //console.log('id session',id)
+
   const { workout } = useGetSessionById({ idWorkout: idSession as string });
   const {
     downloadProgress,

@@ -105,7 +105,7 @@ export default function LastStepScreen() {
               title={i18n.t("change_profile_picture")}
               onPress={pickImage}
               mt={24}
-              bg="#F0f0f0"
+              secondary
             />
           </>
         ) : (
@@ -120,7 +120,7 @@ export default function LastStepScreen() {
               title={i18n.t("not_now")}
               onPress={handleUpdateProfile}
               mt={24}
-              bg="#F0f0f0"
+              secondary
             />
           </>
         )}

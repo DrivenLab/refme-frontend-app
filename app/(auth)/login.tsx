@@ -69,15 +69,11 @@ export default function LoginScreen() {
 
           <CTextInput
             placeholder="Ingrese su correo"
-            name="email"
-            label="Correo"
             onChangeText={(value) => handleOnChange("email", value)}
             value={loginData.email}
           />
           <CTextInput
             placeholder="Ingrese su contraseña"
-            label="Contraseña"
-            name="password"
             onChangeText={(value) => handleOnChange("password", value)}
             value={loginData.password}
             secureTextEntry

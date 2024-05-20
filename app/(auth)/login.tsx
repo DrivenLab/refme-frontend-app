@@ -33,8 +33,7 @@ export default function LoginScreen() {
         `${baseURL}users/member_login/`,
         loginData
       );
-
-      await setToken(data.token);
+      setToken(data.token);
     } catch (error: any) {
       if (error?.response?.status === 400)
         setError("Usuario o Contraseña incorrectos.");
@@ -70,15 +69,11 @@ export default function LoginScreen() {
 
           <CTextInput
             placeholder="Ingrese su correo"
-            name="email"
-            label="Correo"
             onChangeText={(value) => handleOnChange("email", value)}
             value={loginData.email}
           />
           <CTextInput
             placeholder="Ingrese su contraseña"
-            label="Contraseña"
-            name="password"
             onChangeText={(value) => handleOnChange("password", value)}
             value={loginData.password}
             secureTextEntry

@@ -4,20 +4,14 @@ import React, { useState } from "react";
 import CVideo from "../CVideo";
 import SessionCountDown from "./SessionCountdown";
 import SessionTrainingCountdown from "./SessionTrainingCountdown";
+import DecisionMakingAnswer from "./dm/DecisionMakingAnswer";
 
 type Props = {
   iteration: Iteration;
 };
-type Steps =
-  | "beginning"
-  | "getReadyForWorkout"
-  | "workout"
-  | "getReadyForVideo"
-  | "video"
-  | "desicion"
-  | "rpe";
+type Steps = "beginning" | "workout" | "video" | "decision" | "rpe";
 const SessionIteration = ({ iteration }: Props) => {
-  const [steps, setSteps] = useState<Steps>("beginning");
+  const [steps, setSteps] = useState<Steps>("decision");
   const handleFinishCountdown = (step: Steps) => {
     // Defer the state update until after the current rendering cycle
     console.log("strep", step);
@@ -40,13 +34,15 @@ const SessionIteration = ({ iteration }: Props) => {
           onFinishCountdown={() => handleFinishCountdown("video")}
           initialCountdown={5}
         />
-      ) : (
+      ) : steps === "video" ? (
         <>
           <CVideo
             uri={iteration.answers[0].video1.video || ""}
-            onFinishVideo={() => console.log("video finished")}
+            onFinishVideo={() => handleFinishCountdown("decision")}
           />
         </>
+      ) : (
+        <DecisionMakingAnswer />
       )}
     </View>
   );

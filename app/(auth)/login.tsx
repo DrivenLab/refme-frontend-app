@@ -34,6 +34,7 @@ export default function LoginScreen() {
         loginData
       );
       setToken(data.token);
+      console.log("success");
     } catch (error: any) {
       if (error?.response?.status === 400)
         setError("Usuario o Contraseña incorrectos.");
@@ -46,7 +47,7 @@ export default function LoginScreen() {
     <SafeAreaView>
       <VStack space="md">
         <Image
-          source={require("@/assets/images/login_referee.png")}
+          source={require("@/assets/images/login_bg.jpeg")}
           style={styles.login_referee_img}
           contentFit="cover"
         />

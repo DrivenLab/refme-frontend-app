@@ -24,7 +24,6 @@
   "empty_completed_session": "Aún no tienes ejercicios realizados",
   "empty_pending_session": "Aún  no te han enviado ejercicios",
   "sessions_up_to_date": "¡Estás al día con tus ejercicios!",
-  "generic_error": "Error, inténtelo más tarde.",
   "new_password_label": "Nueva contraseña",
   "confirm_new_password_label": "Repitir contraseña",
   "confirm_personal_data": "Para continuar, te solicitamos que confirmes los datos cargados por tu federación.",
@@ -84,5 +83,14 @@
     "category_label": "Categoría",
     "email_label": "Email",
     "confirm_label": "Confirmar"
+  },
+  "login_screen": {
+    "email_label": "Ingrese su correo",
+    "password_label": "Ingrese su contraseña",
+    "login_button": "Ingresar"
+  },
+  "errors": {
+    "generic_error": "Error, inténtelo más tarde.",
+    "login_invalid_credentials": "Credenciales inválidas"
   }
 }

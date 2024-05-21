@@ -24,7 +24,6 @@
   "empty_completed_session": "You still have no exercises done",
   "empty_pending_session": "You have not received exercises yet",
   "sessions_up_to_date": "You're up to date with your exercises!",
-  "generic_error": "Error, please try again later.",
   "new_password_label": "New password",
   "confirm_new_password_label": "Repeat new password",
   "confirm_personal_data": "To continue, we ask you to confirm the data uploaded by your federation.",
@@ -84,5 +83,14 @@
     "category_label": "Category",
     "email_label": "Email",
     "confirm_label": "Confirm"
+  },
+  "login_screen": {
+    "email_label": "Type your email",
+    "password_label": "Type your password",
+    "login_button": "Login"
+  },
+  "errors": {
+    "generic_error": "Error, please try again later.",
+    "login_invalid_credentials": "Invalid credentials"
   }
 }

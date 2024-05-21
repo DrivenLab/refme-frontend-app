@@ -67,7 +67,7 @@ export default function VerifyAccountScreen() {
           </>
         )}
 
-        <VStack space="md" mt={50} paddingHorizontal={24}>
+        <VStack space="md" mt={60} paddingHorizontal={24}>
           {error && (
             <Box
               bg="$red200"
@@ -148,7 +148,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   refme_logo: {
-    height: 200,
+    height: 150,
+    width: "100%",
+    objectFit: "contain",
   },
   org_profile: {
     aspectRatio: 1,
@@ -157,7 +159,7 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     position: "absolute",
-    top: 120, // Ajusta esto según tu diseño
+    top: 80, // Ajusta esto según tu diseño
     left: 0,
     right: 0,
     alignItems: "center",

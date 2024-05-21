@@ -25,7 +25,7 @@
   "empty_pending_session": "Aún  no te han enviado ejercicios",
   "sessions_up_to_date": "¡Estás al día con tus ejercicios!",
   "new_password_label": "Nueva contraseña",
-  "confirm_new_password_label": "Repitir contraseña",
+  "confirm_new_password_label": "Repetir contraseña",
   "confirm_personal_data": "Para continuar, te solicitamos que confirmes los datos cargados por tu federación.",
   "about_you": "Te solicitamos algunos datos para mejorar tu experiencia dentro de la App y facilitar la gestión de tus entrenamientos.",
   "tell_us_about_you": "Cuéntanos sobre ti",
@@ -91,6 +91,7 @@
   },
   "errors": {
     "generic_error": "Error, inténtelo más tarde.",
-    "login_invalid_credentials": "Credenciales inválidas"
+    "login_invalid_credentials": "Credenciales inválidas",
+    "password_doesnt_match": "Las contraseñas no coinciden"
   }
 }

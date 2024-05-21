@@ -2,24 +2,14 @@ import { useAuth } from "@/context/auth";
 import CTextInput from "@/components/inputs/CTextInput";
 import { useMemo, useState } from "react";
 import { NewPasswordType } from "@/types/user";
-import CPasswordInput from "@/components/inputs/CPasswordInput";
-import { baseURL } from "@/queries/api";
 import api from "@/queries/api";
-import axios from "axios";
-import { Image } from "expo-image";
 import { SafeAreaView, StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
-import {
-  Box,
-  Text,
-  VStack,
-  HStack,
-  Input,
-  InputField,
-} from "@gluestack-ui/themed";
+import { Box, Text, VStack } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
-import { Input as InputType } from "@/types/inputs";
-import { useRouter, useSegments, usePathname } from "expo-router";
+
+import { useRouter } from "expo-router";
+
 export default function UpdatePasswordScreen() {
   const [error, setError] = useState("");
   const { signOut, user, profile } = useAuth();
@@ -43,7 +33,7 @@ export default function UpdatePasswordScreen() {
   }
   const handleLogin = async () => {
     if (newPassword.new_password != newPassword.repeat_password) {
-      setError("Las contraseñas no coinciden.");
+      setError(i18n.t("errors.password_doesnt_match"));
     }
     try {
       const { data } = await api.patch(`users/${user?.id}/`, {
@@ -77,7 +67,7 @@ export default function UpdatePasswordScreen() {
           </Text>
 
           <CTextInput
-            placeholder={i18n.t("confirm_new_password_label")}
+            placeholder={i18n.t("new_password_label")}
             onChangeText={(value) => handleOnChange("new_password", value)}
             value={newPassword.new_password}
             secureTextEntry
@@ -91,7 +81,7 @@ export default function UpdatePasswordScreen() {
 
           <CBtn
             isDisabled={!isBtnFormValid}
-            title="Confirmar"
+            title={i18n.t("common.confirm_label")}
             isLoading={isLogging}
             onPress={handleLogin}
             mt={30}

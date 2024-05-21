@@ -18,12 +18,16 @@ export default function TabVerificationLayout() {
 
   return (
     <Stack>
-      <Stack.Screen name="verify-account" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="verify-account"
+        options={{ headerShown: false, headerBackTitleVisible: false }}
+      />
       <Stack.Screen
         name="update-password"
         options={{
           headerShown: true,
           headerTitle: i18n.t("update_password_title"),
+          headerBackTitleVisible: false,
         }}
       />
       <Stack.Screen
@@ -31,6 +35,7 @@ export default function TabVerificationLayout() {
         options={{
           headerShown: true,
           headerTitle: i18n.t("tell_us_about_you"),
+          headerBackTitleVisible: false,
         }}
       />
       <Stack.Screen
@@ -38,6 +43,7 @@ export default function TabVerificationLayout() {
         options={{
           headerShown: true,
           headerTitle: i18n.t("last_step"),
+          headerBackTitleVisible: false,
         }}
       />
     </Stack>

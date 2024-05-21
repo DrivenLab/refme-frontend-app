@@ -91,6 +91,7 @@
   },
   "errors": {
     "generic_error": "Error, please try again later.",
-    "login_invalid_credentials": "Invalid credentials"
+    "login_invalid_credentials": "Invalid credentials",
+    "password_doesnt_match": "Passwords do not match"
   }
 }

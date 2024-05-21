@@ -93,5 +93,21 @@
     "generic_error": "Error, please try again later.",
     "login_invalid_credentials": "Invalid credentials",
     "password_doesnt_match": "Passwords do not match"
+  },
+  "about_you_screen": {
+    "birthdate_label": "Date of birth",
+    "genre_label": "Genre",
+    "passport_label": "Passport",
+    "nationality_label": "Nacionality",
+    "phone_label": "Phone",
+    "address_label": "Address",
+    "weight_label": "Weight",
+    "height_label": "Height",
+    "medical_expiration_label": "Medical review expiration ",
+    "medical_observations_label": "Medical observations"
+  },
+  "genre_options": {
+    "m": "Masculine",
+    "f": "Femenine"
   }
 }

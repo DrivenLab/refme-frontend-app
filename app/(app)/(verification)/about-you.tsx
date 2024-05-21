@@ -10,6 +10,9 @@ import { Box, Text, VStack, HStack, ScrollView } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
 
 import { useRouter } from "expo-router";
+import { DateTimePickerInput } from "@/components/inputs/DateTimePickerInput";
+const GENRE_OPTIONS = ["m", "f"];
+
 export default function AboutYouScreen() {
   const [error, setError] = useState("");
   const { profile } = useAuth();
@@ -47,7 +50,7 @@ export default function AboutYouScreen() {
       );
     } catch (error: any) {
       if (error?.response?.status === 400)
-        setError("Usuario o Contraseña incorrectos.");
+        setError(i18n.t("errors.login_invalid_credentials"));
       else setError(i18n.t("errors.generic_error"));
     } finally {
       router.push("/last-step");
@@ -79,31 +82,37 @@ export default function AboutYouScreen() {
               containerStyle={{ width: "50%" }}
               value={profileData.birthdate}
             />
+            {/* <DateTimePickerInput
+              placeholder={i18n.t("about_you_screen.birthdate_label")}
+              onChange={() => {}}
+              containerStyle={{ width: "50%" }}
+            /> */}
             <CTextInput
-              placeholder="Genero"
+              placeholder={i18n.t("about_you_screen.genre_label")}
               containerStyle={{ width: "50%" }}
               onChangeText={(value) => handleOnChange("gender", value)}
               value={profileData.gender}
+              options={GENRE_OPTIONS}
             />
           </HStack>
           <CTextInput
-            placeholder="Pasaporte"
+            placeholder={i18n.t("about_you_screen.passport_label")}
             onChangeText={(value) => handleOnChange("passport", value)}
             value={profileData.passport}
           />
           <CTextInput
-            placeholder="Nacionalidad"
+            placeholder={i18n.t("about_you_screen.nationality_label")}
             onChangeText={(value) => handleOnChange("nationality", value)}
             value={profileData.nationality}
           />
           <CTextInput
-            placeholder="Celular"
+            placeholder={i18n.t("about_you_screen.phone_label")}
             onChangeText={(value) => handleOnChange("phoneNumber", value)}
             value={profileData.phoneNumber}
           />
 
           <CTextInput
-            placeholder="Direccion"
+            placeholder={i18n.t("about_you_screen.address_label")}
             onChangeText={(value) => handleOnChange("address", value)}
             value={profileData.address}
           />
@@ -111,13 +120,13 @@ export default function AboutYouScreen() {
           <HStack space="md">
             {/* Utiliza HStack para colocar los inputs lado a lado */}
             <CTextInput
-              placeholder="Peso"
+              placeholder={i18n.t("about_you_screen.weight_label")}
               onChangeText={(value) => handleOnChange("weight", value)}
               value={profileData.weight}
               containerStyle={{ width: "50%" }}
             />
             <CTextInput
-              placeholder="Altura"
+              placeholder={i18n.t("about_you_screen.height_label")}
               onChangeText={(value) => handleOnChange("height", value)}
               value={profileData.height}
               containerStyle={{ width: "50%" }}
@@ -125,13 +134,13 @@ export default function AboutYouScreen() {
           </HStack>
 
           <CTextInput
-            placeholder="Vencimiento ficha medica"
+            placeholder={i18n.t("about_you_screen.medical_expiration_label")}
             onChangeText={(value) => handleOnChange("medicalExpiration", value)}
             value={profileData.medicalExpiration}
           />
 
           <CTextInput
-            placeholder="Observaciones medicas"
+            placeholder={i18n.t("about_you_screen.medical_observations_label")}
             onChangeText={(value) =>
               handleOnChange("medicalObservations", value)
             }

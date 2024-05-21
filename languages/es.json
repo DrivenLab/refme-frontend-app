@@ -89,9 +89,25 @@
     "password_label": "Ingrese su contraseña",
     "login_button": "Ingresar"
   },
+  "about_you_screen": {
+    "birthdate_label": "Nacimiento",
+    "genre_label": "Genero",
+    "passport_label": "Pasaporte",
+    "nationality_label": "Nacionalidad",
+    "phone_label": "Celular",
+    "address_label": "Direccion",
+    "weight_label": "Peso",
+    "height_label": "Altura",
+    "medical_expiration_label": "Vencimiento ficha medica",
+    "medical_observations_label": "Observaciones medicas"
+  },
   "errors": {
     "generic_error": "Error, inténtelo más tarde.",
     "login_invalid_credentials": "Credenciales inválidas",
     "password_doesnt_match": "Las contraseñas no coinciden"
+  },
+  "genre_options": {
+    "m": "Masculino",
+    "f": "Femenino"
   }
 }

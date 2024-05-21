@@ -79,7 +79,6 @@ export const DateTimePickerInput = (
             style={styles.input}
             value={`${value?.toLocaleDateString() || ""}`}
             textAlignVertical="center"
-            editable={false}
             onTouchStart={() => setShow(!show)}
           />
           {show && (
@@ -88,10 +87,10 @@ export const DateTimePickerInput = (
               locale="es-PY"
               {...props}
               onChange={(e, d) => {
-                setShow(false);
+                setValue(d!);
                 if (e && e.type == "dismissed") return;
                 props.onChange && props.onChange(d!);
-                setValue(d!);
+                setShow(false);
               }}
               value={value ?? new Date()}
             />

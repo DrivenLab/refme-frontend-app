@@ -12,8 +12,6 @@ type Props = {
   handleNextIteration: () => void;
   step: Steps;
   handleChangeStep: (s: string) => void;
-  currentIteration: number;
-  totalIteration: number;
 };
 type Steps = "beginning" | "workout" | "video" | "decision" | "rpe";
 const SessionIteration = ({

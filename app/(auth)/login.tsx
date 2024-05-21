@@ -13,7 +13,7 @@ import { Box, Text, VStack } from "@gluestack-ui/themed";
 export default function LoginScreen() {
   const { setToken } = useAuth();
   const [loginData, setLoginData] = useState<LoginData>({
-    email: "gerardo+17@dlab.software",
+    email: "gerardo@dlab.software",
     password: "12345",
   } as LoginData);
   const [error, setError] = useState("");
@@ -34,6 +34,7 @@ export default function LoginScreen() {
         loginData
       );
       setToken(data.token);
+      console.log("success");
     } catch (error: any) {
       if (error?.response?.status === 400)
         setError("Usuario o Contraseña incorrectos.");

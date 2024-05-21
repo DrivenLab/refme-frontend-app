@@ -19,7 +19,7 @@ import { useRouter } from "expo-router";
 
 export default function VerifyAccountScreen() {
   const [error, setError] = useState("");
-  const { user, profile } = useAuth();
+  const { user, profile, signOut } = useAuth();
   const router = useRouter();
   const [name, setName] = useState(user?.firstName || "");
 
@@ -127,6 +127,12 @@ export default function VerifyAccountScreen() {
             isLoading={isLogging}
             onPress={handleLogin}
             mt={70}
+          />
+          <CBtn
+            title={"Logout"}
+            isLoading={isLogging}
+            onPress={signOut}
+            secondary
           />
         </VStack>
       </VStack>

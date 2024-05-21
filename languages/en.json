@@ -3,9 +3,6 @@
   "welcome": "¡Hola %{name}!, es un placer recibirte.",
   "update_password": "Dado que tu contraseña actual fue creada por nosotros de forma automática, puedes cambiarla por una creada por ti.",
   "update_password_title": "Update password",
-  "welcome": "¡Hola %{name}!, es un placer recibirte.",
-  "update_password": "Dado que tu contraseña actual fue creada por nosotros de forma automática, puedes cambiarla por una creada por ti.",
-  "update_password_title": "Update password",
   "workout": "Workout",
   "personal": "Personal",
   "dm": "Decision Making",
@@ -79,5 +76,13 @@
   "rpe_almost_maximal": "Almost maximal",
   "rpe_maximal_exertion": "Maximal exertion",
   "rpe_how_do_you_feel": "How do you feel?",
-  "elearning_title": "E-Learning"
+  "elearning_title": "E-Learning",
+  "common": {
+    "name_label": "Name",
+    "last_name_label": "Lastname",
+    "role_label": "Role",
+    "category_label": "Category",
+    "email_label": "Email",
+    "confirm_label": "Confirm"
+  }
 }

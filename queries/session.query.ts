@@ -36,19 +36,33 @@ const useGetSessionDetailById = ({
 };
 /*Esta función obtiene los datos de una sessión, pero lo que está almacenado en el sessions query cache */
 const useGetSessionById = ({ idWorkout }: { idWorkout: string | number }) => {
-  const queryClient = useQueryClient();
   const { currentOrganization, userRole } = useAuth();
 
-  const data = queryClient.getQueryData<AxiosResponse<Session[]>>(["sessions"]);
+  const fetchWorkout = async (): Promise<Session | Workout | undefined> => {
+    if (userRole === "member") {
+      const { data } = await api.get<Session[]>(
+        `organizations/${currentOrganization.id}/sessions/`
+      );
+      return data.find((s) => s.workout.id == idWorkout);
+    } else {
+      const { data } = await api.get<Workout[]>(
+        `organizations/${currentOrganization.id}/workouts/?usage_type=official`
+      );
+      return data.find((s) => s.id == idWorkout);
+    }
+  };
 
-  let workout;
-  if (userRole === "member") {
-    workout = data?.data.find((s) => s.workout.id == idWorkout);
-  } else {
-    workout = data?.data.find((s) => s.id == idWorkout);
-  }
+  const {
+    data: workout,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["workout", idWorkout],
+    queryFn: fetchWorkout,
+    enabled: !!idWorkout, // Solo se ejecuta si idWorkout está definido
+  });
 
-  return { workout };
+  return { workout, isLoading, error };
 };
 const useGetSessions = () => {
   const { currentOrganization, userRole } = useAuth();
@@ -67,7 +81,7 @@ const useGetSessions = () => {
   // Queries
   // Realizar la consulta usando react-query
   const { data, isLoading, isFetched, ...rest } = useQuery({
-    queryKey: ["sessions"], // Asegúrate de invalidar y actualizar según el rol y la organización
+    queryKey: ["sessions"],
     queryFn: getSessions,
   });
   return {

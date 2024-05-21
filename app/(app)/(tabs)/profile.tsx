@@ -25,9 +25,7 @@ export default function TabTwoScreen() {
             <Avatar size="2xl" marginHorizontal="auto" marginTop={10}>
             <AvatarFallbackText>{initials}</AvatarFallbackText>
             <AvatarImage
-              source={{
-                uri: user?.profilePicture,
-              }}
+              source={user?.profilePicture ? { uri: user?.profilePicture } : ""}
               alt="User Profile picture"
             />
           </Avatar>

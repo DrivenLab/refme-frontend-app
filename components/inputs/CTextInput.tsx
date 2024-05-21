@@ -21,6 +21,7 @@ interface CTextInputProps {
   width?: string;
   options?: string[]; // Add options prop for dropdown items
   isDisabled?: boolean;
+  required?: boolean;
 }
 
 const CTextInput = ({
@@ -32,6 +33,7 @@ const CTextInput = ({
   containerStyle,
   options = [],
   isDisabled,
+  required,
   ...props
 }: CTextInputProps) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -102,7 +104,7 @@ const CTextInput = ({
         style={[styles.innerContainer, error ? { borderColor: "red" } : {}]}
       >
         <Animated.Text style={[styles.label, labelStyle]}>
-          {placeholder}
+          {placeholder} {required && "*"}
         </Animated.Text>
         <View style={styles.inputContainer}>
           {options.length > 0 ? (

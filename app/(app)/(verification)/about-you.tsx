@@ -56,7 +56,16 @@ export default function AboutYouScreen() {
       router.push("/last-step");
     }
   };
+  const birthDateValue =
+    profileData.birthdate.length === 10
+      ? new Date(Date.parse(profileData.birthdate))
+      : undefined;
 
+  const medicalExpirationValue =
+    profileData.medicalExpiration.length === 10
+      ? new Date(Date.parse(profileData.medicalExpiration))
+      : undefined;
+  console.log({ birthDateValue, medicalExpirationValue });
   return (
     <ScrollView style={styles.container} px={"$3"}>
       <VStack space="md">
@@ -76,23 +85,22 @@ export default function AboutYouScreen() {
           </Text>
           <HStack space="md">
             {/* Utiliza HStack para colocar los inputs lado a lado */}
-            <CTextInput
-              placeholder="Nacimiento"
-              onChangeText={(value) => handleOnChange("birthdate", value)}
-              containerStyle={{ width: "50%" }}
-              value={profileData.birthdate}
-            />
-            {/* <DateTimePickerInput
+            <DateTimePickerInput
               placeholder={i18n.t("about_you_screen.birthdate_label")}
-              onChange={() => {}}
+              value={birthDateValue}
+              onChange={(d: Date) =>
+                handleOnChange("birthdate", d.toISOString().slice(0, 10))
+              }
               containerStyle={{ width: "50%" }}
-            /> */}
+              required
+            />
             <CTextInput
               placeholder={i18n.t("about_you_screen.genre_label")}
               containerStyle={{ width: "50%" }}
               onChangeText={(value) => handleOnChange("gender", value)}
               value={profileData.gender}
               options={GENRE_OPTIONS}
+              required
             />
           </HStack>
           <CTextInput
@@ -133,12 +141,13 @@ export default function AboutYouScreen() {
             />
           </HStack>
 
-          <CTextInput
+          <DateTimePickerInput
             placeholder={i18n.t("about_you_screen.medical_expiration_label")}
-            onChangeText={(value) => handleOnChange("medicalExpiration", value)}
-            value={profileData.medicalExpiration}
+            value={medicalExpirationValue}
+            onChange={(d: Date) =>
+              handleOnChange("medicalExpiration", d.toISOString().slice(0, 10))
+            }
           />
-
           <CTextInput
             placeholder={i18n.t("about_you_screen.medical_observations_label")}
             onChangeText={(value) =>

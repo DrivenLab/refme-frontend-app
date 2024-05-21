@@ -13,7 +13,7 @@ const useSession = ({ idSession }: Props) => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [enableQuery, setEnableQuery] = useState(false);
   const [session, setSession] = useState<Session>();
-  const [wasSessionDownlaoded, setWasSessionDownlaoded] = useState(false);
+  const [wasSessionDownloaded, setWasSessionDownloaded] = useState(false);
   const queryClient = useQueryClient();
   const { refetchSession } = useGetSessionDetailById({
     idSession,
@@ -26,9 +26,9 @@ const useSession = ({ idSession }: Props) => {
       idSession,
     ]);
     if (data) {
-      setWasSessionDownlaoded(true);
+      setWasSessionDownloaded(true);
       setSession(data?.data);
-    } else setWasSessionDownlaoded(false);
+    } else setWasSessionDownloaded(false);
   }, []);
   const updateSessionIteration = ({ iteration }: { iteration: Iteration }) => {
     const data = queryClient.getQueryData<AxiosResponse<Session>>([
@@ -104,7 +104,7 @@ const useSession = ({ idSession }: Props) => {
       if (isSuccess) {
         setSession(data.data);
         await downloadVideos(data.data);
-        setWasSessionDownlaoded(true);
+        setWasSessionDownloaded(true);
       }
     } catch (error) {
       console.log("error en download session", error);
@@ -119,7 +119,7 @@ const useSession = ({ idSession }: Props) => {
     setIsDownloading,
     downloadSession,
     session,
-    wasSessionDownlaoded,
+    wasSessionDownloaded,
   };
 };
 

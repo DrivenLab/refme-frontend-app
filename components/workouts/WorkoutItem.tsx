@@ -18,7 +18,7 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
     downloadProgress,
     isDownloading,
     setIsDownloading,
-    wasSessionDownlaoded,
+    wasSessionDownloaded,
   } = useSession({ idSession: idSession });
   const idWorkout = workout.id;
 
@@ -50,7 +50,7 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
                 <Text>{i18n.t("dm")}</Text>
               </Box>
               <DownloadSessionBtn
-                wasDownloaded={wasSessionDownlaoded}
+                wasDownloaded={wasSessionDownloaded}
                 downloadSession={downloadSession}
               />
             </Box>

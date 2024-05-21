@@ -29,14 +29,16 @@ const WorkoutDetail = () => {
     downloadProgress,
     setIsDownloading,
     isDownloading,
-    wasSessionDownlaoded,
+    wasSessionDownloaded,
     downloadSession,
     session,
   } = useSession({ idSession: Number(idWorkout as string) });
   const router = useRouter();
   const handleOnPress = () => {
-    if (wasSessionDownlaoded)
-      router.push("/workouts/startWorkout/" as Href<string>);
+    if (wasSessionDownloaded)
+      if (userRole === "member")
+        router.push("/workouts/startWorkout/" as Href<string>);
+      else router.push("/workouts/assignReferee/" as Href<string>);
     else {
       downloadSession();
     }
@@ -130,7 +132,7 @@ const WorkoutDetail = () => {
             height={50}
           >
             <ButtonText color="black" fontWeight="medium">
-              {wasSessionDownlaoded ? "Comenzar" : "Preparar"}
+              {wasSessionDownloaded ? "Comenzar" : "Preparar"}
             </ButtonText>
           </Button>
         </ScrollView>

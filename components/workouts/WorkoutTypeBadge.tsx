@@ -8,7 +8,7 @@ function WorkoutTypeBadge(props: Props) {
     <Badge
       size="md"
       rounded="$full"
-      borderColor="red100"
+      borderColor="#58DAFC"
       borderWidth={1}
       variant="outline"
       style={{ backgroundColor: "transparent" }}

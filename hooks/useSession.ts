@@ -4,6 +4,7 @@ import * as FileSystem from "expo-file-system";
 import { useGetSessionDetailById } from "@/queries/session.query";
 import { useQueryClient } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
+import { Workout } from "@/types/workout";
 
 type Props = {
   idSession: string | number;
@@ -87,10 +88,10 @@ const useSession = ({ idSession }: Props) => {
       console.error("eerrrr", e);
     }
   };
-  const downloadVideos = async (session: Session) => {
-    const downloadVideosPromises = session.workout.iterations.map((i) =>
-      downloadVideo(i, true)
-    );
+  const downloadVideos = async (workout: Workout) => {
+    const downloadVideosPromises = workout.iterations.map((i) => {
+      if (i.answers.length !== 0) return downloadVideo(i, true);
+    });
     if (!downloadVideosPromises) return;
 
     try {
@@ -103,7 +104,7 @@ const useSession = ({ idSession }: Props) => {
       const { data, isSuccess } = await refetchSession();
       if (isSuccess) {
         setSession(data.data);
-        await downloadVideos(data.data);
+        await downloadVideos(data.data.workout);
         setWasSessionDownlaoded(true);
       }
     } catch (error) {

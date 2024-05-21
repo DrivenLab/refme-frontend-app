@@ -51,8 +51,8 @@ export default function UpdatePasswordScreen() {
       });
     } catch (error: any) {
       if (error?.response?.status === 400)
-        setError("Usuario o Contraseña incorrectos.");
-      else setError(i18n.t("generic_error"));
+        setError(i18n.t("errors.login_invalid_credentials"));
+      else setError(i18n.t("errors.generic_error"));
     } finally {
       router.push("/about-you");
     }

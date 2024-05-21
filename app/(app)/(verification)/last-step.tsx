@@ -56,7 +56,7 @@ export default function LastStepScreen() {
     } catch (error: any) {
       if (error?.response?.status === 400)
         setError("Usuario o Contraseña incorrectos.");
-      else setError(i18n.t("generic_error"));
+      else setError(i18n.t("errors.generic_error"));
     } finally {
       loadUserProfile();
       router.push("/home");

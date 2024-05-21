@@ -62,5 +62,18 @@
   "no": "no",
   "nc": "No Card",
   "yc": "Yellow Card",
-  "rc": "Red Card"
+  "rc": "Red Card",
+  "rpe_nothing_at_all": "Nothing at all",
+  "rpe_just_noticeable": "Just noticeable",
+  "rpe_very_light": "Very light",
+  "rpe_light": "Light",
+  "rpe_moderate": "Moderate",
+  "rpe_somewhat_hard": "Somewhat hard",
+  "rpe_hard": "Hard",
+  "rpe_harder": "Harder",
+  "rpe_very_hard": "Very hard",
+  "rpe_very_very_hard": "Very, very hard",
+  "rpe_almost_maximal": "Almost maximal",
+  "rpe_maximal_exertion": "Maximal exertion",
+  "rpe_how_do_you_feel": "How do you feel?"
 }

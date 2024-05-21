@@ -63,5 +63,18 @@
   "no": "no",
   "nc": "Sin Tarjeta",
   "yc": "Tarjeta Amarilla",
-  "rc": "Tarjeta Roja"
+  "rc": "Tarjeta Roja",
+  "rpe_nothing_at_all": "Nada en absoluto",
+  "rpe_just_noticeable": "Apenas perceptible",
+  "rpe_very_light": "Muy ligero",
+  "rpe_light": "Ligero",
+  "rpe_moderate": "Moderado",
+  "rpe_somewhat_hard": "Algo pesado",
+  "rpe_hard": "Pesado",
+  "rpe_harder": "Más pesado",
+  "rpe_very_hard": "Muy pesado",
+  "rpe_very_very_hard": "Muy, muy pesado",
+  "rpe_almost_maximal": "Casi máximo",
+  "rpe_maximal_exertion": "Esfuerzo máximo",
+  "rpe_how_do_you_feel": "Como te sientes?"
 }

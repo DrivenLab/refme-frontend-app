@@ -158,6 +158,52 @@ const CTextInput = ({
   );
 };
 
+type DisableTextInputProps = Omit<
+  CTextInputProps,
+  "onChangeText" | "error" | "isDisabled" | "options"
+>;
+export const DisableTextInput = ({
+  placeholder,
+  value,
+  secureTextEntry,
+  containerStyle,
+  ...props
+}: DisableTextInputProps) => {
+  const labelPosition = useRef(new Animated.Value(1)).current;
+  const labelStyle = {
+    left: 10,
+    top: labelPosition.interpolate({
+      inputRange: [0, 1],
+      outputRange: [17, 0],
+    }),
+    fontSize: labelPosition.interpolate({
+      inputRange: [0, 1],
+      outputRange: [16, 14],
+    }),
+    color: labelPosition.interpolate({
+      inputRange: [0, 1],
+      outputRange: ["gray", "#888"],
+    }),
+  };
+
+  return (
+    <View style={[containerStyle]}>
+      <View style={[styles.innerContainer]}>
+        <Animated.Text style={[styles.label, labelStyle]}>
+          {placeholder}
+        </Animated.Text>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            value={`${value}`}
+            textAlignVertical="center"
+            editable={false}
+          />
+        </View>
+      </View>
+    </View>
+  );
+};
 const styles = StyleSheet.create({
   innerContainer: {
     borderWidth: 1,

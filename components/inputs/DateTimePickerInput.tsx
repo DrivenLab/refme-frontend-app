@@ -1,4 +1,4 @@
-import { ComponentProps, useEffect, useState } from "react";
+import { ComponentProps, useEffect, useRef, useState } from "react";
 import RNDateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -15,7 +15,7 @@ import {
   ButtonText,
   View,
 } from "@gluestack-ui/themed";
-import { Platform } from "react-native";
+import { Platform, Animated, StyleSheet } from "react-native";
 
 export const DateTimePickerInput = (
   props: DateTimePickerProps & {
@@ -31,28 +31,54 @@ export const DateTimePickerInput = (
   useEffect(() => {
     setValue(props.value);
   }, [props.value]);
+  const labelPosition = useRef(new Animated.Value(value ? 1 : 0)).current;
 
+  const labelStyle = {
+    left: 10,
+    top: labelPosition.interpolate({
+      inputRange: [0, 1],
+      outputRange: [17, 0],
+    }),
+    fontSize: labelPosition.interpolate({
+      inputRange: [0, 1],
+      outputRange: [16, 14],
+    }),
+    color: labelPosition.interpolate({
+      inputRange: [0, 1],
+      outputRange: ["gray", "#888"],
+    }),
+  };
   return (
     <View style={[props.containerStyle]}>
-      <Input onTouchStart={() => setShow(!show)}>
-        <Text m={8}>
-          {value ? value?.toLocaleDateString() : props.placeholder}
-        </Text>
-        {show && (
-          <DateTimePicker
-            // @ts-ignore
-            locale="es-PY"
-            {...props}
-            onChange={(e, d) => {
-              setShow(false);
-              if (e && e.type == "dismissed") return;
-              props.onChange && props.onChange(d!);
-              setValue(d!);
-            }}
-            value={value ?? new Date()}
-          />
-        )}
-      </Input>
+      <View
+        style={[
+          styles.innerContainer,
+          props.error ? { borderColor: "red" } : {},
+        ]}
+      >
+        <Animated.Text style={[styles.label, labelStyle]}>
+          {props.placeholder}
+        </Animated.Text>
+        <View style={styles.inputContainer}>
+          <Input onTouchStart={() => setShow(!show)} style={styles.input}>
+            {show && (
+              <DateTimePicker
+                // @ts-ignore
+                locale="es-PY"
+                {...props}
+                onChange={(e, d) => {
+                  setShow(false);
+                  if (e && e.type == "dismissed") return;
+                  props.onChange && props.onChange(d!);
+                  setValue(d!);
+                }}
+                value={value ?? new Date()}
+              />
+            )}
+          </Input>
+        </View>
+      </View>
+      {props.error && <Text style={styles.errorText}>{props.error}</Text>}
     </View>
   );
 };
@@ -131,3 +157,36 @@ const DateTimePickerModal = ({
     </Modal>
   );
 };
+
+const styles = StyleSheet.create({
+  innerContainer: {
+    borderWidth: 1,
+    borderColor: "#eee",
+    borderRadius: 5,
+    height: 60,
+    backgroundColor: "#090B2205",
+    justifyContent: "center",
+  },
+  label: {
+    position: "absolute",
+    color: "gray",
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+    height: 50,
+    marginTop: 10,
+    paddingLeft: 10,
+    borderWidth: 0,
+  },
+  errorText: {
+    marginTop: 5,
+    fontSize: 14,
+    color: "red",
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingRight: 10,
+  },
+});

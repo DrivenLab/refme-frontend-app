@@ -1,15 +1,16 @@
 import { View, Box } from "@gluestack-ui/themed";
 import React, { useMemo } from "react";
 import { Image } from "expo-image";
+import { IMAGE_NAME } from "@/types/session";
+import { get_image_from_name } from "@/utils/libs";
 
 type Props = {
   children: React.ReactNode;
-  imageURI: string;
+  imageName: IMAGE_NAME;
 };
-const SessionGetReady = ({ children }: Props) => {
-  const imageSource = useMemo(() => {
-    return require("@/assets/images/man_running_ready_to_workout.png");
-  }, []);
+const IterationTextImage = ({ children, imageName }: Props) => {
+  const imageSource = useMemo(() => get_image_from_name(imageName), []);
+
   return (
     <View
       flex={1}
@@ -17,6 +18,7 @@ const SessionGetReady = ({ children }: Props) => {
       flexDirection="row"
       alignItems="center"
       bg="$primary"
+      height={"100%"}
     >
       <Box flex={2} height={"100%"} justifyContent="center">
         {children}
@@ -32,4 +34,4 @@ const SessionGetReady = ({ children }: Props) => {
   );
 };
 
-export default SessionGetReady;
+export default IterationTextImage;

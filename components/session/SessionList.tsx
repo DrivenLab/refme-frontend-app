@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { FlatList, Text } from "@gluestack-ui/themed";
+import { Box, FlatList } from "@gluestack-ui/themed";
 import { ListRenderItemInfo } from "react-native";
 import { Session } from "@/types/session";
 import WorkoutItem from "../workouts/WorkoutItem";
@@ -19,7 +19,9 @@ const SessionList = ({ state, sessions }: Props) => {
   return (
     <>
       {sessionFiltered.length === 0 ? (
-        <EmptyWorkouts sessionsCount={sessions.length} state={state} />
+        <Box height="$3/4">
+          <EmptyWorkouts sessionsCount={sessions.length} state={state} />
+        </Box>
       ) : (
         <FlatList
           data={sessionFiltered}

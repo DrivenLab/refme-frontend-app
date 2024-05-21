@@ -32,7 +32,7 @@ const WorkoutDetail = () => {
     wasSessionDownloaded,
     downloadSession,
     session,
-  } = useSession({ idSession: Number(idWorkout as string) });
+  } = useSession({ idSession: idWorkout, workout: workout });
   const router = useRouter();
   const handleOnPress = () => {
     if (wasSessionDownloaded)

@@ -19,7 +19,7 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
     isDownloading,
     setIsDownloading,
     wasSessionDownloaded,
-  } = useSession({ idSession: idSession });
+  } = useSession({ idSession: idSession, workout: workout });
   const idWorkout = workout.id;
 
   return (

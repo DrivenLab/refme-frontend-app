@@ -11,9 +11,14 @@ import SessionIteration from "@/components/session/SessionIteration";
 import { Iteration } from "@/types/session";
 
 const StartWorkout = () => {
-  const { sessionStatus, setSessionStatus, currentIteration } = useStartSession(
-    { idSession: 1 }
-  );
+  const {
+    sessionStatus,
+    setSessionStatus,
+    currentIteration,
+    handleOnNextIteration,
+    step,
+    onChangeStep,
+  } = useStartSession({ idSession: 1 });
   const { screenOrientation } = useOrientation();
   useEffect(() => {
     //loadFiles();
@@ -31,7 +36,12 @@ const StartWorkout = () => {
           onStartWorkout={() => setSessionStatus("inProgress")}
         />
       ) : (
-        <SessionIteration iteration={currentIteration || ({} as Iteration)} />
+        <SessionIteration
+          iteration={currentIteration || ({} as Iteration)}
+          handleNextIteration={() => handleOnNextIteration({})}
+          step={step}
+          handleChangeStep={onChangeStep}
+        />
       )}
     </SafeAreaView>
   );

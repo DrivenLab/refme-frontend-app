@@ -9,19 +9,28 @@ import RPE from "./RPE";
 
 type Props = {
   iteration: Iteration;
+  handleNextIteration: () => void;
+  step: Steps;
+  handleChangeStep: (s: string) => void;
+  currentIteration: number;
+  totalIteration: number;
 };
 type Steps = "beginning" | "workout" | "video" | "decision" | "rpe";
-const SessionIteration = ({ iteration }: Props) => {
-  const [steps, setSteps] = useState<Steps>("rpe");
+const SessionIteration = ({
+  iteration,
+  handleNextIteration,
+  step,
+  handleChangeStep,
+}: Props) => {
   const handleFinishCountdown = (step: Steps) => {
     // Defer the state update until after the current rendering cycle
     setTimeout(() => {
-      setSteps(step);
+      handleChangeStep(step);
     }, 0);
   };
   return (
     <View flex={1}>
-      {steps === "beginning" ? (
+      {step === "beginning" ? (
         <>
           <SessionCountDown
             onFinishCountdown={() => handleFinishCountdown("workout")}
@@ -29,22 +38,22 @@ const SessionIteration = ({ iteration }: Props) => {
             imageName="man_running_ready_to_workout"
           />
         </>
-      ) : steps === "workout" ? (
+      ) : step === "workout" ? (
         <SessionTrainingCountdown
           onFinishCountdown={() => handleFinishCountdown("video")}
           initialCountdown={5}
         />
-      ) : steps === "video" ? (
+      ) : step === "video" ? (
         <>
           <CVideo
             uri={iteration.answers[0].video1.video || ""}
             onFinishVideo={() => handleFinishCountdown("decision")}
           />
         </>
-      ) : steps === "decision" ? (
-        <DecisionMakingAnswer />
+      ) : step === "decision" ? (
+        <DecisionMakingAnswer onFinish={() => handleFinishCountdown("rpe")} />
       ) : (
-        <RPE />
+        <RPE onFinishRPE={handleNextIteration} />
       )}
     </View>
   );

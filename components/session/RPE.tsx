@@ -1,9 +1,16 @@
-import React from "react";
-import { Box, Divider, Text, VStack } from "@gluestack-ui/themed";
+import React, { useState } from "react";
+import { Box, Pressable, Text, VStack } from "@gluestack-ui/themed";
 import { RPE_COLORS, RPE_VALUES } from "@/constants/Session";
 import i18n from "@/languages/i18n";
-
-const RPE = () => {
+type Props = {
+  onFinishRPE: () => void;
+};
+const RPE = ({ onFinishRPE }: Props) => {
+  const [rpe, setRpe] = useState<string | undefined>();
+  const handleOnPress = (rpe_: string) => {
+    setRpe(rpe_);
+    onFinishRPE();
+  };
   return (
     <Box
       flex={1}
@@ -24,32 +31,47 @@ const RPE = () => {
           {i18n.t("rpe_how_do_you_feel")}
         </Text>
         {Object.entries(RPE_VALUES).map(([key, value]) => (
-          <Box
+          <Pressable
             flex={1}
             height={150}
             justifyContent="center"
             alignItems="center"
             alignContent="center"
             style={{
-              backgroundColor: RPE_COLORS[key as keyof typeof RPE_COLORS],
+              backgroundColor:
+                rpe === key
+                  ? "#090b22"
+                  : RPE_COLORS[key as keyof typeof RPE_COLORS],
             }}
             rounded={10}
             key={key}
             minWidth={100}
             py={"$8"}
+            onPress={() => handleOnPress(key)}
           >
             <Text
-              color="black"
+              color={
+                rpe === key
+                  ? RPE_COLORS[key as keyof typeof RPE_COLORS]
+                  : "#090b22"
+              }
               textAlign="center"
               fontSize={50}
               fontWeight={"bold"}
             >
               {key}
             </Text>
-            <Text color="black" textAlign="center">
+            <Text
+              color={
+                rpe === key
+                  ? RPE_COLORS[key as keyof typeof RPE_COLORS]
+                  : "#090b22"
+              }
+              textAlign="center"
+            >
               {i18n.t("rpe_" + value)}
             </Text>
-          </Box>
+          </Pressable>
         ))}
       </VStack>
     </Box>

@@ -3,9 +3,6 @@
   "welcome": "¡Hola %{name}!, es un placer recibirte.",
   "update_password": "Dado que tu contraseña actual fue creada por nosotros de forma automática, puedes cambiarla por una creada por ti.",
   "update_password_title": "Update password",
-  "welcome": "¡Hola %{name}!, es un placer recibirte.",
-  "update_password": "Dado que tu contraseña actual fue creada por nosotros de forma automática, puedes cambiarla por una creada por ti.",
-  "update_password_title": "Update password",
   "workout": "Workout",
   "personal": "Personal",
   "dm": "Decision Making",
@@ -27,7 +24,6 @@
   "empty_completed_session": "You still have no exercises done",
   "empty_pending_session": "You have not received exercises yet",
   "sessions_up_to_date": "You're up to date with your exercises!",
-  "generic_error": "Error, please try again later.",
   "new_password_label": "New password",
   "confirm_new_password_label": "Repeat new password",
   "confirm_personal_data": "To continue, we ask you to confirm the data uploaded by your federation.",
@@ -79,5 +75,39 @@
   "rpe_almost_maximal": "Almost maximal",
   "rpe_maximal_exertion": "Maximal exertion",
   "rpe_how_do_you_feel": "How do you feel?",
-  "elearning_title": "E-Learning"
+  "elearning_title": "E-Learning",
+  "common": {
+    "name_label": "Name",
+    "last_name_label": "Lastname",
+    "role_label": "Role",
+    "category_label": "Category",
+    "email_label": "Email",
+    "confirm_label": "Confirm"
+  },
+  "login_screen": {
+    "email_label": "Type your email",
+    "password_label": "Type your password",
+    "login_button": "Login"
+  },
+  "errors": {
+    "generic_error": "Error, please try again later.",
+    "login_invalid_credentials": "Invalid credentials",
+    "password_doesnt_match": "Passwords do not match"
+  },
+  "about_you_screen": {
+    "birthdate_label": "Date of birth",
+    "genre_label": "Genre",
+    "passport_label": "Passport",
+    "nationality_label": "Nacionality",
+    "phone_label": "Phone",
+    "address_label": "Address",
+    "weight_label": "Weight",
+    "height_label": "Height",
+    "medical_expiration_label": "Medical review expiration ",
+    "medical_observations_label": "Medical observations"
+  },
+  "genre_options": {
+    "m": "Masculine",
+    "f": "Femenine"
+  }
 }

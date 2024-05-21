@@ -37,7 +37,6 @@ const useStartSession = ({ idSession }: Props) => {
   }, []);
 
   const handleOnNextIteration = ({ answer }: { answer?: string }) => {
-    console.log("neeextt----", currentIterationIndex, currentIterationIndex);
     if (!sessionOrdered) return;
     currentIterationIndex += 1;
     sessionAnswers.push(answer || "");

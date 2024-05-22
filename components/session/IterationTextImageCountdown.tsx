@@ -5,19 +5,26 @@ import SessionCounter from "./SessionCounter";
 import { useMemo } from "react";
 import { IMAGE_NAME } from "@/types/session";
 import { get_image_from_name } from "@/utils/libs";
+import CircularProgress from "../progress-bar/CircularProgressBar";
 type Props = {
   count: number;
   imageName: IMAGE_NAME;
   textType: "dm";
   textStep: number;
+  initialCountdown: number;
 };
 const IterationTextImageCountdown = ({
   count,
   imageName,
   textType,
   textStep,
+  initialCountdown,
 }: Props) => {
   const imageSource = useMemo(() => get_image_from_name(imageName), []);
+  const progress =
+    initialCountdown - count > 0
+      ? (initialCountdown - count) / initialCountdown
+      : 0;
   return (
     <View
       flex={1}
@@ -44,9 +51,15 @@ const IterationTextImageCountdown = ({
         <TextInformation type={textType} step={textStep} />
       </Box>
       <Box flex={1} alignItems="center">
-        <Text fontSize={90} fontWeight="bold" textAlign="center" color="black">
-          {count}
-        </Text>
+        <Box mb="$2">
+          <CircularProgress
+            progress={1 - progress}
+            circleColor="#090B22"
+            size={180}
+            strokeWidth={6}
+            text={`${count}`}
+          />
+        </Box>
         <SessionCounter />
       </Box>
     </View>

@@ -65,7 +65,7 @@ export default function AboutYouScreen() {
     profileData.medicalExpiration.length === 10
       ? new Date(Date.parse(profileData.medicalExpiration))
       : undefined;
-  console.log({ birthDateValue, medicalExpirationValue });
+
   return (
     <ScrollView style={styles.container} px={"$3"}>
       <VStack space="md">

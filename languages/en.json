@@ -46,7 +46,6 @@
   "dm+memory": "Decision Making + Memory",
   "random": "Random",
   "prepare": "Prepare",
-  "configuration": "Configuration",
   "repetitions": "Repetitions",
   "decisions": "Decisions",
   "exercise_time": "Exercise time",
@@ -82,7 +81,9 @@
     "role_label": "Role",
     "category_label": "Category",
     "email_label": "Email",
-    "confirm_label": "Confirm"
+    "confirm_label": "Confirm",
+    "cancel": "Cancel",
+    "configuration": "Configuration"
   },
   "login_screen": {
     "email_label": "Type your email",
@@ -111,6 +112,11 @@
     "f": "Femenine"
   },
   "workout_flow": {
-    "official_training_alert": "This is an official training. You can do it just once"
+    "official_training_alert": "This is an official training. You can do it just once",
+    "training_title": "Trainings",
+    "download_modal_title": "Please hold on",
+    "download_modal_message": "We are downloading your exercise. Please do not close or leave this screen until the download finishes.",
+    "watch_tutorial_label": "Watch tutorial",
+    "materials_title": "Materials"
   }
 }

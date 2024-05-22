@@ -8,8 +8,8 @@ import { Workout } from "@/types/workout";
 import { useAuth } from "@/context/auth";
 
 type Props = {
-  idSession: string | number;
-  workout: Workout;
+  idSession: number;
+  workout?: Workout;
 };
 const useSession = ({ idSession, workout }: Props) => {
   const [downloadProgress, setDownloadProgress] = useState(0);
@@ -117,7 +117,7 @@ const useSession = ({ idSession, workout }: Props) => {
       } finally {
         setIsDownloading(false);
       }
-    } else {
+    } else if (workout) {
       try {
         await downloadVideos(workout);
         setWasSessionDownloaded(true);
@@ -126,17 +126,19 @@ const useSession = ({ idSession, workout }: Props) => {
       } finally {
         setIsDownloading(false);
       }
+    } else {
+      console.log("ERROR, workout undefined");
     }
     setIsDownloading(false);
   };
   return {
-    downloadVideos,
     downloadProgress,
     isDownloading,
-    setIsDownloading,
-    downloadSession,
     session,
     wasSessionDownloaded,
+    downloadVideos,
+    setIsDownloading,
+    downloadSession,
   };
 };
 

@@ -10,7 +10,7 @@ import {
   ScrollView,
   ImageBackground,
 } from "@gluestack-ui/themed";
-import { Platform, Pressable, StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import i18n from "@/languages/i18n";
 import WorkoutConfigItem from "@/components/workouts/WorkoutConfigurationItem";
@@ -21,11 +21,11 @@ import { Href, useLocalSearchParams, useRouter } from "expo-router";
 import useSession from "@/hooks/useSession";
 import DownloadProgressModal from "@/components/workouts/DownloadProgressModal";
 import { useAuth } from "@/context/auth";
-import XIcon from "@/assets/svgs/XIcon";
+import CAlert from "@/components/CAlert";
 
 const WorkoutDetail = () => {
   const { id: idWorkout } = useLocalSearchParams();
-  const { userRole } = useAuth();
+  const { userRole, currentOrganization } = useAuth();
 
   const { workout } = useGetSessionById({ idWorkout: idWorkout as string });
   const {
@@ -35,8 +35,7 @@ const WorkoutDetail = () => {
     wasSessionDownloaded,
     downloadSession,
     session,
-  } = useSession({ idSession: idWorkout, workout: workout });
-  //TODO: FIX idSession typing
+  } = useSession({ idSession: Number(idWorkout), workout: workout });
   const router = useRouter();
   const handleOnPress = () => {
     if (wasSessionDownloaded)
@@ -49,6 +48,9 @@ const WorkoutDetail = () => {
   };
 
   const workoutData = userRole === "member" ? workout?.workout : workout;
+  const date = workout?.createdAt
+    ? new Date(Date.parse(workout.createdAt))
+    : new Date();
   return (
     <>
       <DownloadProgressModal
@@ -68,9 +70,8 @@ const WorkoutDetail = () => {
             end={{ x: 1, y: 0.5 }}
             style={styles.backgroundLinearGradient}
           >
-            {/* TODO: NOMBRE DEL EJERCICIO */}
             <Text color="white" px="$3" fontSize="$lg" bold>
-              Nombre del ejercicio
+              {workoutData?.name}
             </Text>
           </LinearGradient>
         </ImageBackground>
@@ -80,36 +81,24 @@ const WorkoutDetail = () => {
           pb={"$2"}
         >
           <VStack space="md">
-            <Box
-              bg="$alertYellow"
-              paddingHorizontal={10}
-              paddingVertical={5}
-              borderRadius={5}
-              height={70}
-              display="flex"
-              flexDirection="row"
-              alignItems="center"
-              gap={10}
-              marginVertical={10}
-            >
-              <Text color="$secondary">
-                {i18n.t("workout_flow.official_training_alert")}
-              </Text>
-              <Pressable>
-                <XIcon />
-              </Pressable>
-            </Box>
+            <CAlert text={i18n.t("workout_flow.official_training_alert")} />
             <Box
               flexDirection="row"
               justifyContent="space-between"
               alignItems="center"
+              marginTop={"$2"}
             >
               <Text>{i18n.t("sent_by")}</Text>
               <VStack flexDirection="row" alignItems="center" space="sm">
                 <Text fontWeight="bold" color="black">
-                  Jesus Román
+                  {`${currentOrganization?.contactName} ${currentOrganization?.contactLastName}`}
                 </Text>
-                <Text>13 mar</Text>
+                <Text>
+                  {date.toLocaleDateString("es-PY", {
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </Text>
               </VStack>
             </Box>
             <VStack my="$3" space="sm">
@@ -130,13 +119,15 @@ const WorkoutDetail = () => {
               >
                 <WorkoutTypeBadge type={i18n.t(workoutData?.type || "s")} />
                 <Button variant="link">
-                  <ButtonText fontWeight="medium">Ver tutorial</ButtonText>
+                  <ButtonText fontWeight="medium">
+                    {i18n.t("workout_flow.watch_tutorial_label")}
+                  </ButtonText>
                 </Button>
               </VStack>
             </VStack>
             <VStack mt="$2" space="sm">
               <Text fontSize={20} fontWeight="bold" color="black">
-                Materiales
+                {i18n.t("workout_flow.materials_title")}
               </Text>
               <VStack flexDirection="row" space="md">
                 <WorkoutMaterial name="5 conos" />
@@ -145,7 +136,7 @@ const WorkoutDetail = () => {
             </VStack>
             <VStack mt="$2" space="md">
               <Text fontSize={20} fontWeight="bold" color="black">
-                Configuración
+                {i18n.t("common.configuration")}
               </Text>
               <WorkoutConfigItem
                 configName="Repeticiones"

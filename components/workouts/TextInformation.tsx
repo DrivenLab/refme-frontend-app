@@ -1,3 +1,4 @@
+import i18n from "@/languages/i18n";
 import { Box, Text } from "@gluestack-ui/themed";
 type Props = {
   type: "dm";
@@ -10,12 +11,14 @@ const TextInformation = ({ type, step }: Props) => {
     return (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
+          {/* Prepárate para el ejercicio físico */}
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            Prepárate{" "}
+            {i18n.t("workout_flow.prepare_bold")}
           </Text>
-          para el{" "}
+          {i18n.t("workout_flow.prepare_for")}
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            ejercicio físico
+            {/* ejercicio físico */}
+            {i18n.t("workout_flow.prepare_to_bold")}
           </Text>
         </Text>
       </Box>
@@ -25,15 +28,15 @@ const TextInformation = ({ type, step }: Props) => {
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            Mira{" "}
+            {i18n.t("workout_flow.look_at_bold")}
           </Text>
-          el{" "}
+          {i18n.t("workout_flow.look_at_the")}
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            video{" "}
+            {i18n.t("workout_flow.look_at_video_bold")}
           </Text>
-          y toma una{" "}
+          {i18n.t("workout_flow.look_at_take")}
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            decisión
+            {i18n.t("workout_flow.look_at_decision")}
           </Text>
         </Text>
       </Box>

@@ -78,11 +78,7 @@ const WorkoutDetail = () => {
             </Text>
           </LinearGradient>
         </ImageBackground>
-        <ScrollView
-          px="$3"
-          pt={Platform.OS === "android" ? 40 : "$2"}
-          pb={"$2"}
-        >
+        <ScrollView px="$3" pt={Platform.OS === "android" ? 10 : "$2"}>
           <VStack space="md">
             <CAlert text={i18n.t("workout_flow.official_training_alert")} />
             <Box
@@ -167,6 +163,7 @@ const WorkoutDetail = () => {
             bg="$primary"
             rounded="$full"
             height={50}
+            mb={20}
           >
             <ButtonText color="black" fontWeight="medium">
               {wasSessionDownloaded ? "Comenzar" : "Preparar"}

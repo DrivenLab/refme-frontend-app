@@ -1,7 +1,9 @@
 import { SessionContext } from "@/types/session";
 import { getSessionResume } from "@/utils/session";
-import { Box, Text } from "@gluestack-ui/themed";
+import { Box, Text, VStack } from "@gluestack-ui/themed";
 import React, { useState } from "react";
+import StatsResultPill from "../workouts/StatsResultPill";
+import SessionResultBarChart from "../workouts/SessionResultBarChart";
 type Props = {
   session: SessionContext;
 };
@@ -13,6 +15,24 @@ const SessionStatistics = ({ session }: Props) => {
       <Text fontWeight={"$bold"} fontSize={30} color="black">
         Resultados
       </Text>
+      <Box display="flex" flexDirection="row" height="100%">
+        <VStack
+          width="30%"
+          height="100%"
+          bgColor="$yellow100"
+          space="md"
+          paddingVertical={"$1"}
+        >
+          <StatsResultPill type="time" text="10:20:35 s" />
+          <StatsResultPill type="success" text="6" />
+          <StatsResultPill type="error" text="4" />
+          <Text>Promedio de respuesta</Text>
+          <StatsResultPill type="time" text="3:35 s" />
+        </VStack>
+        <Box width="70%" height="100%" bgColor="$green100">
+          <SessionResultBarChart />
+        </Box>
+      </Box>
       <Text fontWeight={"$bold"} fontSize={20} color="black">
         Tiempo total:{" "}
         <Text color="black" fontSize={20}>

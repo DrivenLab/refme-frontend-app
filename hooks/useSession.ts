@@ -8,10 +8,11 @@ import { Workout } from "@/types/workout";
 import { useAuth } from "@/context/auth";
 
 type Props = {
+  idWorkout: string | number;
+  workout: Workout;
   idSession: number;
-  workout?: Workout;
 };
-const useSession = ({ idSession, workout }: Props) => {
+const useSession = ({ idWorkout, workout, idSession }: Props) => {
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const [enableQuery, setEnableQuery] = useState(false);
@@ -20,15 +21,17 @@ const useSession = ({ idSession, workout }: Props) => {
   const queryClient = useQueryClient();
   const { userRole } = useAuth();
 
+  const sessionId = idSession ?? idWorkout;
+
   const { refetchSession } = useGetSessionDetailById({
-    idSession,
+    idSession: sessionId,
     enabled: enableQuery,
   });
 
   useEffect(() => {
     const data = queryClient.getQueryData<AxiosResponse<Session>>([
       "sessions",
-      idSession,
+      idWorkout,
     ]);
     if (data) {
       setWasSessionDownloaded(true);
@@ -38,11 +41,11 @@ const useSession = ({ idSession, workout }: Props) => {
   const updateSessionIteration = ({ iteration }: { iteration: Iteration }) => {
     const data = queryClient.getQueryData<AxiosResponse<Session>>([
       "sessions",
-      idSession,
+      idWorkout,
     ]);
     if (!data) return;
     queryClient.setQueryData(
-      ["sessions", idSession],
+      ["sessions", idWorkout],
       (axiosResponse: AxiosResponse<Session>) => {
         const index = axiosResponse.data.workout.iterations.findIndex(
           (i) => i.id === iteration.id

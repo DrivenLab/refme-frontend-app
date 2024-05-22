@@ -18,6 +18,7 @@ const useGetProfile = () => {
   };
 };
 
+//TODO: Filtrar por tipo de miembro, re o ra
 const useGetMembers = () => {
   //Get Data
   const { currentOrganization } = useAuth();

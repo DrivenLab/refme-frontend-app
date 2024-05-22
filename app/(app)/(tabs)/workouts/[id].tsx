@@ -29,6 +29,7 @@ const WorkoutDetail = () => {
   const { userRole, currentOrganization } = useAuth();
 
   const { workout } = useGetSessionById({ idWorkout: idWorkout as string });
+
   const {
     downloadProgress,
     setIsDownloading,
@@ -39,6 +40,7 @@ const WorkoutDetail = () => {
   } = useSession({ idSession: Number(idWorkout), workout: workout });
   const { createSession } = useSessionContext();
   const router = useRouter();
+
   const handleOnPress = () => {
     if (wasSessionDownloaded && session) {
       createSession(session);

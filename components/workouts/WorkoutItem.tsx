@@ -11,17 +11,21 @@ import DmLogo from "@/assets/svgs/DmLogo";
 type Props = {
   workout: Workout;
   idSession: number;
+  idWorkout: string | number;
 };
 
-const WorkoutItem = ({ workout, idSession }: Props) => {
+const WorkoutItem = ({ workout, idWorkout, idSession }: Props) => {
   const {
     downloadSession,
     downloadProgress,
     isDownloading,
     setIsDownloading,
     wasSessionDownloaded,
-  } = useSession({ idSession: idSession, workout: workout });
-  const idWorkout = workout.id;
+  } = useSession({
+    idWorkout: idWorkout,
+    workout: workout,
+    idSession: idSession,
+  });
 
   return (
     <>

@@ -59,7 +59,7 @@ const useGetSessionById = ({ idWorkout }: { idWorkout: string | number }) => {
   } = useQuery({
     queryKey: ["workout", idWorkout],
     queryFn: fetchWorkout,
-    enabled: !!idWorkout, // Solo se ejecuta si idWorkout está definido
+    enabled: !!idWorkout,
   });
 
   return { workout, isLoading, error };

@@ -21,15 +21,13 @@ export default function TabTwoScreen() {
     <SafeAreaView>
       <VStack justifyContent="space-evenly" height="$full">
         <Box>
-          {/*
-            <Avatar size="2xl" marginHorizontal="auto" marginTop={10}>
+          <Avatar size="2xl" marginHorizontal="auto" marginTop={10}>
             <AvatarFallbackText>{initials}</AvatarFallbackText>
             <AvatarImage
               source={user?.profilePicture ? { uri: user?.profilePicture } : ""}
               alt="User Profile picture"
             />
           </Avatar>
-            */}
 
           <Box>
             <Text

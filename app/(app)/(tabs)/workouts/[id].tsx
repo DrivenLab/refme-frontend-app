@@ -25,6 +25,17 @@ const WorkoutDetail = () => {
   const { userRole } = useAuth();
 
   const { workout } = useGetSessionById({ idWorkout: idWorkout as string });
+  if (!workout) {
+    //TODO: Add loading indicator
+    return (
+      <VStack my="$3" space="sm">
+        <Text fontSize={20} fontWeight="bold" color="black">
+          {i18n.t("message")}
+        </Text>
+      </VStack> // O cualquier otro indicador de carga
+    );
+  }
+
   const {
     downloadProgress,
     setIsDownloading,
@@ -32,7 +43,8 @@ const WorkoutDetail = () => {
     wasSessionDownloaded,
     downloadSession,
     session,
-  } = useSession({ idSession: idWorkout, workout: workout });
+  } = useSession({ idWorkout: idWorkout, workout: workout });
+
   const router = useRouter();
   const handleOnPress = () => {
     if (wasSessionDownloaded)

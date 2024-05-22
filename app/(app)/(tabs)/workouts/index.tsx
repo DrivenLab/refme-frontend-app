@@ -67,6 +67,7 @@ const Workouts = () => {
               borderColor="indigo600"
               position="absolute"
               top={-30}
+              hardShadow="3"
             >
               <ButtonIcon color="white" as={AddIcon} />
             </Button>

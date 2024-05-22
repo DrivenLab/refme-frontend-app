@@ -19,6 +19,7 @@ import WorkoutTypeBadge from "@/components/workouts/WorkoutTypeBadge";
 import { useGetSessionById } from "@/queries/session.query";
 import { Href, useLocalSearchParams, useRouter } from "expo-router";
 import useSession from "@/hooks/useSession";
+import { useSession as useSessionContext } from "@/context/SessionContext";
 import DownloadProgressModal from "@/components/workouts/DownloadProgressModal";
 import { useAuth } from "@/context/auth";
 import CAlert from "@/components/CAlert";
@@ -36,13 +37,15 @@ const WorkoutDetail = () => {
     downloadSession,
     session,
   } = useSession({ idSession: Number(idWorkout), workout: workout });
+  const { createSession } = useSessionContext();
   const router = useRouter();
   const handleOnPress = () => {
-    if (wasSessionDownloaded)
+    if (wasSessionDownloaded && session) {
+      createSession(session);
       if (userRole === "member")
         router.push("/workouts/startWorkout/" as Href<string>);
       else router.push("/workouts/assignReferee/" as Href<string>);
-    else {
+    } else {
       downloadSession();
     }
   };

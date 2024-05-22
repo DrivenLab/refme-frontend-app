@@ -3,19 +3,14 @@ import useSession from "./useSession";
 import { Iteration, Session } from "@/types/session";
 import { useQueryClient } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
+import { getSessionOrderedByIterations } from "@/utils/session";
 type Props = {
   idSession: string | number;
 };
 type Steps = "beginning" | "workout" | "video" | "decision" | "rpe";
 
 let currentIterationIndex = 0;
-const getSessionOrderedByIterations = (session: Session) => {
-  const iterations_ = session.workout.iterations.sort(
-    (a, b) => a.repetitionNumber - b.repetitionNumber
-  );
-  session.workout.iterations = iterations_;
-  return { ...session };
-};
+
 const useStartSession = ({ idSession }: Props) => {
   const [sessionOrdered, setSessionOrdered] = useState<Session>();
   const [currentIteration, setCurrentIteration] = useState<Iteration>();
@@ -37,6 +32,7 @@ const useStartSession = ({ idSession }: Props) => {
   }, []);
 
   const handleOnNextIteration = ({ answer }: { answer?: string }) => {
+    //console.log("neeextt----", currentIterationIndex, currentIterationIndex);
     if (!sessionOrdered) return;
     currentIterationIndex += 1;
     sessionAnswers.push(answer || "");
@@ -46,7 +42,7 @@ const useStartSession = ({ idSession }: Props) => {
       );
       setStep("beginning");
     } else {
-      console.log("here i have to manage the end of the workout");
+      //console.log("here i have to manage the end of the workout");
     }
   };
   return {

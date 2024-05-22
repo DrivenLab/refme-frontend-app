@@ -10,10 +10,12 @@ import TextInformation from "../workouts/TextInformation";
 type Props = {
   onFinishCountdown: () => void;
   initialCountdown: number;
+  hasNoVideo: boolean;
 };
 const SessionTrainingCountdown = ({
   onFinishCountdown,
   initialCountdown,
+  hasNoVideo,
 }: Props) => {
   const [count, setCount] = useState(initialCountdown);
 
@@ -39,7 +41,7 @@ const SessionTrainingCountdown = ({
       alignItems="center"
       bg="white"
     >
-      {count >= 4 ? (
+      {count >= 4 || hasNoVideo ? (
         <IterationImageCountdown
           count={count}
           imageName="man_running_with_color"

@@ -25,7 +25,7 @@ export default function AsignRefereeScreen() {
 
   const handleAssignReferee = () => {
     setError("");
-    console.log("Members");
+    console.log("Members", members);
   };
 
   return (
@@ -48,7 +48,7 @@ export default function AsignRefereeScreen() {
           )}
           <FlatList
             data={members}
-            mb={200}
+            mb={300}
             renderItem={({ item: member }) => (
               <MemberItem member={member} idMember={member.id} />
             )}

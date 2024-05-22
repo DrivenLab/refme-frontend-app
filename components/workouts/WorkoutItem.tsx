@@ -9,12 +9,11 @@ import DownloadProgressModal from "./DownloadProgressModal";
 import useSession from "@/hooks/useSession";
 import DmLogo from "@/assets/svgs/DmLogo";
 type Props = {
-  workout: Workout;
   idSession: number;
   idWorkout: string | number;
 };
 
-const WorkoutItem = ({ workout, idWorkout, idSession }: Props) => {
+const WorkoutItem = ({ workout, idSession }: Props) => {
   const {
     downloadSession,
     downloadProgress,
@@ -22,8 +21,6 @@ const WorkoutItem = ({ workout, idWorkout, idSession }: Props) => {
     setIsDownloading,
     wasSessionDownloaded,
   } = useSession({
-    idWorkout: idWorkout,
-    workout: workout,
     idSession: idSession,
   });
 
@@ -34,7 +31,7 @@ const WorkoutItem = ({ workout, idWorkout, idSession }: Props) => {
         onCancelDownload={() => setIsDownloading(false)}
         downloadProgress={downloadProgress}
       />
-      <Link href={`/workouts/${idWorkout}/` as Href<string>} asChild>
+      <Link href={`/workouts/${idSession}/` as Href<string>} asChild>
         <Pressable marginBottom="$2">
           <Box
             rounded={"$md"}

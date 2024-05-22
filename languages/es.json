@@ -119,6 +119,14 @@
     "watch_tutorial_label": "Ver tutorial",
     "materials_title": "Materiales",
     "turn_phone_label": "Gire su pantalla para comenzar",
-    "start_training_label": "Iniciar entrenamiento"
+    "start_training_label": "Iniciar entrenamiento",
+    "prepare_bold": "Prepárate ",
+    "prepare_for": "para el ",
+    "prepare_to_bold": "ejercicio físico",
+    "look_at_bold": "Mira ",
+    "look_at_the": "el",
+    "look_at_video_bold": "video ",
+    "look_at_take": "y toma una ",
+    "look_at_decision": "decisión"
   }
 }

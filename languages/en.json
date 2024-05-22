@@ -119,6 +119,14 @@
     "watch_tutorial_label": "Watch tutorial",
     "materials_title": "Materials",
     "turn_phone_label": "Turn your screen to start",
-    "start_training_label": "Start training"
+    "start_training_label": "Start training",
+    "prepare_bold": "Prepare ",
+    "prepare_for": "for the ",
+    "prepare_to_bold": "physical training",
+    "look_at_bold": "Look ",
+    "look_at_the": "the",
+    "look_at_video_bold": "video ",
+    "look_at_take": "and take a ",
+    "look_at_decision": "decisión"
   }
 }

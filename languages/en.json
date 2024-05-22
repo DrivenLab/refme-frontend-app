@@ -117,6 +117,8 @@
     "download_modal_title": "Please hold on",
     "download_modal_message": "We are downloading your exercise. Please do not close or leave this screen until the download finishes.",
     "watch_tutorial_label": "Watch tutorial",
-    "materials_title": "Materials"
+    "materials_title": "Materials",
+    "turn_phone_label": "Turn your screen to start",
+    "start_training_label": "Start training"
   }
 }

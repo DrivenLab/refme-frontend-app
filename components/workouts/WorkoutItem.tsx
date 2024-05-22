@@ -35,7 +35,7 @@ const WorkoutItem = ({ workout, idWorkout, idSession }: Props) => {
         downloadProgress={downloadProgress}
       />
       <Link href={`/workouts/${idWorkout}/` as Href<string>} asChild>
-        <Pressable softShadow="2" marginBottom="$2">
+        <Pressable marginBottom="$2">
           <Box
             rounded={"$md"}
             px={"$5"}

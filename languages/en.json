@@ -109,5 +109,8 @@
   "genre_options": {
     "m": "Masculine",
     "f": "Femenine"
+  },
+  "workout_flow": {
+    "official_training_alert": "This is an official training. You can do it just once"
   }
 }

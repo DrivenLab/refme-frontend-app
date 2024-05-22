@@ -8,11 +8,12 @@ import { Workout } from "@/types/workout";
 import { useAuth } from "@/context/auth";
 
 type Props = {
-  idSession: string | number;
+  idWorkout: string | number;
   workout: Workout;
+  idSession: number;
 };
-const useSession = ({ idSession, workout }: Props) => {
-  const [downloadProgress, setDownloadProgress] = useState(0);
+const useSession = ({ idWorkout, workout, idSession }: Props) => {
+  const [progresses, setProgresses] = useState<{ [key: string]: number }>({});
   const [isDownloading, setIsDownloading] = useState(false);
   const [enableQuery, setEnableQuery] = useState(false);
   const [session, setSession] = useState<Session>();
@@ -20,15 +21,17 @@ const useSession = ({ idSession, workout }: Props) => {
   const queryClient = useQueryClient();
   const { userRole } = useAuth();
 
+  const sessionId = idSession ?? idWorkout;
+
   const { refetchSession } = useGetSessionDetailById({
-    idSession,
+    idSession: sessionId,
     enabled: enableQuery,
   });
 
   useEffect(() => {
     const data = queryClient.getQueryData<AxiosResponse<Session>>([
       "sessions",
-      idSession,
+      idWorkout,
     ]);
     if (data) {
       setWasSessionDownloaded(true);
@@ -38,11 +41,11 @@ const useSession = ({ idSession, workout }: Props) => {
   const updateSessionIteration = ({ iteration }: { iteration: Iteration }) => {
     const data = queryClient.getQueryData<AxiosResponse<Session>>([
       "sessions",
-      idSession,
+      idWorkout,
     ]);
     if (!data) return;
     queryClient.setQueryData(
-      ["sessions", idSession],
+      ["sessions", idWorkout],
       (axiosResponse: AxiosResponse<Session>) => {
         const index = axiosResponse.data.workout.iterations.findIndex(
           (i) => i.id === iteration.id
@@ -61,18 +64,21 @@ const useSession = ({ idSession, workout }: Props) => {
   const getVideoName = (iteration: Iteration) => {
     return `video_${iteration.answers[0].video1.id}.mp4`;
   };
-  const calculateDownloadProgress = (downloadProgress_: any) => {
+  const calculateDownloadProgress = (
+    downloadProgress_: FileSystem.DownloadProgressData,
+    url: string
+  ) => {
     const progress =
       downloadProgress_.totalBytesWritten /
       downloadProgress_.totalBytesExpectedToWrite;
-    setDownloadProgress((old) => (progress >= old ? progress : old));
+    setProgresses((old) => ({ ...old, [url]: progress }));
   };
   const downloadResumable = (url: string, videoName: string) =>
     FileSystem.createDownloadResumable(
       url,
       FileSystem.documentDirectory + videoName,
       {},
-      calculateDownloadProgress
+      (x) => calculateDownloadProgress(x, url)
     );
   const updateIterationVideoUrl = (i: Iteration, newURL: string) => {
     const newIteration = { ...i };
@@ -93,9 +99,9 @@ const useSession = ({ idSession, workout }: Props) => {
     }
   };
   const downloadVideos = async (workout: Workout) => {
-    const downloadVideosPromises = workout.iterations.map((i) => {
-      if (i.answers.length !== 0) return downloadVideo(i, true);
-    });
+    const downloadVideosPromises = workout.iterations
+      .filter((i) => i.answers.length)
+      .map((i) => downloadVideo(i, true));
     if (!downloadVideosPromises) return;
 
     try {
@@ -117,7 +123,7 @@ const useSession = ({ idSession, workout }: Props) => {
       } finally {
         setIsDownloading(false);
       }
-    } else {
+    } else if (workout) {
       try {
         await downloadVideos(workout);
         setWasSessionDownloaded(true);
@@ -126,17 +132,22 @@ const useSession = ({ idSession, workout }: Props) => {
       } finally {
         setIsDownloading(false);
       }
+    } else {
+      console.log("ERROR, workout undefined");
     }
     setIsDownloading(false);
   };
+  const downloadProgress =
+    Object.values(progresses).reduce((prev, curr) => prev + curr, 0) /
+    Object.values(progresses).length;
   return {
-    downloadVideos,
-    downloadProgress,
+    downloadProgress: downloadProgress || 0,
     isDownloading,
-    setIsDownloading,
-    downloadSession,
     session,
     wasSessionDownloaded,
+    downloadVideos,
+    setIsDownloading,
+    downloadSession,
   };
 };
 

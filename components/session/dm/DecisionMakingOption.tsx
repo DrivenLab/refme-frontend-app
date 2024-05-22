@@ -1,38 +1,46 @@
 import { t_DM_ANSWER1, t_DM_ANSWER2 } from "@/types/session";
 import { Box, Pressable, Text } from "@gluestack-ui/themed";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 type Props = {
   text?: string;
-  userAnswer?: string;
-  handleUserAnswer: (value: string, questionType: string) => void;
-  answer: string;
-  questionType: string;
+  handleUserAnswer: () => void;
+  isCorrect: boolean;
+  hasMarked: boolean;
+  showAnswer: boolean;
 };
 const DecisionMakingOption = ({
   text,
   handleUserAnswer,
-  answer,
-  userAnswer,
-  questionType,
+  isCorrect,
+  hasMarked,
+  showAnswer,
 }: Props) => {
-  const handleOnPress = () => {
-    handleUserAnswer(answer, questionType);
-  };
+  const bgColor = useMemo(() => {
+    if (!hasMarked) return "#f5f5f6";
+    if (!showAnswer) return "#090b22";
+    if (isCorrect) return "#a6ebb1";
+    else return "#ff9c97";
+  }, [isCorrect, hasMarked, showAnswer]);
+  const textColor = useMemo(() => {
+    if (!hasMarked) return "#090b22";
+    if (!showAnswer) return "#ffffff";
+    if (isCorrect) return "#090b22";
+    else return "#ffffff";
+  }, [isCorrect, hasMarked, showAnswer]);
   return (
     <Pressable
       flex={1}
       justifyContent="center"
       height={100}
-      style={{ backgroundColor: userAnswer === answer ? "#090B22" : "#f5f5f6" }}
+      style={{
+        backgroundColor: bgColor,
+      }}
       rounded={10}
-      onPress={handleOnPress}
+      onPress={handleUserAnswer}
     >
       {text && (
-        <Text
-          color={userAnswer === answer ? "#ffffff" : "#090B22"}
-          textAlign="center"
-        >
+        <Text color={textColor} textAlign="center">
           {text}
         </Text>
       )}

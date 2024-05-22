@@ -1,6 +1,13 @@
 import { User } from "@/types/user";
 import { StyleSheet } from "react-native";
-import { Box, Pressable, Text } from "@gluestack-ui/themed";
+import {
+  Box,
+  Pressable,
+  Text,
+  Avatar,
+  AvatarFallbackText,
+  AvatarImage,
+} from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
 import { Href, Link } from "expo-router";
 import DownloadSessionBtn from "./DownloadSessionBtn";
@@ -8,7 +15,7 @@ import React from "react";
 import DownloadProgressModal from "./DownloadProgressModal";
 import useSession from "@/hooks/useSession";
 type Props = {
-  user: User;
+  member: Member;
   idUser?: number;
 };
 
@@ -22,32 +29,49 @@ const MemberItem = ({ member, idMember }: Props) => {
   } = useSession({ idSession: idSession });
   const idWorkout = workout.id;
 */
+  const memberTypeMapping = {
+    ["re"]: i18n.t("referee"),
+    ["ra"]: i18n.t("assistant_referee"),
+  };
+
   return (
     <>
       <Pressable>
-        <Box
-          rounded={"$md"}
-          px={"$5"}
-          py={"$2"}
-          mb={"$4"}
-          style={styles.memberItem}
-        >
+        <Box rounded={"$md"} px={"$5"} style={styles.memberItem}>
           <Box
             flexDirection="row"
-            justifyContent="space-between"
             alignItems="center"
             alignContent="center"
-            style={{ borderBottomWidth: 2, borderBottomColor: "#ede18a" }}
-            py={"$1"}
+            py={"$2"}
           >
-            <Box>
-              <Text>{i18n.t("dm")}</Text>
+            <Box marginRight={20}>
+              <Avatar size="m" marginHorizontal="auto">
+                <AvatarFallbackText>R</AvatarFallbackText>
+
+                <AvatarImage
+                  source={
+                    member.user?.profilePicture
+                      ? { uri: member.user?.profilePicture }
+                      : ""
+                  }
+                  alt="User Profile picture"
+                />
+              </Avatar>
             </Box>
-          </Box>
-          <Box>
-            <Text fontWeight="bold" color="black" fontSize={20} py={"$2"}>
-              {member.fullName}
-            </Text>
+            <Box
+              flex={1}
+              justifyContent="space-arround"
+              alignItems="flex-start"
+            >
+              <Text fontWeight="bold" color="black" fontSize={16}>
+                {member.user.fullName ? member.user.fullName : "--"}
+              </Text>
+              <Text color="black" fontSize={16}>
+                {member.memberType
+                  ? memberTypeMapping[member.memberType]
+                  : "--"}
+              </Text>
+            </Box>
           </Box>
         </Box>
       </Pressable>

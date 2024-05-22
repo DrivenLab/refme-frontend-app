@@ -1,6 +1,6 @@
 {
   "question1_home": "¿Qué vas a entrenar hoy?",
-  "welcome": "¡Hola %{name}!, es un placer recibirte.",
+  "welcome": "¡Hola %{name}! es un placer recibirte.",
   "update_password": "Dado que tu contraseña actual fue creada por nosotros de forma automática, puedes cambiarla por una creada por ti.",
   "update_password_title": "Actualizar Contraseña",
   "workout": "Entrenamiento",
@@ -46,7 +46,6 @@
   "dm+memory": "Toma de decisión + Memoria",
   "random": "Aleatorio",
   "prepare": "Preparar",
-  "configuration": "Configuración",
   "repetitions": "Repeticiones",
   "decisions": "Decisiones",
   "exercise_time": "Tiempo de ejercicio",
@@ -82,7 +81,9 @@
     "role_label": "Rol",
     "category_label": "Categoría",
     "email_label": "Email",
-    "confirm_label": "Confirmar"
+    "confirm_label": "Confirmar",
+    "cancel": "Cancelar",
+    "configuration": "Configuración"
   },
   "login_screen": {
     "email_label": "Ingrese su correo",
@@ -111,6 +112,13 @@
     "f": "Femenino"
   },
   "workout_flow": {
-    "official_training_alert": "Este entrenamiento es de caracter oficial. Podrás realizarlo una única vez."
+    "official_training_alert": "Este entrenamiento es de caracter oficial. Podrás realizarlo una única vez.",
+    "training_title": "Entrenamientos",
+    "download_modal_title": "Aguarda un momento",
+    "download_modal_message": "Estamos descargando tu ejercicio. Por favor no cierres ni salgas de esta pantalla hasta que finalice.",
+    "watch_tutorial_label": "Ver tutorial",
+    "materials_title": "Materiales",
+    "turn_phone_label": "Gire su pantalla para comenzar",
+    "start_training_label": "Iniciar entrenamiento"
   }
 }

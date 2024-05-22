@@ -11,6 +11,7 @@ import {
   Button,
   ButtonText,
 } from "@gluestack-ui/themed";
+import i18n from "@/languages/i18n";
 type Props = {
   isModalOpen: boolean;
   onCancelDownload: () => void;
@@ -22,7 +23,12 @@ const DownloadProgressModal = ({
   downloadProgress,
 }: Props) => {
   const ref = React.useRef(null);
-
+  const dynamicColor =
+    downloadProgress < 0.3
+      ? "$red400"
+      : downloadProgress < 0.6
+      ? "$yellow400"
+      : "$green400";
   return (
     <Modal
       isOpen={isModalOpen}
@@ -33,7 +39,7 @@ const DownloadProgressModal = ({
       <ModalBackdrop />
       <ModalContent>
         <ModalHeader justifyContent="center">
-          <Heading size="lg" textAlign="center">
+          <Heading size="lg" textAlign="center" color={dynamicColor}>
             {downloadProgress === 1 && isModalOpen
               ? 99
               : Math.floor(downloadProgress * 100)}{" "}
@@ -41,12 +47,16 @@ const DownloadProgressModal = ({
           </Heading>
         </ModalHeader>
         <ModalBody>
-          <Text fontWeight="bold" color="black" textAlign="center">
-            Aguarda un momento
+          <Text
+            fontWeight="bold"
+            color="black"
+            textAlign="center"
+            marginBottom="$2"
+          >
+            {i18n.t("workout_flow.download_modal_title")}
           </Text>
           <Text fontWeight="medium" textAlign="center">
-            Estamos descargando tu ejercicio. Por favor no cierres ni salgas de
-            esta pantalla hasta que finalice.
+            {i18n.t("workout_flow.download_modal_message")}
           </Text>
           <ModalFooter justifyContent="center">
             <Button
@@ -59,7 +69,7 @@ const DownloadProgressModal = ({
               }}
               rounded={"$full"}
             >
-              <ButtonText>Cancelar</ButtonText>
+              <ButtonText>{i18n.t("common.cancel")}</ButtonText>
             </Button>
           </ModalFooter>
         </ModalBody>

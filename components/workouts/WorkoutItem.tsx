@@ -10,19 +10,22 @@ import useSession from "@/hooks/useSession";
 import DmLogo from "@/assets/svgs/DmLogo";
 type Props = {
   workout: Workout;
-  idSession?: number;
+  idSession: number;
+  idWorkout: string | number;
 };
 
-const WorkoutItem = ({ workout, idSession }: Props) => {
+const WorkoutItem = ({ workout, idWorkout, idSession }: Props) => {
   const {
     downloadSession,
     downloadProgress,
     isDownloading,
     setIsDownloading,
     wasSessionDownloaded,
-  } = useSession({ idSession: idSession, workout: workout });
-  //TODOL FIX idSession TYPING!
-  const idWorkout = workout.id;
+  } = useSession({
+    idWorkout: idWorkout,
+    workout: workout,
+    idSession: idSession,
+  });
 
   return (
     <>
@@ -32,7 +35,7 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
         downloadProgress={downloadProgress}
       />
       <Link href={`/workouts/${idWorkout}/` as Href<string>} asChild>
-        <Pressable>
+        <Pressable marginBottom="$2">
           <Box
             rounded={"$md"}
             px={"$5"}

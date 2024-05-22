@@ -21,33 +21,40 @@ import { useAuth } from "@/context/auth";
 import SessionList from "@/components/session/SessionList";
 import WorkoutItem from "@/components/workouts/WorkoutItem";
 import EmptyWorkouts from "@/components/workouts/EmptyWorkouts";
-import MemberWorkouts from "@/components/workouts/MemberWorkouts";
 
-const Workouts = () => {
-  const { userRole } = useAuth();
-
+const MemberWorkouts = () => {
   const [tab, setTab] = useState<"pending" | "finished">("pending");
   const { sessions, isLoadingSession } = useGetSessions();
 
   return (
-    <SafeAreaView bg="$white" flex={1}>
-      <Image
-        source={require("@/assets/images/workout_list.png")}
-        style={{ height: 130, width: "100%" }}
+    <>
+      <Box flexDirection="row" justifyContent="center">
+        <Button
+          width={60}
+          rounded="$full"
+          height={60}
+          bg="$primary"
+          borderColor="indigo600"
+          position="absolute"
+          top={-30}
+          hardShadow="3"
+        >
+          <ButtonIcon color="white" as={AddIcon} />
+        </Button>
+      </Box>
+      <CTab
+        currentTab={tab}
+        changeCurrentTab={(tab_: string) =>
+          setTab(tab_ as "pending" | "finished")
+        }
+        tabs={[
+          { label: i18n.t("workout_pending"), value: "pending" },
+          { label: i18n.t("workout_finished"), value: "finished" },
+        ]}
       />
-      <VStack
-        px={"$3"}
-        space="lg"
-        borderTopLeftRadius={30}
-        borderTopRightRadius={30}
-        position="relative"
-        top={-20}
-        bg="$white"
-      >
-        {userRole === "member" ? <MemberWorkouts /> : null}
-      </VStack>
-    </SafeAreaView>
+      <SessionList sessions={sessions} state={tab} />
+    </>
   );
 };
 
-export default Workouts;
+export default MemberWorkouts;

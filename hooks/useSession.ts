@@ -8,11 +8,9 @@ import { Workout } from "@/types/workout";
 import { useAuth } from "@/context/auth";
 
 type Props = {
-  idWorkout: string | number;
-  workout: Workout;
   idSession: number;
 };
-const useSession = ({ idWorkout, workout, idSession }: Props) => {
+const useSession = ({ idSession }: Props) => {
   const [progresses, setProgresses] = useState<{ [key: string]: number }>({});
   const [isDownloading, setIsDownloading] = useState(false);
   const [enableQuery, setEnableQuery] = useState(false);
@@ -35,17 +33,15 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
     };
   }, []);
   const setProgressDebounced = debounce(setProgresses, 50);
-  const sessionId = idSession ?? idWorkout;
-
   const { refetchSession } = useGetSessionDetailById({
-    idSession: sessionId,
+    idSession,
     enabled: enableQuery,
   });
 
   useEffect(() => {
     const data = queryClient.getQueryData<AxiosResponse<Session>>([
       "sessions",
-      idWorkout,
+      idSession,
     ]);
     if (data) {
       setWasSessionDownloaded(true);
@@ -55,11 +51,11 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
   const updateSessionIteration = ({ iteration }: { iteration: Iteration }) => {
     const data = queryClient.getQueryData<AxiosResponse<Session>>([
       "sessions",
-      idWorkout,
+      idSession,
     ]);
     if (!data) return;
     queryClient.setQueryData(
-      ["sessions", idWorkout],
+      ["sessions", idSession],
       (axiosResponse: AxiosResponse<Session>) => {
         const index = axiosResponse.data.workout.iterations.findIndex(
           (i) => i.id === iteration.id
@@ -115,8 +111,8 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
       console.error("eerrrr", e);
     }
   };
-  const downloadVideos = async (workout: Workout) => {
-    const downloadVideosPromises = workout.iterations
+  const downloadVideos = async (session: Session) => {
+    const downloadVideosPromises = session.workout.iterations
       .filter((i) => i.answers.length)
       .map((i) => downloadVideo(i, true));
     if (!downloadVideosPromises) return;
@@ -127,32 +123,18 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
   };
   const downloadSession = async () => {
     setIsDownloading(true);
-    if (userRole === "member") {
-      try {
-        const { data, isSuccess } = await refetchSession();
-        if (isSuccess) {
-          setSession(data.data);
-          await downloadVideos(data.data.workout);
-          setWasSessionDownloaded(true);
-        }
-      } catch (error) {
-        console.log("error en download session", error);
-      } finally {
-        setIsDownloading(false);
-      }
-    } else if (workout) {
-      try {
-        await downloadVideos(workout);
+    try {
+      const { data, isSuccess } = await refetchSession();
+      if (isSuccess) {
+        setSession(data.data);
+        await downloadVideos(data.data);
         setWasSessionDownloaded(true);
-      } catch (error) {
-        console.log("error en download session", error);
-      } finally {
-        setIsDownloading(false);
       }
-    } else {
-      console.log("ERROR, workout undefined");
+    } catch (error) {
+      console.log("error en download session", error);
+    } finally {
+      setIsDownloading(false);
     }
-    setIsDownloading(false);
   };
   const downloadProgress =
     Object.values(progresses).reduce((prev, curr) => prev + curr, 0) /

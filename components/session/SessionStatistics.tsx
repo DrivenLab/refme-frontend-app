@@ -15,22 +15,16 @@ const SessionStatistics = ({ session }: Props) => {
       <Text fontWeight={"$bold"} fontSize={30} color="black">
         Resultados
       </Text>
-      <Box display="flex" flexDirection="row" height="100%">
-        <VStack
-          width="30%"
-          height="100%"
-          bgColor="$yellow100"
-          space="md"
-          paddingVertical={"$1"}
-        >
+      <Box display="flex" flexDirection="row" height="$full">
+        <VStack width="30%" height="$full" space="md" paddingVertical={"$1"}>
           <StatsResultPill type="time" text="10:20:35 s" />
           <StatsResultPill type="success" text="6" />
           <StatsResultPill type="error" text="4" />
           <Text>Promedio de respuesta</Text>
           <StatsResultPill type="time" text="3:35 s" />
         </VStack>
-        <Box width="70%" height="100%" bgColor="$green100">
-          <SessionResultBarChart />
+        <Box width="70%" height="100%">
+          <SessionResultBarChart session={session} />
         </Box>
       </Box>
       <Text fontWeight={"$bold"} fontSize={20} color="black">

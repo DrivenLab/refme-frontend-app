@@ -33,7 +33,12 @@ const RotateScreen = ({ orientation, onStartWorkout }: Props) => {
           isDisabled={ORIENTATION.PORTRAIT == orientation}
           rounded={"$full"}
         >
-          <ButtonText color="black">
+          <ButtonText
+            color="black"
+            fontWeight="$normal"
+            w={300}
+            textAlign="center"
+          >
             {i18n.t("workout_flow.start_training_label")}
           </ButtonText>
         </Button>

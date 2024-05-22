@@ -10,7 +10,10 @@ export const customConfig = {
       primary200: "#82E3FD",
       primary300: "#00C1F3",
       secondary: "#090B22",
+      secondary400: "#090B22",
       orange: "#FF6622",
+      alertYellow: "#E8D12280",
+      alertYellow400: "#E8D12280",
     },
   },
 };

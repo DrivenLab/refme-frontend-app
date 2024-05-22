@@ -19,7 +19,7 @@ type AuthContextType = {
   currentOrganization: Organization | null;
   profile: Profile[] | null;
   token: string | null;
-  loadUserProfile: () => void;
+  loadUserProfile: () => Promise<void>;
   setToken: (token: string) => void;
   signOut: () => void;
   userRole: string;

@@ -25,7 +25,7 @@ export const DM_ANSWER2 = {
   rc: "rc",
 };
 
-export const RPE_VALUES = {
+export const RPE_STRING_VALUES = {
   "0": "nothing_at_all",
   "1": "very_light",
   "2": "light",
@@ -37,6 +37,19 @@ export const RPE_VALUES = {
   "8": "very_very_hard",
   "9": "almost_maximal",
   "10": "maximal_exertion",
+};
+export const RPE_NUMBER_VALUES = {
+  "0": 0,
+  "1": 1,
+  "2": 2,
+  "3": 3,
+  "4": 4,
+  "5": 5,
+  "6": 6,
+  "7": 7,
+  "8": 8,
+  "9": 9,
+  "10": 10,
 };
 export const RPE_COLORS = {
   "0": "#58DAFC",

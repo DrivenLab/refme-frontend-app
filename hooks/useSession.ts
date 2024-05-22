@@ -9,8 +9,8 @@ import { useAuth } from "@/context/auth";
 
 type Props = {
   idWorkout: string | number;
-  idSession?: string | number;
   workout: Workout;
+  idSession: number;
 };
 const useSession = ({ idWorkout, workout, idSession }: Props) => {
   const [downloadProgress, setDownloadProgress] = useState(0);
@@ -96,9 +96,9 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
     }
   };
   const downloadVideos = async (workout: Workout) => {
-    const downloadVideosPromises = workout.iterations.map((i) => {
-      if (i.answers.length !== 0) return downloadVideo(i, true);
-    });
+    const downloadVideosPromises = workout.iterations
+      .filter((i) => i.answers.length)
+      .map((i) => downloadVideo(i, true));
     if (!downloadVideosPromises) return;
 
     try {
@@ -120,7 +120,7 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
       } finally {
         setIsDownloading(false);
       }
-    } else {
+    } else if (workout) {
       try {
         await downloadVideos(workout);
         setWasSessionDownloaded(true);
@@ -129,17 +129,19 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
       } finally {
         setIsDownloading(false);
       }
+    } else {
+      console.log("ERROR, workout undefined");
     }
     setIsDownloading(false);
   };
   return {
-    downloadVideos,
     downloadProgress,
     isDownloading,
-    setIsDownloading,
-    downloadSession,
     session,
     wasSessionDownloaded,
+    downloadVideos,
+    setIsDownloading,
+    downloadSession,
   };
 };
 

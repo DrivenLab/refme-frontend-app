@@ -1,26 +1,43 @@
 import { Box, Divider, Text, VStack } from "@gluestack-ui/themed";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { DM_ANSWER1, DM_ANSWER2 } from "@/constants/Session";
 import DecisionMakingOption from "./DecisionMakingOption";
 import i18n from "@/languages/i18n";
-import { t_DM_ANSWER1, t_DM_ANSWER2 } from "@/types/session";
+import {
+  DM_ANSWER,
+  IterationContext,
+  t_DM_ANSWER1,
+  t_DM_ANSWER2,
+} from "@/types/session";
+import { getDifferenceDate, getEndVideoTime } from "@/utils/session";
 type Props = {
-  onFinish: () => void;
+  onFinish: (a: DM_ANSWER) => void;
+  iteration: IterationContext;
 };
-const DecisionMakingAnswer = ({ onFinish }: Props) => {
-  const [answerQ1, setAnswerQ1] = useState<t_DM_ANSWER1 | undefined>();
-  const [answerQ2, setAnswerQ2] = useState<t_DM_ANSWER2 | undefined>();
+const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
+  const startTime = new Date();
+  const [asnwer, setAnswer] = useState<DM_ANSWER>({
+    answeredIn: getDifferenceDate(startTime, getEndVideoTime()),
+  } as DM_ANSWER);
+  const [hasCompleted, setHasCompleted] = useState(false);
   const handleUserAnswer = (answer: string, questionType: string) => {
-    let hasCompleted = false;
+    const answer_ = { ...asnwer };
+    let completed = false;
     if (questionType === "q1") {
-      setAnswerQ1(answer as t_DM_ANSWER1);
-      if (answerQ2) hasCompleted = true;
+      answer_.answer1 = answer;
     } else if (questionType === "q2") {
-      setAnswerQ2(answer as t_DM_ANSWER2);
-      if (answerQ1) hasCompleted = true;
+      answer_.asnwer2 = answer;
     }
-    if (hasCompleted) onFinish();
+    if (answer_.answer1 && answer_.asnwer2) {
+      const endTime = new Date();
+      answer_.answeredIn = getDifferenceDate(startTime, endTime);
+      completed = true;
+    }
+    setAnswer(answer_);
+    setHasCompleted(completed);
+    if (completed) onFinish(answer_);
   };
+
   return (
     <Box flex={1} bg="$white" px={"$4"} py="$5" justifyContent="center">
       <VStack
@@ -33,10 +50,10 @@ const DecisionMakingAnswer = ({ onFinish }: Props) => {
           <DecisionMakingOption
             key={key}
             text={i18n.t(key)}
-            userAnswer={answerQ1}
-            answer={value as t_DM_ANSWER1}
-            handleUserAnswer={handleUserAnswer}
-            questionType="q1"
+            handleUserAnswer={() => handleUserAnswer(value, "q1")}
+            hasMarked={value === asnwer.answer1}
+            isCorrect={hasCompleted && asnwer.answer1 === iteration.answer1}
+            showAnswer={hasCompleted}
           />
         ))}
       </VStack>
@@ -51,10 +68,10 @@ const DecisionMakingAnswer = ({ onFinish }: Props) => {
           <DecisionMakingOption
             key={key}
             text={i18n.t(key)}
-            userAnswer={answerQ2}
-            answer={value as t_DM_ANSWER2}
-            handleUserAnswer={handleUserAnswer}
-            questionType="q2"
+            handleUserAnswer={() => handleUserAnswer(value, "q2")}
+            hasMarked={value === asnwer.asnwer2}
+            isCorrect={asnwer.asnwer2 === iteration.answer2}
+            showAnswer={hasCompleted}
           />
         ))}
       </VStack>

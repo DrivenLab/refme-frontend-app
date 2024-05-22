@@ -14,7 +14,7 @@ function CBtn({ title, secondary, ...props }: Props) {
       isDisabled={props.isDisabled}
       onPress={props.onPress}
       mt={props.mt}
-      bg={secondary ? "#f0f0f0" : "#58DAFC"}
+      bg={secondary ? "#f0f0f0" : "$primary"}
       rounded="$full"
       style={[
         { height: 50 },

@@ -7,10 +7,11 @@ import DownloadSessionBtn from "./DownloadSessionBtn";
 import React from "react";
 import DownloadProgressModal from "./DownloadProgressModal";
 import useSession from "@/hooks/useSession";
+import DmLogo from "@/assets/svgs/DmLogo";
 type Props = {
   workout: Workout;
+  idSession: number;
   idWorkout: string | number;
-  idSession: string | number;
 };
 
 const WorkoutItem = ({ workout, idWorkout, idSession }: Props) => {
@@ -34,7 +35,7 @@ const WorkoutItem = ({ workout, idWorkout, idSession }: Props) => {
         downloadProgress={downloadProgress}
       />
       <Link href={`/workouts/${idWorkout}/` as Href<string>} asChild>
-        <Pressable>
+        <Pressable softShadow="2" marginBottom="$2">
           <Box
             rounded={"$md"}
             px={"$5"}
@@ -50,8 +51,9 @@ const WorkoutItem = ({ workout, idWorkout, idSession }: Props) => {
               style={{ borderBottomWidth: 2, borderBottomColor: "#ede18a" }}
               py={"$1"}
             >
-              <Box>
-                <Text>{i18n.t("dm")}</Text>
+              <Box display="flex" flexDirection="row" gap={3}>
+                <DmLogo />
+                <Text color="secondary">{i18n.t("dm")}</Text>
               </Box>
               <DownloadSessionBtn
                 wasDownloaded={wasSessionDownloaded}

@@ -1,3 +1,4 @@
+import DmLogo from "@/assets/svgs/DmLogo";
 import { Badge, BadgeText } from "@gluestack-ui/themed";
 
 type Props = {
@@ -8,12 +9,21 @@ function WorkoutTypeBadge(props: Props) {
     <Badge
       size="md"
       rounded="$full"
-      borderColor="#58DAFC"
+      borderColor="$primary"
       borderWidth={1}
       variant="outline"
-      style={{ backgroundColor: "transparent" }}
+      bgColor="transparent"
+      p="$1.5"
     >
-      <BadgeText color="black">{props.type}</BadgeText>
+      <DmLogo />
+      <BadgeText
+        color="black"
+        textTransform="none"
+        fontSize="$md"
+        marginStart={3}
+      >
+        {props.type}
+      </BadgeText>
     </Badge>
   );
 }

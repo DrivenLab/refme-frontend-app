@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import { Box, Pressable, Text, VStack } from "@gluestack-ui/themed";
-import { RPE_COLORS, RPE_VALUES } from "@/constants/Session";
+import {
+  RPE_COLORS,
+  RPE_STRING_VALUES,
+  RPE_NUMBER_VALUES,
+} from "@/constants/Session";
 import i18n from "@/languages/i18n";
 type Props = {
-  onFinishRPE: () => void;
+  onFinishRPE: (rpe: number) => void;
 };
 const RPE = ({ onFinishRPE }: Props) => {
-  const [rpe, setRpe] = useState<string | undefined>();
-  const handleOnPress = (rpe_: string) => {
+  const [rpe, setRpe] = useState<number | undefined>();
+  const handleOnPress = (rpe_: number) => {
     setRpe(rpe_);
-    onFinishRPE();
+    onFinishRPE(Number(rpe_));
   };
   return (
     <Box
@@ -30,7 +34,7 @@ const RPE = ({ onFinishRPE }: Props) => {
         <Text fontSize={20} color="black" fontWeight="mediumn">
           {i18n.t("rpe_how_do_you_feel")}
         </Text>
-        {Object.entries(RPE_VALUES).map(([key, value]) => (
+        {Object.entries(RPE_NUMBER_VALUES).map(([key, value]) => (
           <Pressable
             flex={1}
             height={150}
@@ -39,7 +43,7 @@ const RPE = ({ onFinishRPE }: Props) => {
             alignContent="center"
             style={{
               backgroundColor:
-                rpe === key
+                rpe === value
                   ? "#090b22"
                   : RPE_COLORS[key as keyof typeof RPE_COLORS],
             }}
@@ -47,11 +51,11 @@ const RPE = ({ onFinishRPE }: Props) => {
             key={key}
             minWidth={100}
             py={"$8"}
-            onPress={() => handleOnPress(key)}
+            onPress={() => handleOnPress(value)}
           >
             <Text
               color={
-                rpe === key
+                rpe === value
                   ? RPE_COLORS[key as keyof typeof RPE_COLORS]
                   : "#090b22"
               }
@@ -63,13 +67,16 @@ const RPE = ({ onFinishRPE }: Props) => {
             </Text>
             <Text
               color={
-                rpe === key
+                rpe === value
                   ? RPE_COLORS[key as keyof typeof RPE_COLORS]
                   : "#090b22"
               }
               textAlign="center"
             >
-              {i18n.t("rpe_" + value)}
+              {i18n.t(
+                "rpe_" +
+                  RPE_STRING_VALUES[key as keyof typeof RPE_STRING_VALUES]
+              )}
             </Text>
           </Pressable>
         ))}

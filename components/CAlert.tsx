@@ -24,8 +24,11 @@ const CAlert = ({ text }: Props) => {
       alignItems="center"
       gap={10}
       marginTop={"$2"}
+      width="$full"
     >
-      <Text color="$secondary">{text}</Text>
+      <Text color="$secondary" width="90%">
+        {text}
+      </Text>
       <Pressable onPress={() => setIsVisible(false)}>
         <XIcon />
       </Pressable>

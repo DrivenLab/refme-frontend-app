@@ -56,3 +56,20 @@ export type Profile = CreateProfile & {
   userOrganization: number;
   category: number;
 };
+
+export type Member = CreateProfile & {
+  id: number;
+  genderName: string;
+  age: number;
+  createdAt: string;
+  modifiedAt: string;
+  isActive: boolean;
+  fifaEntryYear: number;
+  memberType: string;
+  expirationMedicalRecord: string;
+  countries: string;
+  isVerified: boolean;
+  userOrganization: number;
+  category: number;
+  user: User;
+};

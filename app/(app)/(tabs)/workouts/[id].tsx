@@ -15,7 +15,6 @@ import WorkoutMaterial from "@/components/workouts/WorkoutMaterial";
 import WorkoutTypeBadge from "@/components/workouts/WorkoutTypeBadge";
 import { useGetSessionById } from "@/queries/session.query";
 import { Href, useLocalSearchParams, useRouter } from "expo-router";
-import { Link } from "expo-router";
 import useSession from "@/hooks/useSession";
 import DownloadProgressModal from "@/components/workouts/DownloadProgressModal";
 import { useAuth } from "@/context/auth";
@@ -25,16 +24,6 @@ const WorkoutDetail = () => {
   const { userRole } = useAuth();
 
   const { workout } = useGetSessionById({ idWorkout: idWorkout as string });
-  if (!workout) {
-    //TODO: Add loading indicator
-    return (
-      <VStack my="$3" space="sm">
-        <Text fontSize={20} fontWeight="bold" color="black">
-          {i18n.t("message")}
-        </Text>
-      </VStack> // O cualquier otro indicador de carga
-    );
-  }
 
   const {
     downloadProgress,
@@ -46,17 +35,31 @@ const WorkoutDetail = () => {
   } = useSession({ idWorkout: idWorkout, workout: workout });
 
   const router = useRouter();
+
   const handleOnPress = () => {
-    if (wasSessionDownloaded)
-      if (userRole === "member")
+    if (wasSessionDownloaded) {
+      if (userRole === "member") {
         router.push("/workouts/startWorkout/" as Href<string>);
-      else router.push("/workouts/assignReferee/" as Href<string>);
-    else {
+      } else {
+        router.push("/workouts/assignReferee/" as Href<string>);
+      }
+    } else {
       downloadSession();
     }
   };
 
   const workoutData = userRole === "member" ? workout?.workout : workout;
+
+  if (!workout) {
+    // Indicador de carga
+    return (
+      <VStack my="$3" space="sm">
+        <Text fontSize={20} fontWeight="bold" color="black">
+          {i18n.t("message")}
+        </Text>
+      </VStack>
+    );
+  }
 
   return (
     <>

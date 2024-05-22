@@ -21,7 +21,7 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
   const queryClient = useQueryClient();
   const { userRole } = useAuth();
 
-  const sessionId = idSession ?? workout.id;
+  const sessionId = idSession ?? idWorkout;
 
   const { refetchSession } = useGetSessionDetailById({
     idSession: sessionId,

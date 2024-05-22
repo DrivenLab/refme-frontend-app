@@ -2,6 +2,7 @@ import React from "react";
 import { Text, VStack, Box, Button, ButtonText } from "@gluestack-ui/themed";
 import { Image } from "expo-image";
 import { ORIENTATION } from "@/constants/Orientation";
+import i18n from "@/languages/i18n";
 type Props = {
   orientation: string;
   onStartWorkout: () => void;
@@ -21,7 +22,7 @@ const RotateScreen = ({ orientation, onStartWorkout }: Props) => {
         contentFit="contain"
       />
       <Text fontWeight="bold" textAlign="center" color="black">
-        Gire su pantalla para comenzar
+        {i18n.t("workout_flow.turn_phone_label")}
       </Text>
       <Box maxWidth={"80%"}>
         <Button
@@ -32,7 +33,9 @@ const RotateScreen = ({ orientation, onStartWorkout }: Props) => {
           isDisabled={ORIENTATION.PORTRAIT == orientation}
           rounded={"$full"}
         >
-          <ButtonText color="black">Iniciar entrenamiento</ButtonText>
+          <ButtonText color="black">
+            {i18n.t("workout_flow.start_training_label")}
+          </ButtonText>
         </Button>
       </Box>
     </VStack>

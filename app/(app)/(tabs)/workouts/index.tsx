@@ -67,12 +67,13 @@ const Workouts = () => {
               borderColor="indigo600"
               position="absolute"
               top={-30}
+              hardShadow="3"
             >
               <ButtonIcon color="white" as={AddIcon} />
             </Button>
           )}
         </Box>
-        {userRole == "member" ? (
+        {userRole === "member" ? (
           <>
             <CTab
               currentTab={tab}
@@ -101,8 +102,8 @@ const Workouts = () => {
               <FlatList
                 data={sessions}
                 mb={200}
-                renderItem={({ item: session }: ListRenderItemInfo<any>) => (
-                  <WorkoutItem workout={session} idSession={session.id} />
+                renderItem={({ item: workout }: ListRenderItemInfo<any>) => (
+                  <WorkoutItem workout={workout} idSession={workout.id} />
                 )}
                 keyExtractor={(item: any) => item.id}
               />

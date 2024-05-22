@@ -37,7 +37,10 @@ export default function LastStepScreen() {
       setImage(result.assets[0].uri);
     }
   };
-
+  const handleUpdateImageLater = async () => {
+    await loadUserProfile();
+    router.push("/home");
+  };
   const handleUpdateProfile = async () => {
     if (!image) {
       // TODO: Handle image null
@@ -56,9 +59,9 @@ export default function LastStepScreen() {
     } catch (error: any) {
       if (error?.response?.status === 400)
         setError("Usuario o Contraseña incorrectos.");
-      else setError(i18n.t("generic_error"));
+      else setError(i18n.t("errors.generic_error"));
     } finally {
-      loadUserProfile();
+      await loadUserProfile();
       router.push("/home");
     }
   };
@@ -118,7 +121,7 @@ export default function LastStepScreen() {
 
             <CBtn
               title={i18n.t("not_now")}
-              onPress={handleUpdateProfile}
+              onPress={handleUpdateImageLater}
               mt={24}
               secondary
             />

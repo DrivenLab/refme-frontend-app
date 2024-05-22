@@ -1,28 +1,14 @@
 import { View, Box } from "@gluestack-ui/themed";
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 import { Image } from "expo-image";
 
 type Props = {
-  onFinishCountdown: () => void;
   children: React.ReactNode;
+  imageURI: string;
 };
-const SessionGetReady = ({ onFinishCountdown, children }: Props) => {
-  const [count, setCount] = useState(1);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCount((prevCount) => {
-        if (prevCount <= 0) {
-          console.log("calling here");
-          clearInterval(interval);
-          onFinishCountdown();
-          return 0;
-        }
-        return prevCount - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
+const SessionGetReady = ({ children }: Props) => {
+  const imageSource = useMemo(() => {
+    return require("@/assets/images/man_running_ready_to_workout.png");
   }, []);
   return (
     <View
@@ -37,7 +23,7 @@ const SessionGetReady = ({ onFinishCountdown, children }: Props) => {
       </Box>
       <Box flex={1}>
         <Image
-          source={require("@/assets/images/man_running_ready_to_workout.png")}
+          source={imageSource}
           style={{ height: 150, width: "100%" }}
           contentFit="contain"
         />

@@ -2,13 +2,13 @@ import { useAuth } from "@/context/auth";
 import CTextInput from "@/components/inputs/CTextInput";
 import { useMemo, useState } from "react";
 import { LoginData } from "@/types/user";
-import CPasswordInput from "@/components/inputs/CPasswordInput";
 import { baseURL } from "@/queries/api";
 import axios from "axios";
 import { Image } from "expo-image";
 import { SafeAreaView, StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
 import { Box, Text, VStack } from "@gluestack-ui/themed";
+import i18n from "@/languages/i18n";
 
 export default function LoginScreen() {
   const { setToken } = useAuth();
@@ -36,8 +36,8 @@ export default function LoginScreen() {
       setToken(data.token);
     } catch (error: any) {
       if (error?.response?.status === 400)
-        setError("Usuario o Contraseña incorrectos.");
-      else setError("Error, inténtelo más tarde.");
+        setError(i18n.t("errors.login_invalid_credentials"));
+      else setError(i18n.t("errors.generic_error"));
     } finally {
       setIsLogging(false);
     }
@@ -46,7 +46,7 @@ export default function LoginScreen() {
     <SafeAreaView>
       <VStack space="md">
         <Image
-          source={require("@/assets/images/login_referee.png")}
+          source={require("@/assets/images/login_bg.jpeg")}
           style={styles.login_referee_img}
           contentFit="cover"
         />
@@ -68,18 +68,18 @@ export default function LoginScreen() {
           )}
 
           <CTextInput
-            placeholder="Ingrese su correo"
+            placeholder={i18n.t("login_screen.email_label")}
             onChangeText={(value) => handleOnChange("email", value)}
             value={loginData.email}
           />
           <CTextInput
-            placeholder="Ingrese su contraseña"
+            placeholder={i18n.t("login_screen.password_label")}
             onChangeText={(value) => handleOnChange("password", value)}
             value={loginData.password}
             secureTextEntry
           />
           <CBtn
-            title="Ingresar"
+            title={i18n.t("login_screen.login_button")}
             isLoading={isLogging}
             onPress={handleLogin}
             mt={30}

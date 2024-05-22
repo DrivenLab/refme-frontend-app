@@ -5,6 +5,7 @@ import SectionItem from "@/components/home/SectionItem";
 import { useAuth } from "@/context/auth";
 
 import i18n from "@/languages/i18n";
+import { useAssets } from "expo-asset";
 
 const SECTION_ITEMS_OPTIONS = [
   {
@@ -38,6 +39,23 @@ const SECTION_ITEMS_OPTIONS = [
 ];
 export default function TabOneScreen() {
   const { signOut, user, userRole } = useAuth();
+  const [bgAssets] = useAssets([
+    require("@/assets/images/official_training_home.png"),
+    require("@/assets/images/official_test_home.png"),
+    require("@/assets/images/video_test_home.png"),
+    require("@/assets/images/topic_home.png"),
+  ]);
+  const [iconAssets] = useAssets([
+    require("@/assets/images/icons/referee_whistle.png"),
+    require("@/assets/images/icons/clipboard-list-svgrepo-com.png"),
+    require("@/assets/images/icons/video_folder.png"),
+    require("@/assets/images/icons/topic_list.png"),
+  ]);
+  const section_options = SECTION_ITEMS_OPTIONS.map((s, i) => ({
+    ...s,
+    bgImage: bgAssets ? bgAssets[i] : s.bgImage,
+    iconImage: iconAssets ? iconAssets[i] : s.iconImage,
+  }));
   return (
     <ScrollView style={styles.container} px={"$3"}>
       <VStack space="md" flex={1} paddingBottom={10}>
@@ -55,7 +73,7 @@ export default function TabOneScreen() {
             <Text fontWeight="$semibold" fontSize={24} color="black">
               {i18n.t("official_test_workout")}
             </Text>
-            {SECTION_ITEMS_OPTIONS.slice(0, 2).map((s, i) => (
+            {section_options.slice(0, 2).map((s, i) => (
               <SectionItem {...s} key={i} />
             ))}
             <Text
@@ -64,9 +82,9 @@ export default function TabOneScreen() {
               color="black"
               marginVertical={5}
             >
-              E-learnig{" "}
+              E-learnig {i18n.t("elearning_title")}
             </Text>
-            {SECTION_ITEMS_OPTIONS.slice(2).map((s, i) => (
+            {section_options.slice(2).map((s, i) => (
               <SectionItem {...s} key={i} />
             ))}
           </>
@@ -75,7 +93,7 @@ export default function TabOneScreen() {
             <Text fontWeight="$semibold" fontSize={24} color="black">
               {i18n.t("official_test_workout")}
             </Text>
-            {SECTION_ITEMS_OPTIONS.slice(0, 2).map((s, i) => (
+            {section_options.slice(0, 2).map((s, i) => (
               <SectionItem {...s} key={i} />
             ))}
           </>

@@ -7,12 +7,16 @@ function WorkoutMaterial(props: Props) {
     <Badge
       size="md"
       rounded="$full"
-      borderColor="red100"
+      borderColor="$primary"
       borderWidth={1}
       variant="outline"
-      style={{ backgroundColor: "transparent" }}
+      bgColor="transparent"
+      p="$1.5"
     >
-      <BadgeText color="black"> {props.name}</BadgeText>
+      <BadgeText color="black" fontSize="$md" textTransform="none">
+        {" "}
+        {props.name}
+      </BadgeText>
     </Badge>
   );
 }

@@ -7,9 +7,10 @@ import DownloadSessionBtn from "./DownloadSessionBtn";
 import React from "react";
 import DownloadProgressModal from "./DownloadProgressModal";
 import useSession from "@/hooks/useSession";
+import DmLogo from "@/assets/svgs/DmLogo";
 type Props = {
   workout: Workout;
-  idSession: number;
+  idSession?: number;
 };
 
 const WorkoutItem = ({ workout, idSession }: Props) => {
@@ -18,8 +19,10 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
     downloadProgress,
     isDownloading,
     setIsDownloading,
-    wasSessionDownlaoded,
-  } = useSession({ idSession: idSession });
+    wasSessionDownloaded,
+  } = useSession({ idSession: idSession, workout: workout });
+  //TODOL FIX idSession TYPING!
+  const idWorkout = workout.id;
 
   return (
     <>
@@ -28,7 +31,7 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
         onCancelDownload={() => setIsDownloading(false)}
         downloadProgress={downloadProgress}
       />
-      <Link href={`/workouts/${idSession}/` as Href<string>} asChild>
+      <Link href={`/workouts/${idWorkout}/` as Href<string>} asChild>
         <Pressable>
           <Box
             rounded={"$md"}
@@ -45,11 +48,12 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
               style={{ borderBottomWidth: 2, borderBottomColor: "#ede18a" }}
               py={"$1"}
             >
-              <Box>
-                <Text>{i18n.t("dm")}</Text>
+              <Box display="flex" flexDirection="row" gap={3}>
+                <DmLogo />
+                <Text color="secondary">{i18n.t("dm")}</Text>
               </Box>
               <DownloadSessionBtn
-                wasDownloaded={wasSessionDownlaoded}
+                wasDownloaded={wasSessionDownloaded}
                 downloadSession={downloadSession}
               />
             </Box>

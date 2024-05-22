@@ -19,7 +19,7 @@ type AuthContextType = {
   currentOrganization: Organization | null;
   profile: Profile[] | null;
   token: string | null;
-  loadUserProfile: () => void;
+  loadUserProfile: () => Promise<void>;
   setToken: (token: string) => void;
   signOut: () => void;
   userRole: string;
@@ -63,6 +63,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   //Determinar la rutas en base a si el usuario esta o no autenticado.
   useEffect(() => {
+    //router.replace("/home");
+    //return;
     /**
      * Caso 1: Usuario no esta logeado y queire acceder a una ruta protegida.
      * Caso 2: Usuario esta logeado pero no esta verificado.

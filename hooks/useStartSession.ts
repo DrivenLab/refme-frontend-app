@@ -6,6 +6,8 @@ import { AxiosResponse } from "axios";
 type Props = {
   idSession: string | number;
 };
+type Steps = "beginning" | "workout" | "video" | "decision" | "rpe";
+
 let currentIterationIndex = 0;
 const getSessionOrderedByIterations = (session: Session) => {
   const iterations_ = session.workout.iterations.sort(
@@ -16,9 +18,10 @@ const getSessionOrderedByIterations = (session: Session) => {
 };
 const useStartSession = ({ idSession }: Props) => {
   const [sessionOrdered, setSessionOrdered] = useState<Session>();
-
   const [currentIteration, setCurrentIteration] = useState<Iteration>();
   const [sessionStatus, setSessionStatus] = useState("pending");
+  const [step, setStep] = useState<Steps>("beginning");
+
   const sessionAnswers: string[] = [];
   const queryClient = useQueryClient();
   useEffect(() => {
@@ -33,14 +36,15 @@ const useStartSession = ({ idSession }: Props) => {
     }
   }, []);
 
-  const handleOnNextIteration = ({ answer }: { answer: string }) => {
+  const handleOnNextIteration = ({ answer }: { answer?: string }) => {
     if (!sessionOrdered) return;
     currentIterationIndex += 1;
-    sessionAnswers.push(answer);
-    if (currentIterationIndex <= sessionOrdered.workout.iterations.length) {
+    sessionAnswers.push(answer || "");
+    if (currentIterationIndex <= sessionOrdered.workout.iterations.length - 1) {
       setCurrentIteration(
         sessionOrdered?.workout?.iterations[currentIterationIndex]
       );
+      setStep("beginning");
     } else {
       console.log("here i have to manage the end of the workout");
     }
@@ -51,6 +55,8 @@ const useStartSession = ({ idSession }: Props) => {
     sessionStatus,
     setSessionStatus,
     handleOnNextIteration,
+    step,
+    onChangeStep: (s: string) => setStep(s as Steps),
   };
 };
 

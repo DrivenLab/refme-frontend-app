@@ -1,17 +1,6 @@
-import {
-  VStack,
-  Text,
-  Box,
-  View,
-  Badge,
-  BadgeText,
-  GlobeIcon,
-  BadgeIcon,
-  CalendarDaysIcon,
-  Icon,
-} from "@gluestack-ui/themed";
+import { Text, Box, Badge, BadgeText, Pressable } from "@gluestack-ui/themed";
 import React from "react";
-import { Pressable, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { ImageBackground } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";

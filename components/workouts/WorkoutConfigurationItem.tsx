@@ -12,11 +12,11 @@ const WorkoutConfigItem = (props: Props) => {
       flexDirection="row"
       justifyContent="space-between"
       alignItems="center"
-      py="$2"
+      py="$3"
       borderBottomWidth={1}
-      borderBottomColor="coolGray100"
+      borderBottomColor="#0000001A"
     >
-      <Text>{props.configName}</Text>
+      <Text color="#666666">{props.configName}</Text>
       <VStack flexDirection="row">
         <Text fontWeight="bold" fontSize={16} color="black">
           {props.quantity}

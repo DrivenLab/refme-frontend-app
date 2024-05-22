@@ -38,10 +38,6 @@ const PersonalWorkoutCard = () => {
 
 export default PersonalWorkoutCard;
 const styles = StyleSheet.create({
-  img: {
-    height: 200,
-    width: "100%",
-  },
   backgroundLinearGradient: {
     flex: 1,
     flexDirection: "row",

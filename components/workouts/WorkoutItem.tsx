@@ -7,6 +7,7 @@ import DownloadSessionBtn from "./DownloadSessionBtn";
 import React from "react";
 import DownloadProgressModal from "./DownloadProgressModal";
 import useSession from "@/hooks/useSession";
+import DmLogo from "@/assets/svgs/DmLogo";
 type Props = {
   workout: Workout;
   idSession?: number;
@@ -20,6 +21,7 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
     setIsDownloading,
     wasSessionDownloaded,
   } = useSession({ idSession: idSession, workout: workout });
+  //TODOL FIX idSession TYPING!
   const idWorkout = workout.id;
 
   return (
@@ -46,8 +48,9 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
               style={{ borderBottomWidth: 2, borderBottomColor: "#ede18a" }}
               py={"$1"}
             >
-              <Box>
-                <Text>{i18n.t("dm")}</Text>
+              <Box display="flex" flexDirection="row" gap={3}>
+                <DmLogo />
+                <Text color="secondary">{i18n.t("dm")}</Text>
               </Box>
               <DownloadSessionBtn
                 wasDownloaded={wasSessionDownloaded}

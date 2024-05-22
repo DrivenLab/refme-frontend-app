@@ -78,7 +78,7 @@ export default function VerifyAccountScreen() {
               <Text>{error}</Text>
             </Box>
           )}
-          <Text fontWeight="bold" size="xl" color="#58DAFC">
+          <Text fontWeight="bold" size="xl" color="$primary">
             {i18n.t("welcome", { name: user?.fullName })}
           </Text>
           <Text color="black" size="sm">

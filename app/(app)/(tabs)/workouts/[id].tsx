@@ -25,7 +25,7 @@ import CAlert from "@/components/CAlert";
 
 const WorkoutDetail = () => {
   const { id: idWorkout } = useLocalSearchParams();
-  const { userRole } = useAuth();
+  const { userRole, currentOrganization } = useAuth();
 
   const { workout } = useGetSessionById({ idWorkout: idWorkout as string });
   const {
@@ -48,6 +48,9 @@ const WorkoutDetail = () => {
   };
 
   const workoutData = userRole === "member" ? workout?.workout : workout;
+  const date = workout?.createdAt
+    ? new Date(Date.parse(workout.createdAt))
+    : new Date();
   return (
     <>
       <DownloadProgressModal
@@ -88,9 +91,14 @@ const WorkoutDetail = () => {
               <Text>{i18n.t("sent_by")}</Text>
               <VStack flexDirection="row" alignItems="center" space="sm">
                 <Text fontWeight="bold" color="black">
-                  Jesus Román
+                  {`${currentOrganization?.contactName} ${currentOrganization?.contactLastName}`}
                 </Text>
-                <Text>13 mar</Text>
+                <Text>
+                  {date.toLocaleDateString("es-PY", {
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </Text>
               </VStack>
             </Box>
             <VStack my="$3" space="sm">
@@ -111,13 +119,15 @@ const WorkoutDetail = () => {
               >
                 <WorkoutTypeBadge type={i18n.t(workoutData?.type || "s")} />
                 <Button variant="link">
-                  <ButtonText fontWeight="medium">Ver tutorial</ButtonText>
+                  <ButtonText fontWeight="medium">
+                    {i18n.t("workout_flow.watch_tutorial_label")}
+                  </ButtonText>
                 </Button>
               </VStack>
             </VStack>
             <VStack mt="$2" space="sm">
               <Text fontSize={20} fontWeight="bold" color="black">
-                Materiales
+                {i18n.t("workout_flow.materials_title")}
               </Text>
               <VStack flexDirection="row" space="md">
                 <WorkoutMaterial name="5 conos" />
@@ -126,7 +136,7 @@ const WorkoutDetail = () => {
             </VStack>
             <VStack mt="$2" space="md">
               <Text fontSize={20} fontWeight="bold" color="black">
-                Configuración
+                {i18n.t("common.configuration")}
               </Text>
               <WorkoutConfigItem
                 configName="Repeticiones"

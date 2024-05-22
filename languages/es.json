@@ -46,7 +46,6 @@
   "dm+memory": "Toma de decisión + Memoria",
   "random": "Aleatorio",
   "prepare": "Preparar",
-  "configuration": "Configuración",
   "repetitions": "Repeticiones",
   "decisions": "Decisiones",
   "exercise_time": "Tiempo de ejercicio",
@@ -83,7 +82,8 @@
     "category_label": "Categoría",
     "email_label": "Email",
     "confirm_label": "Confirmar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "configuration": "Configuración"
   },
   "login_screen": {
     "email_label": "Ingrese su correo",
@@ -115,6 +115,8 @@
     "official_training_alert": "Este entrenamiento es de caracter oficial. Podrás realizarlo una única vez.",
     "training_title": "Entrenamientos",
     "download_modal_title": "Aguarda un momento",
-    "download_modal_message": "Estamos descargando tu ejercicio. Por favor no cierres ni salgas de esta pantalla hasta que finalice."
+    "download_modal_message": "Estamos descargando tu ejercicio. Por favor no cierres ni salgas de esta pantalla hasta que finalice.",
+    "watch_tutorial_label": "Ver tutorial",
+    "materials_title": "Materiales"
   }
 }

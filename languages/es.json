@@ -117,6 +117,8 @@
     "download_modal_title": "Aguarda un momento",
     "download_modal_message": "Estamos descargando tu ejercicio. Por favor no cierres ni salgas de esta pantalla hasta que finalice.",
     "watch_tutorial_label": "Ver tutorial",
-    "materials_title": "Materiales"
+    "materials_title": "Materiales",
+    "turn_phone_label": "Gire su pantalla para comenzar",
+    "start_training_label": "Iniciar entrenamiento"
   }
 }

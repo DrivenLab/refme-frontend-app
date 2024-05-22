@@ -1,5 +1,5 @@
 import { Iteration, Session } from "@/types/session";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import * as FileSystem from "expo-file-system";
 import { useGetSessionDetailById } from "@/queries/session.query";
 import { useQueryClient } from "@tanstack/react-query";
@@ -20,7 +20,21 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
   const [wasSessionDownloaded, setWasSessionDownloaded] = useState(false);
   const queryClient = useQueryClient();
   const { userRole } = useAuth();
+  const debounce = useCallback((func: Function, delay: number) => {
+    let timeoutId: NodeJS.Timeout | null;
 
+    return (...args: any) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        // return;
+      }
+
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+      }, delay);
+    };
+  }, []);
+  const setProgressDebounced = debounce(setProgresses, 50);
   const sessionId = idSession ?? idWorkout;
 
   const { refetchSession } = useGetSessionDetailById({
@@ -71,7 +85,10 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
     const progress =
       downloadProgress_.totalBytesWritten /
       downloadProgress_.totalBytesExpectedToWrite;
-    setProgresses((old) => ({ ...old, [url]: progress }));
+    setProgressDebounced((old: typeof progresses) => ({
+      ...old,
+      [url]: progress,
+    }));
   };
   const downloadResumable = (url: string, videoName: string) =>
     FileSystem.createDownloadResumable(

@@ -13,7 +13,7 @@ type Props = {
   idSession: number;
 };
 const useSession = ({ idWorkout, workout, idSession }: Props) => {
-  const [downloadProgress, setDownloadProgress] = useState(0);
+  const [progresses, setProgresses] = useState<{ [key: string]: number }>({});
   const [isDownloading, setIsDownloading] = useState(false);
   const [enableQuery, setEnableQuery] = useState(false);
   const [session, setSession] = useState<Session>();
@@ -64,18 +64,21 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
   const getVideoName = (iteration: Iteration) => {
     return `video_${iteration.answers[0].video1.id}.mp4`;
   };
-  const calculateDownloadProgress = (downloadProgress_: any) => {
+  const calculateDownloadProgress = (
+    downloadProgress_: FileSystem.DownloadProgressData,
+    url: string
+  ) => {
     const progress =
       downloadProgress_.totalBytesWritten /
       downloadProgress_.totalBytesExpectedToWrite;
-    setDownloadProgress((old) => (progress >= old ? progress : old));
+    setProgresses((old) => ({ ...old, [url]: progress }));
   };
   const downloadResumable = (url: string, videoName: string) =>
     FileSystem.createDownloadResumable(
       url,
       FileSystem.documentDirectory + videoName,
       {},
-      calculateDownloadProgress
+      (x) => calculateDownloadProgress(x, url)
     );
   const updateIterationVideoUrl = (i: Iteration, newURL: string) => {
     const newIteration = { ...i };
@@ -134,8 +137,11 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
     }
     setIsDownloading(false);
   };
+  const downloadProgress =
+    Object.values(progresses).reduce((prev, curr) => prev + curr, 0) /
+    Object.values(progresses).length;
   return {
-    downloadProgress,
+    downloadProgress: downloadProgress || 0,
     isDownloading,
     session,
     wasSessionDownloaded,

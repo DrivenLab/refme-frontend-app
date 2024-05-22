@@ -34,7 +34,6 @@ export default function LoginScreen() {
         loginData
       );
       setToken(data.token);
-      console.log("success");
     } catch (error: any) {
       if (error?.response?.status === 400)
         setError("Usuario o Contraseña incorrectos.");

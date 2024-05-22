@@ -32,7 +32,7 @@ const useStartSession = ({ idSession }: Props) => {
   }, []);
 
   const handleOnNextIteration = ({ answer }: { answer?: string }) => {
-    console.log("neeextt----", currentIterationIndex, currentIterationIndex);
+    //console.log("neeextt----", currentIterationIndex, currentIterationIndex);
     if (!sessionOrdered) return;
     currentIterationIndex += 1;
     sessionAnswers.push(answer || "");
@@ -42,7 +42,7 @@ const useStartSession = ({ idSession }: Props) => {
       );
       setStep("beginning");
     } else {
-      console.log("here i have to manage the end of the workout");
+      //console.log("here i have to manage the end of the workout");
     }
   };
   return {

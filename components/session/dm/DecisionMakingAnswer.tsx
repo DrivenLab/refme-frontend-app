@@ -9,15 +9,15 @@ import {
   t_DM_ANSWER1,
   t_DM_ANSWER2,
 } from "@/types/session";
-import { getEndVideoTime } from "@/utils/session";
+import { getDifferenceDate, getEndVideoTime } from "@/utils/session";
 type Props = {
   onFinish: (a: DM_ANSWER) => void;
   iteration: IterationContext;
 };
 const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
+  const startTime = new Date();
   const [asnwer, setAnswer] = useState<DM_ANSWER>({
-    startTime: new Date(),
-    endTime: getEndVideoTime(),
+    answeredIn: getDifferenceDate(startTime, getEndVideoTime()),
   } as DM_ANSWER);
   const [hasCompleted, setHasCompleted] = useState(false);
   const handleUserAnswer = (answer: string, questionType: string) => {
@@ -29,7 +29,8 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
       answer_.asnwer2 = answer;
     }
     if (answer_.answer1 && answer_.asnwer2) {
-      answer_.endTime = new Date();
+      const endTime = new Date();
+      answer_.answeredIn = getDifferenceDate(startTime, endTime);
       completed = true;
     }
     setAnswer(answer_);

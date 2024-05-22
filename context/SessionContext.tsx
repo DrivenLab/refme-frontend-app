@@ -55,14 +55,17 @@ export function SessionProvider({ children }: PropsWithChildren) {
       ...currentIterarion,
       answer1: a.answer1,
       answer2: a.asnwer2,
-      startTime: a.startTime,
-      endTime: a.endTime,
+      answeredIn: a.answeredIn,
     };
-    console.log({ a_ });
-    setCurrentIterarion((prev) => a_);
+    setCurrentIterarion(a_);
   };
   const handleUserRPE = (rpe: number) => {
-    setCurrentIterarion((prev) => ({ ...prev, rpe }));
+    const a_: IterationContext = {
+      ...currentIterarion,
+      rpe,
+    };
+    //console.log("rpe calling", a_);
+    setCurrentIterarion(a_);
   };
   const createSession = (s: SesssionModel) => {
     const sessionOrdered = getSessionOrderedByIterations(s);
@@ -102,7 +105,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
     const index = session.iterations.findIndex(
       (i) => i.idIteration === iteration.idIteration
     );
-    console.log("calling update iteration", index, iteration);
+    //console.log("calling update iteration-----", index, iteration);
     if (!index) return;
     const s_ = { ...session };
     s_.iterations[index] = {

@@ -41,8 +41,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const clientQuery = useQueryClient();
   const [profile, setProfile] = useState<Profile[] | null>(null);
   const isUserVerified = useMemo(() => {
-    console.log("here X5");
-
     return user?.isVerified ?? false;
   }, [user]);
 
@@ -75,7 +73,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
     if (token == null && rootSegment !== "(auth)") {
       router.replace("/(auth)/login");
     } else if (token && isUserVerified) {
-      console.log("home");
       router.replace("/home");
     } else if (
       token &&
@@ -128,7 +125,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
     setToken(null);
   }
   async function handleSetToken(token_: string) {
-    console.log("aca", token_);
     await storeData({ name: "token", value: token_ });
     api.defaults.headers.common["Authorization"] = `Token ${token_}`;
 

@@ -14,8 +14,8 @@ export interface Session {
 export type IterationContext = {
   idIteration: number | string;
   video?: string;
-  startTime?: Date;
-  endTime?: Date;
+  answeredIn: Date;
+  rpeIn: Date;
   answer1?: string;
   answer2?: string;
   userAnswer1?: string;
@@ -61,8 +61,7 @@ export type IMAGE_NAME =
 export type DM_ANSWER = {
   answer1?: string;
   asnwer2?: string;
-  startTime?: Date;
-  endTime?: Date;
+  answeredIn: Date;
 };
 export type t_DM_ANSWER1 = "nf" | "ifk" | "dfk" | "pk";
 export type t_DM_ANSWER2 = "nc" | "yc" | "rc";

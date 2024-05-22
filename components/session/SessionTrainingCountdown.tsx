@@ -52,6 +52,7 @@ const SessionTrainingCountdown = ({
           textType="dm"
           count={count}
           imageName="play_video"
+          initialCountdown={initialCountdown}
         />
       ) : (
         <IterationTextImage imageName="play_video">

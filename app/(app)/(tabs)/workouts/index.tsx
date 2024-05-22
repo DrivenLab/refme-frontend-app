@@ -91,7 +91,7 @@ const Workouts = () => {
           <>
             <Box borderBottomWidth={4} borderColor={"$black"} pb={10} pt={25}>
               <Text color="black" textAlign="center" fontWeight={"$bold"}>
-                Entrenamientos
+                {i18n.t("workout_flow.training_title")}
               </Text>
             </Box>
             {sessions.length === 0 ? (

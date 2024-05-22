@@ -35,8 +35,7 @@ const WorkoutDetail = () => {
     wasSessionDownloaded,
     downloadSession,
     session,
-  } = useSession({ idSession: idWorkout, workout: workout });
-  //TODO: FIX idSession typing
+  } = useSession({ idSession: Number(idWorkout), workout: workout });
   const router = useRouter();
   const handleOnPress = () => {
     if (wasSessionDownloaded)

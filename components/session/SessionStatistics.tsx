@@ -5,6 +5,7 @@ type Props = {
   session: SessionContext;
 };
 const SessionStatistics = ({ session }: Props) => {
+  console.log("ses", session.iterations);
   return (
     <View>
       <Text>Está es la pantalla de estadisticas</Text>

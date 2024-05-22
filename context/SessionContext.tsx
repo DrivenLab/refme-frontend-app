@@ -13,7 +13,6 @@ import { getSessionOrderedByIterations } from "@/utils/session";
 type SessionContextType = {
   session: SessionContextT;
   createSession: (s: SesssionModel) => void;
-  updateIteration: (i: IterationContext) => void;
   currentIterarion: IterationContext;
   handleNextIteration: () => void;
   step: Steps;
@@ -21,6 +20,7 @@ type SessionContextType = {
   handleUserAnswer: (a: DM_ANSWER) => void;
   handleUserRPE: (a: number) => void;
   updateSessionStatus: (s: SESSION_STATUS) => void;
+  iterationIndex: number;
 };
 
 const SessionContext = createContext<SessionContextType>(
@@ -45,14 +45,21 @@ export function SessionProvider({ children }: PropsWithChildren) {
       video: i.answers.length ? i.answers[0].video1.video : undefined,
       answer1: i.answers.length ? i.answers[0].video1.answer1 : undefined,
       answer2: i.answers.length ? i.answers[0].video1.answer2 : undefined,
-      timeToGetReady: 5,
-      timeToWorkout: 5,
+      timeToGetReady: 1,
+      timeToWorkout: 1,
     } as IterationContext;
     return i_;
   };
   const handleUserAnswer = (a: DM_ANSWER) => {
-    console.log("user answer", a);
-    setCurrentIterarion((prev) => ({ ...prev, ...a }));
+    const a_: IterationContext = {
+      ...currentIterarion,
+      answer1: a.answer1,
+      answer2: a.asnwer2,
+      startTime: a.startTime,
+      endTime: a.endTime,
+    };
+    console.log({ a_ });
+    setCurrentIterarion((prev) => a_);
   };
   const handleUserRPE = (rpe: number) => {
     setCurrentIterarion((prev) => ({ ...prev, rpe }));
@@ -81,6 +88,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
     if (!index) return;
   };
   const handleNextIteration = () => {
+    updateIteration(currentIterarion);
+
     if (iterationIndex < session.iterations.length - 1) {
       setCurrentIterarion(session.iterations[iterationIndex + 1]);
       setIterationIndex(iterationIndex + 1);
@@ -89,15 +98,16 @@ export function SessionProvider({ children }: PropsWithChildren) {
       setSession((prev) => ({ ...prev, status: "finished" }));
     }
   };
-  const updateIteration = (i: IterationContext) => {
+  const updateIteration = (iteration: IterationContext) => {
     const index = session.iterations.findIndex(
-      (i) => i.idIteration === i.idIteration
+      (i) => i.idIteration === iteration.idIteration
     );
+    console.log("calling update iteration", index, iteration);
     if (!index) return;
     const s_ = { ...session };
     s_.iterations[index] = {
-      ...session.iterations[index],
-      ...i,
+      ...s_.iterations[index],
+      ...iteration,
     };
     setSession(s_);
   };
@@ -115,7 +125,6 @@ export function SessionProvider({ children }: PropsWithChildren) {
       value={{
         session,
         createSession,
-        updateIteration,
         currentIterarion,
         handleNextIteration,
         step,
@@ -123,6 +132,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         handleUserAnswer,
         handleUserRPE,
         updateSessionStatus,
+        iterationIndex,
       }}
     >
       {children}

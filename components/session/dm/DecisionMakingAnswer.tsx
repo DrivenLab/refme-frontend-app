@@ -17,7 +17,10 @@ type Props = {
 const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
   const startTime = new Date();
   const [asnwer, setAnswer] = useState<DM_ANSWER>({
-    answeredIn: getDifferenceDate(startTime, getEndVideoTime()),
+    answeredIn: getDifferenceDate(
+      startTime,
+      getEndVideoTime({ timeInMilliseconds: 7000 })
+    ),
   } as DM_ANSWER);
   const [hasCompleted, setHasCompleted] = useState(false);
   const handleUserAnswer = (answer: string, questionType: string) => {

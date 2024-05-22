@@ -8,14 +8,19 @@ export const getSessionOrderedByIterations = (session: Session) => {
   return { ...session };
 };
 
-export const getEndVideoTime = () => {
+export const getEndVideoTime = ({
+  timeInMilliseconds,
+}: {
+  timeInMilliseconds: number;
+}) => {
   const now = new Date();
 
   // Step 2: Get the current time in milliseconds
   const nowInMilliseconds = now.getTime();
 
   // Step 3: Add 7000 milliseconds (7 seconds)
-  const sevenSecondsLaterInMilliseconds = nowInMilliseconds + 7000;
+  const sevenSecondsLaterInMilliseconds =
+    nowInMilliseconds + timeInMilliseconds;
 
   // Step 4: Create a new Date object using the updated timestamp
   const sevenSecondsLater = new Date(sevenSecondsLaterInMilliseconds);

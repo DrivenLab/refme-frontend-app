@@ -23,7 +23,12 @@ const DownloadProgressModal = ({
   downloadProgress,
 }: Props) => {
   const ref = React.useRef(null);
-
+  const dynamicColor =
+    downloadProgress < 0.3
+      ? "$red400"
+      : downloadProgress < 0.6
+      ? "$yellow400"
+      : "$green400";
   return (
     <Modal
       isOpen={isModalOpen}
@@ -34,7 +39,7 @@ const DownloadProgressModal = ({
       <ModalBackdrop />
       <ModalContent>
         <ModalHeader justifyContent="center">
-          <Heading size="lg" textAlign="center">
+          <Heading size="lg" textAlign="center" color={dynamicColor}>
             {downloadProgress === 1 && isModalOpen
               ? 99
               : Math.floor(downloadProgress * 100)}{" "}
@@ -42,7 +47,12 @@ const DownloadProgressModal = ({
           </Heading>
         </ModalHeader>
         <ModalBody>
-          <Text fontWeight="bold" color="black" textAlign="center">
+          <Text
+            fontWeight="bold"
+            color="black"
+            textAlign="center"
+            marginBottom="$2"
+          >
             {i18n.t("workout_flow.download_modal_title")}
           </Text>
           <Text fontWeight="medium" textAlign="center">

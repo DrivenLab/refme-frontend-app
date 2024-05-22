@@ -132,13 +132,13 @@ const useSession = ({ idSession, workout }: Props) => {
     setIsDownloading(false);
   };
   return {
-    downloadVideos,
     downloadProgress,
     isDownloading,
-    setIsDownloading,
-    downloadSession,
     session,
     wasSessionDownloaded,
+    downloadVideos,
+    setIsDownloading,
+    downloadSession,
   };
 };
 

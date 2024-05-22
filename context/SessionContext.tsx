@@ -12,15 +12,15 @@ import { getSessionOrderedByIterations } from "@/utils/session";
 
 type SessionContextType = {
   session: SessionContextT;
-  createSession: (s: SesssionModel) => void;
   currentIterarion: IterationContext;
-  handleNextIteration: () => void;
   step: Steps;
+  iterationIndex: number;
+  createSession: (s: SesssionModel) => void;
   changeStep: (s: Steps) => void;
   handleUserAnswer: (a: DM_ANSWER) => void;
   handleUserRPE: (a: number) => void;
   updateSessionStatus: (s: SESSION_STATUS) => void;
-  iterationIndex: number;
+  handleNextIteration: () => void;
 };
 
 const SessionContext = createContext<SessionContextType>(
@@ -45,8 +45,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
       video: i.answers.length ? i.answers[0].video1.video : undefined,
       answer1: i.answers.length ? i.answers[0].video1.answer1 : undefined,
       answer2: i.answers.length ? i.answers[0].video1.answer2 : undefined,
-      timeToGetReady: 1,
-      timeToWorkout: 1,
+      timeToGetReady: 5,
+      timeToWorkout: 5,
     } as IterationContext;
     return i_;
   };
@@ -96,7 +96,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
     if (iterationIndex < session.iterations.length - 1) {
       setCurrentIterarion(session.iterations[iterationIndex + 1]);
       setIterationIndex(iterationIndex + 1);
-      setStep("workout");
+      setStep("beginning");
     } else {
       setSession((prev) => ({ ...prev, status: "finished" }));
     }

@@ -5,40 +5,47 @@ import { useGetSessionDetailById } from "@/queries/session.query";
 import { useQueryClient } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import { Workout } from "@/types/workout";
+import { useAuth } from "@/context/auth";
 
 type Props = {
-  idSession: string | number;
+  idWorkout: string | number;
+  workout: Workout;
+  idSession: number;
 };
-const useSession = ({ idSession }: Props) => {
+const useSession = ({ idWorkout, workout, idSession }: Props) => {
   const [downloadProgress, setDownloadProgress] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const [enableQuery, setEnableQuery] = useState(false);
   const [session, setSession] = useState<Session>();
-  const [wasSessionDownlaoded, setWasSessionDownlaoded] = useState(false);
+  const [wasSessionDownloaded, setWasSessionDownloaded] = useState(false);
   const queryClient = useQueryClient();
+  const { userRole } = useAuth();
+
+  const sessionId = idSession ?? idWorkout;
+
   const { refetchSession } = useGetSessionDetailById({
-    idSession,
+    idSession: sessionId,
     enabled: enableQuery,
   });
 
   useEffect(() => {
     const data = queryClient.getQueryData<AxiosResponse<Session>>([
       "sessions",
-      idSession,
+      idWorkout,
     ]);
     if (data) {
-      setWasSessionDownlaoded(true);
+      setWasSessionDownloaded(true);
       setSession(data?.data);
-    } else setWasSessionDownlaoded(false);
+    } else setWasSessionDownloaded(false);
   }, []);
   const updateSessionIteration = ({ iteration }: { iteration: Iteration }) => {
     const data = queryClient.getQueryData<AxiosResponse<Session>>([
       "sessions",
-      idSession,
+      idWorkout,
     ]);
     if (!data) return;
     queryClient.setQueryData(
-      ["sessions", idSession],
+      ["sessions", idWorkout],
       (axiosResponse: AxiosResponse<Session>) => {
         const index = axiosResponse.data.workout.iterations.findIndex(
           (i) => i.id === iteration.id
@@ -100,27 +107,41 @@ const useSession = ({ idSession }: Props) => {
   };
   const downloadSession = async () => {
     setIsDownloading(true);
-    try {
-      const { data, isSuccess } = await refetchSession();
-      if (isSuccess) {
-        setSession(data.data);
-        await downloadVideos(data.data.workout);
-        setWasSessionDownlaoded(true);
+    if (userRole === "member") {
+      try {
+        const { data, isSuccess } = await refetchSession();
+        if (isSuccess) {
+          setSession(data.data);
+          await downloadVideos(data.data.workout);
+          setWasSessionDownloaded(true);
+        }
+      } catch (error) {
+        console.log("error en download session", error);
+      } finally {
+        setIsDownloading(false);
       }
-    } catch (error) {
-      console.log("error en download session", error);
-    } finally {
-      setIsDownloading(false);
+    } else if (workout) {
+      try {
+        await downloadVideos(workout);
+        setWasSessionDownloaded(true);
+      } catch (error) {
+        console.log("error en download session", error);
+      } finally {
+        setIsDownloading(false);
+      }
+    } else {
+      console.log("ERROR, workout undefined");
     }
+    setIsDownloading(false);
   };
   return {
-    downloadVideos,
     downloadProgress,
     isDownloading,
+    session,
+    wasSessionDownloaded,
+    downloadVideos,
     setIsDownloading,
     downloadSession,
-    session,
-    wasSessionDownlaoded,
   };
 };
 

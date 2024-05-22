@@ -1,6 +1,4 @@
 import React from "react";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-
 import { Stack } from "expo-router/stack";
 import { useColorScheme } from "@/components/useColorScheme";
 import { SessionProvider } from "@/context/SessionContext";
@@ -14,13 +12,17 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <SessionProvider>
       <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="(verification)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="(tabs)"
+          options={{ headerShown: false, headerBackTitleVisible: false }}
+        />
+        <Stack.Screen
+          name="(verification)"
+          options={{ headerShown: false, headerBackTitleVisible: false }}
+        />
 
         <Stack.Screen name="modal" options={{ presentation: "modal" }} />
       </Stack>

@@ -1,8 +1,6 @@
 {
   "question1_home": "¿Qué vas a entrenar hoy?",
-  "welcome": "¡Hola %{name}!, es un placer recibirte.",
-  "update_password": "Dado que tu contraseña actual fue creada por nosotros de forma automática, puedes cambiarla por una creada por ti.",
-  "update_password_title": "Actualizar Contraseña",
+  "welcome": "¡Hola %{name}! es un placer recibirte.",
   "update_password": "Dado que tu contraseña actual fue creada por nosotros de forma automática, puedes cambiarla por una creada por ti.",
   "update_password_title": "Actualizar Contraseña",
   "workout": "Entrenamiento",
@@ -18,7 +16,6 @@
   "topics": "Tópicos",
   "download": "Descargar",
   "downloaded": "Descargado",
-
   "workout_pending": "Recibidos",
   "workout_finished": "Realizados",
   "sent_by": "Enviado por",
@@ -27,9 +24,8 @@
   "empty_completed_session": "Aún no tienes ejercicios realizados",
   "empty_pending_session": "Aún  no te han enviado ejercicios",
   "sessions_up_to_date": "¡Estás al día con tus ejercicios!",
-  "generic_error": "Error, inténtelo más tarde.",
   "new_password_label": "Nueva contraseña",
-  "confirm_new_password_label": "Repitir contraseña",
+  "confirm_new_password_label": "Repetir contraseña",
   "confirm_personal_data": "Para continuar, te solicitamos que confirmes los datos cargados por tu federación.",
   "about_you": "Te solicitamos algunos datos para mejorar tu experiencia dentro de la App y facilitar la gestión de tus entrenamientos.",
   "tell_us_about_you": "Cuéntanos sobre ti",
@@ -50,7 +46,6 @@
   "dm+memory": "Toma de decisión + Memoria",
   "random": "Aleatorio",
   "prepare": "Preparar",
-  "configuration": "Configuración",
   "repetitions": "Repeticiones",
   "decisions": "Decisiones",
   "exercise_time": "Tiempo de ejercicio",
@@ -79,5 +74,49 @@
   "rpe_very_very_hard": "Muy, muy pesado",
   "rpe_almost_maximal": "Casi máximo",
   "rpe_maximal_exertion": "Esfuerzo máximo",
-  "rpe_how_do_you_feel": "Como te sientes?"
+  "rpe_how_do_you_feel": "Como te sientes?",
+  "common": {
+    "name_label": "Nombre",
+    "last_name_label": "Apellido",
+    "role_label": "Rol",
+    "category_label": "Categoría",
+    "email_label": "Email",
+    "confirm_label": "Confirmar",
+    "cancel": "Cancelar",
+    "configuration": "Configuración"
+  },
+  "login_screen": {
+    "email_label": "Ingrese su correo",
+    "password_label": "Ingrese su contraseña",
+    "login_button": "Ingresar"
+  },
+  "about_you_screen": {
+    "birthdate_label": "Nacimiento",
+    "genre_label": "Genero",
+    "passport_label": "Pasaporte",
+    "nationality_label": "Nacionalidad",
+    "phone_label": "Celular",
+    "address_label": "Direccion",
+    "weight_label": "Peso",
+    "height_label": "Altura",
+    "medical_expiration_label": "Vencimiento ficha medica",
+    "medical_observations_label": "Observaciones medicas"
+  },
+  "errors": {
+    "generic_error": "Error, inténtelo más tarde.",
+    "login_invalid_credentials": "Credenciales inválidas",
+    "password_doesnt_match": "Las contraseñas no coinciden"
+  },
+  "genre_options": {
+    "m": "Masculino",
+    "f": "Femenino"
+  },
+  "workout_flow": {
+    "official_training_alert": "Este entrenamiento es de caracter oficial. Podrás realizarlo una única vez.",
+    "training_title": "Entrenamientos",
+    "download_modal_title": "Aguarda un momento",
+    "download_modal_message": "Estamos descargando tu ejercicio. Por favor no cierres ni salgas de esta pantalla hasta que finalice.",
+    "watch_tutorial_label": "Ver tutorial",
+    "materials_title": "Materiales"
+  }
 }

@@ -67,12 +67,13 @@ const Workouts = () => {
               borderColor="indigo600"
               position="absolute"
               top={-30}
+              hardShadow="3"
             >
               <ButtonIcon color="white" as={AddIcon} />
             </Button>
           )}
         </Box>
-        {userRole == "member" ? (
+        {userRole === "member" ? (
           <>
             <CTab
               currentTab={tab}
@@ -90,7 +91,7 @@ const Workouts = () => {
           <>
             <Box borderBottomWidth={4} borderColor={"$black"} pb={10} pt={25}>
               <Text color="black" textAlign="center" fontWeight={"$bold"}>
-                Entrenamientos
+                {i18n.t("workout_flow.training_title")}
               </Text>
             </Box>
             {sessions.length === 0 ? (
@@ -101,8 +102,8 @@ const Workouts = () => {
               <FlatList
                 data={sessions}
                 mb={200}
-                renderItem={({ item: session }: ListRenderItemInfo<any>) => (
-                  <WorkoutItem workout={session} idSession={session.id} />
+                renderItem={({ item: workout }: ListRenderItemInfo<any>) => (
+                  <WorkoutItem workout={workout} idWorkout={workout.id} />
                 )}
                 keyExtractor={(item: any) => item.id}
               />

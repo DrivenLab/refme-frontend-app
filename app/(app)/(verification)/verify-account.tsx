@@ -1,5 +1,5 @@
 import { useAuth } from "@/context/auth";
-import CTextInput from "@/components/inputs/CTextInput";
+import CTextInput, { DisableTextInput } from "@/components/inputs/CTextInput";
 import { useState } from "react";
 import { Image } from "expo-image";
 import { SafeAreaView, StyleSheet } from "react-native";
@@ -19,7 +19,7 @@ import { useRouter } from "expo-router";
 
 export default function VerifyAccountScreen() {
   const [error, setError] = useState("");
-  const { signOut, user, profile } = useAuth();
+  const { user, profile, signOut } = useAuth();
   const router = useRouter();
   const [name, setName] = useState(user?.firstName || "");
 
@@ -78,7 +78,7 @@ export default function VerifyAccountScreen() {
               <Text>{error}</Text>
             </Box>
           )}
-          <Text fontWeight="bold" size="xl" color="#58DAFC">
+          <Text fontWeight="bold" size="xl" color="$primary">
             {i18n.t("welcome", { name: user?.fullName })}
           </Text>
           <Text color="black" size="sm">
@@ -87,14 +87,14 @@ export default function VerifyAccountScreen() {
           <HStack space="md" mb={12}>
             {/* Utiliza HStack para colocar los inputs lado a lado */}
             <CTextInput
-              placeholder="Nombre"
+              placeholder={i18n.t("common.name_label")}
               onChangeText={setName}
               containerStyle={{ width: "50%" }}
               value={user?.firstName || ""}
               isDisabled
             />
             <CTextInput
-              placeholder="Apellido"
+              placeholder={i18n.t("common.last_name_label")}
               onChangeText={setName}
               containerStyle={{ width: "50%" }}
               value={user?.lastName || ""}
@@ -104,33 +104,35 @@ export default function VerifyAccountScreen() {
 
           <HStack space="md" mb={12}>
             {/* Utiliza HStack para colocar los inputs lado a lado */}
-            <CTextInput
-              placeholder="Rol"
-              onChangeText={setName}
+            <DisableTextInput
+              placeholder={i18n.t("common.role_label")}
               value={profile && profile.length > 0 ? profile[0].memberType : ""}
               containerStyle={{ width: "50%" }}
-              isDisabled
             />
-            <CTextInput
-              placeholder="Categoria"
-              onChangeText={setName}
+            <DisableTextInput
+              placeholder={i18n.t("common.category_label")}
               containerStyle={{ width: "50%" }}
               value={profile ? profile[0]?.category.toString() : ""}
-              isDisabled
             />
           </HStack>
 
           <CTextInput
-            placeholder="Email"
+            placeholder={i18n.t("common.email_label")}
             onChangeText={setName}
             value={user?.email || ""}
             isDisabled
           />
           <CBtn
-            title="Confirmar"
+            title={i18n.t("common.confirm_label")}
             isLoading={isLogging}
             onPress={handleLogin}
             mt={70}
+          />
+          <CBtn
+            title={"Logout"}
+            isLoading={isLogging}
+            onPress={signOut}
+            secondary
           />
         </VStack>
       </VStack>

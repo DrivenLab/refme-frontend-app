@@ -82,7 +82,7 @@ export default function TabOneScreen() {
               color="black"
               marginVertical={5}
             >
-              E-learnig {i18n.t("elearning_title")}
+              {i18n.t("elearning_title")}
             </Text>
             {section_options.slice(2).map((s, i) => (
               <SectionItem {...s} key={i} />

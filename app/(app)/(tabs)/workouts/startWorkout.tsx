@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
-import useSession from "@/hooks/useSession";
-import CVideo from "@/components/CVideo";
 import { SafeAreaView, ScrollView, Text } from "@gluestack-ui/themed";
 import useOrientation from "@/hooks/useOrientation";
 import RotateScreen from "@/components/session/RotateScreen";
@@ -9,16 +7,11 @@ import { ORIENTATION_NUMBER } from "@/constants/Orientation";
 import useStartSession from "@/hooks/useStartSession";
 import SessionIteration from "@/components/session/SessionIteration";
 import { Iteration } from "@/types/session";
+import { useSession } from "@/context/SessionContext";
+import SessionStatistics from "@/components/session/SessionStatistics";
 
 const StartWorkout = () => {
-  const {
-    sessionStatus,
-    setSessionStatus,
-    currentIteration,
-    handleOnNextIteration,
-    step,
-    onChangeStep,
-  } = useStartSession({ idSession: 1 });
+  const { session, updateSessionStatus } = useSession();
   const { screenOrientation } = useOrientation();
   useEffect(() => {
     //loadFiles();
@@ -26,22 +19,19 @@ const StartWorkout = () => {
 
   return (
     <SafeAreaView style={styles.contentContainer}>
-      {sessionStatus === "pending" ? (
+      {session.status === "pending" ? (
         <RotateScreen
           orientation={
             ORIENTATION_NUMBER[
               screenOrientation as keyof typeof ORIENTATION_NUMBER
             ]
           }
-          onStartWorkout={() => setSessionStatus("inProgress")}
+          onStartWorkout={() => updateSessionStatus("inCourse")}
         />
+      ) : session.status === "inCourse" ? (
+        <SessionIteration />
       ) : (
-        <SessionIteration
-          iteration={currentIteration || ({} as Iteration)}
-          handleNextIteration={() => handleOnNextIteration({})}
-          step={step}
-          handleChangeStep={onChangeStep}
-        />
+        <SessionStatistics session={session} />
       )}
     </SafeAreaView>
   );

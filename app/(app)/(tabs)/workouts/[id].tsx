@@ -17,6 +17,7 @@ import { useGetSessionById } from "@/queries/session.query";
 import { Href, useLocalSearchParams, useRouter } from "expo-router";
 import { Link } from "expo-router";
 import useSession from "@/hooks/useSession";
+import { useSession as useSessionContext } from "@/context/SessionContext";
 import DownloadProgressModal from "@/components/workouts/DownloadProgressModal";
 import { useAuth } from "@/context/auth";
 
@@ -33,11 +34,13 @@ const WorkoutDetail = () => {
     downloadSession,
     session,
   } = useSession({ idSession: Number(idSession as string) });
+  const { createSession } = useSessionContext();
   const router = useRouter();
   const handleOnPress = () => {
-    if (wasSessionDownlaoded)
+    if (wasSessionDownlaoded && session) {
+      createSession(session);
       router.push("/workouts/startWorkout/" as Href<string>);
-    else {
+    } else {
       downloadSession();
     }
   };

@@ -3,6 +3,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 import { Stack } from "expo-router/stack";
 import { useColorScheme } from "@/components/useColorScheme";
+import { SessionProvider } from "@/context/SessionContext";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -16,11 +17,13 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="(verification)" options={{ headerShown: false }} />
+    <SessionProvider>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="(verification)" options={{ headerShown: false }} />
 
-      <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-    </Stack>
+        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+      </Stack>
+    </SessionProvider>
   );
 }

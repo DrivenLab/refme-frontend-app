@@ -47,21 +47,16 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, [user]);
 
   const userRole = useMemo(() => {
-    console.log("here X4");
-
     return user?.role ?? "";
   }, [user]);
 
   //Cargamos el token del localstorage
   useEffect(() => {
-    console.log("here X2");
-
     loadToken();
   }, []);
 
   //Actualizamos los datos del usuario cada vez que el token cambia.
   useEffect(() => {
-    console.log("here");
     if (token) {
       loadUserProfile();
       loadProfile();
@@ -70,7 +65,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   //Determinar la rutas en base a si el usuario esta o no autenticado.
   useEffect(() => {
-    console.log("here x3");
     //router.replace("/home");
     //return;
     /**

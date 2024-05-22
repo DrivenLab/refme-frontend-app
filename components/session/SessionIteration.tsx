@@ -1,4 +1,3 @@
-import { Iteration } from "@/types/session";
 import { View, Text } from "@gluestack-ui/themed";
 import React, { useState } from "react";
 import CVideo from "../CVideo";
@@ -6,24 +5,37 @@ import SessionCountDown from "./SessionCountdown";
 import SessionTrainingCountdown from "./SessionTrainingCountdown";
 import DecisionMakingAnswer from "./dm/DecisionMakingAnswer";
 import RPE from "./RPE";
+import { useSession } from "@/context/SessionContext";
+import { DM_ANSWER, IterationContext, Steps } from "@/types/session";
 
 type Props = {
-  iteration: Iteration;
-  handleNextIteration: () => void;
+  iteration: IterationContext;
   step: Steps;
   handleChangeStep: (s: string) => void;
 };
-type Steps = "beginning" | "workout" | "video" | "decision" | "rpe";
-const SessionIteration = ({
-  iteration,
-  handleNextIteration,
-  step,
-  handleChangeStep,
-}: Props) => {
+const SessionIteration = () => {
+  const {
+    currentIterarion,
+    step,
+    handleNextIteration,
+    changeStep,
+    handleUserAnswer,
+    handleUserRPE,
+  } = useSession();
   const handleFinishCountdown = (step: Steps) => {
     // Defer the state update until after the current rendering cycle
     setTimeout(() => {
-      handleChangeStep(step);
+      changeStep(step);
+    }, 0);
+  };
+  const onFinishDecision = (answer: DM_ANSWER) => {
+    handleUserAnswer(answer);
+    handleFinishCountdown("rpe");
+  };
+  const onFinishRPE = (rpe: number) => {
+    handleUserRPE(rpe);
+    setTimeout(() => {
+      handleNextIteration();
     }, 0);
   };
   return (
@@ -32,26 +44,30 @@ const SessionIteration = ({
         <>
           <SessionCountDown
             onFinishCountdown={() => handleFinishCountdown("workout")}
-            initialCountdown={4}
+            initialCountdown={currentIterarion.timeToGetReady}
             imageName="man_running_ready_to_workout"
           />
         </>
       ) : step === "workout" ? (
         <SessionTrainingCountdown
           onFinishCountdown={() => handleFinishCountdown("video")}
-          initialCountdown={5}
+          initialCountdown={currentIterarion.timeToWorkout}
+          hasNoVideo={currentIterarion.video == undefined}
         />
-      ) : step === "video" ? (
+      ) : step === "video" && currentIterarion.video ? (
         <>
           <CVideo
-            uri={iteration.answers[0].video1.video || ""}
+            uri={currentIterarion.video}
             onFinishVideo={() => handleFinishCountdown("decision")}
           />
         </>
       ) : step === "decision" ? (
-        <DecisionMakingAnswer onFinish={() => handleFinishCountdown("rpe")} />
+        <DecisionMakingAnswer
+          onFinish={onFinishDecision}
+          iteration={currentIterarion}
+        />
       ) : (
-        <RPE onFinishRPE={handleNextIteration} />
+        <RPE onFinishRPE={onFinishRPE} />
       )}
     </View>
   );

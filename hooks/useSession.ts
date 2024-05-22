@@ -89,9 +89,9 @@ const useSession = ({ idSession }: Props) => {
     }
   };
   const downloadVideos = async (workout: Workout) => {
-    const downloadVideosPromises = workout.iterations.map((i) => {
-      if (i.answers.length !== 0) return downloadVideo(i, true);
-    });
+    const downloadVideosPromises = workout.iterations
+      .filter((i) => i.answers.length)
+      .map((i) => downloadVideo(i, true));
     if (!downloadVideosPromises) return;
 
     try {

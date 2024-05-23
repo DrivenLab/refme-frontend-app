@@ -14,6 +14,8 @@ import DownloadSessionBtn from "./DownloadSessionBtn";
 import React from "react";
 import DownloadProgressModal from "./DownloadProgressModal";
 import useSession from "@/hooks/useSession";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 type Props = {
   member: Member;
   idUser?: number;
@@ -46,7 +48,7 @@ const MemberItem = ({ member, idMember }: Props) => {
           >
             <Box marginRight={20}>
               <Avatar size="m" marginHorizontal="auto">
-                <AvatarFallbackText>R</AvatarFallbackText>
+                <AvatarFallbackText>{member.user?.fullName}</AvatarFallbackText>
 
                 <AvatarImage
                   source={
@@ -63,7 +65,7 @@ const MemberItem = ({ member, idMember }: Props) => {
               justifyContent="space-arround"
               alignItems="flex-start"
             >
-              <Text fontWeight="bold" color="black" fontSize={16}>
+              <Text fontWeight="bold" color="black" fontSize={20}>
                 {member.user.fullName ? member.user.fullName : "--"}
               </Text>
               <Text color="black" fontSize={16}>
@@ -72,6 +74,7 @@ const MemberItem = ({ member, idMember }: Props) => {
                   : "--"}
               </Text>
             </Box>
+            <Ionicons name="chevron-forward" size={20} color="#00C1F3" />
           </Box>
         </Box>
       </Pressable>

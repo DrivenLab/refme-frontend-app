@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Pressable, Text, VStack } from "@gluestack-ui/themed";
+import { Box, HStack, Pressable, Text, VStack } from "@gluestack-ui/themed";
 import {
   RPE_COLORS,
   RPE_STRING_VALUES,
@@ -24,63 +24,61 @@ const RPE = ({ onFinishRPE }: Props) => {
       bg="$white"
       px="$8"
     >
-      <VStack
+      <HStack
         flexDirection="row"
-        space="md"
         justifyContent="flex-start"
         alignItems="center"
         flexWrap="wrap"
       >
-        <Text fontSize={20} color="black" fontWeight="mediumn">
-          {i18n.t("rpe_how_do_you_feel")}
-        </Text>
+        <Box width="$1/6">
+          <Text fontSize={20} color="black" fontWeight="mediun">
+            {i18n.t("rpe_how_do_you_feel")}
+          </Text>
+        </Box>
         {Object.entries(RPE_NUMBER_VALUES).map(([key, value]) => (
-          <Pressable
-            flex={1}
-            height={150}
-            justifyContent="center"
-            alignItems="center"
-            alignContent="center"
-            style={{
-              backgroundColor:
+          <Box width="$1/6" height={180} key={key} p={"$2"}>
+            <Pressable
+              flex={1}
+              justifyContent="center"
+              alignItems="center"
+              alignContent="center"
+              bgColor={
                 rpe === value
                   ? "#090b22"
-                  : RPE_COLORS[key as keyof typeof RPE_COLORS],
-            }}
-            rounded={10}
-            key={key}
-            minWidth={100}
-            py={"$8"}
-            onPress={() => handleOnPress(value)}
-          >
-            <Text
-              color={
-                rpe === value
-                  ? RPE_COLORS[key as keyof typeof RPE_COLORS]
-                  : "#090b22"
+                  : RPE_COLORS[key as keyof typeof RPE_COLORS]
               }
-              textAlign="center"
-              fontSize={50}
-              fontWeight={"bold"}
+              rounded={10}
+              onPress={() => handleOnPress(value)}
             >
-              {key}
-            </Text>
-            <Text
-              color={
-                rpe === value
-                  ? RPE_COLORS[key as keyof typeof RPE_COLORS]
-                  : "#090b22"
-              }
-              textAlign="center"
-            >
-              {i18n.t(
-                "rpe_" +
-                  RPE_STRING_VALUES[key as keyof typeof RPE_STRING_VALUES]
-              )}
-            </Text>
-          </Pressable>
+              <Text
+                color={
+                  rpe === value
+                    ? RPE_COLORS[key as keyof typeof RPE_COLORS]
+                    : "#090b22"
+                }
+                textAlign="center"
+                fontSize={50}
+                fontWeight={"bold"}
+              >
+                {key}
+              </Text>
+              <Text
+                color={
+                  rpe === value
+                    ? RPE_COLORS[key as keyof typeof RPE_COLORS]
+                    : "#090b22"
+                }
+                textAlign="center"
+              >
+                {i18n.t(
+                  "rpe_" +
+                    RPE_STRING_VALUES[key as keyof typeof RPE_STRING_VALUES]
+                )}
+              </Text>
+            </Pressable>
+          </Box>
         ))}
-      </VStack>
+      </HStack>
     </Box>
   );
 };

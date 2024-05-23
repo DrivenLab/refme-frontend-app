@@ -33,7 +33,6 @@ const WorkoutDetail = () => {
   const { workout } = useGetWorkoutById({
     idWorkout: Number(idWorkout as string),
   });
-  console.log("Aa");
 
   const date = workout?.createdAt
     ? new Date(Date.parse(workout.createdAt))

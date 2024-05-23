@@ -30,8 +30,15 @@ const RPE = ({ onFinishRPE }: Props) => {
         alignItems="center"
         flexWrap="wrap"
       >
-        <Box width="$1/6">
-          <Text fontSize={20} color="black" fontWeight="mediun">
+        <Box
+          width="$1/6"
+          height={180}
+          p="$2"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Text fontSize={20} color="black" fontWeight="$bold">
             {i18n.t("rpe_how_do_you_feel")}
           </Text>
         </Box>

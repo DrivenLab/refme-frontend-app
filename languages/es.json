@@ -6,6 +6,8 @@
   "workout": "Entrenamiento",
   "personal": "Personal",
   "dm": "Toma de decisión",
+  "dmar": "Toma de decisión",
+
   "videos_available": "Te quedan 20 videos disponibles",
   "official_test_workout": "Entrenamiento Oficiales",
   "official_training": "Ejercicios Oficiales",
@@ -82,6 +84,7 @@
     "category_label": "Categoría",
     "email_label": "Email",
     "confirm_label": "Confirmar",
+    "confirm_and_continue": "Confirmar y continuar",
     "cancel": "Cancelar",
     "configuration": "Configuración"
   },
@@ -119,6 +122,23 @@
     "watch_tutorial_label": "Ver tutorial",
     "materials_title": "Materiales",
     "turn_phone_label": "Gire su pantalla para comenzar",
-    "start_training_label": "Iniciar entrenamiento"
+    "start_training_label": "Iniciar entrenamiento",
+    "prepare_bold": "Prepárate ",
+    "prepare_for": "para el ",
+    "prepare_to_bold": "ejercicio físico",
+    "look_at_bold": "Mira ",
+    "look_at_the": "el ",
+    "look_at_video_bold": "video ",
+    "look_at_take": "y toma una ",
+    "look_at_decision": "decisión"
+  },
+  "create_workout": {
+    "workout_name": "Nombre del entrenamiento",
+    "create_new_workout": "Crear nuevo entrenamiento",
+    "assign_workout": "Asignar entrenamiento"
+  },
+  "assign_workout": {
+    "who_do_test": "¿Quién va a realizar este test?",
+    "search_by_name": "Buscar por nombre"
   }
 }

@@ -22,6 +22,7 @@ interface CTextInputProps {
   options?: string[]; // Add options prop for dropdown items
   isDisabled?: boolean;
   required?: boolean;
+  autoCapitalize?: "none" | "sentences" | "words" | "characters";
 }
 
 const CTextInput = ({
@@ -34,6 +35,7 @@ const CTextInput = ({
   options = [],
   isDisabled,
   required,
+  autoCapitalize = "none",
   ...props
 }: CTextInputProps) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -128,6 +130,7 @@ const CTextInput = ({
               secureTextEntry={secureTextEntry}
               editable={!isDisabled}
               keyboardType={typeof value === "number" ? "numeric" : "default"}
+              autoCapitalize={autoCapitalize}
             />
           )}
         </View>

@@ -17,6 +17,14 @@ const _layout = () => {
         name="startWorkout"
         options={{ headerShown: false, headerBackTitleVisible: false }}
       />
+      <Stack.Screen
+        name="createWorkout"
+        options={{ headerShown: false, headerBackTitleVisible: false }}
+      />
+      <Stack.Screen
+        name="assignReferee"
+        options={{ headerShown: false, headerBackTitleVisible: false }}
+      />
     </Stack>
   );
 };

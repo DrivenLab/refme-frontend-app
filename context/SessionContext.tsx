@@ -3,7 +3,7 @@ import {
   DM_ANSWER,
   SESSION_STATUS,
   SessionContext as SessionContextT,
-  Session as SesssionModel,
+  Session as SessionModel,
   Steps,
   IterationContext,
 } from "@/types/session";
@@ -15,7 +15,7 @@ type SessionContextType = {
   currentIterarion: IterationContext;
   step: Steps;
   iterationIndex: number;
-  createSession: (s: SesssionModel) => void;
+  createSession: (s: SessionModel) => void;
   changeStep: (s: Steps) => void;
   handleUserAnswer: (a: DM_ANSWER) => void;
   handleUserRPE: (a: number) => void;
@@ -29,6 +29,7 @@ const SessionContext = createContext<SessionContextType>(
 export function useSession() {
   return useContext(SessionContext);
 }
+
 const INITIAL_ITERATION_INDEX = 0;
 export function SessionProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<SessionContextT>(
@@ -67,7 +68,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
     //console.log("rpe calling", a_);
     setCurrentIterarion(a_);
   };
-  const createSession = (s: SesssionModel) => {
+  const createSession = (s: SessionModel) => {
     const sessionOrdered = getSessionOrderedByIterations(s);
     const session_: SessionContextT = {
       breakDuration: sessionOrdered.workout.breakDuration,
@@ -80,6 +81,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
       status: "pending",
     };
     setIterationIndex(INITIAL_ITERATION_INDEX);
+
     setSession(session_);
     setStep("workout");
     setCurrentIterarion(session_.iterations[INITIAL_ITERATION_INDEX]);

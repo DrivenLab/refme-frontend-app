@@ -45,6 +45,7 @@ const SessionTrainingCountdown = ({
         <IterationImageCountdown
           count={count}
           imageName="man_running_with_color"
+          initialCountdown={initialCountdown}
         />
       ) : count >= 1 ? (
         <IterationTextImageCountdown
@@ -52,6 +53,7 @@ const SessionTrainingCountdown = ({
           textType="dm"
           count={count}
           imageName="play_video"
+          initialCountdown={initialCountdown}
         />
       ) : (
         <IterationTextImage imageName="play_video">

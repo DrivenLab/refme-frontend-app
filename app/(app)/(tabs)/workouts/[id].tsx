@@ -16,54 +16,32 @@ import i18n from "@/languages/i18n";
 import WorkoutConfigItem from "@/components/workouts/WorkoutConfigurationItem";
 import WorkoutMaterial from "@/components/workouts/WorkoutMaterial";
 import WorkoutTypeBadge from "@/components/workouts/WorkoutTypeBadge";
-import { useGetSessionById } from "@/queries/session.query";
+import { useGetWorkoutById } from "@/queries/workouts.query";
 import { Href, useLocalSearchParams, useRouter } from "expo-router";
 import useSession from "@/hooks/useSession";
 import { useSession as useSessionContext } from "@/context/SessionContext";
-import DownloadProgressModal from "@/components/workouts/DownloadProgressModal";
 import { useAuth } from "@/context/auth";
 import CAlert from "@/components/CAlert";
+import WorkoutMemberDetail from "@/components/workouts/WorkoutMemberDetail";
+import WorkoutInstructorDetail from "@/components/workouts/WorkoutInstructorDetail";
 
 const WorkoutDetail = () => {
-  const { id: idWorkout } = useLocalSearchParams();
+  //TODO solo id
+  const { id: id } = useLocalSearchParams();
   const { userRole, currentOrganization } = useAuth();
+  const idWorkout = id;
+  const { workout } = useGetWorkoutById({
+    idWorkout: Number(idWorkout as string),
+  });
+  console.log("Aa");
 
-  const { workout } = useGetSessionById({ idWorkout: idWorkout as string });
-
-  const {
-    downloadProgress,
-    setIsDownloading,
-    isDownloading,
-    wasSessionDownloaded,
-    downloadSession,
-    session,
-  } = useSession({ idSession: Number(idWorkout), workout: workout });
-  const { createSession } = useSessionContext();
-  const router = useRouter();
-
-  const handleOnPress = () => {
-    if (wasSessionDownloaded && session) {
-      createSession(session);
-      if (userRole === "member")
-        router.push("/workouts/startWorkout/" as Href<string>);
-      else router.push("/workouts/assignReferee/" as Href<string>);
-    } else {
-      downloadSession();
-    }
-  };
-
-  const workoutData = userRole === "member" ? workout?.workout : workout;
   const date = workout?.createdAt
     ? new Date(Date.parse(workout.createdAt))
     : new Date();
+
   return (
     <>
-      <DownloadProgressModal
-        isModalOpen={isDownloading}
-        onCancelDownload={() => setIsDownloading(false)}
-        downloadProgress={downloadProgress}
-      />
-      <SafeAreaView bg="white" flex={1}>
+      <SafeAreaView bg="white" flex={1} px="$3" py={"$2"}>
         <ImageBackground
           source={require("@/assets/images/workout_banner.png")}
           style={styles.backgroundImage}
@@ -76,10 +54,11 @@ const WorkoutDetail = () => {
             style={styles.backgroundLinearGradient}
           >
             <Text color="white" px="$3" fontSize="$lg" bold>
-              {workoutData?.name}
+              {workout?.name}
             </Text>
           </LinearGradient>
         </ImageBackground>
+
         <ScrollView px="$3" pt={Platform.OS === "android" ? 10 : "$2"}>
           <VStack space="md">
             <CAlert text={i18n.t("workout_flow.official_training_alert")} />
@@ -106,7 +85,7 @@ const WorkoutDetail = () => {
               <Text fontSize={20} fontWeight="bold" color="black">
                 {i18n.t("message")}
               </Text>
-              <Text color="black">{workoutData?.description}</Text>
+              <Text color="black">{workout?.description}</Text>
             </VStack>
             <Divider />
             <VStack space="sm">
@@ -118,7 +97,7 @@ const WorkoutDetail = () => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <WorkoutTypeBadge type={i18n.t(workoutData?.type || "s")} />
+                <WorkoutTypeBadge type={i18n.t(workout?.type || "s")} />
                 <Button variant="link">
                   <ButtonText fontWeight="medium">
                     {i18n.t("workout_flow.watch_tutorial_label")}
@@ -141,36 +120,29 @@ const WorkoutDetail = () => {
               </Text>
               <WorkoutConfigItem
                 configName="Repeticiones"
-                quantity={workoutData?.numberOfRepetitions}
+                quantity={workout?.numberOfRepetitions}
               />
               <WorkoutConfigItem
                 configName="Desiciones"
-                quantity={workoutData?.numberOfDecisions}
+                quantity={workout?.numberOfDecisions}
               />
               <WorkoutConfigItem
                 configName="Tiempo de ejercicio"
-                quantity={workoutData?.excerciseDuration}
+                quantity={workout?.excerciseDuration}
                 inSeconds={true}
               />
               <WorkoutConfigItem
                 configName="Tiempo de pausa"
-                quantity={workoutData?.breakDuration}
+                quantity={workout?.breakDuration}
                 inSeconds={true}
               />
             </VStack>
           </VStack>
-          <Button
-            onPress={handleOnPress}
-            mt={"$6"}
-            bg="$primary"
-            rounded="$full"
-            height={50}
-            mb={20}
-          >
-            <ButtonText color="black" fontWeight="medium">
-              {wasSessionDownloaded ? "Comenzar" : "Preparar"}
-            </ButtonText>
-          </Button>
+          {userRole === "member" ? (
+            <WorkoutMemberDetail idSession={id} />
+          ) : (
+            <WorkoutInstructorDetail />
+          )}
         </ScrollView>
       </SafeAreaView>
     </>

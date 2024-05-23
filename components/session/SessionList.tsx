@@ -23,13 +23,11 @@ const SessionList = ({ state, sessions }: Props) => {
         </Box>
       ) : (
         <FlatList
+          // mt={30}
+          height="$3/4"
           data={sessionFiltered}
           renderItem={({ item: session }: ListRenderItemInfo<any>) => (
-            <WorkoutItem
-              workout={session.workout}
-              idSession={session.id}
-              idWorkout={session.workout.id}
-            />
+            <WorkoutItem workout={session.workout} idSession={session.id} />
           )}
           keyExtractor={(item: any) => item.id}
         />

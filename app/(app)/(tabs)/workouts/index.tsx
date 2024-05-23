@@ -21,12 +21,13 @@ import { useAuth } from "@/context/auth";
 import SessionList from "@/components/session/SessionList";
 import WorkoutItem from "@/components/workouts/WorkoutItem";
 import EmptyWorkouts from "@/components/workouts/EmptyWorkouts";
+import MemberWorkouts from "@/components/workouts/MemberWorkouts";
+import InstructorWorkouts from "@/components/workouts/InstructorWorkouts";
 
 const Workouts = () => {
   const { userRole } = useAuth();
 
   const [tab, setTab] = useState<"pending" | "finished">("pending");
-  const { sessions, isLoadingSession } = useGetSessions();
 
   return (
     <SafeAreaView bg="$white" flex={1}>
@@ -43,73 +44,7 @@ const Workouts = () => {
         top={-20}
         bg="$white"
       >
-        <Box flexDirection="row" justifyContent="center" bg="$red">
-          {userRole !== "member" ? (
-            <Link href="/workouts/createWorkout" asChild>
-              <Button
-                width={60}
-                rounded="$full"
-                height={60}
-                bg="$primary"
-                borderColor="indigo600"
-                position="absolute"
-                top={-30}
-              >
-                <ButtonIcon color="white" as={AddIcon} />
-              </Button>
-            </Link>
-          ) : (
-            <Button
-              width={60}
-              rounded="$full"
-              height={60}
-              bg="$primary"
-              borderColor="indigo600"
-              position="absolute"
-              top={-30}
-              hardShadow="3"
-            >
-              <ButtonIcon color="white" as={AddIcon} />
-            </Button>
-          )}
-        </Box>
-        {userRole === "member" ? (
-          <>
-            <CTab
-              currentTab={tab}
-              changeCurrentTab={(tab_: string) =>
-                setTab(tab_ as "pending" | "finished")
-              }
-              tabs={[
-                { label: i18n.t("workout_pending"), value: "pending" },
-                { label: i18n.t("workout_finished"), value: "finished" },
-              ]}
-            />
-            <SessionList sessions={sessions} state={tab} />
-          </>
-        ) : (
-          <>
-            <Box borderBottomWidth={4} borderColor={"$black"} pb={10} pt={25}>
-              <Text color="black" textAlign="center" fontWeight={"$bold"}>
-                {i18n.t("workout_flow.training_title")}
-              </Text>
-            </Box>
-            {sessions.length === 0 ? (
-              <Box height="$3/4">
-                <EmptyWorkouts sessionsCount={0} state={"pending"} />
-              </Box>
-            ) : (
-              <FlatList
-                data={sessions}
-                mb={200}
-                renderItem={({ item: workout }: ListRenderItemInfo<any>) => (
-                  <WorkoutItem workout={workout} idWorkout={workout.id} />
-                )}
-                keyExtractor={(item: any) => item.id}
-              />
-            )}
-          </>
-        )}
+        {userRole === "member" ? <MemberWorkouts /> : <InstructorWorkouts />}
       </VStack>
     </SafeAreaView>
   );

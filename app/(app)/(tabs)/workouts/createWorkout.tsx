@@ -4,9 +4,21 @@ import CNumericInput from "@/components/inputs/CNumericInput";
 import { useState } from "react";
 import api from "@/queries/api";
 import { Image } from "expo-image";
-import { SafeAreaView, StyleSheet } from "react-native";
+
+import { Platform, StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
-import { Box, Text, VStack } from "@gluestack-ui/themed";
+import {
+  SafeAreaView,
+  Text,
+  Box,
+  VStack,
+  Divider,
+  Button,
+  ButtonText,
+  ScrollView,
+  ImageBackground,
+} from "@gluestack-ui/themed";
+import { LinearGradient } from "expo-linear-gradient";
 import i18n from "@/languages/i18n";
 import { useRouter } from "expo-router";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
@@ -20,10 +32,11 @@ export default function CreateWorkoutScreen() {
 
   const [type, setType] = useState("");
   const [memberType, setMemberType] = useState("");
+  const [workoutName, setWorkoutName] = useState("");
   const [repetitions, setRepetitions] = useState(0);
   const [decisions, setDecisions] = useState(0);
-  const [exerciseTime, setExerciseTime] = useState(0);
-  const [pauseTime, setPauseTime] = useState(0);
+  const [exerciseTime, setExerciseTime] = useState(5);
+  const [pauseTime, setPauseTime] = useState(20);
 
   const member_type_options = [i18n.t("referee"), i18n.t("assistant_referee")];
   const type_options = [
@@ -55,8 +68,8 @@ export default function CreateWorkoutScreen() {
     }
 
     const workoutData = {
-      name: "Workout in APP " + new Date().toString(),
-      description: "Workout Description", // Actualiza según tu lógica
+      name: workoutName,
+      description: workoutName + new Date().toString(), // Actualiza según tu lógica
       memberType: memberTypeMapping[memberType],
       type: finalType,
       usageType: "official",
@@ -83,9 +96,9 @@ export default function CreateWorkoutScreen() {
   const mutation = useMutation({
     mutationFn: createWorkout,
     onSuccess: (data) => {
-      queryClient.invalidateQueries("sessions");
+      queryClient.invalidateQueries("workouts");
       const idWorkout = data.id;
-      router.replace(`/workouts/${idWorkout}/`);
+      router.replace(`/workouts/assignReferee/`);
     },
     onError: (err) => {
       const error = err as AxiosError;
@@ -100,10 +113,22 @@ export default function CreateWorkoutScreen() {
 
   return (
     <SafeAreaView>
-      <Image
-        source={require("@/assets/images/workout_list.png")}
-        style={{ height: 100, width: "100%" }}
-      />
+      <ImageBackground
+        source={require("@/assets/images/workout_banner.png")}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      >
+        <LinearGradient // Background Linear Gradient
+          colors={["#090B22", "transparent"]}
+          start={{ x: 0, y: 0.5 }}
+          end={{ x: 1, y: 0.5 }}
+          style={styles.backgroundLinearGradient}
+        >
+          <Text color="white" px="$3" fontSize="$lg" bold>
+            {i18n.t("create_workout.create_new_workout")}
+          </Text>
+        </LinearGradient>
+      </ImageBackground>
       <VStack space="md">
         <VStack space="md" paddingHorizontal={24} mb={50}>
           {error && (
@@ -119,12 +144,20 @@ export default function CreateWorkoutScreen() {
 
           <CTextInput
             value={memberType}
+            placeholder={i18n.t("create_workout.workout_name")}
+            onChangeText={setWorkoutName}
+            error=""
+            containerStyle={{ marginTop: 20 }}
+            width="100%"
+          />
+
+          <CTextInput
+            value={memberType}
             placeholder={i18n.t("member_type")}
             onChangeText={setMemberType}
             options={member_type_options}
             error=""
             secureTextEntry={false}
-            containerStyle={{ marginTop: 20 }}
             width="100%"
           />
           <CTextInput
@@ -138,7 +171,7 @@ export default function CreateWorkoutScreen() {
             width="100%"
           />
           <Text fontWeight="bold" fontSize={24} color="black" mt={15}>
-            {i18n.t("configuration")}
+            {i18n.t("common.configuration")}
           </Text>
 
           <CNumericInput
@@ -199,5 +232,16 @@ const styles = StyleSheet.create({
     height: 30,
     width: "100%",
     marginVertical: 30,
+  },
+  backgroundLinearGradient: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  backgroundImage: {
+    height: 80,
+    width: "100%",
+    // flex: 1,
+    overflow: "hidden",
   },
 });

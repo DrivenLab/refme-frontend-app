@@ -1,17 +1,26 @@
 import { View, Box, Text } from "@gluestack-ui/themed";
 import { Image } from "expo-image";
-import TextInformation from "../workouts/TextInformation";
 import SessionCounter from "./SessionCounter";
 import { useMemo } from "react";
 import { IMAGE_NAME } from "@/types/session";
 import { get_image_from_name } from "@/utils/libs";
+import CircularProgress from "../progress-bar/CircularProgressBar";
+
 type Props = {
   count: number;
   imageName: IMAGE_NAME;
+  initialCountdown: number;
 };
-const IterationImageCountdown = ({ count, imageName }: Props) => {
+const IterationImageCountdown = ({
+  count,
+  imageName,
+  initialCountdown,
+}: Props) => {
   const imageSource = useMemo(() => get_image_from_name(imageName), []);
-
+  const progress =
+    initialCountdown - count > 0
+      ? (initialCountdown - count) / initialCountdown
+      : 0;
   return (
     <View
       flex={1}
@@ -29,9 +38,15 @@ const IterationImageCountdown = ({ count, imageName }: Props) => {
         />
       </Box>
       <Box flex={1} alignItems="center">
-        <Text fontSize={90} fontWeight="bold" textAlign="center" color="black">
-          {count}
-        </Text>
+        <Box mb="$2">
+          <CircularProgress
+            progress={1 - progress}
+            circleColor="#090B22"
+            size={180}
+            strokeWidth={6}
+            text={`${count}`}
+          />
+        </Box>
         <SessionCounter />
       </Box>
     </View>

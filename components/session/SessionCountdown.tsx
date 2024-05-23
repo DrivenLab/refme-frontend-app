@@ -39,6 +39,7 @@ const SessionCountdown = ({
           imageName={imageName}
           textStep={1}
           textType="dm"
+          initialCountdown={initialCountdown}
         />
       ) : (
         <IterationTextImage imageName={imageName}>

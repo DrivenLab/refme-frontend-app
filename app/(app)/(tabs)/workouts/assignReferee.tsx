@@ -5,9 +5,22 @@ import api from "@/queries/api";
 import { useGetMembers } from "@/queries/users.query";
 
 import { Image } from "expo-image";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
-import { Box, Text, VStack, FlatList } from "@gluestack-ui/themed";
+import {
+  SafeAreaView,
+  Text,
+  Box,
+  VStack,
+  Divider,
+  Button,
+  ButtonText,
+  ScrollView,
+  ImageBackground,
+  FlatList,
+} from "@gluestack-ui/themed";
+import { LinearGradient } from "expo-linear-gradient";
+
 import i18n from "@/languages/i18n";
 import { useRouter } from "expo-router";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
@@ -40,10 +53,22 @@ export default function AsignRefereeScreen() {
 
   return (
     <SafeAreaView>
-      <Image
-        source={require("@/assets/images/workout_list.png")}
-        style={{ height: 100, width: "100%" }}
-      />
+      <ImageBackground
+        source={require("@/assets/images/workout_banner.png")}
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      >
+        <LinearGradient // Background Linear Gradient
+          colors={["#090B22", "transparent"]}
+          start={{ x: 0, y: 0.5 }}
+          end={{ x: 1, y: 0.5 }}
+          style={styles.backgroundLinearGradient}
+        >
+          <Text color="white" px="$3" fontSize="$lg" bold>
+            {i18n.t("create_workout.assign_workout")}
+          </Text>
+        </LinearGradient>
+      </ImageBackground>
       <VStack space="md">
         <VStack space="md" paddingHorizontal={24} mb={50}>
           {error && (
@@ -102,5 +127,16 @@ const styles = StyleSheet.create({
     height: 30,
     width: "100%",
     marginVertical: 30,
+  },
+  backgroundLinearGradient: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  backgroundImage: {
+    height: 80,
+    width: "100%",
+    // flex: 1,
+    overflow: "hidden",
   },
 });

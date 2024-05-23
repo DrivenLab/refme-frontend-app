@@ -131,7 +131,9 @@
     "look_at_decision": "decisión"
   },
   "create_workout":{
-    "workout_name": "Workout name"
+    "workout_name": "Workout name",
+    "create_new_workout":"Create new workout",
+    "assign_workout": "Assign workout"
   },
   "assign_workout": {
     "who_do_test":"Who is going to perform this test?",

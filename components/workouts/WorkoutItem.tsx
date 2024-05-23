@@ -22,8 +22,6 @@ const WorkoutItem = ({ workout, idWorkout, idSession }: Props) => {
     setIsDownloading,
     wasSessionDownloaded,
   } = useSession({
-    idWorkout: idWorkout,
-    workout: workout,
     idSession: idSession,
   });
 
@@ -34,7 +32,7 @@ const WorkoutItem = ({ workout, idWorkout, idSession }: Props) => {
         onCancelDownload={() => setIsDownloading(false)}
         downloadProgress={downloadProgress}
       />
-      <Link href={`/workouts/${idWorkout}/` as Href<string>} asChild>
+      <Link href={`/workouts/${idSession}/` as Href<string>} asChild>
         <Pressable marginBottom="$2">
           <Box
             rounded={"$md"}

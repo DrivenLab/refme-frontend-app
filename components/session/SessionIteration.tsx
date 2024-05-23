@@ -30,7 +30,7 @@ const SessionIteration = () => {
   };
   const onFinishDecision = (answer: DM_ANSWER) => {
     handleUserAnswer(answer);
-    handleFinishCountdown("rpe");
+    handleFinishCountdown("decision");
   };
   const onFinishRPE = (rpe: number) => {
     handleUserRPE(rpe);

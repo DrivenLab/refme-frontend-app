@@ -8,8 +8,8 @@ import { Workout } from "@/types/workout";
 import { useAuth } from "@/context/auth";
 
 type Props = {
-  idWorkout: string | number;
-  workout: Workout;
+  idWorkout?: string | number;
+  workout?: Workout;
   idSession: number;
 };
 const useSession = ({ idWorkout, workout, idSession }: Props) => {
@@ -31,7 +31,7 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
   useEffect(() => {
     const data = queryClient.getQueryData<AxiosResponse<Session>>([
       "sessions",
-      idWorkout,
+      sessionId,
     ]);
     if (data) {
       setWasSessionDownloaded(true);
@@ -41,11 +41,11 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
   const updateSessionIteration = ({ iteration }: { iteration: Iteration }) => {
     const data = queryClient.getQueryData<AxiosResponse<Session>>([
       "sessions",
-      idWorkout,
+      idSession,
     ]);
     if (!data) return;
     queryClient.setQueryData(
-      ["sessions", idWorkout],
+      ["sessions", idSession],
       (axiosResponse: AxiosResponse<Session>) => {
         const index = axiosResponse.data.workout.iterations.findIndex(
           (i) => i.id === iteration.id
@@ -111,6 +111,7 @@ const useSession = ({ idWorkout, workout, idSession }: Props) => {
   const downloadSession = async () => {
     setIsDownloading(true);
     if (userRole === "member") {
+      console.log("here in member");
       try {
         const { data, isSuccess } = await refetchSession();
         if (isSuccess) {

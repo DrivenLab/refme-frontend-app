@@ -39,22 +39,29 @@ export function SessionProvider({ children }: PropsWithChildren) {
   );
   const [step, setStep] = useState<Steps>("beginning");
   const [iterationIndex, setIterationIndex] = useState(INITIAL_ITERATION_INDEX);
-  const getIteration = (i: IterationModel) => {
+  const getIteration = ({
+    i,
+    timeToWorkout,
+  }: {
+    i: IterationModel;
+    timeToWorkout: number;
+  }) => {
     const i_: IterationContext = {
       idIteration: i.id,
       video: i.answers.length ? i.answers[0].video1.video : undefined,
       answer1: i.answers.length ? i.answers[0].video1.answer1 : undefined,
       answer2: i.answers.length ? i.answers[0].video1.answer2 : undefined,
-      timeToGetReady: 5,
-      timeToWorkout: 5,
+      timeToGetReady: 1,
+      timeToWorkout: 1,
+      timeToAnswer: 7,
     } as IterationContext;
     return i_;
   };
   const handleUserAnswer = (a: DM_ANSWER) => {
     const a_: IterationContext = {
       ...currentIterarion,
-      answer1: a.answer1,
-      answer2: a.asnwer2,
+      userAnswer1: a.answer1,
+      userAnswer2: a.asnwer2,
       answeredIn: a.answeredIn,
     };
     setCurrentIterarion(a_);
@@ -76,12 +83,18 @@ export function SessionProvider({ children }: PropsWithChildren) {
       maxRPETime: 7,
       numberOfDecisions: sessionOrdered.workout.numberOfDecisions,
       numberOfRepetitions: sessionOrdered.workout.numberOfRepetitions,
-      iterations: sessionOrdered.workout.iterations.map((i) => getIteration(i)),
+
+      iterations: sessionOrdered.workout.iterations.map((i) =>
+        getIteration({
+          i,
+          timeToWorkout: sessionOrdered.workout.excerciseDuration,
+        })
+      ),
       status: "pending",
     };
     setIterationIndex(INITIAL_ITERATION_INDEX);
     setSession(session_);
-    setStep("workout");
+    setStep("decision");
     setCurrentIterarion(session_.iterations[INITIAL_ITERATION_INDEX]);
   };
   const calculateTimeForIteration = () => {

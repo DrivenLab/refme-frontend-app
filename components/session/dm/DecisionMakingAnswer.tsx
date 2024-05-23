@@ -10,12 +10,15 @@ import {
   t_DM_ANSWER2,
 } from "@/types/session";
 import { getDifferenceDate, getEndVideoTime } from "@/utils/session";
+import CProgress from "@/components/progress-bar/CProgress";
+import useCountdown from "@/hooks/useCountdown";
 type Props = {
   onFinish: (a: DM_ANSWER) => void;
   iteration: IterationContext;
 };
+
 const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
-  const startTime = new Date();
+  let startTime = new Date();
   const [asnwer, setAnswer] = useState<DM_ANSWER>({
     answeredIn: getDifferenceDate(
       startTime,
@@ -23,61 +26,71 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
     ),
   } as DM_ANSWER);
   const [hasCompleted, setHasCompleted] = useState(false);
-  const handleUserAnswer = (answer: string, questionType: string) => {
+  const { countdown } = useCountdown({
+    initialCountdown: iteration.timeToAnswer,
+  });
+
+  const handleUserAnswer = (answerSelected: string, questionType: string) => {
     const answer_ = { ...asnwer };
     let completed = false;
     if (questionType === "q1") {
-      answer_.answer1 = answer;
+      answer_.answer1 = answerSelected;
     } else if (questionType === "q2") {
-      answer_.asnwer2 = answer;
+      answer_.asnwer2 = answerSelected;
     }
     if (answer_.answer1 && answer_.asnwer2) {
       const endTime = new Date();
       answer_.answeredIn = getDifferenceDate(startTime, endTime);
       completed = true;
     }
+
     setAnswer(answer_);
     setHasCompleted(completed);
     if (completed) onFinish(answer_);
   };
-
   return (
-    <Box flex={1} bg="$white" px={"$4"} py="$5" justifyContent="center">
-      <VStack
-        width={"100%"}
-        flexDirection="row"
-        space="md"
-        justifyContent="space-between"
-      >
-        {Object.entries(DM_ANSWER1).map(([key, value]) => (
-          <DecisionMakingOption
-            key={key}
-            text={i18n.t(key)}
-            handleUserAnswer={() => handleUserAnswer(value, "q1")}
-            hasMarked={value === asnwer.answer1}
-            isCorrect={hasCompleted && asnwer.answer1 === iteration.answer1}
-            showAnswer={hasCompleted}
-          />
-        ))}
-      </VStack>
-      <Divider my="$5" bg="$black" />
-      <VStack
-        width={"100%"}
-        flexDirection="row"
-        space="md"
-        justifyContent="space-between"
-      >
-        {Object.entries(DM_ANSWER2).map(([key, value]) => (
-          <DecisionMakingOption
-            key={key}
-            text={i18n.t(key)}
-            handleUserAnswer={() => handleUserAnswer(value, "q2")}
-            hasMarked={value === asnwer.asnwer2}
-            isCorrect={asnwer.asnwer2 === iteration.answer2}
-            showAnswer={hasCompleted}
-          />
-        ))}
-      </VStack>
+    <Box bg="$white" flex={1}>
+      <CProgress
+        progressValue={countdown}
+        initialProgressValue={iteration.timeToAnswer}
+      />
+      <Box bg="$white" flex={1} px={"$4"} py="$5" justifyContent="center">
+        <VStack
+          width={"100%"}
+          flexDirection="row"
+          space="md"
+          justifyContent="space-between"
+        >
+          {Object.entries(DM_ANSWER1).map(([key, value]) => (
+            <DecisionMakingOption
+              key={key}
+              text={i18n.t(key)}
+              handleUserAnswer={() => handleUserAnswer(value, "q1")}
+              hasMarked={value === asnwer.answer1}
+              isCorrect={asnwer.answer1 === iteration.answer1}
+              showAnswer={hasCompleted}
+            />
+          ))}
+        </VStack>
+        <Divider my="$5" bg="$black" />
+        <VStack
+          width={"100%"}
+          flexDirection="row"
+          space="md"
+          justifyContent="space-between"
+        >
+          {Object.entries(DM_ANSWER2).map(([key, value]) => (
+            <DecisionMakingOption
+              key={key}
+              text={i18n.t(key)}
+              handleUserAnswer={() => handleUserAnswer(value, "q2")}
+              hasMarked={value === asnwer.asnwer2}
+              isCorrect={asnwer.asnwer2 === iteration.answer2}
+              showAnswer={hasCompleted}
+            />
+          ))}
+        </VStack>
+      </Box>
     </Box>
   );
 };

@@ -21,7 +21,7 @@ export type IterationContext = {
   userAnswer1?: string;
   userAnswer2?: string;
   rpe?: number;
-  timeToAnswer?: string;
+  timeToAnswer: number;
   timeToGetReady: number;
   timeToWorkout: number;
 };

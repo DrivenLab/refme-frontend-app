@@ -43,7 +43,6 @@ const SessionStatistics = ({ session }: Props) => {
           {resume.answerTotalTime}
         </Text>
       </Text>
-      <Text>{JSON.stringify(session)}</Text>
     </Box>
   );
 };

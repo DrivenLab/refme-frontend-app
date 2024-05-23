@@ -25,10 +25,10 @@ import { useAuth } from "@/context/auth";
 import CAlert from "@/components/CAlert";
 
 const WorkoutDetail = () => {
-  const { id: idWorkout } = useLocalSearchParams();
+  const { id: idSession } = useLocalSearchParams();
   const { userRole, currentOrganization } = useAuth();
 
-  const { workout } = useGetSessionById({ idWorkout: idWorkout as string });
+  //const { workout } = useGetSessionById({ idWorkout: idWorkout as string });
 
   const {
     downloadProgress,
@@ -37,7 +37,10 @@ const WorkoutDetail = () => {
     wasSessionDownloaded,
     downloadSession,
     session,
-  } = useSession({ idSession: Number(idWorkout), workout: workout });
+  } = useSession({
+    //idWorkout: Number(idWorkout),
+    idSession: Number(idSession),
+  });
   const { createSession } = useSessionContext();
   const router = useRouter();
 
@@ -52,9 +55,9 @@ const WorkoutDetail = () => {
     }
   };
 
-  const workoutData = userRole === "member" ? workout?.workout : workout;
-  const date = workout?.createdAt
-    ? new Date(Date.parse(workout.createdAt))
+  const workoutData = session?.workout;
+  const date = session?.workout?.createdAt
+    ? new Date(Date.parse(session?.workout?.createdAt))
     : new Date();
   return (
     <>

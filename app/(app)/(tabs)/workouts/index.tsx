@@ -22,12 +22,12 @@ import SessionList from "@/components/session/SessionList";
 import WorkoutItem from "@/components/workouts/WorkoutItem";
 import EmptyWorkouts from "@/components/workouts/EmptyWorkouts";
 import MemberWorkouts from "@/components/workouts/MemberWorkouts";
+import InstructorWorkouts from "@/components/workouts/InstructorWorkouts";
 
 const Workouts = () => {
   const { userRole } = useAuth();
 
   const [tab, setTab] = useState<"pending" | "finished">("pending");
-  const { sessions, isLoadingSession } = useGetSessions();
 
   return (
     <SafeAreaView bg="$white" flex={1}>
@@ -44,7 +44,7 @@ const Workouts = () => {
         top={-20}
         bg="$white"
       >
-        {userRole === "member" ? <MemberWorkouts /> : null}
+        {userRole === "member" ? <MemberWorkouts /> : <InstructorWorkouts />}
       </VStack>
     </SafeAreaView>
   );

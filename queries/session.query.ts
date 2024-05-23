@@ -43,6 +43,8 @@ const useGetSessionById = ({ idSession }: { idSession: number }) => {
 
   return { session };
 };
+
+/*Esta función obtiene los datos de todas las sesiones del servidor y las guarda en el query cache */
 const useGetSessions = () => {
   const { currentOrganization } = useAuth();
   //Get Data

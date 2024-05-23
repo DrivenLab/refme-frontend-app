@@ -4,20 +4,31 @@ import { Workout } from "@/types/workout";
 import { AxiosResponse } from "axios";
 import { useAuth } from "@/context/auth";
 
-const useGetWorkoutById = ({ idWorkout }: { idWorkout?: string | number }) => {
+const useGetWorkoutById = ({ idWorkout }: { idWorkout: number }) => {
   const queryClient = useQueryClient();
-  const data = queryClient.getQueryData<AxiosResponse<Workout[]>>(["workouts"]);
+  const { currentOrganization, userRole } = useAuth();
 
-  const workout = data?.data.find((w) => w.id == idWorkout) || ({} as Workout);
+  const data = queryClient.getQueryData<AxiosResponse<Workout[]>>(["workouts"]);
+  const workout = data?.data.find((w) => w.id === idWorkout);
+
   return { workout };
 };
-const useGetWotkouts = () => {
+
+/*Esta función obtiene los datos de todos los workouts de una organizacion del servidor y las guarda en el query cache */
+const useGetWorkouts = () => {
+  const { currentOrganization } = useAuth();
+
   //Get Data
-  const getWorkout = () => api.get<Workout[]>(`organizations/5/workouts/`);
+  const getWorkouts = () => {
+    return api.get<Workout[]>(
+      `organizations/${currentOrganization.id}/workouts/`
+    );
+  };
+
   // Queries
   const { data, isLoading, isFetched, ...rest } = useQuery({
     queryKey: ["workouts"],
-    queryFn: getWorkout,
+    queryFn: getWorkouts,
   });
   return {
     workouts: data?.data || ([] as Workout[]),
@@ -25,4 +36,4 @@ const useGetWotkouts = () => {
   };
 };
 
-export { useGetWotkouts, useGetWorkoutById };
+export { useGetWorkouts };

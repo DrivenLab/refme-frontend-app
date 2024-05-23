@@ -10,15 +10,15 @@ import {
   FlatList,
 } from "@gluestack-ui/themed";
 import { ListRenderItemInfo } from "react-native";
-import { Link } from "expo-router";
+import { router } from "expo-router";
 
 import CTab from "@/components/CTab";
 import i18n from "@/languages/i18n";
 import { Image } from "expo-image";
 import { AddIcon } from "@gluestack-ui/themed";
-import { useGetSessions } from "@/queries/session.query";
+import { useGetWorkouts } from "@/queries/workouts.query";
 import { useAuth } from "@/context/auth";
-import SessionList from "@/components/session/SessionList";
+import WorkoutList from "@/components/workouts/WorkoutList";
 import WorkoutItem from "@/components/workouts/WorkoutItem";
 import EmptyWorkouts from "@/components/workouts/EmptyWorkouts";
 
@@ -26,8 +26,8 @@ const InstructorWorkouts = () => {
   const { workouts, isLoadingWorkout } = useGetWorkouts();
 
   return (
-    <SafeAreaView bg="$white" flex={1}>
-      <Link href="/workouts/createWorkout" asChild>
+    <>
+      <Box flexDirection="row" justifyContent="center">
         <Button
           width={60}
           rounded="$full"
@@ -35,32 +35,21 @@ const InstructorWorkouts = () => {
           bg="$primary"
           borderColor="indigo600"
           position="absolute"
+          onPress={() => router.push("/workouts/createWorkout")}
           top={-30}
         >
           <ButtonIcon color="white" as={AddIcon} />
         </Button>
-      </Link>
+      </Box>
 
-      <Box borderBottomWidth={4} borderColor={"$black"} pb={10} pt={25}>
+      <Box borderBottomWidth={4} borderColor={"$black"} pb={10} pt={20}>
         <Text color="black" textAlign="center" fontWeight={"$bold"}>
           {i18n.t("workout_flow.training_title")}
         </Text>
       </Box>
-      {workouts.length === 0 ? (
-        <Box height="$3/4">
-          <EmptyWorkouts workoutsCount={0} state={"pending"} />
-        </Box>
-      ) : (
-        <FlatList
-          data={workouts}
-          mb={200}
-          renderItem={({ item: workout }: ListRenderItemInfo<any>) => (
-            <WorkoutItem workout={workout} idWorkout={workout.id} />
-          )}
-          keyExtractor={(item: any) => item.id}
-        />
-      )}
-    </SafeAreaView>
+
+      <WorkoutList workouts={workouts} />
+    </>
   );
 };
 

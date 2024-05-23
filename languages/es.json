@@ -82,6 +82,7 @@
     "category_label": "Categoría",
     "email_label": "Email",
     "confirm_label": "Confirmar",
+    "confirm_and_continue": "Confirmar y continuar",
     "cancel": "Cancelar",
     "configuration": "Configuración"
   },
@@ -128,5 +129,12 @@
     "look_at_video_bold": "video ",
     "look_at_take": "y toma una ",
     "look_at_decision": "decisión"
+  },
+  "create_workout":{
+    "workout_name": "Nombre del entrenamiento"
+  },
+  "assign_workout": {
+    "who_do_test":"¿Quién va a realizar este test?",
+    "search_by_name":"Buscar por nombre"
   }
 }

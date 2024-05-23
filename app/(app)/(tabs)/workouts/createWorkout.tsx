@@ -20,10 +20,11 @@ export default function CreateWorkoutScreen() {
 
   const [type, setType] = useState("");
   const [memberType, setMemberType] = useState("");
+  const [workoutName, setWorkoutName] = useState("");
   const [repetitions, setRepetitions] = useState(0);
   const [decisions, setDecisions] = useState(0);
-  const [exerciseTime, setExerciseTime] = useState(0);
-  const [pauseTime, setPauseTime] = useState(0);
+  const [exerciseTime, setExerciseTime] = useState(5);
+  const [pauseTime, setPauseTime] = useState(20);
 
   const member_type_options = [i18n.t("referee"), i18n.t("assistant_referee")];
   const type_options = [
@@ -55,8 +56,8 @@ export default function CreateWorkoutScreen() {
     }
 
     const workoutData = {
-      name: "Workout in APP " + new Date().toString(),
-      description: "Workout Description", // Actualiza según tu lógica
+      name: workoutName,
+      description: workoutName + new Date().toString(), // Actualiza según tu lógica
       memberType: memberTypeMapping[memberType],
       type: finalType,
       usageType: "official",
@@ -85,7 +86,7 @@ export default function CreateWorkoutScreen() {
     onSuccess: (data) => {
       queryClient.invalidateQueries("sessions");
       const idWorkout = data.id;
-      router.replace(`/workouts/${idWorkout}/`);
+      router.replace(`/workouts/assignReferee/`);
     },
     onError: (err) => {
       const error = err as AxiosError;
@@ -119,12 +120,20 @@ export default function CreateWorkoutScreen() {
 
           <CTextInput
             value={memberType}
+            placeholder={i18n.t("create_workout.workout_name")}
+            onChangeText={setWorkoutName}
+            error=""
+            containerStyle={{ marginTop: 20 }}
+            width="100%"
+          />
+
+          <CTextInput
+            value={memberType}
             placeholder={i18n.t("member_type")}
             onChangeText={setMemberType}
             options={member_type_options}
             error=""
             secureTextEntry={false}
-            containerStyle={{ marginTop: 20 }}
             width="100%"
           />
           <CTextInput
@@ -138,7 +147,7 @@ export default function CreateWorkoutScreen() {
             width="100%"
           />
           <Text fontWeight="bold" fontSize={24} color="black" mt={15}>
-            {i18n.t("configuration")}
+            {i18n.t("common.configuration")}
           </Text>
 
           <CNumericInput

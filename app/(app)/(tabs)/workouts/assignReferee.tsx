@@ -1,6 +1,5 @@
 import { useAuth } from "@/context/auth";
-import CTextInput from "@/components/inputs/CTextInput";
-import CNumericInput from "@/components/inputs/CNumericInput";
+import CSearchInput from "@/components/inputs/CSearchInput";
 import { useState } from "react";
 import api from "@/queries/api";
 import { useGetMembers } from "@/queries/users.query";
@@ -17,7 +16,7 @@ import MemberItem from "@/components/users/MemberItem";
 
 export default function AsignRefereeScreen() {
   const [error, setError] = useState("");
-  const { signOut, user, profile, currentOrganization } = useAuth();
+  const [memberName, setMemberName] = useState("");
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -26,6 +25,17 @@ export default function AsignRefereeScreen() {
   const handleAssignReferee = () => {
     setError("");
     console.log("Members", members);
+  };
+  const [memberList, setMemberList] = useState(members);
+  const handleFilterMembers = (text: string) => {
+    if (text) {
+      let filteredMembers = members.filter((member) =>
+        member?.user?.fullName.toLowerCase().includes(text.toLowerCase())
+      );
+      setMemberList(filteredMembers);
+    } else {
+      setMemberList(members);
+    }
   };
 
   return (
@@ -46,19 +56,33 @@ export default function AsignRefereeScreen() {
               <Text>{error}</Text>
             </Box>
           )}
+          <Box display="flex" flexDirection="row" gap={3}>
+            <Text fontWeight="bold" fontSize={24} color="black" mt={15}>
+              {i18n.t("assign_workout.who_do_test")}
+            </Text>
+          </Box>
+          <CSearchInput
+            value={memberName}
+            placeholder={i18n.t("assign_workout.search_by_name")}
+            onChangeText={(text) => {
+              setMemberName(text);
+              handleFilterMembers(text);
+            }}
+            error=""
+            width="100%"
+          />
+
           <FlatList
-            data={members}
-            mb={300}
+            height="$3/4"
+            data={memberList}
             renderItem={({ item: member }) => (
               <MemberItem member={member} idMember={member.id} />
             )}
             keyExtractor={(item: any) => item.id}
           />
           <CBtn
-            title={i18n.t("prepare")}
+            title={i18n.t("common.confirm_and_continue")}
             onPress={handleAssignReferee}
-            mt={30}
-            mb={300}
           />
         </VStack>
       </VStack>

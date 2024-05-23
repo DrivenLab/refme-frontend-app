@@ -25,12 +25,9 @@ import { useAuth } from "@/context/auth";
 import CAlert from "@/components/CAlert";
 
 const WorkoutDetail = () => {
+  //TODO solo id
   const { id: idSession } = useLocalSearchParams();
   const { userRole, currentOrganization } = useAuth();
-
-  const { session } = useGetSessionById({
-    idSession: Number(idSession as string),
-  });
 
   const {
     downloadProgress,
@@ -38,12 +35,14 @@ const WorkoutDetail = () => {
     isDownloading,
     wasSessionDownloaded,
     downloadSession,
+    session,
   } = useSession({ idSession: Number(idSession as string) });
 
   const router = useRouter();
-
+  const { createSession } = useSessionContext();
   const handleOnPress = () => {
-    if (wasSessionDownloaded) {
+    if (wasSessionDownloaded && session) {
+      createSession(session);
       router.push("/workouts/startWorkout/" as Href<string>);
     } else {
       downloadSession();

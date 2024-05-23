@@ -126,19 +126,18 @@
     "prepare_for": "for the ",
     "prepare_to_bold": "physical training",
     "look_at_bold": "Look ",
-    "look_at_the": "the",
+    "look_at_the": "the ",
     "look_at_video_bold": "video ",
     "look_at_take": "and take a ",
     "look_at_decision": "decisión"
   },
-  "create_workout":{
+  "create_workout": {
     "workout_name": "Workout name",
-    "create_new_workout":"Create new workout",
+    "create_new_workout": "Create new workout",
     "assign_workout": "Assign workout"
   },
   "assign_workout": {
-    "who_do_test":"Who is going to perform this test?",
-    "search_by_name":"Search by name"
-
+    "who_do_test": "Who is going to perform this test?",
+    "search_by_name": "Search by name"
   }
 }

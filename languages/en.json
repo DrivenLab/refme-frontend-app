@@ -6,6 +6,7 @@
   "workout": "Workout",
   "personal": "Personal",
   "dm": "Decision Making",
+  "dmar": "Decision Making",
   "videos_available": "You have 20 videos available",
   "official_test_workout": "Official Workouts",
   "official_training": "Official Exercises",
@@ -131,7 +132,9 @@
     "look_at_decision": "decisión"
   },
   "create_workout":{
-    "workout_name": "Workout name"
+    "workout_name": "Workout name",
+    "create_new_workout":"Create new workout",
+    "assign_workout": "Assign workout"
   },
   "assign_workout": {
     "who_do_test":"Who is going to perform this test?",

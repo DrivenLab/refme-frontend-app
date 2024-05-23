@@ -8,9 +8,13 @@ import React from "react";
 import DownloadProgressModal from "./DownloadProgressModal";
 import useSession from "@/hooks/useSession";
 import DmLogo from "@/assets/svgs/DmLogo";
+import { useAuth } from "@/context/auth";
+import WorkoutMemberItem from "./WorkoutMemberItem";
+import WorkoutInstructorItem from "./WorkoutInstructorItem";
+
 type Props = {
   idSession: number;
-  idWorkout: string | number;
+  workout: Workout;
 };
 
 const WorkoutItem = ({ workout, idSession }: Props) => {
@@ -23,49 +27,15 @@ const WorkoutItem = ({ workout, idSession }: Props) => {
   } = useSession({
     idSession: idSession,
   });
+  const { userRole } = useAuth();
 
   return (
     <>
-      <DownloadProgressModal
-        isModalOpen={isDownloading}
-        onCancelDownload={() => setIsDownloading(false)}
-        downloadProgress={downloadProgress}
-      />
-      <Link href={`/workouts/${idSession}/` as Href<string>} asChild>
-        <Pressable marginBottom="$2">
-          <Box
-            rounded={"$md"}
-            px={"$5"}
-            py={"$2"}
-            mb={"$4"}
-            style={styles.workoutItem}
-          >
-            <Box
-              flexDirection="row"
-              justifyContent="space-between"
-              alignItems="center"
-              alignContent="center"
-              style={{ borderBottomWidth: 2, borderBottomColor: "#ede18a" }}
-              py={"$1"}
-            >
-              <Box display="flex" flexDirection="row" gap={3}>
-                <DmLogo />
-                <Text color="secondary">{i18n.t("dm")}</Text>
-              </Box>
-              <DownloadSessionBtn
-                wasDownloaded={wasSessionDownloaded}
-                downloadSession={downloadSession}
-              />
-            </Box>
-            <Box>
-              <Text fontWeight="bold" color="black" fontSize={20} py={"$2"}>
-                {workout.name}
-              </Text>
-              <Text>{workout.description}</Text>
-            </Box>
-          </Box>
-        </Pressable>
-      </Link>
+      {userRole === "member" ? (
+        <WorkoutMemberItem workout={workout} idSession={idSession} />
+      ) : (
+        <WorkoutInstructorItem workout={workout} />
+      )}
     </>
   );
 };

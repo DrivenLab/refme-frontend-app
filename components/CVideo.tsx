@@ -27,7 +27,7 @@ const CVideo = ({ uri, onFinishVideo }: Props) => {
     }
   };
   return (
-    <View flex={1} bg="$red">
+    <View flex={1}>
       <Video
         ref={video}
         source={{ uri }}

@@ -58,7 +58,8 @@
     "react-native-screens": "3.31.1",
     "react-native-svg": "15.2.0",
     "react-native-web": "~0.19.6",
-    "victory-native": "^37.0.3-next.0"
+    "victory-native": "^37.0.3-next.0",
+    "react-use-precision-timer": "^3.5.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -13,7 +13,7 @@ import i18n from "@/languages/i18n";
 export default function LoginScreen() {
   const { setToken } = useAuth();
   const [loginData, setLoginData] = useState<LoginData>({
-    email: "gerardo.trainer@dlab.software",
+    email: "fernando.referee@dlab.software",
     password: "12345",
   } as LoginData);
   const [error, setError] = useState("");

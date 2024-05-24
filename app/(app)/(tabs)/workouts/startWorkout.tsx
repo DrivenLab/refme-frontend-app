@@ -9,6 +9,7 @@ import SessionIteration from "@/components/session/SessionIteration";
 import { useSession } from "@/context/SessionContext";
 import SessionStatistics from "@/components/session/SessionStatistics";
 import { useNavigation } from "expo-router";
+import { SafeAreaViewStyle } from "@/utils/Styles";
 
 const StartWorkout = () => {
   const { session, updateSessionStatus } = useSession();
@@ -29,7 +30,7 @@ const StartWorkout = () => {
       });
   }, [navigation]);
   return (
-    <SafeAreaView style={styles.contentContainer}>
+    <SafeAreaView style={[SafeAreaViewStyle.s]}>
       {session.status === "pending" ? (
         <RotateScreen
           orientation={
@@ -48,9 +49,6 @@ const StartWorkout = () => {
   );
 };
 const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-  },
   video: {
     width: 350,
     height: 275,

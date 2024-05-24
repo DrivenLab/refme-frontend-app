@@ -27,7 +27,6 @@ export const BarChart = () => {
   const accumulativeX = data.reduce((acc, { x }) => acc + x, 0);
   const getAccumulativeX = (i: number) =>
     data.slice(0, i).reduce((acc, { x }) => acc + x, 0);
-  console.log(getAccumulativeX(1));
   return (
     <Box>
       <VictoryChart theme={VictoryTheme.material} height={400}>

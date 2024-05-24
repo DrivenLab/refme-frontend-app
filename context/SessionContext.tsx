@@ -76,7 +76,6 @@ export function SessionProvider({ children }: PropsWithChildren) {
       ...currentIterarion,
       rpe: rpe,
     };
-    console.log("rpe calling", a_);
     setCurrentIterarion(a_);
   };
   const createSession = (s: SessionModel) => {
@@ -115,7 +114,6 @@ export function SessionProvider({ children }: PropsWithChildren) {
   };
   const handleNextIteration = () => {
     updateIteration(currentIterarion);
-    console.log("next iteration-----");
     if (iterationIndex < session.iterations.length - 1) {
       setCurrentIterarion(session.iterations[iterationIndex + 1]);
       setIterationIndex(iterationIndex + 1);
@@ -138,7 +136,6 @@ export function SessionProvider({ children }: PropsWithChildren) {
       ...s_.iterations[index],
       ...iteration,
     };
-    console.log("here are the values before update", s_.iterations[index]);
     setSession(s_);
   };
 

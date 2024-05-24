@@ -19,12 +19,15 @@ const useGetProfile = () => {
 };
 
 //TODO: Filtrar por tipo de miembro, re o ra
-const useGetMembers = () => {
+const useGetMembers = ({ memberType }: { memberType: string }) => {
   //Get Data
   const { currentOrganization } = useAuth();
+  console.log("GET Members type ", memberType);
 
   const getMembers = () => {
-    return api.get<User[]>(`organizations/${currentOrganization.id}/members/`);
+    return api.get<User[]>(
+      `organizations/${currentOrganization.id}/members/?member_type=${memberType}`
+    );
   };
   // Queries
   // Realizar la consulta usando react-query

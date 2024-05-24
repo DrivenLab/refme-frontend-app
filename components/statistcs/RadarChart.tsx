@@ -1,4 +1,5 @@
 import React from "react";
+import { Dimensions } from "react-native";
 import { G, Rect } from "react-native-svg";
 import {
   VictoryArea,
@@ -9,25 +10,9 @@ import {
   VictoryScatter,
   VictoryTheme,
 } from "victory-native";
+const width = Dimensions.get("window").width;
 
 type Data = Record<string, number>[];
-
-const characterData = [
-  {
-    "Toma de Decisión": 2,
-    Memoria: 300,
-    "TD + Memoria": 2,
-    Reconocimiento: 80,
-    Random: 90,
-  },
-  {
-    "Toma de Decisión": 5,
-    Memoria: 225,
-    "TD + Memoria": 3,
-    Reconocimiento: 60,
-    Random: 120,
-  },
-];
 
 type Props = {
   labels: string[];
@@ -46,6 +31,7 @@ export function RadarChart({ labels, characterData }: Props) {
       theme={VictoryTheme.material}
       domain={{ y: [0, 1] }}
       height={350}
+      width={width - 40}
       style={{
         parent: {
           paddingTop: 10,

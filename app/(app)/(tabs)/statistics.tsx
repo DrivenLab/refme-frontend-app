@@ -7,35 +7,47 @@ import { ScrollView } from "@gluestack-ui/themed";
 import { BarChart } from "@/components/statistcs/BarChart";
 import { LineChart } from "@/components/statistcs/LineChart";
 import { generateFakePoints } from "@/utils";
+import { ChartCard } from "@/components/statistcs/ChartCard";
 
 export default function TabTwoScreen() {
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.title}>% de acierto por habilidad</Text>
-      <PieChart />
-      <Text style={styles.title}>Áreas entrenadas / entrenamiento total</Text>
-      <RadarChart labels={radarLabels} characterData={characterData} />
-      <Text style={styles.title}>Respuestas / RPE</Text>
-      <BarChart />
-      <Text style={styles.title}>Evolución de actividades</Text>
-      <LineChart linesData={activitiesData} />
-      <Text style={styles.title}>Evolución de toma de decisión</Text>
-      <LineChart linesData={decisionData} />
-      <Text style={styles.title}>Evolución de tiempo de respuesta</Text>
-      <LineChart
-        linesData={timeResponseData}
-        tickFormat={(v) => `${v} s`}
-        yAxis={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-        domain={{ y: [0, 10] }}
-      />
+      {/* <Text style={styles.title}>% de acierto por habilidad</Text> */}
+      <ChartCard title="% de acierto por habilidad">
+        <RadarChart labels={radarLabels} characterData={characterData} />
+      </ChartCard>
+      {/* <Text style={styles.title}>Áreas entrenadas / entrenamiento total</Text> */}
+      <ChartCard title="Áreas entrenadas / entrenamiento total">
+        <PieChart data={pieData} />
+      </ChartCard>
+      {/* <Text style={styles.title}>Respuestas / RPE</Text> */}
+      <ChartCard title="Respuestas / RPE">
+        <BarChart />
+      </ChartCard>
+      {/* <Text style={styles.title}>Evolución de actividades</Text> */}
+      <ChartCard title="Evolución de actividades">
+        <LineChart linesData={activitiesData} />
+      </ChartCard>
+      {/* <Text style={styles.title}>Evolución de toma de decisión</Text> */}
+      <ChartCard title="Evolución de toma de decisión">
+        <LineChart linesData={decisionData} />
+      </ChartCard>
+      {/* <Text style={styles.title}>Evolución de tiempo de respuesta</Text> */}
+      <ChartCard title="Evolución de tiempo de respuesta">
+        <LineChart
+          linesData={timeResponseData}
+          tickFormat={(v) => `${v} s`}
+          yAxis={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
+          domain={{ y: [0, 10] }}
+        />
+      </ChartCard>
     </ScrollView>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
+    padding: 10,
   },
   title: {
     fontSize: 20,
@@ -128,4 +140,10 @@ const characterData = [
     Reconocimiento: 60,
     Random: 120,
   },
+];
+
+const pieData = [
+  { x: "Velocidad", y: 35 },
+  { x: "Resistencia", y: 40 },
+  { x: "Agilidad y cambio de dirección", y: 55 },
 ];

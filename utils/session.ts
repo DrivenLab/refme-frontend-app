@@ -39,6 +39,56 @@ export const getDifferenceDate = (date1: Date, date2: Date) => {
   const differenceDate = new Date(differenceInMilliseconds);
   return differenceDate;
 };
+export function formatMilliseconds(ms: number) {
+  let totalSeconds = Math.floor(ms / 1000);
+  let minutes = Math.floor(totalSeconds / 60);
+  let seconds = totalSeconds % 60;
+  return `${minutes}:${seconds.toString().padStart(2, "0")} s`;
+}
+function formatTimeDifference(date1: Date, date2: Date) {
+  // Calculate the difference in milliseconds
+  let diffMs = Math.abs(date1.getTime() - date2.getTime());
+
+  // Convert milliseconds to total seconds
+  let totalSeconds = Math.floor(diffMs / 1000);
+
+  // Calculate minutes and seconds
+  let minutes = Math.floor(totalSeconds / 60);
+  let seconds = totalSeconds % 60;
+
+  // Format the time difference as a string
+  return `${minutes}:${seconds.toString().padStart(2, "0")} s`;
+}
+function formatDate(date: Date) {
+  // Define an array of month abbreviations
+  const months = [
+    "Ene.",
+    "Feb.",
+    "Mar.",
+    "Apr.",
+    "May.",
+    "Jun.",
+    "Jul.",
+    "Aug.",
+    "Sep.",
+    "Oct.",
+    "Nov.",
+    "Dec.",
+  ];
+
+  // Extract the day, month, and year from the date
+  const day = date.getDate();
+  const month = months[date.getMonth()];
+  const year = date.getFullYear();
+
+  // Extract the hours and minutes, and pad minutes with leading zero if necessary
+  const hours = date.getHours();
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+
+  // Construct the formatted string
+  return `${day} ${month} ${year} - ${hours}:${minutes} hs`;
+}
+
 export const getSessionResume = (s: SessionContext) => {
   console.log("session resume", s);
   const iterationWithVideos = s.iterations.filter((i) => i.video);
@@ -53,9 +103,13 @@ export const getSessionResume = (s: SessionContext) => {
     answerTotalTime += i.answeredInMs;
   }
   return {
+    date: formatDate(s.date.start),
+    totalTime: formatTimeDifference(s.date.start, s.date.end),
     correctAnswers,
     wrongAnswers: Math.abs(iterationWithVideos.length - correctAnswers),
-    answerAverageTime: answerTotalTime / iterationWithVideos.length,
-    answerTotalTime,
+    answerAverageTime: formatMilliseconds(
+      answerTotalTime / iterationWithVideos.length
+    ),
+    answerTotalTime: formatMilliseconds(answerTotalTime),
   };
 };

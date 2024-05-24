@@ -33,7 +33,6 @@ const SessionIteration = () => {
     handleFinishCountdown("rpe");
   };
   const onFinishRPE = (rpe?: number) => {
-    console.log("rpe selected", rpe);
     handleUserRPE(rpe);
     setTimeout(() => {
       handleNextIteration();

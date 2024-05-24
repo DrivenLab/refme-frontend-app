@@ -18,11 +18,11 @@ const SessionStatistics = ({ session }: Props) => {
       </Text> */}
       <Box display="flex" flexDirection="row" height={270}>
         <VStack width="30%" height="$full" space="md" paddingVertical={"$1"}>
-          <StatsResultPill type="time" text="10:20:35 s" />
-          <StatsResultPill type="success" text="6" />
-          <StatsResultPill type="error" text="4" />
+          <StatsResultPill type="time" text={resume.totalTime} />
+          <StatsResultPill type="success" text={resume.correctAnswers + ""} />
+          <StatsResultPill type="error" text={resume.wrongAnswers + ""} />
           <Text>Promedio de respuesta</Text>
-          <StatsResultPill type="time" text="3:35 s" />
+          <StatsResultPill type="time" text={resume.answerAverageTime + ""} />
         </VStack>
         <Box width="70%" height="100%">
           <SessionResultBarChart session={session} />
@@ -38,13 +38,13 @@ const SessionStatistics = ({ session }: Props) => {
             paddingVertical={15}
             borderRadius={10}
           >
-            Tiempo total de respuestas: <Text>00:44:30 s</Text>
+            Tiempo total de respuestas: <Text>{resume.answerTotalTime}</Text>
           </Text>
         </Box>
         <Box marginHorizontal={10}>
           <Box marginVertical="auto">
             <Text bold>Realizado: </Text>
-            <Text>10 feb. 2024 - 13:45 hs</Text>
+            <Text>{resume.date}</Text>
           </Box>
         </Box>
         <Box display="flex" alignItems="flex-end" marginStart={10}>
@@ -53,36 +53,6 @@ const SessionStatistics = ({ session }: Props) => {
           </Pressable>
         </Box>
       </Box>
-      <Text fontWeight={"$bold"} fontSize={20} color="black">
-        Tiempo total:{" "}
-        <Text color="black" fontSize={20}>
-          10 seg
-        </Text>
-      </Text>
-      <Text fontWeight={"$bold"} fontSize={20} color="black">
-        Número de respuestas correctas:{" "}
-        <Text color="black" fontSize={20}>
-          {resume.correctAnswers}
-        </Text>
-      </Text>
-      <Text fontWeight={"$bold"} fontSize={20} color="black">
-        Número de respuestas incorrectas:{" "}
-        <Text color="black" fontSize={20}>
-          {resume.wrongAnswers}
-        </Text>
-      </Text>
-      <Text fontWeight={"$bold"} fontSize={20} color="black">
-        Promedio respuesta:{" "}
-        <Text color="black" fontSize={20}>
-          {resume.answerAverageTime}
-        </Text>
-      </Text>
-      <Text fontWeight={"$bold"} fontSize={20} color="black">
-        Tiempo total de respuestas:{" "}
-        <Text color="black" fontSize={20}>
-          {resume.answerTotalTime}
-        </Text>
-      </Text>
     </Box>
   );
 };

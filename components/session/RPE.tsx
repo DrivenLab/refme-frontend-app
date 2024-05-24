@@ -23,7 +23,6 @@ const RPE = ({ onFinishRPE, iteration }: Props) => {
     if (hasFinished.current) onFinishRPE(rpe);
   }, [hasFinished.current]);
   const handleOnPress = (rpe_: number) => {
-    console.log("rpe", rpe_);
     setRpe(rpe_);
     //onFinishRPE(Number(rpe_));
   };

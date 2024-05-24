@@ -8,30 +8,21 @@ import {
   VictoryTheme,
 } from "victory-native";
 
-const sampleData = [
-  { label: "Cats", y: 35, x: 1 },
-  { label: "Dogs", y: 40, x: 2 },
-  { label: "Birds", y: 55, x: 3 },
-];
+const colors = ["#ABEDFD", "#A6ECB1", "#F9F3C8", "#FFB290", "#FF9C98"];
 
-export const BarChart = () => {
-  const data = [
-    { x: 10, y: 60 },
-    { x: 20, y: 50 },
-    { x: 30, y: 70 },
-    { x: 30, y: 50 },
-    { x: 10, y: 30 },
-  ];
-  const accumulativeX = data.reduce((acc, { x }) => acc + x, 0);
+type Props = {
+  data: { x: number; y: number }[];
+  labels: string[];
+};
+
+export const BarChart = ({ data, labels }: Props) => {
   const getAccumulativeX = (i: number) =>
     data.slice(0, i).reduce((acc, { x }) => acc + x, 0);
+
   return (
     <Box>
       <VictoryChart theme={VictoryTheme.material} height={400}>
-        <VictoryStack
-          colorScale={"qualitative"}
-          domain={{ x: [0, 100], y: [0, 100] }}
-        >
+        <VictoryStack colorScale={colors} domain={{ x: [0, 100], y: [0, 100] }}>
           {data.map(({ x, y }, i) => {
             const xdata = x / 2 + getAccumulativeX(i);
             return (
@@ -50,7 +41,6 @@ export const BarChart = () => {
           <VictoryAxis dependentAxis tickFormat={(t) => `${t}%`} />
         </VictoryStack>
       </VictoryChart>
-      {/* divider */}
       <Box
         borderColor="lightgray"
         mx={10}
@@ -64,51 +54,23 @@ export const BarChart = () => {
         justifyContent="space-around"
         p={10}
       >
-        <Box display="flex" flexDirection="row" gap={4} alignItems="center">
+        {labels.map((label, i) => (
           <Box
-            width={20}
-            height={20}
-            borderRadius={10}
-            backgroundColor="#ABEDFD"
-          />
-          <Text>Z1</Text>
-        </Box>
-        <Box display="flex" flexDirection="row" gap={4} alignItems="center">
-          <Box
-            width={16}
-            height={16}
-            borderRadius={10}
-            backgroundColor="#A6ECB1"
-          />
-          <Text>Z2</Text>
-        </Box>
-        <Box display="flex" flexDirection="row" gap={4} alignItems="center">
-          <Box
-            width={16}
-            height={16}
-            borderRadius={10}
-            backgroundColor="#F9F3C8"
-          />
-          <Text>Z3</Text>
-        </Box>
-        <Box display="flex" flexDirection="row" gap={4} alignItems="center">
-          <Box
-            width={16}
-            height={16}
-            borderRadius={10}
-            backgroundColor="#FFB290"
-          />
-          <Text>Z4</Text>
-        </Box>
-        <Box display="flex" flexDirection="row" gap={4} alignItems="center">
-          <Box
-            width={16}
-            height={16}
-            borderRadius={10}
-            backgroundColor="#FF9C98"
-          />
-          <Text>Z5</Text>
-        </Box>
+            key={i}
+            display="flex"
+            flexDirection="row"
+            gap={4}
+            alignItems="center"
+          >
+            <Box
+              width={20}
+              height={20}
+              borderRadius={10}
+              backgroundColor={colors[i]}
+            />
+            <Text>{label}</Text>
+          </Box>
+        ))}
       </Box>
     </Box>
   );

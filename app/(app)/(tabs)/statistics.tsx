@@ -20,7 +20,7 @@ export default function TabTwoScreen() {
       </ChartCard>
       {/* <Text style={styles.title}>Respuestas / RPE</Text> */}
       <ChartCard title="Respuestas / RPE">
-        <BarChart />
+        <BarChart data={barchartData} labels={barchartLabels} />
       </ChartCard>
       {/* <Text style={styles.title}>Evolución de actividades</Text> */}
       <ChartCard title="Evolución de actividades">
@@ -145,3 +145,12 @@ const pieData = [
   { x: "Resistencia", y: 40 },
   { x: "Agilidad y cambio de dirección", y: 55 },
 ];
+
+const barchartData = [
+  { x: 10, y: 60 },
+  { x: 20, y: 50 },
+  { x: 30, y: 70 },
+  { x: 30, y: 50 },
+  { x: 10, y: 30 },
+];
+const barchartLabels = ["Z1", "Z2", "Z3", "Z4", "Z5"];

@@ -34,12 +34,12 @@ export default function AsignRefereeScreen() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { id: idWorkout } = useLocalSearchParams();
-  const { workout } = useGetWorkoutById({
-    idWorkout: Number(idWorkout as string),
+  const { workout, isLoadingWorkout } = useGetWorkoutById({
+    idWorkout: Number(idWorkout),
   });
 
   const { members, isLoadingMembers } = useGetMembers({
-    memberType: String(workout.memberType as string),
+    memberType: workout?.memberType,
   });
   const [memberList, setMemberList] = useState([]);
 
@@ -57,6 +57,15 @@ export default function AsignRefereeScreen() {
       setMemberList(members);
     }
   };
+
+  if (isLoadingWorkout || isLoadingMembers) {
+    return (
+      //TODO mejorar vista de espera
+      <SafeAreaView>
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView>

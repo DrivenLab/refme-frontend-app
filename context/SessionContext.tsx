@@ -103,7 +103,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
     setIterationIndex(INITIAL_ITERATION_INDEX);
 
     setSession(session_);
-    setStep("decision");
+    setStep("beginning");
     setCurrentIterarion(session_.iterations[INITIAL_ITERATION_INDEX]);
   };
   const calculateTimeForIteration = () => {

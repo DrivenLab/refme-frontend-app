@@ -1,27 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useTimer } from "react-use-precision-timer";
 
 type Props = {
-  initialCountdown: number;
+  finishTime: number;
   onFinishCountdown?: () => void;
+  delay?: number;
 };
-const useCountdown = ({ initialCountdown, onFinishCountdown }: Props) => {
-  const [countdown, setCountdown] = useState(initialCountdown);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCountdown((prevCount) => {
-        if (prevCount <= 0) {
-          clearInterval(interval);
-          if (onFinishCountdown) onFinishCountdown();
-          return 0;
-        }
-        return prevCount - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
+const useCountdown = ({ finishTime, onFinishCountdown, delay = 1 }: Props) => {
+  const [currentTime, setCurrentTime] = useState(finishTime);
+  const callback = useCallback(() => {
+    const currentTime_ = Math.floor(getElapsedRunningTime() / 1000);
+    setCurrentTime((prev) => prev - 1);
+    if (currentTime_ >= finishTime) {
+      console.log("stop");
+      stop();
+      if (onFinishCountdown) onFinishCountdown();
+    }
   }, []);
-  return { countdown };
+  // The callback will be called every 1000 milliseconds.
+  const { getElapsedRunningTime, stop, getPauseTime } = useTimer(
+    { delay: delay * 1000, startImmediately: true },
+    callback
+  );
+
+  return {
+    currentTime,
+    getPauseTime,
+  };
 };
 
 export default useCountdown;

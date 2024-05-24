@@ -1,5 +1,5 @@
 import { Pressable, Text, useColorMode } from "@gluestack-ui/themed";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import Colors from "@/constants/Colors";
 
 type Props = {
@@ -8,6 +8,7 @@ type Props = {
   isCorrect: boolean;
   hasMarked: boolean;
   showAnswer: boolean;
+  canTouch: boolean;
 };
 const DecisionMakingOption = ({
   text,
@@ -15,7 +16,11 @@ const DecisionMakingOption = ({
   isCorrect,
   hasMarked,
   showAnswer,
+  canTouch,
 }: Props) => {
+  const handleOnPress = () => {
+    if (canTouch) handleUserAnswer();
+  };
   const mode = useColorMode();
   const bgColor = useMemo(() => {
     if (!hasMarked) return "#f5f5f6";
@@ -37,7 +42,7 @@ const DecisionMakingOption = ({
         backgroundColor: bgColor,
       }}
       rounded={10}
-      onPress={handleUserAnswer}
+      onPress={handleOnPress}
       borderWidth={showAnswer && hasMarked ? 2 : 0}
       borderColor={
         isCorrect

@@ -51,9 +51,9 @@ export function SessionProvider({ children }: PropsWithChildren) {
       video: i.answers.length ? i.answers[0].video1.video : undefined,
       answer1: i.answers.length ? i.answers[0].video1.answer1 : undefined,
       answer2: i.answers.length ? i.answers[0].video1.answer2 : undefined,
-      timeToGetReady: 1,
-      timeToWorkout: 1,
-      timeToAnswer: 7,
+      timeToGetReadyInSec: 1,
+      timeToWorkoutInSec: 1,
+      timeToAnswerInSec: 7,
     } as IterationContext;
     return i_;
   };
@@ -62,7 +62,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
       ...currentIterarion,
       userAnswer1: a.answer1,
       userAnswer2: a.asnwer2,
-      answeredIn: a.answeredIn,
+      answeredInMs: a.answeredInMs,
     };
     setCurrentIterarion(a_);
   };

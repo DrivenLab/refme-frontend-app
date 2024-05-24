@@ -30,7 +30,7 @@ const SessionIteration = () => {
   };
   const onFinishDecision = (answer: DM_ANSWER) => {
     handleUserAnswer(answer);
-    handleFinishCountdown("decision");
+    handleFinishCountdown("rpe");
   };
   const onFinishRPE = (rpe: number) => {
     handleUserRPE(rpe);
@@ -44,14 +44,14 @@ const SessionIteration = () => {
         <>
           <SessionCountDown
             onFinishCountdown={() => handleFinishCountdown("workout")}
-            initialCountdown={currentIterarion.timeToGetReady}
+            initialCountdown={currentIterarion.timeToGetReadyInSec}
             imageName="man_running_ready_to_workout"
           />
         </>
       ) : step === "workout" ? (
         <SessionTrainingCountdown
           onFinishCountdown={() => handleFinishCountdown("video")}
-          initialCountdown={currentIterarion.timeToWorkout}
+          initialCountdown={currentIterarion.timeToWorkoutInSec}
           hasNoVideo={currentIterarion.video == undefined}
         />
       ) : step === "video" && currentIterarion.video ? (

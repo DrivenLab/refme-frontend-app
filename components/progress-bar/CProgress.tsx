@@ -11,13 +11,12 @@ type Props = {
 };
 const CProgress = ({ progressValue, initialProgressValue }: Props) => {
   const mode = useColorMode();
-
   return (
     <Progress
       value={Math.ceil((progressValue / initialProgressValue) * 100)}
       w={"100%"}
       size="2xl"
-      bg="#E6FAFF"
+      bg="#e6FAFF"
     >
       <ProgressFilledTrack
         bgColor={

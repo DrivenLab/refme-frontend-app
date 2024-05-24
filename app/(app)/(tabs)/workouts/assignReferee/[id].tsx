@@ -1,6 +1,6 @@
 import { useAuth } from "@/context/auth";
 import CSearchInput from "@/components/inputs/CSearchInput";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "@/queries/api";
 import { useGetMembers } from "@/queries/users.query";
 
@@ -22,24 +22,31 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 
 import i18n from "@/languages/i18n";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import MemberItem from "@/components/users/MemberItem";
+import MemberList from "@/components/users/MemberList";
+import { useGetWorkoutById } from "@/queries/workouts.query";
 
 export default function AsignRefereeScreen() {
   const [error, setError] = useState("");
   const [memberName, setMemberName] = useState("");
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { id: idWorkout } = useLocalSearchParams();
+  const { workout, isLoadingWorkout } = useGetWorkoutById({
+    idWorkout: Number(idWorkout),
+  });
 
-  const { members, isLoadingMembers } = useGetMembers();
+  const { members, isLoadingMembers } = useGetMembers({
+    memberType: workout?.memberType,
+  });
+  const [memberList, setMemberList] = useState([]);
 
-  const handleAssignReferee = () => {
-    setError("");
-    console.log("Members", members);
-  };
-  const [memberList, setMemberList] = useState(members);
+  useEffect(() => {
+    setMemberList(members);
+  }, [isLoadingMembers]);
+
   const handleFilterMembers = (text: string) => {
     if (text) {
       let filteredMembers = members.filter((member) =>
@@ -50,6 +57,15 @@ export default function AsignRefereeScreen() {
       setMemberList(members);
     }
   };
+
+  if (isLoadingWorkout || isLoadingMembers) {
+    return (
+      //TODO mejorar vista de espera
+      <SafeAreaView>
+        <Text>Loading...</Text>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView>
@@ -69,47 +85,39 @@ export default function AsignRefereeScreen() {
           </Text>
         </LinearGradient>
       </ImageBackground>
-      <VStack space="md">
-        <VStack space="md" paddingHorizontal={24} mb={50}>
-          {error && (
-            <Box
-              bg="$red200"
-              paddingHorizontal={10}
-              paddingVertical={5}
-              borderRadius={5}
-            >
-              <Text>{error}</Text>
-            </Box>
-          )}
-          <Box display="flex" flexDirection="row" gap={3}>
-            <Text fontWeight="bold" fontSize={24} color="black" mt={15}>
-              {i18n.t("assign_workout.who_do_test")}
-            </Text>
+      <VStack
+        px={"$3"}
+        space="lg"
+        borderTopLeftRadius={30}
+        borderTopRightRadius={30}
+        position="relative"
+      >
+        {error && (
+          <Box
+            bg="$red200"
+            paddingHorizontal={10}
+            paddingVertical={5}
+            borderRadius={5}
+          >
+            <Text>{error}</Text>
           </Box>
-          <CSearchInput
-            value={memberName}
-            placeholder={i18n.t("assign_workout.search_by_name")}
-            onChangeText={(text) => {
-              setMemberName(text);
-              handleFilterMembers(text);
-            }}
-            error=""
-            width="100%"
-          />
-
-          <FlatList
-            height="$3/4"
-            data={memberList}
-            renderItem={({ item: member }) => (
-              <MemberItem member={member} idMember={member.id} />
-            )}
-            keyExtractor={(item: any) => item.id}
-          />
-          <CBtn
-            title={i18n.t("common.confirm_and_continue")}
-            onPress={handleAssignReferee}
-          />
-        </VStack>
+        )}
+        <Box display="flex" flexDirection="row" gap={3}>
+          <Text fontWeight="bold" fontSize={24} color="black" mt={15}>
+            {i18n.t("assign_workout.who_do_test")}
+          </Text>
+        </Box>
+        <CSearchInput
+          value={memberName}
+          placeholder={i18n.t("assign_workout.search_by_name")}
+          onChangeText={(text) => {
+            setMemberName(text);
+            handleFilterMembers(text);
+          }}
+          error=""
+          width="100%"
+        />
+        <MemberList members={memberList} idWorkout={idWorkout} />
       </VStack>
     </SafeAreaView>
   );

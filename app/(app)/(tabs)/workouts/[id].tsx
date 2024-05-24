@@ -140,7 +140,7 @@ const WorkoutDetail = () => {
           {userRole === "member" ? (
             <WorkoutMemberDetail idSession={id} />
           ) : (
-            <WorkoutInstructorDetail />
+            <WorkoutInstructorDetail idWorkout={id} />
           )}
         </ScrollView>
       </SafeAreaView>

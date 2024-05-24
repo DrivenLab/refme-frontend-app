@@ -1,4 +1,4 @@
-import { User } from "@/types/user";
+import { User, Member } from "@/types/user";
 import { StyleSheet } from "react-native";
 import {
   Box,
@@ -11,34 +11,34 @@ import {
 import i18n from "@/languages/i18n";
 import { Href, Link } from "expo-router";
 import DownloadSessionBtn from "./DownloadSessionBtn";
-import React from "react";
-import DownloadProgressModal from "./DownloadProgressModal";
+import { useState } from "react";
+import ConfirmMemberModal from "./ConfirmMemberModal";
 import useSession from "@/hooks/useSession";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import ChevronForward from "@/assets/svgs/ChevronForward";
 
 type Props = {
   member: Member;
-  idUser?: number;
+  idMember?: number;
+  idWorkout: number;
 };
 
-const MemberItem = ({ member, idMember }: Props) => {
-  /*const {
-    downloadSession,
-    downloadProgress,
-    isDownloading,
-    setIsDownloading,
-    wasSessionDownloaded,
-  } = useSession({ idSession: idSession });
-  const idWorkout = workout.id;
-*/
+const MemberItem = ({ member, idMember, idWorkout }: Props) => {
   const memberTypeMapping = {
     ["re"]: i18n.t("referee"),
     ["ra"]: i18n.t("assistant_referee"),
   };
+  const [selected, setSelected] = useState(false);
 
   return (
     <>
-      <Pressable>
+      <ConfirmMemberModal
+        isModalOpen={selected}
+        onCancel={() => setSelected(false)}
+        setSelected={setSelected}
+        member={member}
+        idWorkout={idWorkout}
+      />
+      <Pressable onPress={() => setSelected(true)}>
         <Box rounded={"$md"} px={"$5"} style={styles.memberItem}>
           <Box
             flexDirection="row"
@@ -74,7 +74,7 @@ const MemberItem = ({ member, idMember }: Props) => {
                   : "--"}
               </Text>
             </Box>
-            <Ionicons name="chevron-forward" size={20} color="#00C1F3" />
+            <ChevronForward />
           </Box>
         </Box>
       </Pressable>

@@ -22,7 +22,6 @@ const useGetProfile = () => {
 const useGetMembers = ({ memberType }: { memberType: string }) => {
   //Get Data
   const { currentOrganization } = useAuth();
-  console.log("GET Members type ", memberType);
 
   const getMembers = () => {
     return api.get<User[]>(

@@ -60,7 +60,6 @@ const ConfirmMemberModal = ({
         setError(i18n.t("errors.login_invalid_credentials"));
       else setError(i18n.t("errors.generic_error"));
     } finally {
-      console.log("SE LOGRO");
     }
   };
 

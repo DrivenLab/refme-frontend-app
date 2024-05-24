@@ -12,7 +12,7 @@ const SessionStatistics = ({ session }: Props) => {
   //console.log("ses", session.iterations);
   const [resume, setResume] = useState(getSessionResume(session));
   return (
-    <Box py={"$5"} flex={1} bg="$white">
+    <Box py={"$7"} px={"$3"} flex={1} bg="$white">
       {/* <Text fontWeight={"$bold"} fontSize={30} color="black">
         Resultados
       </Text> */}
@@ -28,7 +28,7 @@ const SessionStatistics = ({ session }: Props) => {
           <SessionResultBarChart session={session} />
         </Box>
       </Box>
-      <Box display="flex" flexDirection="row">
+      <Box display="flex" flexDirection="row" mt={"$5"}>
         <Box width="45%">
           <Text
             bgColor="#f2f3f4"

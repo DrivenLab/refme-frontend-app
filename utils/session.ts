@@ -39,11 +39,13 @@ export const getDifferenceDate = (date1: Date, date2: Date) => {
   const differenceDate = new Date(differenceInMilliseconds);
   return differenceDate;
 };
-export function formatMilliseconds(ms: number) {
-  let totalSeconds = Math.floor(ms / 1000);
-  let minutes = Math.floor(totalSeconds / 60);
-  let seconds = totalSeconds % 60;
-  return `${minutes}:${seconds.toString().padStart(2, "0")} s`;
+export function formatMilliseconds(milliseconds: number) {
+  // Extract seconds and milliseconds
+  const seconds = Math.floor(milliseconds / 1000);
+  const ms = milliseconds % 1000;
+
+  // Format the result as a string
+  return `${seconds}:${ms.toString().padStart(3, "0")} ms`;
 }
 function formatTimeDifference(date1: Date, date2: Date) {
   // Calculate the difference in milliseconds
@@ -90,7 +92,7 @@ function formatDate(date: Date) {
 }
 
 export const getSessionResume = (s: SessionContext) => {
-  console.log("session resume", s);
+  //console.log("session resume", s);
   const iterationWithVideos = s.iterations.filter((i) => i.video);
   const correctAnswers = iterationWithVideos.filter((i) => {
     //Si al usuario le faltó responder algunas de las 2 preguntas, ya se pone como incorrecta.

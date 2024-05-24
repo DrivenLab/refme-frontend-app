@@ -34,7 +34,7 @@ const SessionStatistics = ({ session }: Props) => {
       <Text fontWeight={"$bold"} fontSize={20} color="black">
         Promedio respuesta:{" "}
         <Text color="black" fontSize={20}>
-          {resume.answerAverage}
+          {resume.answerAverageTime}
         </Text>
       </Text>
       <Text fontWeight={"$bold"} fontSize={20} color="black">

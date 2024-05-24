@@ -1,5 +1,5 @@
 import { Box, Divider, Text, VStack } from "@gluestack-ui/themed";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DM_ANSWER1, DM_ANSWER2 } from "@/constants/Session";
 import DecisionMakingOption from "./DecisionMakingOption";
 import i18n from "@/languages/i18n";
@@ -15,14 +15,17 @@ type Props = {
 const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
   const [asnwer, setAnswer] = useState<DM_ANSWER>({} as DM_ANSWER);
   const [hasCompleted, setHasCompleted] = useState(false);
-  const { currentTime, getPauseTime } = useCountdown({
-    finishTime: iteration.timeToAnswerInSec,
+  const { countdownInSec, hasFinished, elapsedRunningTime } = useCountdown({
+    stopInSec: iteration.timeToAnswerInSec,
     delay: 1,
-    onFinishCountdown: () => {
-      const a: DM_ANSWER = { ...asnwer, answeredInMs: getPauseTime() };
-      onFinish(asnwer);
-    },
   });
+  useEffect(() => {
+    if (hasFinished.current) handleOnFinishCountdown();
+  }, [hasFinished.current]);
+  function handleOnFinishCountdown() {
+    const a: DM_ANSWER = { ...asnwer };
+    onFinish(a);
+  }
   const handleUserAnswer = (answerSelected: string, questionType: string) => {
     const answer_ = { ...asnwer };
     let completed = false;
@@ -32,15 +35,16 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
       answer_.asnwer2 = answerSelected;
     }
     if (answer_.answer1 && answer_.asnwer2) completed = true;
-
+    if (completed) {
+      answer_.answeredInMs = elapsedRunningTime.current;
+    }
     setAnswer(answer_);
     setHasCompleted(completed);
-    //if (completed) onFinish(answer_);
   };
   return (
     <Box bg="$white" flex={1}>
       <CProgress
-        progressValue={currentTime}
+        progressValue={countdownInSec}
         initialProgressValue={iteration.timeToAnswerInSec}
       />
       <Box bg="$white" flex={1} px={"$4"} py="$5" justifyContent="center">

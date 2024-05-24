@@ -6,6 +6,7 @@ import {
   Session as SesssionModel,
   Steps,
   IterationContext,
+  SessionDate,
 } from "@/types/session";
 import { Iteration as IterationModel } from "@/types/session";
 import { getSessionOrderedByIterations } from "@/utils/session";
@@ -18,7 +19,7 @@ type SessionContextType = {
   createSession: (s: SesssionModel) => void;
   changeStep: (s: Steps) => void;
   handleUserAnswer: (a: DM_ANSWER) => void;
-  handleUserRPE: (a: number) => void;
+  handleUserRPE: (a?: number) => void;
   updateSessionStatus: (s: SESSION_STATUS) => void;
   handleNextIteration: () => void;
 };
@@ -39,6 +40,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
   );
   const [step, setStep] = useState<Steps>("beginning");
   const [iterationIndex, setIterationIndex] = useState(INITIAL_ITERATION_INDEX);
+
   const getIteration = ({
     i,
     timeToWorkout,
@@ -54,6 +56,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
       timeToGetReadyInSec: 1,
       timeToWorkoutInSec: 1,
       timeToAnswerInSec: 7,
+      timeToRPEInSec: 2,
+      answeredInMs: 7,
     } as IterationContext;
     return i_;
   };
@@ -62,21 +66,25 @@ export function SessionProvider({ children }: PropsWithChildren) {
       ...currentIterarion,
       userAnswer1: a.answer1,
       userAnswer2: a.asnwer2,
-      answeredInMs: a.answeredInMs,
+      answeredInMs: a.answeredInMs ?? 7,
     };
     setCurrentIterarion(a_);
   };
-  const handleUserRPE = (rpe: number) => {
+  const handleUserRPE = (rpe?: number) => {
     const a_: IterationContext = {
       ...currentIterarion,
-      rpe,
+      rpe: rpe,
     };
-    //console.log("rpe calling", a_);
+    console.log("rpe calling", a_);
     setCurrentIterarion(a_);
   };
   const createSession = (s: SesssionModel) => {
     const sessionOrdered = getSessionOrderedByIterations(s);
     const session_: SessionContextT = {
+      date: {
+        start: new Date(),
+        end: new Date(),
+      },
       breakDuration: sessionOrdered.workout.breakDuration,
       exerciseDuration: sessionOrdered.workout.excerciseDuration,
       maxDesicionTime: 7,
@@ -105,26 +113,30 @@ export function SessionProvider({ children }: PropsWithChildren) {
   };
   const handleNextIteration = () => {
     updateIteration(currentIterarion);
-
+    console.log("next iteration-----");
     if (iterationIndex < session.iterations.length - 1) {
       setCurrentIterarion(session.iterations[iterationIndex + 1]);
       setIterationIndex(iterationIndex + 1);
       setStep("beginning");
     } else {
-      setSession((prev) => ({ ...prev, status: "finished" }));
+      const date = session.date;
+      date.end = new Date();
+      setSession((prev) => ({ ...prev, status: "finished", date }));
     }
   };
   const updateIteration = (iteration: IterationContext) => {
     const index = session.iterations.findIndex(
       (i) => i.idIteration === iteration.idIteration
     );
+
     //console.log("calling update iteration-----", index, iteration);
-    if (!index) return;
+    if (index === -1) return;
     const s_ = { ...session };
     s_.iterations[index] = {
       ...s_.iterations[index],
       ...iteration,
     };
+    console.log("here are the values before update", s_.iterations[index]);
     setSession(s_);
   };
 

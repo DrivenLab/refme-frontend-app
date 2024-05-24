@@ -40,16 +40,22 @@ export const getDifferenceDate = (date1: Date, date2: Date) => {
   return differenceDate;
 };
 export const getSessionResume = (s: SessionContext) => {
-  const correctAnswers = s.iterations.filter((i) => {
+  console.log("session resume", s);
+  const iterationWithVideos = s.iterations.filter((i) => i.video);
+  const correctAnswers = iterationWithVideos.filter((i) => {
+    //Si al usuario le faltó responder algunas de las 2 preguntas, ya se pone como incorrecta.
     if (!i.answer1 || !i.answer2) return false;
     return i.answer1 == i.userAnswer1 && i.answer2 == i.userAnswer2;
   }).length;
-  const answerAverage = 10;
-  const answerTotalTime = 10;
+  //Manejo de Promedio
+  let answerTotalTime = 0;
+  for (const i of iterationWithVideos) {
+    answerTotalTime += i.answeredInMs;
+  }
   return {
     correctAnswers,
-    wrongAnswers: Math.abs(s.iterations.length - correctAnswers),
-    answerAverage,
+    wrongAnswers: Math.abs(iterationWithVideos.length - correctAnswers),
+    answerAverageTime: answerTotalTime / iterationWithVideos.length,
     answerTotalTime,
   };
 };

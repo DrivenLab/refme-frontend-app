@@ -21,10 +21,17 @@ export type IterationContext = {
   userAnswer2?: string;
   rpe?: number;
   timeToAnswerInSec: number;
+  timeToRPEInSec: number;
   timeToGetReadyInSec: number;
   timeToWorkoutInSec: number;
 };
+export type SessionDate = {
+  start: Date;
+  end: Date;
+};
 export type SessionContext = {
+  date: SessionDate;
+
   breakDuration: number;
   numberOfRepetitions: number;
   numberOfDecisions: number;

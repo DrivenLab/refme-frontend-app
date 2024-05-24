@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Pressable, Text, VStack } from "@gluestack-ui/themed";
 import {
   RPE_COLORS,
@@ -6,24 +6,35 @@ import {
   RPE_NUMBER_VALUES,
 } from "@/constants/Session";
 import i18n from "@/languages/i18n";
+import CProgress from "../progress-bar/CProgress";
+import useCountdown from "@/hooks/useCountdown";
+import { IterationContext } from "@/types/session";
 type Props = {
-  onFinishRPE: (rpe: number) => void;
+  onFinishRPE: (rpe?: number) => void;
+  iteration: IterationContext;
 };
-const RPE = ({ onFinishRPE }: Props) => {
+const RPE = ({ onFinishRPE, iteration }: Props) => {
   const [rpe, setRpe] = useState<number | undefined>();
+  const { countdownInSec, hasFinished } = useCountdown({
+    stopInSec: iteration.timeToRPEInSec,
+    delay: 1,
+  });
+  useEffect(() => {
+    if (hasFinished.current) onFinishRPE(rpe);
+  }, [hasFinished.current]);
   const handleOnPress = (rpe_: number) => {
+    console.log("rpe", rpe_);
     setRpe(rpe_);
-    onFinishRPE(Number(rpe_));
+    //onFinishRPE(Number(rpe_));
   };
   return (
-    <Box
-      flex={1}
-      alignContent="center"
-      alignItems="center"
-      height={"100%"}
-      bg="$white"
-      px="$8"
-    >
+    <Box bg="$white" flex={1}>
+      <CProgress
+        progressValue={countdownInSec}
+        initialProgressValue={iteration.timeToRPEInSec}
+      />
+      <Box bg="$white" flex={1} px={"$4"} py="$5" justifyContent="center"></Box>
+
       <VStack
         flexDirection="row"
         space="md"

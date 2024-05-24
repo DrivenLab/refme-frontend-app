@@ -32,7 +32,8 @@ const SessionIteration = () => {
     handleUserAnswer(answer);
     handleFinishCountdown("rpe");
   };
-  const onFinishRPE = (rpe: number) => {
+  const onFinishRPE = (rpe?: number) => {
+    console.log("rpe selected", rpe);
     handleUserRPE(rpe);
     setTimeout(() => {
       handleNextIteration();
@@ -67,7 +68,7 @@ const SessionIteration = () => {
           iteration={currentIterarion}
         />
       ) : (
-        <RPE onFinishRPE={onFinishRPE} />
+        <RPE onFinishRPE={onFinishRPE} iteration={currentIterarion} />
       )}
     </View>
   );

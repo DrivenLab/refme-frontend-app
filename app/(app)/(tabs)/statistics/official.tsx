@@ -1,38 +1,31 @@
 import { StyleSheet } from "react-native";
-import EditScreenInfo from "@/components/EditScreenInfo";
-import { Text, View } from "@/components/Themed";
+import { ScrollView } from "@gluestack-ui/themed";
+
 import { RadarChart } from "@/components/statistcs/RadarChart";
 import { PieChart } from "@/components/statistcs/PieChart";
-import { ScrollView } from "@gluestack-ui/themed";
 import { BarChart } from "@/components/statistcs/BarChart";
 import { LineChart } from "@/components/statistcs/LineChart";
-import { generateFakePoints } from "@/utils";
 import { ChartCard } from "@/components/statistcs/ChartCard";
+import { generateFakePoints } from "@/utils";
 
 export default function TabTwoScreen() {
   return (
     <ScrollView style={styles.container}>
-      {/* <Text style={styles.title}>% de acierto por habilidad</Text> */}
       <ChartCard title="% de acierto por habilidad">
         <RadarChart labels={radarLabels} characterData={characterData} />
       </ChartCard>
-      {/* <Text style={styles.title}>Áreas entrenadas / entrenamiento total</Text> */}
       <ChartCard title="Áreas entrenadas / entrenamiento total">
         <PieChart data={pieData} />
       </ChartCard>
-      {/* <Text style={styles.title}>Respuestas / RPE</Text> */}
       <ChartCard title="Respuestas / RPE">
         <BarChart data={barchartData} labels={barchartLabels} />
       </ChartCard>
-      {/* <Text style={styles.title}>Evolución de actividades</Text> */}
       <ChartCard title="Evolución de actividades">
         <LineChart linesData={activitiesData} />
       </ChartCard>
-      {/* <Text style={styles.title}>Evolución de toma de decisión</Text> */}
       <ChartCard title="Evolución de toma de decisión">
         <LineChart linesData={decisionData} />
       </ChartCard>
-      {/* <Text style={styles.title}>Evolución de tiempo de respuesta</Text> */}
       <ChartCard title="Evolución de tiempo de respuesta">
         <LineChart
           linesData={timeResponseData}

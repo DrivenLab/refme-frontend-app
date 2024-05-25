@@ -9,6 +9,7 @@ import { SafeAreaView, StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
 import { Box, Text, VStack } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
+import { SafeAreaViewStyle } from "@/utils/Styles";
 
 export default function LoginScreen() {
   const { setToken } = useAuth();
@@ -43,7 +44,7 @@ export default function LoginScreen() {
     }
   };
   return (
-    <SafeAreaView>
+    <SafeAreaView style={[SafeAreaViewStyle.s]}>
       <VStack space="md">
         <Image
           source={require("@/assets/images/login_bg.jpeg")}

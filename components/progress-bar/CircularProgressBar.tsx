@@ -45,7 +45,6 @@ export const CircularProgress = (props: {
     return { strokeDashoffset: strokeDashOffsetAnimation?.value };
   });
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-  //   console.log({ progress });
   return (
     <View
       style={[

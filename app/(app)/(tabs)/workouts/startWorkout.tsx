@@ -9,12 +9,18 @@ import SessionIteration from "@/components/session/SessionIteration";
 import { useSession } from "@/context/SessionContext";
 import SessionStatistics from "@/components/session/SessionStatistics";
 import { useNavigation } from "expo-router";
+import { SafeAreaViewStyle } from "@/utils/Styles";
+import { setStatusBarHidden } from "expo-status-bar";
 
 const StartWorkout = () => {
   const { session, updateSessionStatus } = useSession();
   const { screenOrientation } = useOrientation();
   useEffect(() => {
     //loadFiles();
+    setStatusBarHidden(true, "slide");
+    return () => {
+      setStatusBarHidden(false, "slide");
+    };
   }, []);
   const navigation = useNavigation();
   useEffect(() => {
@@ -29,7 +35,7 @@ const StartWorkout = () => {
       });
   }, [navigation]);
   return (
-    <SafeAreaView style={styles.contentContainer}>
+    <SafeAreaView style={{ flex: 1 }}>
       {session.status === "pending" ? (
         <RotateScreen
           orientation={
@@ -48,9 +54,6 @@ const StartWorkout = () => {
   );
 };
 const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-  },
   video: {
     width: 350,
     height: 275,

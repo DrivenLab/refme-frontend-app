@@ -43,10 +43,7 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
   };
   return (
     <Box bg="$white" flex={1}>
-      <CProgress
-        progressValue={countdownInSec}
-        initialProgressValue={iteration.timeToAnswerInSec}
-      />
+      <CProgress totalTimeInSec={iteration.timeToAnswerInSec} />
       <Box bg="$white" flex={1} px={"$4"} py="$5" justifyContent="center">
         <VStack
           width={"100%"}

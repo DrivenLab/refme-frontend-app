@@ -151,15 +151,15 @@ export function SessionProvider({ children }: PropsWithChildren) {
     <SessionContext.Provider
       value={{
         session,
-        createSession,
+        iterationIndex,
         currentIterarion,
-        handleNextIteration,
         step,
+        createSession,
+        handleNextIteration,
         changeStep,
         handleUserAnswer,
         handleUserRPE,
         updateSessionStatus,
-        iterationIndex,
       }}
     >
       {children}

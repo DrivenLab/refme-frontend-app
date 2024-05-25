@@ -14,7 +14,7 @@ type Props = {
   iteration: IterationContext;
 };
 const RPE = ({ onFinishRPE, iteration }: Props) => {
-  const [rpe, setRpe] = useState<number | undefined>();
+  const [rpe, setRpe] = useState<number>();
   const { countdownInSec, hasFinished } = useCountdown({
     stopInSec: iteration.timeToRPEInSec,
     delay: 1,
@@ -24,25 +24,21 @@ const RPE = ({ onFinishRPE, iteration }: Props) => {
   }, [hasFinished.current]);
   const handleOnPress = (rpe_: number) => {
     setRpe(rpe_);
-    //onFinishRPE(Number(rpe_));
+    onFinishRPE(Number(rpe_ || 0));
   };
   return (
     <Box bg="$white" flex={1}>
-      <CProgress
-        progressValue={countdownInSec}
-        initialProgressValue={iteration.timeToRPEInSec}
-      />
-      <Box bg="$white" flex={1} px={"$4"} py="$5" justifyContent="center"></Box>
-
+      <CProgress totalTimeInSec={iteration.timeToRPEInSec} />
       <HStack
         flexDirection="row"
         justifyContent="flex-start"
         alignItems="center"
         flexWrap="wrap"
+        pt="$2"
       >
         <Box
           width="$1/6"
-          height={180}
+          height={160}
           p="$2"
           display="flex"
           justifyContent="center"
@@ -53,7 +49,7 @@ const RPE = ({ onFinishRPE, iteration }: Props) => {
           </Text>
         </Box>
         {Object.entries(RPE_NUMBER_VALUES).map(([key, value]) => (
-          <Box width="$1/6" height={180} key={key} p={"$2"}>
+          <Box width="$1/6" height={160} key={key} p={"$2"}>
             <Pressable
               flex={1}
               justifyContent="center"

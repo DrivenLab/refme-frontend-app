@@ -33,7 +33,7 @@ const CVideo = ({ uri, onFinishVideo }: Props) => {
         source={{ uri }}
         rate={1.0}
         volume={1.0}
-        isMuted={false}
+        isMuted={true}
         resizeMode={ResizeMode.COVER}
         shouldPlay
         isLooping={false}

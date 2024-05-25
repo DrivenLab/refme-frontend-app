@@ -1,31 +1,42 @@
 import Colors from "@/constants/Colors";
-import {
-  Progress,
-  ProgressFilledTrack,
-  useColorMode,
-} from "@gluestack-ui/themed";
-import React from "react";
+import { View, useColorMode } from "@gluestack-ui/themed";
+import React, { useEffect } from "react";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+
 type Props = {
-  progressValue: number;
-  initialProgressValue: number;
+  totalTimeInSec: number;
 };
-const CProgress = ({ progressValue, initialProgressValue }: Props) => {
+const CProgress = ({ totalTimeInSec }: Props) => {
   const mode = useColorMode();
+  const reverseProgress = useSharedValue(100);
+  useEffect(() => {
+    reverseProgress.value = withTiming(0, { duration: totalTimeInSec * 1000 });
+  }, []);
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      width: `${reverseProgress.value}%`,
+    };
+  });
   return (
-    <Progress
-      value={Math.ceil((progressValue / initialProgressValue) * 100)}
-      w={"100%"}
-      size="2xl"
-      bg="#e6FAFF"
-    >
-      <ProgressFilledTrack
-        bgColor={
-          Math.ceil((progressValue / initialProgressValue) * 100) > 40
-            ? Colors[mode as keyof typeof Colors].primary
-            : Colors[mode as keyof typeof Colors].orange
-        }
+    <View w={"100%"} bg="#e6FAFF" h={20} borderRadius={10} overflow="hidden">
+      <Animated.View
+        style={[
+          {
+            height: "100%",
+            borderRadius: 10,
+            backgroundColor:
+              reverseProgress.value > 40
+                ? Colors[mode as keyof typeof Colors].primary
+                : Colors[mode as keyof typeof Colors].orange,
+          },
+          animatedStyle,
+        ]}
       />
-    </Progress>
+    </View>
   );
 };
 

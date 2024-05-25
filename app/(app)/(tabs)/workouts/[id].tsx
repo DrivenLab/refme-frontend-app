@@ -17,13 +17,12 @@ import WorkoutConfigItem from "@/components/workouts/WorkoutConfigurationItem";
 import WorkoutMaterial from "@/components/workouts/WorkoutMaterial";
 import WorkoutTypeBadge from "@/components/workouts/WorkoutTypeBadge";
 import { useGetWorkoutById } from "@/queries/workouts.query";
-import { Href, useLocalSearchParams, useRouter } from "expo-router";
-import useSession from "@/hooks/useSession";
-import { useSession as useSessionContext } from "@/context/SessionContext";
+import { useLocalSearchParams } from "expo-router";
 import { useAuth } from "@/context/auth";
 import CAlert from "@/components/CAlert";
 import WorkoutMemberDetail from "@/components/workouts/WorkoutMemberDetail";
 import WorkoutInstructorDetail from "@/components/workouts/WorkoutInstructorDetail";
+import { SafeAreaViewStyle } from "@/utils/Styles";
 
 const WorkoutDetail = () => {
   //TODO solo id
@@ -40,7 +39,7 @@ const WorkoutDetail = () => {
 
   return (
     <>
-      <SafeAreaView bg="white" flex={1} px="$3" py={"$2"}>
+      <SafeAreaView bg="white" pb={"$2"} style={[SafeAreaViewStyle.s]}>
         <ImageBackground
           source={require("@/assets/images/workout_banner.png")}
           style={styles.backgroundImage}

@@ -1,6 +1,6 @@
-import { t_DM_ANSWER1, t_DM_ANSWER2 } from "@/types/session";
-import { Box, Pressable, Text } from "@gluestack-ui/themed";
-import React, { useMemo, useState } from "react";
+import { Pressable, Text, useColorMode } from "@gluestack-ui/themed";
+import React, { useCallback, useMemo, useState } from "react";
+import Colors from "@/constants/Colors";
 
 type Props = {
   text?: string;
@@ -8,6 +8,7 @@ type Props = {
   isCorrect: boolean;
   hasMarked: boolean;
   showAnswer: boolean;
+  canTouch: boolean;
 };
 const DecisionMakingOption = ({
   text,
@@ -15,7 +16,12 @@ const DecisionMakingOption = ({
   isCorrect,
   hasMarked,
   showAnswer,
+  canTouch,
 }: Props) => {
+  const handleOnPress = () => {
+    if (canTouch) handleUserAnswer();
+  };
+  const mode = useColorMode();
   const bgColor = useMemo(() => {
     if (!hasMarked) return "#f5f5f6";
     if (!showAnswer) return "#090b22";
@@ -24,9 +30,8 @@ const DecisionMakingOption = ({
   }, [isCorrect, hasMarked, showAnswer]);
   const textColor = useMemo(() => {
     if (!hasMarked) return "#090b22";
-    if (!showAnswer) return "#ffffff";
-    if (isCorrect) return "#090b22";
-    else return "#ffffff";
+    else if (!showAnswer) return "#ffffff";
+    else return "#090b22";
   }, [isCorrect, hasMarked, showAnswer]);
   return (
     <Pressable
@@ -37,10 +42,16 @@ const DecisionMakingOption = ({
         backgroundColor: bgColor,
       }}
       rounded={10}
-      onPress={handleUserAnswer}
+      onPress={handleOnPress}
+      borderWidth={showAnswer && hasMarked ? 2 : 0}
+      borderColor={
+        isCorrect
+          ? Colors[mode as keyof typeof Colors].success
+          : Colors[mode as keyof typeof Colors].error
+      }
     >
       {text && (
-        <Text color={textColor} textAlign="center">
+        <Text color={textColor} textAlign="center" fontSize={20}>
           {text}
         </Text>
       )}

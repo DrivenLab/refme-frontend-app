@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, HStack, Pressable, Text, VStack } from "@gluestack-ui/themed";
 import {
   RPE_COLORS,
@@ -6,33 +6,40 @@ import {
   RPE_NUMBER_VALUES,
 } from "@/constants/Session";
 import i18n from "@/languages/i18n";
+import CProgress from "../progress-bar/CProgress";
+import useCountdown from "@/hooks/useCountdown";
+import { IterationContext } from "@/types/session";
 type Props = {
-  onFinishRPE: (rpe: number) => void;
+  onFinishRPE: (rpe?: number) => void;
+  iteration: IterationContext;
 };
-const RPE = ({ onFinishRPE }: Props) => {
-  const [rpe, setRpe] = useState<number | undefined>();
+const RPE = ({ onFinishRPE, iteration }: Props) => {
+  const [rpe, setRpe] = useState<number>(0);
+  const { countdownInSec, hasFinished } = useCountdown({
+    stopInSec: iteration.timeToRPEInSec,
+    delay: 1,
+  });
+  useEffect(() => {
+    if (hasFinished.current) onFinishRPE(rpe);
+  }, [hasFinished.current]);
+
   const handleOnPress = (rpe_: number) => {
     setRpe(rpe_);
-    onFinishRPE(Number(rpe_));
+    onFinishRPE(Number(rpe_ || 0));
   };
   return (
-    <Box
-      flex={1}
-      alignContent="center"
-      alignItems="center"
-      height={"100%"}
-      bg="$white"
-      px="$8"
-    >
+    <Box bg="$white" flex={1}>
+      <CProgress totalTimeInSec={iteration.timeToRPEInSec} />
       <HStack
         flexDirection="row"
         justifyContent="flex-start"
         alignItems="center"
         flexWrap="wrap"
+        pt="$2"
       >
         <Box
           width="$1/6"
-          height={180}
+          height={160}
           p="$2"
           display="flex"
           justifyContent="center"
@@ -43,7 +50,7 @@ const RPE = ({ onFinishRPE }: Props) => {
           </Text>
         </Box>
         {Object.entries(RPE_NUMBER_VALUES).map(([key, value]) => (
-          <Box width="$1/6" height={180} key={key} p={"$2"}>
+          <Box width="$1/6" height={160} key={key} p={"$2"}>
             <Pressable
               flex={1}
               justifyContent="center"

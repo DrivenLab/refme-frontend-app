@@ -12,11 +12,15 @@ import useSession from "@/hooks/useSession";
 import DmLogo from "@/assets/svgs/DmLogo";
 import { useAuth } from "@/context/auth";
 
-const WorkoutInstructorDetail = () => {
+type Props = {
+  idWorkout: number;
+};
+
+const WorkoutInstructorDetail = ({ idWorkout }: Props) => {
   const router = useRouter();
 
   const handleOnPress = () => {
-    router.push("/workouts/assignReferee/" as Href<string>);
+    router.push(`/workouts/assignReferee/${idWorkout}`);
   };
 
   return (
@@ -30,7 +34,7 @@ const WorkoutInstructorDetail = () => {
         mb={20}
       >
         <ButtonText color="black" fontWeight="medium">
-          Comenzar
+          {i18n.t("create_workout.assign_workout")}
         </ButtonText>
       </Button>
     </>

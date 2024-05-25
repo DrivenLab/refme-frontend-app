@@ -1,9 +1,7 @@
 import { SafeAreaView, StyleSheet } from "react-native";
 
-import { View } from "@/components/Themed";
 import { useAuth } from "@/context/auth";
 import CBtn from "@/components/CBtn";
-import { useGetProfile } from "@/queries/users.query";
 import {
   Avatar,
   AvatarFallbackText,
@@ -15,8 +13,8 @@ import {
 } from "@gluestack-ui/themed";
 
 export default function TabTwoScreen() {
-  const { signOut, user } = useAuth();
-  const initials = "JD" || `${user?.firstName[0]}${user?.lastName[0]}`;
+  const { signOut, user, profile } = useAuth();
+  const initials = user?.fullName || "JD";
   return (
     <SafeAreaView>
       <VStack justifyContent="space-evenly" height="$full">
@@ -47,8 +45,9 @@ export default function TabTwoScreen() {
               paddingVertical={5}
             >
               <Text textAlign="center" color="white" marginHorizontal="auto">
-                {/* {user?.role || ""} */}
-                Referee
+                {profile?.length && profile[0].memberType === "ra"
+                  ? "Asistant"
+                  : "Referee"}
               </Text>
             </Badge>
           </Box>

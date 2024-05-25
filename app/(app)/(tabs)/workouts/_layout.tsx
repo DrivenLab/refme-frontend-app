@@ -23,7 +23,7 @@ const _layout = () => {
       />
       <Stack.Screen
         name="assignReferee"
-        options={{ headerShown: false, headerBackTitleVisible: false }}
+        options={{ headerShown: false, href: null }}
       />
     </Stack>
   );

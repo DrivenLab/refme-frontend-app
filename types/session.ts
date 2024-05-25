@@ -14,18 +14,24 @@ export interface Session {
 export type IterationContext = {
   idIteration: number | string;
   video?: string;
-  answeredIn: Date;
-  rpeIn: Date;
+  answeredInMs: number;
   answer1?: string;
   answer2?: string;
   userAnswer1?: string;
   userAnswer2?: string;
   rpe?: number;
-  timeToAnswer?: string;
-  timeToGetReady: number;
-  timeToWorkout: number;
+  timeToAnswerInSec: number;
+  timeToRPEInSec: number;
+  timeToGetReadyInSec: number;
+  timeToWorkoutInSec: number;
+};
+export type SessionDate = {
+  start: Date;
+  end: Date;
 };
 export type SessionContext = {
+  date: SessionDate;
+
   breakDuration: number;
   numberOfRepetitions: number;
   numberOfDecisions: number;
@@ -61,7 +67,7 @@ export type IMAGE_NAME =
 export type DM_ANSWER = {
   answer1?: string;
   asnwer2?: string;
-  answeredIn: Date;
+  answeredInMs: number;
 };
 export type t_DM_ANSWER1 = "nf" | "ifk" | "dfk" | "pk";
 export type t_DM_ANSWER2 = "nc" | "yc" | "rc";

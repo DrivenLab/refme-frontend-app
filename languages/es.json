@@ -130,7 +130,10 @@
     "look_at_the": "el ",
     "look_at_video_bold": "video ",
     "look_at_take": "y toma una ",
-    "look_at_decision": "decisión"
+    "look_at_decision": "decisión",
+    "answer_avg": "Promedio de respuesta",
+    "total_time": "Tiempo total de respuestas: ",
+    "date_title": "Realizado: "
   },
   "create_workout": {
     "workout_name": "Nombre del entrenamiento",

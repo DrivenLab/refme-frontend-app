@@ -98,7 +98,7 @@ export default function CreateWorkoutScreen() {
     onSuccess: (data) => {
       queryClient.invalidateQueries("workouts");
       const idWorkout = data.id;
-      router.replace(`/workouts/assignReferee/`);
+      router.replace(`/workouts/assignReferee/${idWorkout}`);
     },
     onError: (err) => {
       const error = err as AxiosError;

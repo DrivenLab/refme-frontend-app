@@ -28,10 +28,7 @@ const RPE = ({ onFinishRPE, iteration }: Props) => {
   };
   return (
     <Box bg="$white" flex={1}>
-      <CProgress
-        progressValue={countdownInSec}
-        initialProgressValue={iteration.timeToRPEInSec}
-      />
+      <CProgress totalTimeInSec={iteration.timeToRPEInSec} />
       <HStack
         flexDirection="row"
         justifyContent="flex-start"

@@ -14,7 +14,7 @@ type Props = {
   iteration: IterationContext;
 };
 const RPE = ({ onFinishRPE, iteration }: Props) => {
-  const [rpe, setRpe] = useState<number | undefined>();
+  const [rpe, setRpe] = useState<number>();
   const { countdownInSec, hasFinished } = useCountdown({
     stopInSec: iteration.timeToRPEInSec,
     delay: 1,
@@ -24,7 +24,7 @@ const RPE = ({ onFinishRPE, iteration }: Props) => {
   }, [hasFinished.current]);
   const handleOnPress = (rpe_: number) => {
     setRpe(rpe_);
-    //onFinishRPE(Number(rpe_));
+    onFinishRPE(Number(rpe_ || 0));
   };
   return (
     <Box bg="$white" flex={1}>

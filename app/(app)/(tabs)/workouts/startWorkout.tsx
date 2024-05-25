@@ -18,6 +18,9 @@ const StartWorkout = () => {
   useEffect(() => {
     //loadFiles();
     setStatusBarHidden(true, "slide");
+    return () => {
+      setStatusBarHidden(false, "slide");
+    };
   }, []);
   const navigation = useNavigation();
   useEffect(() => {
@@ -32,7 +35,7 @@ const StartWorkout = () => {
       });
   }, [navigation]);
   return (
-    <SafeAreaView style={[SafeAreaViewStyle.s]}>
+    <SafeAreaView style={{ flex: 1 }}>
       {session.status === "pending" ? (
         <RotateScreen
           orientation={

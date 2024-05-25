@@ -129,7 +129,10 @@
     "look_at_the": "the ",
     "look_at_video_bold": "video ",
     "look_at_take": "and take a ",
-    "look_at_decision": "decisión"
+    "look_at_decision": "decision",
+    "answer_avg": "Average response time",
+    "total_time": "Total response time:",
+    "date_title": "Completed in: "
   },
   "create_workout": {
     "workout_name": "Workout name",

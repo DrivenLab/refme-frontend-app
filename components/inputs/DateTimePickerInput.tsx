@@ -32,7 +32,13 @@ export const DateTimePickerInput = (
   useEffect(() => {
     setValue(props.value);
   }, [props.value]);
-
+  const getFormattedDate = (d: Date) => {
+    const strDate = d.toISOString().substring(0, 10);
+    const year = strDate.substring(0, 4);
+    const month = strDate.substring(5, 7);
+    const day = strDate.substring(8, 10);
+    return `${day}/${month}/${year}`;
+  };
   return (
     <View style={[props.containerStyle]}>
       <View
@@ -49,7 +55,10 @@ export const DateTimePickerInput = (
             borderWidth={0}
           >
             <Text m={8}>
-              {value ? value?.toLocaleDateString() : props.placeholder}
+              {value
+                ? // ? value?.toISOString().substring(0, 10)
+                  getFormattedDate(value)
+                : props.placeholder}
             </Text>
             {show && (
               <DateTimePicker

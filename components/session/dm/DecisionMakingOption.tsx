@@ -1,22 +1,25 @@
-import { Pressable, Text, useColorMode } from "@gluestack-ui/themed";
-import React, { useCallback, useMemo, useState } from "react";
+import { Box, Pressable, Text, useColorMode } from "@gluestack-ui/themed";
+import React, { useMemo } from "react";
 import Colors from "@/constants/Colors";
+import SanctionCardIcon from "@/assets/svgs/SanctionCardIcon";
 
 type Props = {
   text?: string;
-  handleUserAnswer: () => void;
+  answerKey: string;
   isCorrect: boolean;
   hasMarked: boolean;
   showAnswer: boolean;
   canTouch: boolean;
+  handleUserAnswer: () => void;
 };
 const DecisionMakingOption = ({
   text,
-  handleUserAnswer,
+  answerKey,
   isCorrect,
   hasMarked,
   showAnswer,
   canTouch,
+  handleUserAnswer,
 }: Props) => {
   const handleOnPress = () => {
     if (canTouch) handleUserAnswer();
@@ -50,10 +53,30 @@ const DecisionMakingOption = ({
           : Colors[mode as keyof typeof Colors].error
       }
     >
-      {text && (
-        <Text color={textColor} textAlign="center" fontSize={20}>
-          {text}
-        </Text>
+      {answerKey === "yc" ? (
+        <Box margin="auto">
+          <SanctionCardIcon
+            cardColor="yellow"
+            width={80}
+            height={80}
+            outlineFillColor={bgColor === "#090b22" ? "#ffffff" : "black"}
+          />
+        </Box>
+      ) : answerKey === "rc" ? (
+        <Box margin="auto">
+          <SanctionCardIcon
+            cardColor="red"
+            width={80}
+            height={80}
+            outlineFillColor={bgColor === "#090b22" ? "#ffffff" : "black"}
+          />
+        </Box>
+      ) : (
+        text && (
+          <Text color={textColor} textAlign="center" fontSize={20}>
+            {text}
+          </Text>
+        )
       )}
     </Pressable>
   );

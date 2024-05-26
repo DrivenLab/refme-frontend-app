@@ -5,15 +5,18 @@ import { CreateProfile } from "@/types/user";
 import api from "@/queries/api";
 
 import { StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
+
 import CBtn from "@/components/CBtn";
 import { Box, Text, VStack, HStack, ScrollView } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
-
-import { useRouter } from "expo-router";
 import { DateTimePickerInput } from "@/components/inputs/DateTimePickerInput";
 
-const GENRE_OPTIONS = ["m", "f"];
-
+const GENRE_OPTIONS = [i18n.t("genre_options.m"), i18n.t("genre_options.f")];
+const genreMapping = {
+  [i18n.t("genre_options.m")]: "m",
+  [i18n.t("genre_options.f")]: "f",
+};
 export default function AboutYouScreen() {
   const [error, setError] = useState("");
   const { profile } = useAuth();
@@ -28,7 +31,7 @@ export default function AboutYouScreen() {
     address: "",
     weight: 0,
     height: 0,
-    medicalExpiration: "",
+    expirationMedicalRecord: "",
     medicalObservations: "",
   });
   const isBtnFormValid = useMemo(
@@ -38,23 +41,31 @@ export default function AboutYouScreen() {
   const [isLogging, setIsLogging] = useState(false);
 
   function handleOnChange(name: string, value: string) {
+    if (name === "birthdate" || name === "expirationMedicalRecord") {
+      console.log("value", value);
+    }
     setProfileData((prev) => ({ ...prev, [name]: value }));
   }
   const handleUpdateProfile = async () => {
+    const _profileData = {
+      ...profileData,
+      gender: genreMapping[profileData.gender],
+    };
     if (!profile) {
       return;
     }
     try {
       const { data } = await api.patch(
         `profiles/${profile[0]?.id}/`,
-        profileData
+        _profileData
       );
     } catch (error: any) {
       if (error?.response?.status === 400)
         setError(i18n.t("errors.login_invalid_credentials"));
       else setError(i18n.t("errors.generic_error"));
     } finally {
-      router.push("/last-step");
+      router.dismissAll();
+      router.replace("/last-step");
     }
   };
   const birthDateValue =
@@ -63,8 +74,8 @@ export default function AboutYouScreen() {
       : undefined;
 
   const medicalExpirationValue =
-    profileData.medicalExpiration.length === 10
-      ? new Date(Date.parse(profileData.medicalExpiration))
+    profileData.expirationMedicalRecord.length === 10
+      ? new Date(Date.parse(profileData.expirationMedicalRecord))
       : undefined;
 
   return (
@@ -148,7 +159,10 @@ export default function AboutYouScreen() {
             placeholder={i18n.t("about_you_screen.medical_expiration_label")}
             value={medicalExpirationValue}
             onChange={(d: Date) =>
-              handleOnChange("medicalExpiration", d.toISOString().slice(0, 10))
+              handleOnChange(
+                "expirationMedicalRecord",
+                d.toISOString().slice(0, 10)
+              )
             }
           />
           <CTextInput

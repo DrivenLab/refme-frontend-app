@@ -11,6 +11,7 @@ import i18n from "@/languages/i18n";
 
 import { useRouter } from "expo-router";
 import { DateTimePickerInput } from "@/components/inputs/DateTimePickerInput";
+
 const GENRE_OPTIONS = ["m", "f"];
 
 export default function AboutYouScreen() {
@@ -129,15 +130,17 @@ export default function AboutYouScreen() {
             {/* Utiliza HStack para colocar los inputs lado a lado */}
             <CTextInput
               placeholder={i18n.t("about_you_screen.weight_label")}
-              onChangeText={(value) => handleOnChange("weight", value)}
+              onChangeText={(value) => handleOnChange("weight", `${value}`)}
               value={profileData.weight}
               containerStyle={{ width: "50%" }}
+              isNumberInput
             />
             <CTextInput
               placeholder={i18n.t("about_you_screen.height_label")}
-              onChangeText={(value) => handleOnChange("height", value)}
+              onChangeText={(value) => handleOnChange("height", `${value}`)}
               value={profileData.height}
               containerStyle={{ width: "50%" }}
+              isNumberInput
             />
           </HStack>
 

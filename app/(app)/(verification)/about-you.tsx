@@ -64,6 +64,7 @@ export default function AboutYouScreen() {
         setError(i18n.t("errors.login_invalid_credentials"));
       else setError(i18n.t("errors.generic_error"));
     } finally {
+      router.dismissAll();
       router.replace("/last-step");
     }
   };

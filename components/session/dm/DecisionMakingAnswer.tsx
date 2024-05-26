@@ -54,6 +54,7 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
           {Object.entries(DM_ANSWER1).map(([key, value]) => (
             <DecisionMakingOption
               key={key}
+              answerKey={key}
               text={i18n.t(key)}
               handleUserAnswer={() => handleUserAnswer(value, "q1")}
               hasMarked={value === asnwer.answer1}
@@ -73,6 +74,7 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
           {Object.entries(DM_ANSWER2).map(([key, value]) => (
             <DecisionMakingOption
               key={key}
+              answerKey={key}
               text={i18n.t(key)}
               handleUserAnswer={() => handleUserAnswer(value, "q2")}
               hasMarked={value === asnwer.asnwer2}

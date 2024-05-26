@@ -1,4 +1,4 @@
-import { ComponentProps, useEffect, useRef, useState } from "react";
+import { ComponentProps, useEffect, useState } from "react";
 import RNDateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -15,7 +15,7 @@ import {
   ButtonText,
   View,
 } from "@gluestack-ui/themed";
-import { Platform, Animated, StyleSheet, TextInput } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 
 export const DateTimePickerInput = (
   props: Omit<DateTimePickerProps, "onChange"> & {
@@ -32,37 +32,7 @@ export const DateTimePickerInput = (
   useEffect(() => {
     setValue(props.value);
   }, [props.value]);
-  useEffect(() => {
-    if (show) {
-      animatedLabel(1);
-    } else {
-      animatedLabel(value ? 1 : 0);
-    }
-  }, [show]);
-  const labelPosition = useRef(new Animated.Value(value ? 1 : 0)).current;
 
-  const labelStyle = {
-    left: 10,
-    top: labelPosition.interpolate({
-      inputRange: [0, 1],
-      outputRange: [17, 0],
-    }),
-    fontSize: labelPosition.interpolate({
-      inputRange: [0, 1],
-      outputRange: [16, 14],
-    }),
-    color: labelPosition.interpolate({
-      inputRange: [0, 1],
-      outputRange: ["gray", "#888"],
-    }),
-  };
-  const animatedLabel = (toValue: number) => {
-    Animated.timing(labelPosition, {
-      toValue: toValue,
-      duration: 200,
-      useNativeDriver: false,
-    }).start();
-  };
   return (
     <View style={[props.containerStyle]}>
       <View
@@ -71,30 +41,31 @@ export const DateTimePickerInput = (
           props.error ? { borderColor: "red" } : {},
         ]}
       >
-        <Animated.Text style={[styles.label, labelStyle]}>
-          {props.placeholder} {props.required && "*"}
-        </Animated.Text>
         <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            value={`${value?.toLocaleDateString() || ""}`}
-            textAlignVertical="center"
+          <Input
             onTouchStart={() => setShow(!show)}
-          />
-          {show && (
-            <DateTimePicker
-              // @ts-ignore
-              locale="es-PY"
-              {...props}
-              onChange={(e, d) => {
-                setValue(d!);
-                if (e && e.type == "dismissed") return;
-                props.onChange && props.onChange(d!);
-                setShow(false);
-              }}
-              value={value ?? new Date()}
-            />
-          )}
+            width="100%"
+            height="100%"
+            borderWidth={0}
+          >
+            <Text m={8}>
+              {value ? value?.toLocaleDateString() : props.placeholder}
+            </Text>
+            {show && (
+              <DateTimePicker
+                // @ts-ignore
+                locale="es-PY"
+                {...props}
+                onChange={(e, d) => {
+                  setShow(false);
+                  if (e && e.type == "dismissed") return;
+                  props.onChange && props.onChange(d!);
+                  setValue(d!);
+                }}
+                value={value ?? new Date()}
+              />
+            )}
+          </Input>
         </View>
       </View>
       {props.error && <Text style={styles.errorText}>{props.error}</Text>}

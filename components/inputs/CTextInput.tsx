@@ -14,7 +14,6 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 interface CTextInputProps {
   value: string | number;
   placeholder: string;
-  onChangeText: (text: string) => void;
   error?: string;
   secureTextEntry?: boolean;
   containerStyle?: Record<string, unknown>;
@@ -23,6 +22,8 @@ interface CTextInputProps {
   isDisabled?: boolean;
   required?: boolean;
   autoCapitalize?: "none" | "sentences" | "words" | "characters";
+  isNumberInput?: boolean;
+  onChangeText: (text: string) => void;
 }
 
 const CTextInput = ({
@@ -36,6 +37,7 @@ const CTextInput = ({
   isDisabled,
   required,
   autoCapitalize = "none",
+  isNumberInput,
   ...props
 }: CTextInputProps) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -129,7 +131,7 @@ const CTextInput = ({
               textContentType={secureTextEntry ? "newPassword" : "none"}
               secureTextEntry={secureTextEntry}
               editable={!isDisabled}
-              keyboardType={typeof value === "number" ? "numeric" : "default"}
+              keyboardType={isNumberInput ? "numeric" : "default"}
               autoCapitalize={autoCapitalize}
             />
           )}

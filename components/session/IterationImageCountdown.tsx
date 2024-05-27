@@ -14,10 +14,6 @@ const IterationImageCountdown = ({
   imageName,
   initialCountdown,
 }: Props) => {
-  const progress =
-    initialCountdown - count > 0
-      ? (initialCountdown - count) / initialCountdown
-      : 0;
   return (
     <View
       flex={1}
@@ -39,7 +35,7 @@ const IterationImageCountdown = ({
       <Box flex={1} alignItems="center">
         <Box mb="$2">
           <CircularProgress
-            progress={1 - progress}
+            initialCountdown={initialCountdown}
             circleColor="#090B22"
             size={180}
             strokeWidth={6}

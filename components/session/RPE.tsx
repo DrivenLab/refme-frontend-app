@@ -25,7 +25,6 @@ const RPE = ({ onFinishRPE, iteration }: Props) => {
 
   const handleOnPress = (rpe_: number) => {
     setRpe(rpe_);
-    onFinishRPE(Number(rpe_ || 0));
   };
   return (
     <Box bg="$white" flex={1}>

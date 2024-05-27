@@ -21,10 +21,6 @@ const IterationTextImageCountdown = ({
   initialCountdown,
 }: Props) => {
   const imageSource = useMemo(() => get_image_from_name(imageName), []);
-  const progress =
-    initialCountdown - count > 0
-      ? (initialCountdown - count) / initialCountdown
-      : 0;
   return (
     <View
       flex={1}
@@ -53,11 +49,11 @@ const IterationTextImageCountdown = ({
       <Box flex={1} alignItems="center">
         <Box mb="$2">
           <CircularProgress
-            progress={1 - progress}
             circleColor="#090B22"
             size={180}
             strokeWidth={6}
             text={`${count}`}
+            initialCountdown={initialCountdown}
           />
         </Box>
         <SessionCounter />

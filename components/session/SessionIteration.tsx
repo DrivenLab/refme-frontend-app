@@ -8,11 +8,6 @@ import RPE from "./RPE";
 import { useSession } from "@/context/SessionContext";
 import { DM_ANSWER, IterationContext, Steps } from "@/types/session";
 
-type Props = {
-  iteration: IterationContext;
-  step: Steps;
-  handleChangeStep: (s: string) => void;
-};
 const SessionIteration = () => {
   const {
     currentIterarion,
@@ -33,9 +28,9 @@ const SessionIteration = () => {
     handleFinishCountdown("rpe");
   };
   const onFinishRPE = (rpe?: number) => {
-    handleUserRPE(rpe);
+    const i = handleUserRPE(rpe);
     setTimeout(() => {
-      handleNextIteration();
+      handleNextIteration(i);
     }, 0);
   };
   return (

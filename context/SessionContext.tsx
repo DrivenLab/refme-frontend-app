@@ -19,9 +19,9 @@ type SessionContextType = {
   createSession: (s: SessionModel) => void;
   changeStep: (s: Steps) => void;
   handleUserAnswer: (a: DM_ANSWER) => void;
-  handleUserRPE: (a?: number) => void;
+  handleUserRPE: (a?: number) => IterationContext;
   updateSessionStatus: (s: SESSION_STATUS) => void;
-  handleNextIteration: () => void;
+  handleNextIteration: (i: IterationContext) => void;
 };
 
 const SessionContext = createContext<SessionContextType>(
@@ -42,7 +42,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const [step, setStep] = useState<Steps>("beginning");
   const [iterationIndex, setIterationIndex] = useState(INITIAL_ITERATION_INDEX);
 
-  const getIteration = ({
+  const prepareIteration = ({
     i,
     timeToWorkout,
   }: {
@@ -54,10 +54,11 @@ export function SessionProvider({ children }: PropsWithChildren) {
       video: i.answers.length ? i.answers[0].video1.video : undefined,
       answer1: i.answers.length ? i.answers[0].video1.answer1 : undefined,
       answer2: i.answers.length ? i.answers[0].video1.answer2 : undefined,
-      timeToGetReadyInSec: 3,
+      timeToGetReadyInSec:
+        i.repetitionNumber === 1 ? 3 : i.answers.length ? 0 : 10,
       timeToWorkoutInSec: timeToWorkout,
-      timeToAnswerInSec: 7,
-      timeToRPEInSec: 2,
+      timeToAnswerInSec: 6,
+      timeToRPEInSec: 3,
       answeredInMs: 7,
     } as IterationContext;
     return i_;
@@ -77,6 +78,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
       rpe: rpe,
     };
     setCurrentIterarion(a_);
+    return a_;
   };
   const createSession = (s: SessionModel) => {
     const sessionOrdered = getSessionOrderedByIterations(s);
@@ -93,7 +95,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
       numberOfRepetitions: sessionOrdered.workout.numberOfRepetitions,
 
       iterations: sessionOrdered.workout.iterations.map((i) =>
-        getIteration({
+        prepareIteration({
           i,
           timeToWorkout: sessionOrdered.workout.excerciseDuration,
         })
@@ -106,18 +108,16 @@ export function SessionProvider({ children }: PropsWithChildren) {
     setStep("beginning");
     setCurrentIterarion(session_.iterations[INITIAL_ITERATION_INDEX]);
   };
-  const calculateTimeForIteration = () => {
-    const index = session.iterations.findIndex(
-      (i) => i.idIteration === i.idIteration
-    );
-    if (!index) return;
-  };
-  const handleNextIteration = () => {
+
+  const handleNextIteration = (currentIterarion: IterationContext) => {
     updateIteration(currentIterarion);
     if (iterationIndex < session.iterations.length - 1) {
-      setCurrentIterarion(session.iterations[iterationIndex + 1]);
+      const newCurrentIteration = session.iterations[iterationIndex + 1];
+      setCurrentIterarion(newCurrentIteration);
       setIterationIndex(iterationIndex + 1);
-      setStep("beginning");
+      setStep(() =>
+        newCurrentIteration.timeToGetReadyInSec === 0 ? "workout" : "beginning"
+      );
     } else {
       const date = session.date;
       date.end = new Date();

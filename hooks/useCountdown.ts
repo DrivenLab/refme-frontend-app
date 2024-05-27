@@ -6,6 +6,7 @@ type Props = {
   delay?: number;
 };
 const useCountdown = ({ stopInSec, delay = 1 }: Props) => {
+  //TODO: Si no se usa en otras partes, eliminar estado countdownInSec
   const [countdownInSec, setCountdownInSec] = useState(stopInSec);
   const hasFinished = useRef(false);
   const elapsedRunningTime = useRef(0);

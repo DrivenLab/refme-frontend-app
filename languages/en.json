@@ -132,7 +132,8 @@
     "look_at_decision": "decision",
     "answer_avg": "Average response time",
     "total_time": "Total response time:",
-    "date_title": "Completed in: "
+    "date_title": "Completed in: ",
+    "before_rpe_text": "Select your level of perceived exertion"
   },
   "create_workout": {
     "workout_name": "Workout name",

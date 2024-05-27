@@ -15,7 +15,7 @@ type Props = {
 const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
   const [asnwer, setAnswer] = useState<DM_ANSWER>({} as DM_ANSWER);
   const [hasCompleted, setHasCompleted] = useState(false);
-  const { countdownInSec, hasFinished, elapsedRunningTime } = useCountdown({
+  const { hasFinished, elapsedRunningTime } = useCountdown({
     stopInSec: iteration.timeToAnswerInSec,
     delay: 1,
   });

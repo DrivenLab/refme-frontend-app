@@ -56,8 +56,8 @@ export function SessionProvider({ children }: PropsWithChildren) {
       answer2: i.answers.length ? i.answers[0].video1.answer2 : undefined,
       timeToGetReadyInSec: 3,
       timeToWorkoutInSec: timeToWorkout,
-      timeToAnswerInSec: 7,
-      timeToRPEInSec: 2,
+      timeToAnswerInSec: 6,
+      timeToRPEInSec: 3,
       answeredInMs: 7,
     } as IterationContext;
     return i_;

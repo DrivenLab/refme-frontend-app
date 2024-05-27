@@ -19,9 +19,9 @@ type SessionContextType = {
   createSession: (s: SessionModel) => void;
   changeStep: (s: Steps) => void;
   handleUserAnswer: (a: DM_ANSWER) => void;
-  handleUserRPE: (a?: number) => void;
+  handleUserRPE: (a?: number) => IterationContext;
   updateSessionStatus: (s: SESSION_STATUS) => void;
-  handleNextIteration: () => void;
+  handleNextIteration: (i: IterationContext) => void;
 };
 
 const SessionContext = createContext<SessionContextType>(
@@ -78,6 +78,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
       rpe: rpe,
     };
     setCurrentIterarion(a_);
+    return a_;
   };
   const createSession = (s: SessionModel) => {
     const sessionOrdered = getSessionOrderedByIterations(s);
@@ -108,13 +109,15 @@ export function SessionProvider({ children }: PropsWithChildren) {
     setCurrentIterarion(session_.iterations[INITIAL_ITERATION_INDEX]);
   };
 
-  const handleNextIteration = () => {
+  const handleNextIteration = (currentIterarion: IterationContext) => {
     updateIteration(currentIterarion);
     if (iterationIndex < session.iterations.length - 1) {
       const newCurrentIteration = session.iterations[iterationIndex + 1];
       setCurrentIterarion(newCurrentIteration);
       setIterationIndex(iterationIndex + 1);
-      setStep(() => (newCurrentIteration.video ? "workout" : "beginning"));
+      setStep(() =>
+        newCurrentIteration.timeToGetReadyInSec === 0 ? "workout" : "beginning"
+      );
     } else {
       const date = session.date;
       date.end = new Date();

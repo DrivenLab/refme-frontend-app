@@ -28,9 +28,9 @@ const SessionIteration = () => {
     handleFinishCountdown("rpe");
   };
   const onFinishRPE = (rpe?: number) => {
-    handleUserRPE(rpe);
+    const i = handleUserRPE(rpe);
     setTimeout(() => {
-      handleNextIteration();
+      handleNextIteration(i);
     }, 0);
   };
   return (

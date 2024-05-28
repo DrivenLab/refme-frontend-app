@@ -3,10 +3,11 @@ import { Box, Text } from "@gluestack-ui/themed";
 type Props = {
   type: "dm";
   step: number;
+  hasVideo?: boolean;
 };
 const FONT_SIZE = 30;
 const TEXT_COLOR = "black";
-const TextInformation = ({ type, step }: Props) => {
+const TextInformation = ({ type, step, hasVideo }: Props) => {
   if (type === "dm" && step === 1)
     return (
       <Box>
@@ -26,19 +27,25 @@ const TextInformation = ({ type, step }: Props) => {
   if (type === "dm" && step === 2)
     return (
       <Box>
-        <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
-          <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            {i18n.t("workout_flow.look_at_bold")}
+        {hasVideo ? (
+          <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
+            <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
+              {i18n.t("workout_flow.look_at_bold")}
+            </Text>
+            {i18n.t("workout_flow.look_at_the")}
+            <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
+              {i18n.t("workout_flow.look_at_video_bold")}
+            </Text>
+            {i18n.t("workout_flow.look_at_take")}
+            <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
+              {i18n.t("workout_flow.look_at_decision")}
+            </Text>
           </Text>
-          {i18n.t("workout_flow.look_at_the")}
-          <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            {i18n.t("workout_flow.look_at_video_bold")}
+        ) : (
+          <Text fontSize={FONT_SIZE} textAlign="center" bold color={TEXT_COLOR}>
+            {i18n.t("workout_flow.before_rpe_text")}
           </Text>
-          {i18n.t("workout_flow.look_at_take")}
-          <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            {i18n.t("workout_flow.look_at_decision")}
-          </Text>
-        </Text>
+        )}
       </Box>
     );
 };

@@ -1,5 +1,5 @@
 import { View, Box } from "@gluestack-ui/themed";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import SessionCounter from "./SessionCounter";
 import { Image } from "expo-image";
 
@@ -11,15 +11,19 @@ import { get_image_from_name } from "@/utils/libs";
 
 type Props = {
   initialCountdown: number;
-  hasNoVideo: boolean;
+  hasVideo: boolean;
   onFinishCountdown: () => void;
 };
 const SessionTrainingCountdown = ({
   initialCountdown,
-  hasNoVideo,
+  hasVideo,
   onFinishCountdown,
 }: Props) => {
   const [count, setCount] = useState(initialCountdown);
+  const imageSource = useMemo(
+    () => get_image_from_name(hasVideo ? "play_video" : "how_you_feel"),
+    [hasVideo]
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,7 +50,7 @@ const SessionTrainingCountdown = ({
           bg="white"
           height={"100%"}
         >
-          {count >= 4 || hasNoVideo ? (
+          {count >= 4 ? (
             <Box flex={1} justifyContent="center" alignItems="center">
               <Box style={{ width: "50%" }}>
                 <ManRunningWithColor width={300} height={300} />
@@ -63,11 +67,11 @@ const SessionTrainingCountdown = ({
               borderBottomRightRadius={100}
             >
               <Image
-                source={get_image_from_name("play_video")}
+                source={imageSource}
                 style={{ height: 100, width: 100 }}
                 contentFit="contain"
               />
-              <TextInformation type={"dm"} step={2} />
+              <TextInformation type="dm" step={2} hasVideo={hasVideo} />
             </Box>
           )}
           <Box flex={1} alignItems="center">
@@ -84,8 +88,10 @@ const SessionTrainingCountdown = ({
           </Box>
         </View>
       ) : (
-        <IterationTextImage imageName="play_video">
-          <TextInformation type="dm" step={2} />
+        <IterationTextImage
+          imageName={hasVideo ? "play_video" : "how_you_feel"}
+        >
+          <TextInformation type="dm" step={2} hasVideo={hasVideo} />
         </IterationTextImage>
       )}
     </View>

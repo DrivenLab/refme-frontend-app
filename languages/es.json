@@ -133,7 +133,8 @@
     "look_at_decision": "decisión",
     "answer_avg": "Promedio de respuesta",
     "total_time": "Tiempo total de respuestas: ",
-    "date_title": "Realizado: "
+    "date_title": "Realizado: ",
+    "before_rpe_text": "Indica cómo te sientes"
   },
   "create_workout": {
     "workout_name": "Nombre del entrenamiento",

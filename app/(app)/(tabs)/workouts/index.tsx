@@ -10,9 +10,6 @@ import { SafeAreaViewStyle } from "@/utils/Styles";
 
 const Workouts = () => {
   const { userRole } = useAuth();
-
-  const [tab, setTab] = useState<"pending" | "finished">("pending");
-
   return (
     <SafeAreaView bg="$white" style={SafeAreaViewStyle.s}>
       <Image

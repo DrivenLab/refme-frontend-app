@@ -1,30 +1,15 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  ButtonIcon,
-  Pressable,
-  SafeAreaView,
-  Text,
-  VStack,
-  FlatList,
-} from "@gluestack-ui/themed";
-import { ListRenderItemInfo } from "react-native";
-import { Link } from "expo-router";
+import { Box, Button, ButtonIcon } from "@gluestack-ui/themed";
 
 import CTab from "@/components/CTab";
 import i18n from "@/languages/i18n";
-import { Image } from "expo-image";
 import { AddIcon } from "@gluestack-ui/themed";
 import { useGetSessions } from "@/queries/session.query";
-import { useAuth } from "@/context/auth";
 import SessionList from "@/components/session/SessionList";
-import WorkoutItem from "@/components/workouts/WorkoutItem";
-import EmptyWorkouts from "@/components/workouts/EmptyWorkouts";
 
 const MemberWorkouts = () => {
   const [tab, setTab] = useState<"pending" | "finished">("pending");
-  const { sessions, isLoadingSession } = useGetSessions();
+  const { sessions } = useGetSessions();
 
   return (
     <>

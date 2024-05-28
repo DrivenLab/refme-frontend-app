@@ -1,7 +1,7 @@
 import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "./api";
 import { AxiosResponse } from "axios";
-import { User } from "@/types/user";
+import { Member, User } from "@/types/user";
 import { useAuth } from "@/context/auth";
 
 const useGetProfile = () => {
@@ -24,19 +24,19 @@ const useGetMembers = ({ memberType }: { memberType: string }) => {
   const { currentOrganization } = useAuth();
 
   const getMembers = () => {
-    return api.get<User[]>(
-      `organizations/${currentOrganization.id}/members/?member_type=${memberType}`
+    return api.get<Member[]>(
+      `organizations/${currentOrganization?.id}/members/?member_type=${memberType}`
     );
   };
   // Queries
   // Realizar la consulta usando react-query
-  const { data, isLoading, isFetched, ...rest } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["members"],
     queryFn: getMembers,
   });
   return {
-    members: data?.data || ([] as User[]),
-    isLoadingMember: isLoading,
+    members: data?.data || ([] as Member[]),
+    isLoadingMembers: isLoading,
   };
 };
 

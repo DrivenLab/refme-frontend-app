@@ -18,15 +18,6 @@ type Props = {
 };
 
 const WorkoutItem = ({ workout, idSession }: Props) => {
-  const {
-    downloadSession,
-    downloadProgress,
-    isDownloading,
-    setIsDownloading,
-    wasSessionDownloaded,
-  } = useSession({
-    idSession: idSession,
-  });
   const { userRole } = useAuth();
 
   return (

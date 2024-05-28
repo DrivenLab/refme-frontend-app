@@ -7,4 +7,6 @@ export const get_image_from_name = (imageName: IMAGE_NAME) => {
     return require("@/assets/images/play_video.png");
   else if (imageName === "man_running_with_color")
     return require("@/assets/images/man_running_with_color.png");
+  else if (imageName === "how_you_feel")
+    return require("@/assets/images/how_you_feel.png");
 };

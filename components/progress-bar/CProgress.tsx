@@ -22,12 +22,13 @@ const CProgress = ({ totalTimeInSec }: Props) => {
     };
   });
   return (
-    <View w={"100%"} bg="#e6FAFF" h={20} borderRadius={10} overflow="hidden">
+    <View w={"100%"} bg="#e6FAFF" h={20} overflow="hidden">
       <Animated.View
         style={[
           {
             height: "100%",
-            borderRadius: 10,
+            borderEndEndRadius: 10,
+            borderTopEndRadius: 10,
             backgroundColor:
               reverseProgress.value > 40
                 ? Colors[mode as keyof typeof Colors].primary

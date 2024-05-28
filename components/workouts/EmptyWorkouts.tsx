@@ -4,16 +4,16 @@ import React from "react";
 import i18n from "@/languages/i18n";
 type Props = {
   state: "pending" | "finished";
-  sessionsCount: number;
+  count: number;
 };
 
-const EmptyWorkouts = ({ sessionsCount, state }: Props) => {
+const EmptyWorkouts = ({ count, state }: Props) => {
   const source =
-    state == "pending" && sessionsCount !== 0
+    state == "pending" && count !== 0
       ? require("@/assets/images/man_running_with_color.png")
       : require("@/assets/images/man_running.png");
   const message =
-    state === "pending" && sessionsCount !== 0
+    state === "pending" && count !== 0
       ? i18n.t("sessions_up_to_date")
       : state === "finished"
       ? i18n.t("empty_completed_session")

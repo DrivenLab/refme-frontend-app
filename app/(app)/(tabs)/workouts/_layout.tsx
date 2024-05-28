@@ -14,7 +14,11 @@ const _layout = () => {
         options={{ headerBackTitleVisible: false, headerShown: false }}
       />
       <Stack.Screen
-        name="startWorkout"
+        name="startWorkoutDM"
+        options={{ headerShown: false, headerBackTitleVisible: false }}
+      />
+      <Stack.Screen
+        name="startWorkoutMemory"
         options={{ headerShown: false, headerBackTitleVisible: false }}
       />
       <Stack.Screen

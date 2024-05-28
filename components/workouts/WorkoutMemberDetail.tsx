@@ -10,7 +10,10 @@ import { useSession as useSessionContext } from "@/context/SessionContext";
 type Props = {
   idSession: number;
 };
-
+const ROUTE_TO = {
+  dm: "/workouts/startWorkoutDM",
+  memory: "/workouts/startWorkoutMemory",
+};
 const WorkoutMemberDetail = ({ idSession }: Props) => {
   const {
     downloadProgress,
@@ -26,7 +29,9 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
   const handleOnPress = () => {
     if (wasSessionDownloaded && session) {
       createSession(session);
-      router.push("/workouts/startWorkout/" as Href<string>);
+      router.push(
+        ROUTE_TO[session.workout.type as keyof typeof ROUTE_TO] as Href<string>
+      );
     } else {
       downloadSession();
     }

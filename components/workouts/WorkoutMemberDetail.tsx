@@ -6,6 +6,7 @@ import DownloadProgressModal from "./DownloadProgressModal";
 import useSession from "@/hooks/useSession";
 
 import { useSession as useSessionContext } from "@/context/SessionContext";
+import useDownloadSession from "@/hooks/useDownloadSession";
 
 type Props = {
   idSession: number;
@@ -16,13 +17,14 @@ const ROUTE_TO = {
 };
 const WorkoutMemberDetail = ({ idSession }: Props) => {
   const {
+    isDownloading,
     downloadProgress,
     setIsDownloading,
-    isDownloading,
-    wasSessionDownloaded,
     downloadSession,
+    wasSessionDownloaded,
     session,
-  } = useSession({ idSession });
+  } = useDownloadSession({ idSession });
+
   const router = useRouter();
   const { createSession } = useSessionContext();
 

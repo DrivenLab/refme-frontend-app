@@ -63,7 +63,11 @@ export type IMAGE_NAME =
   | "man_running_ready_to_workout"
   | "play_video"
   | "man_running_with_color"
-  | "how_you_feel";
+  | "how_you_feel"
+  | "hand_ball"
+  | "shirt_plus"
+  | "target_image"
+  | "whistle";
 
 export type DM_ANSWER = {
   answer1?: string;

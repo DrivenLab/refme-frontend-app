@@ -1,16 +1,9 @@
-import { Workout } from "@/types/workout";
 import { StyleSheet } from "react-native";
-import { Box, Pressable, Text, Button, ButtonText } from "@gluestack-ui/themed";
-
+import { Button, ButtonText } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
-import { Href, Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
-import DownloadSessionBtn from "./DownloadSessionBtn";
 import React from "react";
-import DownloadProgressModal from "./DownloadProgressModal";
-import useSession from "@/hooks/useSession";
-import DmLogo from "@/assets/svgs/DmLogo";
-import { useAuth } from "@/context/auth";
 
 type Props = {
   idWorkout: number;

@@ -137,9 +137,9 @@ const WorkoutDetail = () => {
             </VStack>
           </VStack>
           {userRole === "member" ? (
-            <WorkoutMemberDetail idSession={id} />
+            <WorkoutMemberDetail idSession={Number(id as string)} />
           ) : (
-            <WorkoutInstructorDetail idWorkout={id} />
+            <WorkoutInstructorDetail idWorkout={Number(id as string)} />
           )}
         </ScrollView>
       </SafeAreaView>

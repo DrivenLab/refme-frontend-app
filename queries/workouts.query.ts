@@ -13,7 +13,7 @@ const useGetWorkoutById = ({ idWorkout }: { idWorkout: number }) => {
   //Si es miembro el id realmente es una Session , si es instructor, el id es Workout
   if (userRole === "member") {
     const { session } = useGetSessionById({
-      idSession: Number(idWorkout as string),
+      idSession: Number(idWorkout),
     });
     workout = session?.workout;
   } else {
@@ -34,7 +34,7 @@ const useGetWorkouts = () => {
   //Get Data
   const getWorkouts = () => {
     return api.get<Workout[]>(
-      `organizations/${currentOrganization.id}/workouts/`
+      `organizations/${currentOrganization?.id}/workouts/`
     );
   };
 

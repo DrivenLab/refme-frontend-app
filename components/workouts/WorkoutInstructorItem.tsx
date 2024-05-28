@@ -4,9 +4,7 @@ import { Box, Pressable, Text } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
 import { Href, Link } from "expo-router";
 import React from "react";
-import useSession from "@/hooks/useSession";
 import DmLogo from "@/assets/svgs/DmLogo";
-import { useAuth } from "@/context/auth";
 
 type Props = {
   workout: Workout;

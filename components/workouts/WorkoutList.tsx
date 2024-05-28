@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Box, FlatList } from "@gluestack-ui/themed";
 import { ListRenderItemInfo } from "react-native";
-import { Workout } from "@/types/workouts";
 import WorkoutItem from "../workouts/WorkoutItem";
 import EmptyWorkouts from "../workouts/EmptyWorkouts";
+import { Workout } from "@/types/workout";
 
 type Props = {
   workouts: Workout[];
@@ -13,7 +13,7 @@ const WorkoutList = ({ workouts }: Props) => {
     <>
       {workouts.length === 0 ? (
         <Box height="$3/4">
-          <EmptyWorkouts workoutsCount={workouts.length} state={"pending"} />
+          <EmptyWorkouts count={workouts.length} state={"pending"} />
         </Box>
       ) : (
         <FlatList
@@ -21,7 +21,7 @@ const WorkoutList = ({ workouts }: Props) => {
           height="$3/4"
           data={workouts}
           renderItem={({ item: workout }: ListRenderItemInfo<any>) => (
-            <WorkoutItem workout={workout} />
+            <WorkoutItem workout={workout as Workout} idSession={workout.id} />
           )}
           keyExtractor={(item: any) => item.id}
         />

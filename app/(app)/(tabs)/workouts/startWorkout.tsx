@@ -4,12 +4,10 @@ import { SafeAreaView } from "@gluestack-ui/themed";
 import useOrientation from "@/hooks/useOrientation";
 import RotateScreen from "@/components/session/RotateScreen";
 import { ORIENTATION_NUMBER } from "@/constants/Orientation";
-
 import SessionIteration from "@/components/session/SessionIteration";
 import { useSession } from "@/context/SessionContext";
 import SessionStatistics from "@/components/session/SessionStatistics";
 import { useNavigation } from "expo-router";
-import { SafeAreaViewStyle } from "@/utils/Styles";
 import { setStatusBarHidden } from "expo-status-bar";
 
 const StartWorkout = () => {

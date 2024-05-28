@@ -143,5 +143,9 @@
   "assign_workout": {
     "who_do_test": "Who is going to perform this test?",
     "search_by_name": "Search by name"
+  },
+  "workout_type": {
+    "dm": "Decision Making",
+    "memory": "Memory"
   }
 }

@@ -26,7 +26,7 @@ import { AxiosError } from "axios";
 
 export default function CreateWorkoutScreen() {
   const [error, setError] = useState("");
-  const { signOut, user, profile, currentOrganization } = useAuth();
+  const { currentOrganization } = useAuth();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -96,7 +96,7 @@ export default function CreateWorkoutScreen() {
   const mutation = useMutation({
     mutationFn: createWorkout,
     onSuccess: (data) => {
-      queryClient.invalidateQueries("workouts");
+      queryClient.invalidateQueries({ queryKey: ["workouts"] });
       const idWorkout = data.id;
       router.replace(`/workouts/assignReferee/${idWorkout}`);
     },

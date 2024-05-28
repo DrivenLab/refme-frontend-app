@@ -19,7 +19,7 @@ const SessionList = ({ state, sessions }: Props) => {
     <>
       {sessionFiltered.length === 0 ? (
         <Box height="$3/4">
-          <EmptyWorkouts sessionsCount={sessions.length} state={state} />
+          <EmptyWorkouts count={sessions.length} state={state} />
         </Box>
       ) : (
         <FlatList

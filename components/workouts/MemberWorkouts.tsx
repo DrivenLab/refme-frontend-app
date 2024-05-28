@@ -9,7 +9,7 @@ import SessionList from "@/components/session/SessionList";
 
 const MemberWorkouts = () => {
   const [tab, setTab] = useState<"pending" | "finished">("pending");
-  const { sessions, isLoadingSession } = useGetSessions();
+  const { sessions } = useGetSessions();
 
   return (
     <>

@@ -1,26 +1,10 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  ButtonIcon,
-  Pressable,
-  SafeAreaView,
-  Text,
-  VStack,
-  FlatList,
-} from "@gluestack-ui/themed";
-import { ListRenderItemInfo } from "react-native";
+import React from "react";
+import { Box, Button, ButtonIcon, Text } from "@gluestack-ui/themed";
 import { router } from "expo-router";
-
-import CTab from "@/components/CTab";
 import i18n from "@/languages/i18n";
-import { Image } from "expo-image";
 import { AddIcon } from "@gluestack-ui/themed";
 import { useGetWorkouts } from "@/queries/workouts.query";
-import { useAuth } from "@/context/auth";
 import WorkoutList from "@/components/workouts/WorkoutList";
-import WorkoutItem from "@/components/workouts/WorkoutItem";
-import EmptyWorkouts from "@/components/workouts/EmptyWorkouts";
 
 const InstructorWorkouts = () => {
   const { workouts, isLoadingWorkout } = useGetWorkouts();

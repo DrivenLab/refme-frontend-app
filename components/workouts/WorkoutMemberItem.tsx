@@ -54,7 +54,9 @@ const WorkoutMemberItem = ({ workout, idSession }: Props) => {
             >
               <Box display="flex" flexDirection="row" gap={3}>
                 <DmLogo />
-                <Text color="secondary">{i18n.t("dm")}</Text>
+                <Text color="secondary">
+                  {i18n.t(`workout_type.${workout.type}`)}
+                </Text>
               </Box>
               <DownloadSessionBtn
                 wasDownloaded={wasSessionDownloaded}

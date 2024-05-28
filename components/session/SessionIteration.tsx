@@ -52,7 +52,7 @@ const SessionIteration = () => {
         <SessionTrainingCountdown
           onFinishCountdown={() => handleFinishCountdown("video")}
           initialCountdown={currentIterarion.timeToWorkoutInSec}
-          hasNoVideo={currentIterarion.video == undefined}
+          hasVideo={!(currentIterarion.video == undefined)}
         />
       ) : step === "video" && currentIterarion.video ? (
         <>

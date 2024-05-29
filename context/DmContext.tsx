@@ -5,6 +5,7 @@ import {
   DM_STEPS,
   IterationDM,
   DM_WORKOUT_STATUS,
+  SessionPostType,
 } from "@/types/session";
 import { Iteration } from "@/types/session";
 import {
@@ -14,21 +15,23 @@ import {
   getIterationsOrdered,
 } from "@/utils/session";
 import { Workout, WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
+import { usePostSession } from "@/queries/session.query";
 
 type DMContextType = {
   currentIterarion: IterationDM;
   currentIterationStep: DM_STEPS;
+  resume: WorkoutResume;
+  status: DM_WORKOUT_STATUS;
+  workout: DMWorkout;
+  resultCharBarData: WorkoutResultBarChart[];
+  startWorkout: () => void;
   prepareWorkout: (w: Workout) => void;
   changeIterationStep: (s: DM_STEPS) => void;
   handleUserAnswer: (a: DM_ANSWER) => void;
   handleUserRPE: (a?: number) => IterationDM;
   handleNextIteration: (i: IterationDM) => void;
   updateWorkoutStatus: (s: DM_WORKOUT_STATUS) => void;
-  resume: WorkoutResume;
-  status: DM_WORKOUT_STATUS;
-  startWorkout: () => void;
-  workout: DMWorkout;
-  resultCharBarData: WorkoutResultBarChart[];
+  saveSession: () => void;
 };
 
 const DMContext = createContext<DMContextType>({} as DMContextType);
@@ -50,6 +53,9 @@ export function DMProvider({ children }: PropsWithChildren) {
   const [resultCharBarData, setResultCharBarData] = useState<
     WorkoutResultBarChart[]
   >([]);
+  const { postSessionMutation } = usePostSession({
+    workoutId: workout.workoutId,
+  });
   const prepareIteration = ({
     i,
     timeToWorkout,
@@ -111,6 +117,7 @@ export function DMProvider({ children }: PropsWithChildren) {
         })
       ),
       status: "pending",
+      workoutId: w.id,
     };
     setStatus("pending");
     setWorkout(workout_);
@@ -200,22 +207,33 @@ export function DMProvider({ children }: PropsWithChildren) {
   const startWorkout = () => {
     setWorkout((prev) => ({ ...prev, status: "inCourse" }));
   };
+  const saveSession = () => {
+    const sessionsPayload: SessionPostType[] = workout.iterations.map((it) => ({
+      workout_iteration: it.idIteration,
+      answer_1: it.answer1,
+      answer_2: it.answer2,
+      borgScale: it.rpe,
+      replyTime: it.answeredInMs,
+    }));
+    postSessionMutation.mutate(sessionsPayload);
+  };
   return (
     <DMContext.Provider
       value={{
         currentIterarion,
         currentIterationStep,
+        workout,
+        resultCharBarData,
+        resume,
+        status,
         prepareWorkout,
         handleNextIteration,
         changeIterationStep,
         handleUserAnswer,
         handleUserRPE,
         updateWorkoutStatus,
-        resume,
-        status,
         startWorkout,
-        workout,
-        resultCharBarData,
+        saveSession,
       }}
     >
       {children}

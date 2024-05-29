@@ -9,11 +9,15 @@ type Props = {
   onFinishCountdown: () => void;
   initialCountdown: number;
   imageName: IMAGE_NAME;
+  iterationNumber: number;
+  totalItaration: number;
 };
 const SessionCountdown = ({
   onFinishCountdown,
   initialCountdown,
   imageName,
+  iterationNumber,
+  totalItaration,
 }: Props) => {
   const [count, setCount] = useState(initialCountdown);
 
@@ -40,6 +44,8 @@ const SessionCountdown = ({
           textStep={1}
           textType="dm"
           initialCountdown={initialCountdown}
+          iterationNumber={iterationNumber}
+          totalItaration={totalItaration}
         />
       ) : (
         <IterationTextImage imageName={imageName}>

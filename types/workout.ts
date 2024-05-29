@@ -26,3 +26,12 @@ export type DownloadProgress = {
   key: string;
   value: number;
 };
+
+export type WorkoutResume = {
+  date: string;
+  totalTime: string;
+  correctAnswers: any;
+  wrongAnswers: number;
+  answerAverageTime: string;
+  answerTotalTime: string;
+};

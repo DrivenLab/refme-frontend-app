@@ -1,5 +1,4 @@
 import { RPE_COLORS } from "@/constants/Session";
-import { SessionContext } from "@/types/session";
 import { Box } from "@gluestack-ui/themed";
 import {
   VictoryAxis,
@@ -8,10 +7,11 @@ import {
   VictoryStack,
   VictoryTheme,
 } from "victory-native";
+import { DMWorkout } from "@/types/session";
 
-type Props = { session: SessionContext };
-const SessionResultBarChart = ({ session }: Props) => {
-  const data = session.iterations.map((iteration, index) => ({
+type Props = { workout: DMWorkout };
+const SessionResultBarChart = ({ workout }: Props) => {
+  const data = workout.iterations.map((iteration, index) => ({
     x: index + 1,
     y: iteration.answeredInMs / 1000,
     iteration,
@@ -20,7 +20,7 @@ const SessionResultBarChart = ({ session }: Props) => {
       iteration.answer1 === iteration.userAnswer1 &&
       iteration.answer2 === iteration.userAnswer2,
   }));
-  const colors = session.iterations.map(
+  const colors = workout.iterations.map(
     (iteration) => RPE_COLORS[`${iteration.rpe}` as keyof typeof RPE_COLORS]
   );
   return (

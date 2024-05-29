@@ -7,6 +7,7 @@ import useSession from "@/hooks/useSession";
 
 import { useSession as useSessionContext } from "@/context/SessionContext";
 import useDownloadSession from "@/hooks/useDownloadSession";
+import { useDMWorkout } from "@/context/DmContext";
 
 type Props = {
   idSession: number;
@@ -26,11 +27,10 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
   } = useDownloadSession({ idSession });
 
   const router = useRouter();
-  const { createSession } = useSessionContext();
-
+  const { prepareWorkout } = useDMWorkout();
   const handleOnPress = () => {
     if (wasSessionDownloaded && session) {
-      createSession(session);
+      prepareWorkout(session.workout);
       router.push(
         ROUTE_TO[session.workout.type as keyof typeof ROUTE_TO] as Href<string>
       );

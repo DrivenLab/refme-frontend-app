@@ -1,4 +1,5 @@
-import { Session, SessionContext } from "@/types/session";
+import { Session } from "@/types/session";
+import { Workout } from "@/types/workout";
 
 export const getSessionOrderedByIterations = (session: Session) => {
   const iterations_ = session.workout.iterations.sort(
@@ -6,6 +7,13 @@ export const getSessionOrderedByIterations = (session: Session) => {
   );
   session.workout.iterations = iterations_;
   return { ...session };
+};
+
+export const getIterationsOrdered = (workout: Workout) => {
+  const iterations_ = workout.iterations.sort(
+    (a, b) => a.repetitionNumber - b.repetitionNumber
+  );
+  return iterations_;
 };
 
 export const getEndVideoTime = ({
@@ -47,7 +55,7 @@ export function formatMilliseconds(milliseconds: number) {
   // Format the result as a string
   return `${seconds}:${ms.toString().padStart(3, "0")} ms`;
 }
-function formatTimeDifference(date1: Date, date2: Date) {
+export function formatTimeDifference(date1: Date, date2: Date) {
   // Calculate the difference in milliseconds
   let diffMs = Math.abs(date1.getTime() - date2.getTime());
 
@@ -61,7 +69,7 @@ function formatTimeDifference(date1: Date, date2: Date) {
   // Format the time difference as a string
   return `${minutes}:${seconds.toString().padStart(2, "0")} s`;
 }
-function formatDate(date: Date) {
+export function formatDate(date: Date) {
   // Define an array of month abbreviations
   const months = [
     "Ene.",
@@ -90,28 +98,3 @@ function formatDate(date: Date) {
   // Construct the formatted string
   return `${day} ${month} ${year} - ${hours}:${minutes} hs`;
 }
-
-export const getSessionResume = (s: SessionContext) => {
-  //console.log("session resume", s);
-  const iterationWithVideos = s.iterations.filter((i) => i.video);
-  const correctAnswers = iterationWithVideos.filter((i) => {
-    //Si al usuario le faltó responder algunas de las 2 preguntas, ya se pone como incorrecta.
-    if (!i.answer1 || !i.answer2) return false;
-    return i.answer1 == i.userAnswer1 && i.answer2 == i.userAnswer2;
-  }).length;
-  //Manejo de Promedio
-  let answerTotalTime = 0;
-  for (const i of iterationWithVideos) {
-    answerTotalTime += i.answeredInMs;
-  }
-  return {
-    date: formatDate(s.date.start),
-    totalTime: formatTimeDifference(s.date.start, s.date.end),
-    correctAnswers,
-    wrongAnswers: Math.abs(iterationWithVideos.length - correctAnswers),
-    answerAverageTime: formatMilliseconds(
-      answerTotalTime / iterationWithVideos.length
-    ),
-    answerTotalTime: formatMilliseconds(answerTotalTime),
-  };
-};

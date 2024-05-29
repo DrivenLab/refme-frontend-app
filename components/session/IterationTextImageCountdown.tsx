@@ -12,6 +12,8 @@ type Props = {
   textType: "dm";
   textStep: number;
   initialCountdown: number;
+  iterationNumber: number;
+  totalItaration: number;
 };
 const IterationTextImageCountdown = ({
   count,
@@ -19,6 +21,8 @@ const IterationTextImageCountdown = ({
   textType,
   textStep,
   initialCountdown,
+  iterationNumber,
+  totalItaration,
 }: Props) => {
   const imageSource = useMemo(() => get_image_from_name(imageName), []);
   return (
@@ -56,7 +60,7 @@ const IterationTextImageCountdown = ({
             initialCountdown={initialCountdown}
           />
         </Box>
-        <SessionCounter />
+        <SessionCounter current={iterationNumber} total={totalItaration} />
       </Box>
     </View>
   );

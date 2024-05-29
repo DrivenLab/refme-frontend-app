@@ -13,11 +13,15 @@ type Props = {
   initialCountdown: number;
   hasVideo: boolean;
   onFinishCountdown: () => void;
+  iterationNumber: number;
+  totalItaration: number;
 };
 const SessionTrainingCountdown = ({
   initialCountdown,
   hasVideo,
   onFinishCountdown,
+  iterationNumber,
+  totalItaration,
 }: Props) => {
   const [count, setCount] = useState(initialCountdown);
   const imageSource = useMemo(
@@ -84,7 +88,7 @@ const SessionTrainingCountdown = ({
                 initialCountdown={initialCountdown}
               />
             </Box>
-            <SessionCounter />
+            <SessionCounter current={iterationNumber} total={totalItaration} />
           </Box>
         </View>
       ) : (

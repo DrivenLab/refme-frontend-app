@@ -1,17 +1,17 @@
-import { SessionContext } from "@/types/session";
-import { getSessionResume } from "@/utils/session";
 import { Box, Text, VStack, Pressable, ScrollView } from "@gluestack-ui/themed";
-import React, { useState } from "react";
+import React from "react";
 import StatsResultPill from "../workouts/StatsResultPill";
-import SessionResultBarChart from "../workouts/SessionResultBarChart";
 import XIcon from "@/assets/svgs/XIcon";
 import i18n from "@/languages/i18n";
 import { useRouter } from "expo-router";
+import { WorkoutResume } from "@/types/workout";
+import { DMWorkout } from "@/types/session";
+import SessionResultBarChart from "../workouts/SessionResultBarChart";
 type Props = {
-  session: SessionContext;
+  resume: WorkoutResume;
+  workout: DMWorkout;
 };
-const SessionStatistics = ({ session }: Props) => {
-  const [resume, setResume] = useState(getSessionResume(session));
+const SessionStatistics = ({ resume, workout }: Props) => {
   const router = useRouter();
   const handleXPress = () => {
     router.replace(`/workouts/`);
@@ -28,7 +28,7 @@ const SessionStatistics = ({ session }: Props) => {
             <StatsResultPill type="time" text={resume.answerAverageTime + ""} />
           </VStack>
           <Box width="70%" height="100%">
-            <SessionResultBarChart session={session} />
+            <SessionResultBarChart workout={workout} />
           </Box>
         </Box>
         <Box display="flex" flexDirection="row" mt={"$5"}>

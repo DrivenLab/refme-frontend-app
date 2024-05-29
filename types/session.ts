@@ -11,8 +11,8 @@ export interface Session {
   user: number;
   userIterationAnswer: any[];
 }
-export type IterationContext = {
-  idIteration: number | string;
+export type IterationDM = {
+  idIteration: number;
   video?: string;
   answeredInMs: number;
   answer1?: string;
@@ -24,22 +24,22 @@ export type IterationContext = {
   timeToRPEInSec: number;
   timeToGetReadyInSec: number;
   timeToWorkoutInSec: number;
+  iterationNumber: number;
 };
-export type SessionDate = {
+export type WorkoutDate = {
   start: Date;
   end: Date;
 };
-export type SessionContext = {
-  date: SessionDate;
-
+export type DMWorkout = {
+  date: WorkoutDate;
   breakDuration: number;
   numberOfRepetitions: number;
   numberOfDecisions: number;
   exerciseDuration: number;
   maxDesicionTime: number;
   maxRPETime: number;
-  iterations: IterationContext[];
-  status: SESSION_STATUS;
+  iterations: IterationDM[];
+  status: DM_WORKOUT_STATUS;
 };
 export interface Iteration {
   id: number;
@@ -74,3 +74,5 @@ export type t_DM_ANSWER1 = "nf" | "ifk" | "dfk" | "pk";
 export type t_DM_ANSWER2 = "nc" | "yc" | "rc";
 export type Steps = "beginning" | "workout" | "video" | "decision" | "rpe";
 export type SESSION_STATUS = "pending" | "inCourse" | "finished";
+export type DM_WORKOUT_STATUS = "pending" | "inCourse" | "finished";
+export type DM_STEPS = "beginning" | "workout" | "video" | "decision" | "rpe";

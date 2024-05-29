@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "@gluestack-ui/themed";
 import useOrientation from "@/hooks/useOrientation";
 import RotateScreen from "@/components/session/RotateScreen";
 import { ORIENTATION_NUMBER } from "@/constants/Orientation";
+import SessionIteration from "@/components/session/SessionIteration";
+import { useSession } from "@/context/SessionContext";
 import SessionStatistics from "@/components/session/SessionStatistics";
 import { useNavigation } from "expo-router";
 import { setStatusBarHidden } from "expo-status-bar";
-import { useDMWorkout } from "@/context/DmContext";
-import DecisionMakingIteration from "@/components/session/dm/DecisionMakingIteration";
 
-const StartWorkoutDM = () => {
-  const { resume, startWorkout, workout } = useDMWorkout();
+const StartWorkout = () => {
+  const { session, updateSessionStatus } = useSession();
   const { screenOrientation } = useOrientation();
   useEffect(() => {
     //loadFiles();
@@ -34,19 +34,19 @@ const StartWorkoutDM = () => {
   }, [navigation]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {workout.status === "pending" ? (
+      {session.status === "pending" ? (
         <RotateScreen
           orientation={
             ORIENTATION_NUMBER[
               screenOrientation as keyof typeof ORIENTATION_NUMBER
             ]
           }
-          onStartWorkout={startWorkout}
+          onStartWorkout={() => updateSessionStatus("inCourse")}
         />
-      ) : workout.status === "inCourse" ? (
-        <DecisionMakingIteration />
+      ) : session.status === "inCourse" ? (
+        <SessionIteration />
       ) : (
-        <SessionStatistics resume={resume} workout={workout} />
+        <SessionStatistics session={session} />
       )}
     </SafeAreaView>
   );
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
     height: 100,
   },
 });
-export default StartWorkoutDM;
+export default StartWorkout;

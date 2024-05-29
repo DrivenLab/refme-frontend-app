@@ -101,6 +101,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         })
       ),
       status: "pending",
+      workoutId: s.workout.id,
     };
     setIterationIndex(INITIAL_ITERATION_INDEX);
 

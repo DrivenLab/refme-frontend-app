@@ -9,8 +9,8 @@ import {
 import { Iteration } from "@/types/session";
 import {
   formatDate,
-  formatMilliseconds,
   formatTimeDifference,
+  formatSeconds,
   getIterationsOrdered,
 } from "@/utils/session";
 import { Workout, WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
@@ -79,6 +79,7 @@ export function DMProvider({ children }: PropsWithChildren) {
       userAnswer1: a.answer1,
       userAnswer2: a.asnwer2,
       isCorrect: a.isCorrect ?? false,
+      answeredInMs: a.answeredInMs ?? 7,
     };
     setCurrentIterarion(a_);
   };
@@ -178,10 +179,10 @@ export function DMProvider({ children }: PropsWithChildren) {
       totalTime: formatTimeDifference(workout.date.start, workout.date.end),
       correctAnswers,
       wrongAnswers: Math.abs(iterationWithVideos.length - correctAnswers),
-      answerAverageTime: formatMilliseconds(
+      answerAverageTime: formatSeconds(
         answerTotalTime / iterationWithVideos.length
       ),
-      answerTotalTime: formatMilliseconds(answerTotalTime),
+      answerTotalTime: formatSeconds(answerTotalTime),
     };
   };
   const calculateResultCharBarData = () => {

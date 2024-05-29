@@ -9,7 +9,7 @@ import {
 import { Iteration } from "@/types/session";
 import {
   formatDate,
-  formatMilliseconds,
+  formatSeconds,
   formatTimeDifference,
   generateUniqueRandomNumbersWithInitialValues,
   getIterationsOrdered,
@@ -237,10 +237,10 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       totalTime: formatTimeDifference(workout.date.start, workout.date.end),
       correctAnswers,
       wrongAnswers: Math.abs(iterationWithVideos.length - correctAnswers),
-      answerAverageTime: formatMilliseconds(
+      answerAverageTime: formatSeconds(
         answerTotalTime / iterationWithVideos.length
       ),
-      answerTotalTime: formatMilliseconds(answerTotalTime),
+      answerTotalTime: formatSeconds(answerTotalTime),
     };
   };
   const calculateResultCharBarData = () => {

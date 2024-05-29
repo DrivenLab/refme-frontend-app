@@ -9,6 +9,7 @@ export interface Session {
   isActive: boolean;
   isCompleted: boolean;
   user: number;
+  workoutId: number;
   userIterationAnswer: any[];
 }
 type IterationWorkout = {
@@ -69,6 +70,13 @@ export interface Iteration {
   repetitionNumber: number;
   workout: number;
 }
+export type SessionPostType = {
+  workout_iteration: string | number;
+  answer_1?: string;
+  answer_2?: string;
+  borgScale?: number | null;
+  replyTime?: number;
+};
 export interface Answer {
   id: number;
   video1: Video;
@@ -83,6 +91,10 @@ export type IMAGE_NAME =
   | "play_video"
   | "man_running_with_color"
   | "how_you_feel"
+  | "hand_ball"
+  | "shirt_plus"
+  | "target_image"
+  | "whistle"
   | "touching_with_finger";
 
 export type DM_ANSWER = {

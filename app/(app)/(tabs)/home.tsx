@@ -1,19 +1,35 @@
-import { Button, StyleSheet, TextInput } from "react-native";
-import { ScrollView, Text, VStack, View } from "@gluestack-ui/themed";
+import { ImageSourcePropType, StyleSheet } from "react-native";
+import { ScrollView, Text, VStack } from "@gluestack-ui/themed";
 import PersonalWorkoutCard from "@/components/home/PersonalWorkoutCard";
 import SectionItem from "@/components/home/SectionItem";
 import { useAuth } from "@/context/auth";
 
 import i18n from "@/languages/i18n";
-import { useAssets } from "expo-asset";
+import { Asset, useAssets } from "expo-asset";
+import OffsideFlag from "@/assets/svgs/OffsideFlag";
+import OffsideFlagInactive from "@/assets/svgs/OffsideFlagInactive";
+import RecognitionAnswer from "@/components/session/recognition/RecognitionAnswer";
+import { type Href } from "expo-router";
+import { Link } from "expo-router";
+type sioType = {
+  bgImage: NodeRequire;
+  iconImage: string | Asset;
+  title: string;
+  hasNewItems: boolean;
+  iconName: string;
+  href: Href<string>;
+  //   href: Href<StaticRoutes | RelativePathString | `${string}:${string}`>;
+  //   href:
+};
 
-const SECTION_ITEMS_OPTIONS = [
+const SECTION_ITEMS_OPTIONS: sioType[] = [
   {
     bgImage: require("@/assets/images/official_training_home.png"),
     iconImage: require("@/assets/images/icons/referee_whistle.png"),
     title: i18n.t("official_training"),
     hasNewItems: true,
     iconName: "",
+    href: "/workouts/",
   },
   {
     bgImage: require("@/assets/images/official_test_home.png"),
@@ -21,6 +37,7 @@ const SECTION_ITEMS_OPTIONS = [
     title: i18n.t("official_test"),
     hasNewItems: false,
     iconName: "",
+    href: "/workouts/",
   },
   {
     bgImage: require("@/assets/images/video_test_home.png"),
@@ -28,6 +45,7 @@ const SECTION_ITEMS_OPTIONS = [
     title: i18n.t("video_test"),
     hasNewItems: false,
     iconName: "",
+    href: "/workouts/",
   },
   {
     bgImage: require("@/assets/images/topic_home.png"),
@@ -35,6 +53,7 @@ const SECTION_ITEMS_OPTIONS = [
     title: i18n.t("topics"),
     hasNewItems: false,
     iconName: "",
+    href: "/workouts/",
   },
 ];
 export default function TabOneScreen() {
@@ -51,13 +70,15 @@ export default function TabOneScreen() {
     require("@/assets/images/icons/video_folder.png"),
     require("@/assets/images/icons/topic_list.png"),
   ]);
-  const section_options = SECTION_ITEMS_OPTIONS.map((s, i) => ({
+  const sectionOptions = SECTION_ITEMS_OPTIONS.map((s, i) => ({
     ...s,
     bgImage: bgAssets ? bgAssets[i] : s.bgImage,
-    iconImage: iconAssets ? iconAssets[i] : s.iconImage,
+    iconImage: (iconAssets
+      ? iconAssets[i]
+      : s.iconImage) as ImageSourcePropType,
   }));
   return (
-    <ScrollView style={styles.container} px={"$3"}>
+    <ScrollView style={styles.container} px={"$3"} flex={1}>
       <VStack space="md" flex={1} paddingBottom={10}>
         {userRole === "member" ? (
           <>
@@ -73,7 +94,7 @@ export default function TabOneScreen() {
             <Text fontWeight="$semibold" fontSize={24} color="black">
               {i18n.t("official_test_workout")}
             </Text>
-            {section_options.slice(0, 2).map((s, i) => (
+            {sectionOptions.slice(0, 2).map((s, i) => (
               <SectionItem {...s} key={i} />
             ))}
             <Text
@@ -84,7 +105,7 @@ export default function TabOneScreen() {
             >
               {i18n.t("elearning_title")}
             </Text>
-            {section_options.slice(2).map((s, i) => (
+            {sectionOptions.slice(2).map((s, i) => (
               <SectionItem {...s} key={i} />
             ))}
           </>
@@ -93,7 +114,7 @@ export default function TabOneScreen() {
             <Text fontWeight="$semibold" fontSize={24} color="black">
               {i18n.t("official_test_workout")}
             </Text>
-            {section_options.slice(0, 2).map((s, i) => (
+            {sectionOptions.slice(0, 2).map((s, i) => (
               <SectionItem {...s} key={i} />
             ))}
           </>

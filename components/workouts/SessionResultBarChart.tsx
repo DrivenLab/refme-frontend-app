@@ -11,19 +11,19 @@ import { WorkoutResultBarChart } from "@/types/workout";
 
 type Props = { data: WorkoutResultBarChart[] };
 const SessionResultBarChart = ({ data }: Props) => {
-  const data_ = data.map((d, index) => ({
-    ...d,
-  }));
   const colors = data.map(
     (d) => RPE_COLORS[`${d.rpe}` as keyof typeof RPE_COLORS]
   );
   return (
     <Box borderWidth={1} margin={10} borderColor="#a1a1a1" borderRadius={7}>
       <VictoryChart theme={VictoryTheme.material} height={220} width={500}>
-        <VictoryStack colorScale={colors} domain={{ x: [0, 8], y: [0, 7] }}>
+        <VictoryStack
+          colorScale={colors}
+          domain={{ x: [0, data.length + 1], y: [0, 7] }}
+        >
           <VictoryBar
             animate={{ duration: 1000, onLoad: { duration: 500 } }}
-            data={data_}
+            data={data}
             barWidth={15}
             style={{
               data: {
@@ -39,7 +39,10 @@ const SessionResultBarChart = ({ data }: Props) => {
           />
 
           <VictoryAxis dependentAxis tickFormat={(t) => `${t}s`} />
-          <VictoryAxis tickFormat={(t) => `HIT ${t}`} />
+          <VictoryAxis
+            tickFormat={(t) => `HIT\n${t}`}
+            tickValues={data.map((it, i) => i + 1)}
+          />
         </VictoryStack>
       </VictoryChart>
     </Box>

@@ -47,13 +47,14 @@ export const getDifferenceDate = (date1: Date, date2: Date) => {
   const differenceDate = new Date(differenceInMilliseconds);
   return differenceDate;
 };
-export function formatMilliseconds(milliseconds: number) {
+export function formatSeconds(milliseconds: number) {
   // Extract seconds and milliseconds
   const seconds = Math.floor(milliseconds / 1000);
   const ms = Math.floor((milliseconds % 1000) / 100);
 
   // Format the result as a string
-  return `${seconds}:${ms} ms`;
+  return `${seconds}:${ms} s`;
+  //1:3 o 1.439 1.4
 }
 export function formatTimeDifference(date1: Date, date2: Date) {
   // Calculate the difference in milliseconds
@@ -67,7 +68,7 @@ export function formatTimeDifference(date1: Date, date2: Date) {
   let seconds = totalSeconds % 60;
 
   // Format the time difference as a string
-  return `${minutes}:${seconds.toString().padStart(2, "0")} s`;
+  return `${minutes}:${seconds.toString().padStart(2, "0")} m`;
 }
 export function formatDate(date: Date) {
   // Define an array of month abbreviations

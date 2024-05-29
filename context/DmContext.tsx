@@ -13,7 +13,7 @@ import {
   formatTimeDifference,
   getIterationsOrdered,
 } from "@/utils/session";
-import { Workout, WorkoutResume } from "@/types/workout";
+import { Workout, WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
 
 type DMContextType = {
   currentIterarion: IterationDM;
@@ -28,6 +28,7 @@ type DMContextType = {
   status: DM_WORKOUT_STATUS;
   startWorkout: () => void;
   workout: DMWorkout;
+  resultCharBarData: WorkoutResultBarChart[];
 };
 
 const DMContext = createContext<DMContextType>({} as DMContextType);
@@ -46,7 +47,9 @@ export function DMProvider({ children }: PropsWithChildren) {
     useState<DM_STEPS>("beginning");
   const [resume, setResume] = useState<WorkoutResume>({} as WorkoutResume);
   const [status, setStatus] = useState<DM_WORKOUT_STATUS>("pending");
-
+  const [resultCharBarData, setResultCharBarData] = useState<
+    WorkoutResultBarChart[]
+  >([]);
   const prepareIteration = ({
     i,
     timeToWorkout,
@@ -126,6 +129,7 @@ export function DMProvider({ children }: PropsWithChildren) {
     } else {
       const date = workout.date;
       date.end = new Date();
+      calculateResultCharBarData();
       setWorkout((prev) => ({ ...prev, date, status: "finished" }));
       setResume(getWorkoutResume());
     }
@@ -180,6 +184,18 @@ export function DMProvider({ children }: PropsWithChildren) {
       answerTotalTime: formatMilliseconds(answerTotalTime),
     };
   };
+  const calculateResultCharBarData = () => {
+    const data_: WorkoutResultBarChart[] = workout.iterations.map(
+      (i, index) => ({
+        x: index + 1,
+        y: i.answeredInMs / 1000,
+        hasVideo: i.video?.length ? true : false,
+        isCorrect: i.isCorrect,
+        rpe: i.rpe,
+      })
+    );
+    setResultCharBarData(data_);
+  };
   const startWorkout = () => {
     setWorkout((prev) => ({ ...prev, status: "inCourse" }));
   };
@@ -198,6 +214,7 @@ export function DMProvider({ children }: PropsWithChildren) {
         status,
         startWorkout,
         workout,
+        resultCharBarData,
       }}
     >
       {children}

@@ -11,7 +11,7 @@ import { useDMWorkout } from "@/context/DmContext";
 import DecisionMakingIteration from "@/components/session/dm/DecisionMakingIteration";
 
 const StartWorkoutDM = () => {
-  const { resume, startWorkout, workout } = useDMWorkout();
+  const { resume, startWorkout, workout, resultCharBarData } = useDMWorkout();
   const { screenOrientation } = useOrientation();
   useEffect(() => {
     //loadFiles();
@@ -46,7 +46,7 @@ const StartWorkoutDM = () => {
       ) : workout.status === "inCourse" ? (
         <DecisionMakingIteration />
       ) : (
-        <SessionStatistics resume={resume} workout={workout} />
+        <SessionStatistics resume={resume} resultBarData={resultCharBarData} />
       )}
     </SafeAreaView>
   );

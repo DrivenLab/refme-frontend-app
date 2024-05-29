@@ -23,7 +23,12 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
     if (hasFinished.current) handleOnFinishCountdown();
   }, [hasFinished.current]);
   function handleOnFinishCountdown() {
-    const a: DM_ANSWER = { ...asnwer };
+    const a: DM_ANSWER = {
+      ...asnwer,
+      isCorrect:
+        asnwer.answer1 === iteration.answer1 &&
+        asnwer.asnwer2 === iteration.answer2,
+    };
     onFinish(a);
   }
   const handleUserAnswer = (answerSelected: string, questionType: string) => {

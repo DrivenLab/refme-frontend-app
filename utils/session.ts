@@ -39,13 +39,13 @@ export const getDifferenceDate = (date1: Date, date2: Date) => {
   const differenceDate = new Date(differenceInMilliseconds);
   return differenceDate;
 };
-export function formatMilliseconds(milliseconds: number) {
+export function formatSeconds(milliseconds: number) {
   // Extract seconds and milliseconds
   const seconds = Math.floor(milliseconds / 1000);
   const ms = milliseconds % 1000;
 
   // Format the result as a string
-  return `${seconds}:${ms.toString().padStart(3, "0")} ms`;
+  return `${seconds}.${ms.toString().padStart(3, "0")} s`;
 }
 function formatTimeDifference(date1: Date, date2: Date) {
   // Calculate the difference in milliseconds
@@ -59,7 +59,7 @@ function formatTimeDifference(date1: Date, date2: Date) {
   let seconds = totalSeconds % 60;
 
   // Format the time difference as a string
-  return `${minutes}:${seconds.toString().padStart(2, "0")} s`;
+  return `${minutes}:${seconds.toString().padStart(2, "0")} m`;
 }
 function formatDate(date: Date) {
   // Define an array of month abbreviations
@@ -109,9 +109,9 @@ export const getSessionResume = (s: SessionContext) => {
     totalTime: formatTimeDifference(s.date.start, s.date.end),
     correctAnswers,
     wrongAnswers: Math.abs(iterationWithVideos.length - correctAnswers),
-    answerAverageTime: formatMilliseconds(
+    answerAverageTime: formatSeconds(
       answerTotalTime / iterationWithVideos.length
     ),
-    answerTotalTime: formatMilliseconds(answerTotalTime),
+    answerTotalTime: formatSeconds(answerTotalTime),
   };
 };

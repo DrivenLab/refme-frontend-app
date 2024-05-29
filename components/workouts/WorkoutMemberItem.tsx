@@ -9,6 +9,7 @@ import DownloadProgressModal from "./DownloadProgressModal";
 import useSession from "@/hooks/useSession";
 import DmLogo from "@/assets/svgs/DmLogo";
 import WorkoutCard from "./WorkoutCard";
+import useDownloadSession from "@/hooks/useDownloadSession";
 
 type Props = {
   workout: Workout;
@@ -16,6 +17,7 @@ type Props = {
 };
 
 const WorkoutMemberItem = ({ workout, idSession }: Props) => {
+  /*
   const {
     downloadSession,
     downloadProgress,
@@ -25,8 +27,14 @@ const WorkoutMemberItem = ({ workout, idSession }: Props) => {
   } = useSession({
     idSession: idSession,
   });
-
-  const id = idSession;
+*/
+  const {
+    isDownloading,
+    downloadProgress,
+    setIsDownloading,
+    downloadSession,
+    wasSessionDownloaded,
+  } = useDownloadSession({ idSession });
 
   return (
     <>
@@ -36,7 +44,7 @@ const WorkoutMemberItem = ({ workout, idSession }: Props) => {
         downloadProgress={downloadProgress}
       />
       <WorkoutCard
-        id={id}
+        id={idSession}
         workout={workout}
         wasSessionDownloaded={wasSessionDownloaded}
         downloadSession={downloadSession}
@@ -46,17 +54,3 @@ const WorkoutMemberItem = ({ workout, idSession }: Props) => {
 };
 
 export default WorkoutMemberItem;
-const styles = StyleSheet.create({
-  workoutMemberItem: {
-    shadowColor: "#fff",
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.32,
-    shadowRadius: 5.46,
-
-    elevation: 9,
-    backgroundColor: "#F3F3F4",
-  },
-});

@@ -12,35 +12,54 @@ export interface Session {
   workoutId: number;
   userIterationAnswer: any[];
 }
-export type IterationContext = {
-  idIteration: number | string;
+type IterationWorkout = {
+  idIteration: number;
   video?: string;
   answeredInMs: number;
-  answer1?: string;
-  answer2?: string;
-  userAnswer1?: string;
-  userAnswer2?: string;
+
   rpe?: number;
   timeToAnswerInSec: number;
   timeToRPEInSec: number;
   timeToGetReadyInSec: number;
   timeToWorkoutInSec: number;
+  iterationNumber: number;
 };
-export type SessionDate = {
+export type IterationDM = IterationWorkout & {
+  answer1?: string;
+  answer2?: string;
+  userAnswer1?: string;
+  userAnswer2?: string;
+  isCorrect: boolean;
+};
+export type IterationMemory = IterationWorkout & {
+  answer1?: number;
+  answer2?: number;
+  userAnswer1?: number;
+  userAnswer2?: number;
+  answer_1Options: number[];
+  answer_2Options: number[];
+  isCorrect: boolean;
+};
+export type WorkoutDate = {
   start: Date;
   end: Date;
 };
-export type SessionContext = {
-  date: SessionDate;
+type GeneralWorkout = {
+  date: WorkoutDate;
   breakDuration: number;
   numberOfRepetitions: number;
   numberOfDecisions: number;
   exerciseDuration: number;
   maxDesicionTime: number;
   maxRPETime: number;
-  iterations: IterationContext[];
-  status: SESSION_STATUS;
-  workoutId: number;
+};
+export type DMWorkout = GeneralWorkout & {
+  iterations: IterationDM[];
+  status: DM_WORKOUT_STATUS;
+};
+export type MemoryWorkout = GeneralWorkout & {
+  iterations: IterationMemory[];
+  status: DM_WORKOUT_STATUS;
 };
 export interface Iteration {
   id: number;
@@ -75,14 +94,36 @@ export type IMAGE_NAME =
   | "hand_ball"
   | "shirt_plus"
   | "target_image"
-  | "whistle";
+  | "whistle"
+  | "touching_with_finger";
 
 export type DM_ANSWER = {
   answer1?: string;
   asnwer2?: string;
   answeredInMs: number;
+  isCorrect?: boolean;
 };
+
+export type MEMORY_ANSWER = {
+  answer1?: number;
+  asnwer2?: number;
+  answeredInMs: number;
+  isCorrect?: boolean;
+};
+
 export type t_DM_ANSWER1 = "nf" | "ifk" | "dfk" | "pk";
 export type t_DM_ANSWER2 = "nc" | "yc" | "rc";
+
 export type Steps = "beginning" | "workout" | "video" | "decision" | "rpe";
 export type SESSION_STATUS = "pending" | "inCourse" | "finished";
+
+export type DM_WORKOUT_STATUS = "pending" | "inCourse" | "finished";
+export type DM_STEPS = "beginning" | "workout" | "video" | "decision" | "rpe";
+
+export type MEMORY_WORKOUT_STATUS = "pending" | "inCourse" | "finished";
+export type MEMORY_STEPS =
+  | "beginning"
+  | "workout"
+  | "video"
+  | "decision"
+  | "rpe";

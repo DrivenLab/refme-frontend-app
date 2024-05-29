@@ -8,20 +8,30 @@ import TextInformation from "../workouts/TextInformation";
 import CircularProgress from "../progress-bar/CircularProgressBar";
 import ManRunningWithColor from "@/assets/svgs/ManRunningWithColor";
 import { get_image_from_name } from "@/utils/libs";
+import { TEXT_TYPES } from "@/types/workout";
+import { IMAGE_NAME } from "@/types/session";
 
 type Props = {
   initialCountdown: number;
   hasVideo: boolean;
   onFinishCountdown: () => void;
+  iterationNumber: number;
+  totalItaration: number;
+  imageName: IMAGE_NAME;
+  type: TEXT_TYPES;
 };
 const SessionTrainingCountdown = ({
   initialCountdown,
   hasVideo,
   onFinishCountdown,
+  iterationNumber,
+  totalItaration,
+  imageName,
+  type,
 }: Props) => {
   const [count, setCount] = useState(initialCountdown);
   const imageSource = useMemo(
-    () => get_image_from_name(hasVideo ? "play_video" : "how_you_feel"),
+    () => get_image_from_name(hasVideo ? imageName : "how_you_feel"),
     [hasVideo]
   );
 
@@ -71,7 +81,7 @@ const SessionTrainingCountdown = ({
                 style={{ height: 100, width: 100 }}
                 contentFit="contain"
               />
-              <TextInformation type="dm" step={2} hasVideo={hasVideo} />
+              <TextInformation type={type} step={2} hasVideo={hasVideo} />
             </Box>
           )}
           <Box flex={1} alignItems="center">
@@ -84,14 +94,12 @@ const SessionTrainingCountdown = ({
                 initialCountdown={initialCountdown}
               />
             </Box>
-            <SessionCounter />
+            <SessionCounter current={iterationNumber} total={totalItaration} />
           </Box>
         </View>
       ) : (
-        <IterationTextImage
-          imageName={hasVideo ? "play_video" : "how_you_feel"}
-        >
-          <TextInformation type="dm" step={2} hasVideo={hasVideo} />
+        <IterationTextImage imageName={hasVideo ? imageName : "how_you_feel"}>
+          <TextInformation type={type} step={2} hasVideo={hasVideo} />
         </IterationTextImage>
       )}
     </View>

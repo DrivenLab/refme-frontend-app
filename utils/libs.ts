@@ -17,4 +17,6 @@ export const get_image_from_name = (imageName: IMAGE_NAME) => {
     return require("@/assets/images/recognition/target-image.png");
   else if (imageName === "whistle")
     return require("@/assets/images/recognition/whistle.png");
+  else if (imageName === "touching_with_finger")
+    return require("@/assets/images/touching_with_finger.png");
 };

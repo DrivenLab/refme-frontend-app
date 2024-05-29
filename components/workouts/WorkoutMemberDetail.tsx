@@ -8,6 +8,8 @@ import useSession from "@/hooks/useSession";
 import { useSession as useSessionContext } from "@/context/SessionContext";
 import useDownloadSession from "@/hooks/useDownloadSession";
 import { useDMWorkout } from "@/context/DmContext";
+import { useMemoryWorkout } from "@/context/MemoryContext";
+import { Workout } from "@/types/workout";
 
 type Props = {
   idSession: number;
@@ -27,7 +29,8 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
   } = useDownloadSession({ idSession });
 
   const router = useRouter();
-  const { prepareWorkout } = useDMWorkout();
+  const { prepareWorkout: prepareDM } = useDMWorkout();
+  const { prepareWorkout: prepareWorkoutMemory } = useMemoryWorkout();
   const handleOnPress = () => {
     if (wasSessionDownloaded && session) {
       prepareWorkout(session.workout);
@@ -38,7 +41,11 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
       downloadSession();
     }
   };
-
+  const prepareWorkout = (workout: Workout) => {
+    if (workout.type === "dm") {
+      prepareDM(workout);
+    } else prepareWorkoutMemory(workout);
+  };
   return (
     <>
       <DownloadProgressModal

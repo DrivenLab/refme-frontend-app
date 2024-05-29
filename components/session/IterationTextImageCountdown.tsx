@@ -6,10 +6,11 @@ import { useMemo } from "react";
 import { IMAGE_NAME } from "@/types/session";
 import { get_image_from_name } from "@/utils/libs";
 import CircularProgress from "../progress-bar/CircularProgressBar";
+import { TEXT_TYPES } from "@/types/workout";
 type Props = {
   count: number;
   imageName: IMAGE_NAME;
-  textType: "dm";
+  textType: TEXT_TYPES;
   textStep: number;
   initialCountdown: number;
   iterationNumber: number;

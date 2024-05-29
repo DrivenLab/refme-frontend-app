@@ -10,8 +10,8 @@ export interface Workout {
   isActive: boolean;
   name: string;
   description: string;
-  memberType: string;
-  type: string;
+  memberType: MEMBER_TYPE;
+  type: WORKOUT_TYPE;
   usageType: string;
   material: string;
   numberOfRepetitions: number;
@@ -35,3 +35,8 @@ export type WorkoutResume = {
   answerAverageTime: string;
   answerTotalTime: string;
 };
+
+export type TEXT_TYPES = "dm" | "memory" | "rpe";
+
+export type MEMBER_TYPE = "re" | "ar";
+export type WORKOUT_TYPE = "dm" | "memory";

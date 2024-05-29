@@ -50,10 +50,10 @@ export const getDifferenceDate = (date1: Date, date2: Date) => {
 export function formatMilliseconds(milliseconds: number) {
   // Extract seconds and milliseconds
   const seconds = Math.floor(milliseconds / 1000);
-  const ms = milliseconds % 1000;
+  const ms = Math.floor((milliseconds % 1000) / 100);
 
   // Format the result as a string
-  return `${seconds}:${ms.toString().padStart(3, "0")} ms`;
+  return `${seconds}:${ms} ms`;
 }
 export function formatTimeDifference(date1: Date, date2: Date) {
   // Calculate the difference in milliseconds
@@ -97,4 +97,38 @@ export function formatDate(date: Date) {
 
   // Construct the formatted string
   return `${day} ${month} ${year} - ${hours}:${minutes} hs`;
+}
+
+function getRandomInt(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function generateUniqueRandomNumbersWithInitialValues(
+  min: number,
+  max: number,
+  initialValues: number[],
+  count: number
+) {
+  if (max - min + 1 < count) {
+    throw new Error(
+      "Range is too small to generate the required number of unique numbers."
+    );
+  }
+
+  let uniqueNumbers = new Set(initialValues);
+  while (uniqueNumbers.size < count) {
+    uniqueNumbers.add(getRandomInt(min, max));
+  }
+
+  return Array.from(uniqueNumbers);
+}
+
+export function shuffleArray(array: number[]) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+  }
+  return array;
 }

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import TextInformation from "../workouts/TextInformation";
 import IterationTextImageCountdown from "./IterationTextImageCountdown";
-import SessionGetReady from "./SessionGetReady";
 import IterationTextImage from "./IterationTextImage";
 import { IMAGE_NAME } from "@/types/session";
+import { TEXT_TYPES } from "@/types/workout";
 
 type Props = {
   onFinishCountdown: () => void;
@@ -11,6 +11,7 @@ type Props = {
   imageName: IMAGE_NAME;
   iterationNumber: number;
   totalItaration: number;
+  type?: TEXT_TYPES;
 };
 const SessionCountdown = ({
   onFinishCountdown,
@@ -18,6 +19,7 @@ const SessionCountdown = ({
   imageName,
   iterationNumber,
   totalItaration,
+  type = "dm",
 }: Props) => {
   const [count, setCount] = useState(initialCountdown);
 
@@ -42,14 +44,14 @@ const SessionCountdown = ({
           count={count}
           imageName={imageName}
           textStep={1}
-          textType="dm"
+          textType={type}
           initialCountdown={initialCountdown}
           iterationNumber={iterationNumber}
           totalItaration={totalItaration}
         />
       ) : (
         <IterationTextImage imageName={imageName}>
-          <TextInformation type="dm" step={1} />
+          <TextInformation type={type} step={1} />
         </IterationTextImage>
       )}
     </>

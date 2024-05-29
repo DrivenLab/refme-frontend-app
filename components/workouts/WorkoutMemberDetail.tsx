@@ -3,9 +3,7 @@ import { Button, ButtonText } from "@gluestack-ui/themed";
 import { Href, useRouter } from "expo-router";
 import React from "react";
 import DownloadProgressModal from "./DownloadProgressModal";
-import useSession from "@/hooks/useSession";
 
-import { useSession as useSessionContext } from "@/context/SessionContext";
 import useDownloadSession from "@/hooks/useDownloadSession";
 import { useDMWorkout } from "@/context/DmContext";
 import { useMemoryWorkout } from "@/context/MemoryContext";

@@ -147,7 +147,6 @@ export function DMProvider({ children }: PropsWithChildren) {
       (i) => i.idIteration === iteration.idIteration
     );
 
-    //console.log("calling update iteration-----", index, iteration);
     if (index === -1) return;
     const w_ = { ...workout };
     w_.iterations[index] = {
@@ -210,8 +209,8 @@ export function DMProvider({ children }: PropsWithChildren) {
   const saveSession = () => {
     const sessionsPayload: SessionPostType[] = workout.iterations.map((it) => ({
       workout_iteration: it.idIteration,
-      answer_1: it.answer1,
-      answer_2: it.answer2,
+      answer_1: it.userAnswer1,
+      answer_2: it.userAnswer2,
       borgScale: it.rpe,
       replyTime: it.answeredInMs,
     }));

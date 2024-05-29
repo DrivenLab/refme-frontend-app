@@ -81,6 +81,10 @@ export default function TabLayout() {
         name="workouts"
         options={{ headerShown: false, href: null }}
       />
+      <Tabs.Screen
+        name="personalWorkouts"
+        options={{ headerShown: false, href: null }}
+      />
     </Tabs>
   );
 }

@@ -152,6 +152,7 @@
   },
   "workout_type": {
     "dm": "Decision Making",
-    "memory": "Memory"
+    "memory": "Memory",
+    "recognition": "Reconocimiento"
   }
 }

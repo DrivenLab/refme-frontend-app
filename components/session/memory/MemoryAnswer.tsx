@@ -1,9 +1,11 @@
-import { Box, Divider, VStack } from "@gluestack-ui/themed";
+import { Box, Divider, HStack } from "@gluestack-ui/themed";
 import React, { useEffect, useState } from "react";
 import { MEMORY_ANSWER, IterationMemory } from "@/types/session";
 import CProgress from "@/components/progress-bar/CProgress";
 import useCountdown from "@/hooks/useCountdown";
 import MemoryOption from "./MemoryOption";
+import IconPersonWhoFault from "@/assets/svgs/IconPersonWhoFault";
+import IconPersonWhoRecieveFault from "@/assets/svgs/IconPersonWhoRecieveFault";
 
 type Props = {
   onFinish: (a: MEMORY_ANSWER) => void;
@@ -47,13 +49,14 @@ const MemoryAnswer = ({ onFinish, iteration }: Props) => {
   return (
     <Box bg="$white" flex={1}>
       <CProgress totalTimeInSec={iteration.timeToAnswerInSec} />
-      <Box bg="$white" flex={1} px={"$4"} py="$5" justifyContent="center">
-        <VStack
+      <Box bg="$white" flex={1} px={"$9"} py="$5" justifyContent="center">
+        <HStack
           width={"100%"}
           flexDirection="row"
-          space="md"
+          space="xl"
           justifyContent="space-between"
         >
+          <IconPersonWhoFault width={100} height={100} />
           {iteration.answer_1Options.map((option, key) => (
             <MemoryOption
               key={key}
@@ -65,14 +68,29 @@ const MemoryAnswer = ({ onFinish, iteration }: Props) => {
               canTouch={hasCompleted == false}
             />
           ))}
-        </VStack>
-        <Divider my="$5" bg="$black" />
-        <VStack
+        </HStack>
+        <Box position="relative">
+          <Divider
+            my="$5"
+            bg="$black"
+            h={3}
+            position="relative"
+            w="$full"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Box h={12} w={12} rounded={"$full"} bgColor="black"></Box>
+          </Divider>
+        </Box>
+
+        <HStack
           width={"100%"}
           flexDirection="row"
-          space="md"
+          space="xl"
           justifyContent="space-between"
         >
+          <IconPersonWhoRecieveFault width={100} height={100} />
           {iteration.answer_2Options.map((option, key) => (
             <MemoryOption
               key={key}
@@ -84,7 +102,7 @@ const MemoryAnswer = ({ onFinish, iteration }: Props) => {
               canTouch={hasCompleted == false}
             />
           ))}
-        </VStack>
+        </HStack>
       </Box>
     </Box>
   );

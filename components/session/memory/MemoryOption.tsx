@@ -51,7 +51,7 @@ const MemoryOption = ({
       }
     >
       {text && (
-        <Text color={textColor} textAlign="center" fontSize={20}>
+        <Text color={textColor} textAlign="center" fontSize={"$4xl"} bold>
           {text}
         </Text>
       )}

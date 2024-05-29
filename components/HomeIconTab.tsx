@@ -5,7 +5,11 @@ import { Path, Svg } from "react-native-svg";
 
 const HomeIconTab = () => {
   const { user } = useAuth();
-  if (user?.organizations.length > 0 && user.organizations[0].logoLink) {
+  if (
+    user?.organizations &&
+    user?.organizations.length > 0 &&
+    user.organizations[0].logoLink
+  ) {
     return (
       <Box
         rounded={100}

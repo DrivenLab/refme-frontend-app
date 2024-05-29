@@ -36,8 +36,8 @@ export type CreateProfile = {
   nationality: string;
   phoneNumber: string;
   address: string;
-  weight: 0;
-  height: 0;
+  weight: number;
+  height: number;
   expirationMedicalRecord: string;
   medicalObservations: string;
 };

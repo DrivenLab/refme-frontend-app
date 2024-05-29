@@ -9,6 +9,7 @@ export interface Session {
   isActive: boolean;
   isCompleted: boolean;
   user: number;
+  workoutId: number;
   userIterationAnswer: any[];
 }
 export type IterationContext = {
@@ -31,7 +32,6 @@ export type SessionDate = {
 };
 export type SessionContext = {
   date: SessionDate;
-
   breakDuration: number;
   numberOfRepetitions: number;
   numberOfDecisions: number;
@@ -40,6 +40,7 @@ export type SessionContext = {
   maxRPETime: number;
   iterations: IterationContext[];
   status: SESSION_STATUS;
+  workoutId: number;
 };
 export interface Iteration {
   id: number;
@@ -50,6 +51,13 @@ export interface Iteration {
   repetitionNumber: number;
   workout: number;
 }
+export type SessionPostType = {
+  workout_iteration: string | number;
+  answer_1?: string;
+  answer_2?: string;
+  borgScale?: number | null;
+  replyTime?: number;
+};
 export interface Answer {
   id: number;
   video1: Video;

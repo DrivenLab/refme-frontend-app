@@ -37,7 +37,7 @@
   "change_profile_picture": "Change photo",
   "not_now": "Not now",
   "finish": "Finish",
-  "member_type": "Type",
+  "member_type": "Referee Type",
   "type": "Cognitive ability",
   "referee": "Referee",
   "assistant_referee": "Assistant Referee",
@@ -95,7 +95,13 @@
   "errors": {
     "generic_error": "Error, please try again later.",
     "login_invalid_credentials": "Invalid credentials",
-    "password_doesnt_match": "Passwords do not match"
+    "password_doesnt_match": "Passwords do not match",
+    "workout_creation": {
+      "workout_name": "Please complete the workout name",
+      "workout_type": "Please complete hability type",
+      "workout_member_type": "Please complete member type",
+      "workout_pause_time": "Please set pause time to be more than 21 seconds"
+    }
   },
   "about_you_screen": {
     "birthdate_label": "Date of birth",

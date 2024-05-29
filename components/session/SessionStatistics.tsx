@@ -5,16 +5,21 @@ import XIcon from "@/assets/svgs/XIcon";
 import i18n from "@/languages/i18n";
 import { useRouter } from "expo-router";
 import { WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
-import { DMWorkout } from "@/types/session";
 import SessionResultBarChart from "../workouts/SessionResultBarChart";
+import SuccessIcon from "@/assets/svgs/SuccessIcon";
+import { useDMWorkout } from "@/context/DmContext";
 type Props = {
   resume: WorkoutResume;
   resultBarData: WorkoutResultBarChart[];
 };
 const SessionStatistics = ({ resume, resultBarData }: Props) => {
   const router = useRouter();
+  const { saveSession } = useDMWorkout();
   const handleXPress = () => {
     router.replace(`/workouts/`);
+  };
+  const handleSave = () => {
+    saveSession();
   };
   return (
     <ScrollView>
@@ -51,9 +56,18 @@ const SessionStatistics = ({ resume, resultBarData }: Props) => {
               <Text>{resume.date}</Text>
             </Box>
           </Box>
-          <Box display="flex" alignItems="flex-end" marginStart={10}>
+          <Box
+            display="flex"
+            flexDirection="row"
+            alignItems="flex-end"
+            marginStart={10}
+            gap={5}
+          >
             <Pressable marginVertical="auto" onPress={handleXPress}>
               <XIcon width={40} height={40}></XIcon>
+            </Pressable>
+            <Pressable marginVertical="auto" onPress={handleSave}>
+              <SuccessIcon width={40} height={40}></SuccessIcon>
             </Pressable>
           </Box>
         </Box>

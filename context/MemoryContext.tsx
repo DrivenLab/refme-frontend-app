@@ -171,6 +171,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
         })
       ),
       status: "pending",
+      workoutId: w.id,
     };
     setWorkout(workout_);
     setCurrentIterationStep("beginning");
@@ -263,16 +264,16 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       value={{
         currentIterarion,
         currentIterationStep,
+        resume,
+        workout,
+        resultCharBarData,
         prepareWorkout,
         handleNextIteration,
         changeIterationStep,
         handleUserAnswer,
         handleUserRPE,
         updateWorkoutStatus,
-        resume,
         startWorkout,
-        workout,
-        resultCharBarData,
       }}
     >
       {children}

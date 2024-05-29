@@ -28,6 +28,7 @@ export type IterationDM = IterationWorkout & {
   answer2?: string;
   userAnswer1?: string;
   userAnswer2?: string;
+  isCorrect: boolean;
 };
 export type IterationMemory = IterationWorkout & {
   answer1?: number;
@@ -36,6 +37,7 @@ export type IterationMemory = IterationWorkout & {
   userAnswer2?: number;
   answer_1Options: number[];
   answer_2Options: number[];
+  isCorrect: boolean;
 };
 export type WorkoutDate = {
   start: Date;
@@ -87,13 +89,16 @@ export type DM_ANSWER = {
   answer1?: string;
   asnwer2?: string;
   answeredInMs: number;
+  isCorrect?: boolean;
 };
 
 export type MEMORY_ANSWER = {
   answer1?: number;
   asnwer2?: number;
   answeredInMs: number;
+  isCorrect?: boolean;
 };
+
 export type t_DM_ANSWER1 = "nf" | "ifk" | "dfk" | "pk";
 export type t_DM_ANSWER2 = "nc" | "yc" | "rc";
 

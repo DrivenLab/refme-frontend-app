@@ -21,7 +21,12 @@ const MemoryAnswer = ({ onFinish, iteration }: Props) => {
     if (hasFinished.current) handleOnFinishCountdown();
   }, [hasFinished.current]);
   function handleOnFinishCountdown() {
-    const a: MEMORY_ANSWER = { ...asnwer };
+    const a: MEMORY_ANSWER = {
+      ...asnwer,
+      isCorrect:
+        asnwer.answer1 === iteration.answer1 &&
+        asnwer.asnwer2 === iteration.answer2,
+    };
     onFinish(a);
   }
   const handleUserAnswer = (answerSelected: number, questionType: string) => {

@@ -66,6 +66,7 @@ export function DMProvider({ children }: PropsWithChildren) {
       timeToRPEInSec: 3,
       answeredInMs: 7,
       iterationNumber: i.repetitionNumber,
+      isCorrect: false,
     } as IterationDM;
     return i_;
   };
@@ -74,7 +75,7 @@ export function DMProvider({ children }: PropsWithChildren) {
       ...currentIterarion,
       userAnswer1: a.answer1,
       userAnswer2: a.asnwer2,
-      answeredInMs: a.answeredInMs ?? 7,
+      isCorrect: a.isCorrect ?? false,
     };
     setCurrentIterarion(a_);
   };
@@ -115,7 +116,6 @@ export function DMProvider({ children }: PropsWithChildren) {
 
   const handleNextIteration = (currentIterarion: IterationDM) => {
     updateIteration(currentIterarion);
-    console.log("len", workout.iterations.length, iterationIndex);
     if (iterationIndex < workout.iterations.length - 1) {
       const newCurrentIteration = workout.iterations[iterationIndex + 1];
       setCurrentIterarion(newCurrentIteration);

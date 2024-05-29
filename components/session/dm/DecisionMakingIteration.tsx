@@ -44,6 +44,7 @@ const DecisionMakingIteration = () => {
             imageName="man_running_ready_to_workout"
             iterationNumber={currentIterarion.iterationNumber}
             totalItaration={workout.iterations.length}
+            type="dm"
           />
         </>
       ) : currentIterationStep === "workout" ? (
@@ -53,6 +54,8 @@ const DecisionMakingIteration = () => {
           hasVideo={!(currentIterarion.video == undefined)}
           iterationNumber={currentIterarion.iterationNumber}
           totalItaration={workout.iterations.length}
+          type="dm"
+          imageName="play_video"
         />
       ) : currentIterationStep === "video" && currentIterarion.video ? (
         <>

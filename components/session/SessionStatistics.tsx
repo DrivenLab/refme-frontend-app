@@ -4,14 +4,14 @@ import StatsResultPill from "../workouts/StatsResultPill";
 import XIcon from "@/assets/svgs/XIcon";
 import i18n from "@/languages/i18n";
 import { useRouter } from "expo-router";
-import { WorkoutResume } from "@/types/workout";
+import { WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
 import { DMWorkout } from "@/types/session";
 import SessionResultBarChart from "../workouts/SessionResultBarChart";
 type Props = {
   resume: WorkoutResume;
-  workout: DMWorkout;
+  resultBarData: WorkoutResultBarChart[];
 };
-const SessionStatistics = ({ resume, workout }: Props) => {
+const SessionStatistics = ({ resume, resultBarData }: Props) => {
   const router = useRouter();
   const handleXPress = () => {
     router.replace(`/workouts/`);
@@ -28,7 +28,7 @@ const SessionStatistics = ({ resume, workout }: Props) => {
             <StatsResultPill type="time" text={resume.answerAverageTime + ""} />
           </VStack>
           <Box width="70%" height="100%">
-            <SessionResultBarChart workout={workout} />
+            <SessionResultBarChart data={resultBarData} />
           </Box>
         </Box>
         <Box display="flex" flexDirection="row" mt={"$5"}>

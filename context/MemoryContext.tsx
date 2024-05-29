@@ -19,6 +19,7 @@ import {
   MEMBER_TYPE,
   WORKOUT_TYPE,
   Workout,
+  WorkoutResultBarChart,
   WorkoutResume,
 } from "@/types/workout";
 import {
@@ -40,6 +41,7 @@ type MemoryContextType = {
   resume: WorkoutResume;
   startWorkout: () => void;
   workout: MemoryWorkout;
+  resultCharBarData: WorkoutResultBarChart[];
   //handleNextStep:()=>void
 };
 
@@ -58,7 +60,9 @@ export function MemoryProvider({ children }: PropsWithChildren) {
   const [currentIterationStep, setCurrentIterationStep] =
     useState<MEMORY_STEPS>("beginning");
   const [resume, setResume] = useState<WorkoutResume>({} as WorkoutResume);
-
+  const [resultCharBarData, setResultCharBarData] = useState<
+    WorkoutResultBarChart[]
+  >([]);
   const prepareIteration = ({
     i,
     timeToWorkout,
@@ -103,6 +107,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       iterationNumber: i.repetitionNumber,
       answer_1Options: optionsA1,
       answer_2Options: optionsA2,
+      isCorrect: false,
     };
     return i_;
   };
@@ -130,6 +135,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       userAnswer1: a.answer1,
       userAnswer2: a.asnwer2,
       answeredInMs: a.answeredInMs ?? 7,
+      isCorrect: a.isCorrect ?? false,
     };
     setCurrentIterarion(a_);
   };
@@ -183,6 +189,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
     } else {
       const date = workout.date;
       date.end = new Date();
+      calculateResultCharBarData();
       setWorkout((prev) => ({ ...prev, date, status: "finished" }));
       setResume(getWorkoutResume());
     }
@@ -236,6 +243,18 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       answerTotalTime: formatMilliseconds(answerTotalTime),
     };
   };
+  const calculateResultCharBarData = () => {
+    const data_: WorkoutResultBarChart[] = workout.iterations.map(
+      (i, index) => ({
+        x: index + 1,
+        y: i.answeredInMs / 1000,
+        hasVideo: i.video?.length ? true : false,
+        isCorrect: i.isCorrect,
+        rpe: i.rpe,
+      })
+    );
+    setResultCharBarData(data_);
+  };
   const startWorkout = () => {
     setWorkout((prev) => ({ ...prev, status: "inCourse" }));
   };
@@ -253,6 +272,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
         resume,
         startWorkout,
         workout,
+        resultCharBarData,
       }}
     >
       {children}

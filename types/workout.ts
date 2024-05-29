@@ -27,6 +27,13 @@ export type DownloadProgress = {
   value: number;
 };
 
+export type WorkoutResultBarChart = {
+  x: number;
+  y: number;
+  isCorrect: boolean;
+  hasVideo: boolean;
+  rpe?: number;
+};
 export type WorkoutResume = {
   date: string;
   totalTime: string;

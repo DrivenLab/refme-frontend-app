@@ -11,7 +11,8 @@ import { useMemoryWorkout } from "@/context/MemoryContext";
 import MemoryIteration from "@/components/session/memory/MemoryIteration";
 
 const StartWorkoutDM = () => {
-  const { resume, startWorkout, workout } = useMemoryWorkout();
+  const { resume, startWorkout, workout, resultCharBarData } =
+    useMemoryWorkout();
   const { screenOrientation } = useOrientation();
   useEffect(() => {
     //loadFiles();
@@ -46,7 +47,7 @@ const StartWorkoutDM = () => {
       ) : workout.status === "inCourse" ? (
         <MemoryIteration />
       ) : (
-        <SessionStatistics resume={resume} workout={workout} />
+        <SessionStatistics resume={resume} resultBarData={resultCharBarData} />
       )}
     </SafeAreaView>
   );

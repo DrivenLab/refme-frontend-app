@@ -11,7 +11,7 @@ type Props = {
   imageName: IMAGE_NAME;
   iterationNumber: number;
   totalItaration: number;
-  type?: TEXT_TYPES;
+  type: TEXT_TYPES;
 };
 const SessionCountdown = ({
   onFinishCountdown,
@@ -19,7 +19,7 @@ const SessionCountdown = ({
   imageName,
   iterationNumber,
   totalItaration,
-  type = "dm",
+  type,
 }: Props) => {
   const [count, setCount] = useState(initialCountdown);
 

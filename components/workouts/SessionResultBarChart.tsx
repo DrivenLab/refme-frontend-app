@@ -7,21 +7,15 @@ import {
   VictoryStack,
   VictoryTheme,
 } from "victory-native";
-import { DMWorkout } from "@/types/session";
+import { WorkoutResultBarChart } from "@/types/workout";
 
-type Props = { workout: DMWorkout };
-const SessionResultBarChart = ({ workout }: Props) => {
-  const data = workout.iterations.map((iteration, index) => ({
-    x: index + 1,
-    y: iteration.answeredInMs / 1000,
-    iteration,
-    hasVideo: iteration.video ? true : false,
-    answerIsCorrect:
-      iteration.answer1 === iteration.userAnswer1 &&
-      iteration.answer2 === iteration.userAnswer2,
+type Props = { data: WorkoutResultBarChart[] };
+const SessionResultBarChart = ({ data }: Props) => {
+  const data_ = data.map((d, index) => ({
+    ...d,
   }));
-  const colors = workout.iterations.map(
-    (iteration) => RPE_COLORS[`${iteration.rpe}` as keyof typeof RPE_COLORS]
+  const colors = data.map(
+    (d) => RPE_COLORS[`${d.rpe}` as keyof typeof RPE_COLORS]
   );
   return (
     <Box borderWidth={1} margin={10} borderColor="#a1a1a1" borderRadius={7}>
@@ -29,14 +23,12 @@ const SessionResultBarChart = ({ workout }: Props) => {
         <VictoryStack colorScale={colors} domain={{ x: [0, 8], y: [0, 7] }}>
           <VictoryBar
             animate={{ duration: 1000, onLoad: { duration: 500 } }}
-            data={data}
+            data={data_}
             barWidth={15}
             style={{
               data: {
                 fill: ({ datum }) => {
-                  return RPE_COLORS[
-                    datum.iteration.rpe as keyof typeof RPE_COLORS
-                  ];
+                  return RPE_COLORS[datum.rpe as keyof typeof RPE_COLORS];
                 },
               },
             }}

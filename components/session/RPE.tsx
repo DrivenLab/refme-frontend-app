@@ -35,6 +35,7 @@ const RPE = ({ onFinishRPE, iteration }: Props) => {
         alignItems="center"
         flexWrap="wrap"
         pt="$2"
+        px={"$10"}
       >
         <Box
           width="$1/6"
@@ -60,7 +61,8 @@ const RPE = ({ onFinishRPE, iteration }: Props) => {
                   ? "#090b22"
                   : RPE_COLORS[key as keyof typeof RPE_COLORS]
               }
-              rounded={10}
+              rounded={30}
+              width={"85%"}
               onPress={() => handleOnPress(value)}
             >
               <Text
@@ -72,6 +74,7 @@ const RPE = ({ onFinishRPE, iteration }: Props) => {
                 textAlign="center"
                 fontSize={50}
                 fontWeight={"bold"}
+                style={{ fontFamily: "PlusJakartaSans_700Bold" }}
               >
                 {key}
               </Text>

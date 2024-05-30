@@ -25,7 +25,7 @@ export default function TabLayout() {
             options={{ headerShown: false, headerBackTitleVisible: false }}
           />
 
-          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+          {/* <Stack.Screen name="modal" options={{ presentation: "modal" }} /> */}
         </Stack>
       </DMProvider>
     </MemoryProvider>

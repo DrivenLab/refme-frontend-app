@@ -53,8 +53,7 @@ export function formatSeconds(milliseconds: number) {
   const ms = Math.floor((milliseconds % 1000) / 100);
 
   // Format the result as a string
-  return `${seconds}:${ms} s`;
-  //1:3 o 1.439 1.4
+  return `${seconds}.${ms.toString().padStart(3, "0")} s`;
 }
 export function formatTimeDifference(date1: Date, date2: Date) {
   // Calculate the difference in milliseconds

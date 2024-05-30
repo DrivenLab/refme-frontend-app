@@ -42,20 +42,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <StatsTabBarIcon color={color} isFocused={focused} />
           ),
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? "light"].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
         }}
       />
       <Tabs.Screen
@@ -74,6 +60,20 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <ProfileTabBarIcon color={color} isFocused={focused} />
           ),
+          //   headerRight: () => (
+          //     <Link href="/profile/modal" asChild>
+          //       <Pressable>
+          //         {({ pressed }) => (
+          //           <FontAwesome
+          //             name="info-circle"
+          //             size={25}
+          //             color={Colors[colorScheme ?? "light"].text}
+          //             style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+          //           />
+          //         )}
+          //       </Pressable>
+          //     </Link>
+          //   ),
         }}
       />
       {/**TABS HIDDEN */}

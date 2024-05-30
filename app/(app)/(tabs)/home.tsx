@@ -6,11 +6,7 @@ import { useAuth } from "@/context/auth";
 
 import i18n from "@/languages/i18n";
 import { Asset, useAssets } from "expo-asset";
-import OffsideFlag from "@/assets/svgs/OffsideFlag";
-import OffsideFlagInactive from "@/assets/svgs/OffsideFlagInactive";
-import RecognitionAnswer from "@/components/session/recognition/RecognitionAnswer";
 import { type Href } from "expo-router";
-import { Link } from "expo-router";
 type sioType = {
   bgImage: NodeRequire;
   iconImage: string | Asset;
@@ -78,7 +74,7 @@ export default function TabOneScreen() {
       : s.iconImage) as ImageSourcePropType,
   }));
   return (
-    <ScrollView style={styles.container} px={"$3"} flex={1}>
+    <ScrollView bgColor="white" px={"$3"} flex={1}>
       <VStack space="md" flex={1} paddingBottom={10}>
         {userRole === "member" ? (
           <>
@@ -124,10 +120,6 @@ export default function TabOneScreen() {
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
   title: {
     fontSize: 20,
     fontWeight: "bold",

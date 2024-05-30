@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
-import EditScreenInfo from "@/components/EditScreenInfo";
-import { Text, View } from "@/components/Themed";
+
 import { RadarChart } from "@/components/statistcs/RadarChart";
 import { PieChart } from "@/components/statistcs/PieChart";
 import { ScrollView } from "@gluestack-ui/themed";

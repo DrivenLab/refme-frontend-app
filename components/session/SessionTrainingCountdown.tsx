@@ -1,5 +1,5 @@
 import { View, Box } from "@gluestack-ui/themed";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import SessionCounter from "./SessionCounter";
 import { Image } from "expo-image";
 
@@ -8,18 +8,32 @@ import TextInformation from "../workouts/TextInformation";
 import CircularProgress from "../progress-bar/CircularProgressBar";
 import ManRunningWithColor from "@/assets/svgs/ManRunningWithColor";
 import { get_image_from_name } from "@/utils/libs";
+import { TEXT_TYPES } from "@/types/workout";
+import { IMAGE_NAME } from "@/types/session";
 
 type Props = {
   initialCountdown: number;
-  hasNoVideo: boolean;
+  hasVideo: boolean;
   onFinishCountdown: () => void;
+  iterationNumber: number;
+  totalItaration: number;
+  imageName: IMAGE_NAME;
+  type: TEXT_TYPES;
 };
 const SessionTrainingCountdown = ({
   initialCountdown,
-  hasNoVideo,
+  hasVideo,
   onFinishCountdown,
+  iterationNumber,
+  totalItaration,
+  imageName,
+  type,
 }: Props) => {
   const [count, setCount] = useState(initialCountdown);
+  const imageSource = useMemo(
+    () => get_image_from_name(hasVideo ? imageName : "how_you_feel"),
+    [hasVideo]
+  );
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -46,7 +60,7 @@ const SessionTrainingCountdown = ({
           bg="white"
           height={"100%"}
         >
-          {count >= 4 || hasNoVideo ? (
+          {count >= 4 ? (
             <Box flex={1} justifyContent="center" alignItems="center">
               <Box style={{ width: "50%" }}>
                 <ManRunningWithColor width={300} height={300} />
@@ -63,11 +77,11 @@ const SessionTrainingCountdown = ({
               borderBottomRightRadius={100}
             >
               <Image
-                source={get_image_from_name("play_video")}
+                source={imageSource}
                 style={{ height: 100, width: 100 }}
                 contentFit="contain"
               />
-              <TextInformation type={"dm"} step={2} />
+              <TextInformation type={type} step={2} hasVideo={hasVideo} />
             </Box>
           )}
           <Box flex={1} alignItems="center">
@@ -80,12 +94,12 @@ const SessionTrainingCountdown = ({
                 initialCountdown={initialCountdown}
               />
             </Box>
-            <SessionCounter />
+            <SessionCounter current={iterationNumber} total={totalItaration} />
           </Box>
         </View>
       ) : (
-        <IterationTextImage imageName="play_video">
-          <TextInformation type="dm" step={2} />
+        <IterationTextImage imageName={hasVideo ? imageName : "how_you_feel"}>
+          <TextInformation type={type} step={2} hasVideo={hasVideo} />
         </IterationTextImage>
       )}
     </View>

@@ -1,4 +1,3 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { Stack } from "expo-router";
 
@@ -14,7 +13,11 @@ const _layout = () => {
         options={{ headerBackTitleVisible: false, headerShown: false }}
       />
       <Stack.Screen
-        name="startWorkout"
+        name="startWorkoutDM"
+        options={{ headerShown: false, headerBackTitleVisible: false }}
+      />
+      <Stack.Screen
+        name="startWorkoutMemory"
         options={{ headerShown: false, headerBackTitleVisible: false }}
       />
       <Stack.Screen
@@ -23,7 +26,7 @@ const _layout = () => {
       />
       <Stack.Screen
         name="assignReferee"
-        options={{ headerShown: false, href: null }}
+        options={{ headerShown: false, headerBackTitleVisible: false }}
       />
     </Stack>
   );

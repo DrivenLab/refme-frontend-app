@@ -1,41 +1,49 @@
-import { Workout } from "@/types/workout";
 import { StyleSheet } from "react-native";
-import { Box, Pressable, Text, Button, ButtonText } from "@gluestack-ui/themed";
-import i18n from "@/languages/i18n";
-import { Href, Link, useRouter } from "expo-router";
-import DownloadSessionBtn from "./DownloadSessionBtn";
+import { Button, ButtonText } from "@gluestack-ui/themed";
+import { Href, useRouter } from "expo-router";
 import React from "react";
 import DownloadProgressModal from "./DownloadProgressModal";
-import useSession from "@/hooks/useSession";
-import DmLogo from "@/assets/svgs/DmLogo";
-import { useAuth } from "@/context/auth";
-import { useSession as useSessionContext } from "@/context/SessionContext";
+
+import useDownloadSession from "@/hooks/useDownloadSession";
+import { useDMWorkout } from "@/context/DmContext";
+import { useMemoryWorkout } from "@/context/MemoryContext";
+import { Workout } from "@/types/workout";
 
 type Props = {
   idSession: number;
 };
-
+const ROUTE_TO = {
+  dm: "/workouts/startWorkoutDM",
+  memory: "/workouts/startWorkoutMemory",
+};
 const WorkoutMemberDetail = ({ idSession }: Props) => {
   const {
+    isDownloading,
     downloadProgress,
     setIsDownloading,
-    isDownloading,
-    wasSessionDownloaded,
     downloadSession,
+    wasSessionDownloaded,
     session,
-  } = useSession({ idSession: Number(idSession as string) });
-  const router = useRouter();
-  const { createSession } = useSessionContext();
+  } = useDownloadSession({ idSession });
 
+  const router = useRouter();
+  const { prepareWorkout: prepareDM } = useDMWorkout();
+  const { prepareWorkout: prepareWorkoutMemory } = useMemoryWorkout();
   const handleOnPress = () => {
     if (wasSessionDownloaded && session) {
-      createSession(session);
-      router.push("/workouts/startWorkout/" as Href<string>);
+      prepareWorkout(session.workout);
+      router.push(
+        ROUTE_TO[session.workout.type as keyof typeof ROUTE_TO] as Href<string>
+      );
     } else {
       downloadSession();
     }
   };
-
+  const prepareWorkout = (workout: Workout) => {
+    if (workout.type === "dm") {
+      prepareDM(workout);
+    } else prepareWorkoutMemory(workout);
+  };
   return (
     <>
       <DownloadProgressModal

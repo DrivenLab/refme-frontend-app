@@ -1,8 +1,9 @@
-import { useSession } from "@/context/SessionContext";
 import { View, Text } from "@gluestack-ui/themed";
-
-const SessionCounter = () => {
-  const { session, iterationIndex } = useSession();
+type Props = {
+  current: number;
+  total: number;
+};
+const SessionCounter = ({ current, total }: Props) => {
   return (
     <View
       style={{ backgroundColor: "#FF6622" }}
@@ -11,7 +12,7 @@ const SessionCounter = () => {
       py={"$2"}
     >
       <Text color="white" fontWeight="bold" fontSize={30}>
-        {iterationIndex + 1}/{session.iterations.length}
+        {current}/{total}
       </Text>
     </View>
   );

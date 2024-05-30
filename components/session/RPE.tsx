@@ -14,8 +14,8 @@ type Props = {
   iteration: IterationContext;
 };
 const RPE = ({ onFinishRPE, iteration }: Props) => {
-  const [rpe, setRpe] = useState<number>(0);
-  const { countdownInSec, hasFinished } = useCountdown({
+  const [rpe, setRpe] = useState<number>();
+  const { hasFinished } = useCountdown({
     stopInSec: iteration.timeToRPEInSec,
     delay: 1,
   });

@@ -1,19 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "@gluestack-ui/themed";
 import useOrientation from "@/hooks/useOrientation";
 import RotateScreen from "@/components/session/RotateScreen";
 import { ORIENTATION_NUMBER } from "@/constants/Orientation";
-
-import SessionIteration from "@/components/session/SessionIteration";
-import { useSession } from "@/context/SessionContext";
 import SessionStatistics from "@/components/session/SessionStatistics";
 import { useNavigation } from "expo-router";
-import { SafeAreaViewStyle } from "@/utils/Styles";
 import { setStatusBarHidden } from "expo-status-bar";
+import { useDMWorkout } from "@/context/DmContext";
+import DecisionMakingIteration from "@/components/session/dm/DecisionMakingIteration";
 
-const StartWorkout = () => {
-  const { session, updateSessionStatus } = useSession();
+const StartWorkoutDM = () => {
+  const { resume, startWorkout, workout, resultCharBarData } = useDMWorkout();
   const { screenOrientation } = useOrientation();
   useEffect(() => {
     //loadFiles();
@@ -36,19 +34,19 @@ const StartWorkout = () => {
   }, [navigation]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {session.status === "pending" ? (
+      {workout.status === "pending" ? (
         <RotateScreen
           orientation={
             ORIENTATION_NUMBER[
               screenOrientation as keyof typeof ORIENTATION_NUMBER
             ]
           }
-          onStartWorkout={() => updateSessionStatus("inCourse")}
+          onStartWorkout={startWorkout}
         />
-      ) : session.status === "inCourse" ? (
-        <SessionIteration />
+      ) : workout.status === "inCourse" ? (
+        <DecisionMakingIteration />
       ) : (
-        <SessionStatistics session={session} />
+        <SessionStatistics resume={resume} resultBarData={resultCharBarData} />
       )}
     </SafeAreaView>
   );
@@ -66,4 +64,4 @@ const styles = StyleSheet.create({
     height: 100,
   },
 });
-export default StartWorkout;
+export default StartWorkoutDM;

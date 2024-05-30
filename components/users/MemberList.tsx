@@ -1,14 +1,6 @@
-import { User, Member } from "@/types/user";
+import { Member } from "@/types/user";
 import { StyleSheet } from "react-native";
-import {
-  Box,
-  Pressable,
-  Text,
-  Avatar,
-  AvatarFallbackText,
-  AvatarImage,
-  FlatList,
-} from "@gluestack-ui/themed";
+import { FlatList } from "@gluestack-ui/themed";
 
 import MemberItem from "./MemberItem";
 

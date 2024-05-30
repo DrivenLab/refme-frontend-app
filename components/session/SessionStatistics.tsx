@@ -1,20 +1,25 @@
-import { SessionContext } from "@/types/session";
-import { getSessionResume } from "@/utils/session";
 import { Box, Text, VStack, Pressable, ScrollView } from "@gluestack-ui/themed";
-import React, { useState } from "react";
+import React from "react";
 import StatsResultPill from "../workouts/StatsResultPill";
-import SessionResultBarChart from "../workouts/SessionResultBarChart";
 import XIcon from "@/assets/svgs/XIcon";
 import i18n from "@/languages/i18n";
 import { useRouter } from "expo-router";
+import { WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
+import SessionResultBarChart from "../workouts/SessionResultBarChart";
+import SuccessIcon from "@/assets/svgs/SuccessIcon";
+import { useDMWorkout } from "@/context/DmContext";
 type Props = {
-  session: SessionContext;
+  resume: WorkoutResume;
+  resultBarData: WorkoutResultBarChart[];
 };
-const SessionStatistics = ({ session }: Props) => {
-  const [resume, setResume] = useState(getSessionResume(session));
+const SessionStatistics = ({ resume, resultBarData }: Props) => {
   const router = useRouter();
+  const { saveSession } = useDMWorkout();
   const handleXPress = () => {
     router.replace(`/workouts/`);
+  };
+  const handleSave = () => {
+    saveSession();
   };
   return (
     <ScrollView>
@@ -28,7 +33,7 @@ const SessionStatistics = ({ session }: Props) => {
             <StatsResultPill type="time" text={resume.answerAverageTime + ""} />
           </VStack>
           <Box width="70%" height="100%">
-            <SessionResultBarChart session={session} />
+            <SessionResultBarChart data={resultBarData} />
           </Box>
         </Box>
         <Box display="flex" flexDirection="row" mt={"$5"}>
@@ -51,9 +56,18 @@ const SessionStatistics = ({ session }: Props) => {
               <Text>{resume.date}</Text>
             </Box>
           </Box>
-          <Box display="flex" alignItems="flex-end" marginStart={10}>
+          <Box
+            display="flex"
+            flexDirection="row"
+            alignItems="flex-end"
+            marginStart={10}
+            gap={5}
+          >
             <Pressable marginVertical="auto" onPress={handleXPress}>
               <XIcon width={40} height={40}></XIcon>
+            </Pressable>
+            <Pressable marginVertical="auto" onPress={handleSave}>
+              <SuccessIcon width={40} height={40}></SuccessIcon>
             </Pressable>
           </Box>
         </Box>

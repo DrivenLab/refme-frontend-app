@@ -8,11 +8,15 @@ type Props = {
   imageName: "man_running_with_color";
   //   TODO:  Add more image names
   initialCountdown: number;
+  iterationNumber: number;
+  totalItaration: number;
 };
 const IterationImageCountdown = ({
   count,
   imageName,
   initialCountdown,
+  iterationNumber,
+  totalItaration,
 }: Props) => {
   return (
     <View
@@ -42,7 +46,7 @@ const IterationImageCountdown = ({
             text={`${count}`}
           />
         </Box>
-        <SessionCounter />
+        <SessionCounter current={iterationNumber} total={totalItaration} />
       </Box>
     </View>
   );

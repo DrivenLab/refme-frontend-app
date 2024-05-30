@@ -38,7 +38,7 @@
   "change_profile_picture": "Cambiar foto",
   "not_now": "Ahora no quiero",
   "finish": "Finalizar",
-  "member_type": "Tipo",
+  "member_type": "Tipo de referee",
   "type": "Habilidad Cognitiva",
   "referee": "Árbitro principal",
   "assistant_referee": "Árbitro asistente",
@@ -108,7 +108,13 @@
   "errors": {
     "generic_error": "Error, inténtelo más tarde.",
     "login_invalid_credentials": "Credenciales inválidas",
-    "password_doesnt_match": "Las contraseñas no coinciden"
+    "password_doesnt_match": "Las contraseñas no coinciden",
+    "workout_creation": {
+      "workout_name": "Por favor completa el nombre del entrenamiento",
+      "workout_type": "Por favor selecciona el tipo de entrenamiento",
+      "workout_member_type": "Por favor completa el tipo del arbitro",
+      "workout_pause_time": "El tiempo de pausa debe ser mayor a 21"
+    }
   },
   "genre_options": {
     "m": "Masculino",
@@ -133,7 +139,8 @@
     "look_at_decision": "decisión",
     "answer_avg": "Promedio de respuesta",
     "total_time": "Tiempo total de respuestas: ",
-    "date_title": "Realizado: "
+    "date_title": "Realizado: ",
+    "before_rpe_text": "Indica cómo te sientes"
   },
   "create_workout": {
     "workout_name": "Nombre del entrenamiento",
@@ -143,5 +150,10 @@
   "assign_workout": {
     "who_do_test": "¿Quién va a realizar este test?",
     "search_by_name": "Buscar por nombre"
+  },
+  "workout_type": {
+    "dm": "Toma de decisión",
+    "memory": "Memoria",
+    "recognition": "Reconocimiento"
   }
 }

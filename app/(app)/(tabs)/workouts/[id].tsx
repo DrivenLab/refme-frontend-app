@@ -95,7 +95,9 @@ const WorkoutDetail = () => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <WorkoutTypeBadge type={i18n.t(workout?.type || "s")} />
+                <WorkoutTypeBadge
+                  type={i18n.t(`workout_type.${workout?.type}`)}
+                />
                 <Button variant="link">
                   <ButtonText fontWeight="medium">
                     {i18n.t("workout_flow.watch_tutorial_label")}
@@ -137,9 +139,9 @@ const WorkoutDetail = () => {
             </VStack>
           </VStack>
           {userRole === "member" ? (
-            <WorkoutMemberDetail idSession={id} />
+            <WorkoutMemberDetail idSession={Number(id as string)} />
           ) : (
-            <WorkoutInstructorDetail idWorkout={id} />
+            <WorkoutInstructorDetail idWorkout={Number(id as string)} />
           )}
         </ScrollView>
       </SafeAreaView>

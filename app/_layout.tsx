@@ -7,7 +7,6 @@ import {
 import { GluestackUIProvider, StyledProvider } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config"; // Optional if you want to use default theme
 import { customConfig } from "@/theme/config";
-import { useFonts } from "expo-font";
 import { Slot, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
@@ -18,6 +17,12 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from "@react-native-community/netinfo";
 import { AuthProvider } from "@/context/auth";
+import { useFonts } from "expo-font";
+
+import {
+  PlusJakartaSans_400Regular,
+  PlusJakartaSans_700Bold,
+} from "@expo-google-fonts/plus-jakarta-sans";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -32,8 +37,8 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-    //...FontAwesome.font,
+    PlusJakartaSans_400Regular,
+    PlusJakartaSans_700Bold,
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.

@@ -11,7 +11,8 @@ import { useDMWorkout } from "@/context/DmContext";
 import DecisionMakingIteration from "@/components/session/dm/DecisionMakingIteration";
 
 const StartWorkoutDM = () => {
-  const { resume, startWorkout, workout, resultCharBarData } = useDMWorkout();
+  const { resume, workout, resultCharBarData, startWorkout, saveSession } =
+    useDMWorkout();
   const { screenOrientation } = useOrientation();
   useEffect(() => {
     //loadFiles();
@@ -32,6 +33,9 @@ const StartWorkoutDM = () => {
         tabBarStyle: undefined,
       });
   }, [navigation]);
+  const handleSaveResult = () => {
+    saveSession();
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {workout.status === "pending" ? (
@@ -46,7 +50,11 @@ const StartWorkoutDM = () => {
       ) : workout.status === "inCourse" ? (
         <DecisionMakingIteration />
       ) : (
-        <SessionStatistics resume={resume} resultBarData={resultCharBarData} />
+        <SessionStatistics
+          resume={resume}
+          resultBarData={resultCharBarData}
+          handleSaveResult={handleSaveResult}
+        />
       )}
     </SafeAreaView>
   );

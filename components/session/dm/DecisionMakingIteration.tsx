@@ -7,6 +7,7 @@ import SessionTrainingCountdown from "../SessionTrainingCountdown";
 import DecisionMakingAnswer from "./DecisionMakingAnswer";
 import RPE from "../RPE";
 import SessionCountdown from "../SessionCountdown";
+import DecisionMakingAnswerAssistant from "./DecisionMakingAnswerAssistant";
 
 const DecisionMakingIteration = () => {
   const {
@@ -65,10 +66,17 @@ const DecisionMakingIteration = () => {
           />
         </>
       ) : currentIterationStep === "decision" ? (
-        <DecisionMakingAnswer
-          onFinish={onFinishDecision}
-          iteration={currentIterarion}
-        />
+        workout.type === "dm" ? (
+          <DecisionMakingAnswer
+            onFinish={onFinishDecision}
+            iteration={currentIterarion}
+          />
+        ) : workout.type === "dmar" ? (
+          <DecisionMakingAnswerAssistant
+            onFinish={onFinishDecision}
+            iteration={currentIterarion}
+          />
+        ) : null
       ) : (
         <RPE onFinishRPE={onFinishRPE} iteration={currentIterarion} />
       )}

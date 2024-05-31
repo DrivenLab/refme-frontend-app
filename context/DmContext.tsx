@@ -59,9 +59,11 @@ export function DMProvider({ children }: PropsWithChildren) {
   const prepareIteration = ({
     i,
     timeToWorkout,
+    timeToAnswerInSec,
   }: {
     i: Iteration;
     timeToWorkout: number;
+    timeToAnswerInSec: number;
   }) => {
     const i_: IterationDM = {
       idIteration: i.id,
@@ -71,7 +73,7 @@ export function DMProvider({ children }: PropsWithChildren) {
       timeToGetReadyInSec:
         i.repetitionNumber === 1 ? 3 : i.answers.length ? 0 : 10,
       timeToWorkoutInSec: timeToWorkout,
-      timeToAnswerInSec: 6,
+      timeToAnswerInSec: timeToAnswerInSec,
       timeToRPEInSec: 3,
       answeredInMs: 7,
       iterationNumber: i.repetitionNumber,
@@ -114,10 +116,12 @@ export function DMProvider({ children }: PropsWithChildren) {
         prepareIteration({
           i,
           timeToWorkout: w.excerciseDuration,
+          timeToAnswerInSec: w.type === "dm" ? 7 : w.type === "dmar" ? 4 : 0,
         })
       ),
       status: "pending",
       workoutId: w.id,
+      type: w.type,
     };
     setStatus("pending");
     setWorkout(workout_);

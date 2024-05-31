@@ -14,6 +14,10 @@ export const DM_ANSWER1 = {
   dfk: "dfk",
   pk: "pk",
 };
+export const DMAR_ANSWER = {
+  off: "off",
+  noff: "noff",
+};
 export const ANSWER2 = {
   nc: "nc",
   yc: "yc",

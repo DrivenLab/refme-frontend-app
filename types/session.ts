@@ -39,12 +39,14 @@ export type IterationMemory = IterationWorkout & {
   answer_2Options: number[];
   isCorrect: boolean;
 };
+export type RECOGNITION_VIDEO_TYPE = "players" | "contact" | "foult" | "hand";
 export type IterationRecognition = IterationWorkout & {
   answer1?: number;
   answer2?: number;
   userAnswer1?: number;
   userAnswer2?: number;
   isCorrect: boolean;
+  videoType: RECOGNITION_VIDEO_TYPE;
 };
 export type WorkoutDate = {
   start: Date;
@@ -73,6 +75,7 @@ export type MemoryWorkout = GeneralWorkout & {
 export type RecognitionWorkout = GeneralWorkout & {
   iterations: IterationRecognition[];
   status: RECOGNITION_WORKOUT_STATUS;
+  recognitionType: RECOGNITION_VIDEO_TYPE;
 };
 export interface Iteration {
   id: number;
@@ -93,7 +96,7 @@ export type SessionPostType = {
 export interface Answer {
   id: number;
   video1: Video;
-  video2: Video;
+  video2?: Video;
   createdAt: string;
   modifiedAt: string;
   isActive: boolean;

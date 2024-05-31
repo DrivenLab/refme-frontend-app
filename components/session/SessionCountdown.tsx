@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import TextInformation from "../workouts/TextInformation";
 import IterationTextImageCountdown from "./IterationTextImageCountdown";
 import IterationTextImage from "./IterationTextImage";
-import { IMAGE_NAME } from "@/types/session";
+import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
 import { TEXT_TYPES } from "@/types/workout";
 
 type Props = {
@@ -12,6 +12,7 @@ type Props = {
   iterationNumber: number;
   totalItaration: number;
   type: TEXT_TYPES;
+  recognitionType?: RECOGNITION_VIDEO_TYPE;
 };
 const SessionCountdown = ({
   onFinishCountdown,
@@ -20,6 +21,7 @@ const SessionCountdown = ({
   iterationNumber,
   totalItaration,
   type,
+  recognitionType,
 }: Props) => {
   const [count, setCount] = useState(initialCountdown);
 
@@ -48,10 +50,15 @@ const SessionCountdown = ({
           initialCountdown={initialCountdown}
           iterationNumber={iterationNumber}
           totalItaration={totalItaration}
+          recognitionType={recognitionType}
         />
       ) : (
         <IterationTextImage imageName={imageName}>
-          <TextInformation type={type} step={1} />
+          <TextInformation
+            type={type}
+            step={1}
+            recognitionType={recognitionType}
+          />
         </IterationTextImage>
       )}
     </>

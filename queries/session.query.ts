@@ -91,6 +91,9 @@ const usePostSession = ({
       queryClient.cancelQueries({ queryKey: ["sessions"] });
       // updateLocalExerciseList(data.id, data.isDone, false);
     },
+    onError: (error) => {
+      console.log(error);
+    },
   });
   return { postSessionMutation };
 };

@@ -27,13 +27,18 @@ const SessionResultBarChart = ({ data }: Props) => {
             barWidth={15}
             style={{
               data: {
-                fill: ({ datum }) => {
-                  return RPE_COLORS[datum.rpe as keyof typeof RPE_COLORS];
+                fill: ({ datum }: { datum?: WorkoutResultBarChart }) => {
+                  const colorIndex = datum?.rpe;
+                  if (colorIndex)
+                    return RPE_COLORS[
+                      `${colorIndex}` as keyof typeof RPE_COLORS
+                    ];
+                  else return "#a1a1a1";
                 },
               },
             }}
-            labels={({ datum }) =>
-              !datum.hasVideo ? "" : datum.answerIsCorrect ? "✅" : "❌"
+            labels={({ datum }: { datum: WorkoutResultBarChart }) =>
+              !datum.hasVideo ? "" : datum.isCorrect ? "✅" : "❌"
             }
             cornerRadius={5}
           />

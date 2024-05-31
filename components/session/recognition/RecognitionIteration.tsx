@@ -35,7 +35,7 @@ const RecognitionIteration = () => {
     }, 0);
   };
   const handleSessionNextStep = () => {
-    if (currentIterarion.video) handleFinishCountdown("video");
+    if (currentIterarion.video) handleFinishCountdown("imageDecision");
     else handleFinishCountdown("workout");
   };
   return (
@@ -50,6 +50,7 @@ const RecognitionIteration = () => {
             iterationNumber={currentIterarion.iterationNumber}
             totalItaration={workout.iterations.length}
             type="recognition"
+            recognitionType={workout.recognitionType}
           />
         </>
       ) : currentIterationStep === "workout" ? (
@@ -61,11 +62,13 @@ const RecognitionIteration = () => {
           totalItaration={workout.iterations.length}
           imageName="touching_with_finger"
           type="recognition"
+          recognitionType=""
         />
       ) : currentIterationStep === "imageDecision" ? (
         <RecognitionAnswer
           onFinish={onFinishDecision}
           iteration={currentIterarion}
+          recognitionType=""
         />
       ) : (
         <RPE onFinishRPE={onFinishRPE} iteration={currentIterarion} />

@@ -8,6 +8,7 @@ import useDownloadSession from "@/hooks/useDownloadSession";
 import { useDMWorkout } from "@/context/DmContext";
 import { useMemoryWorkout } from "@/context/MemoryContext";
 import { Workout } from "@/types/workout";
+import { useRecognitionWorkout } from "@/context/RecognitionContext";
 
 type Props = {
   idSession: number;
@@ -21,15 +22,16 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
   const {
     isDownloading,
     downloadProgress,
-    setIsDownloading,
-    downloadSession,
     wasSessionDownloaded,
     session,
+    setIsDownloading,
+    downloadSession,
   } = useDownloadSession({ idSession });
 
   const router = useRouter();
   const { prepareWorkout: prepareDM } = useDMWorkout();
   const { prepareWorkout: prepareWorkoutMemory } = useMemoryWorkout();
+  const { prepareWorkout: prepareRecognitionWorkout } = useRecognitionWorkout();
   const handleOnPress = () => {
     if (wasSessionDownloaded && session) {
       prepareWorkout(session.workout);
@@ -43,7 +45,11 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
   const prepareWorkout = (workout: Workout) => {
     if (["dm", "dmar"].includes(workout.type)) {
       prepareDM(workout);
-    } else prepareWorkoutMemory(workout);
+    } else if (workout.type === "memory") {
+      prepareWorkoutMemory(workout);
+    } else if (workout.type === "recognition") {
+      prepareRecognitionWorkout(workout);
+    }
   };
   return (
     <>

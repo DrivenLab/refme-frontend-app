@@ -201,7 +201,7 @@ export const DisableTextInput = ({
         </Animated.Text>
         <View style={styles.inputContainer}>
           <TextInput
-            style={styles.input}
+            style={[styles.input, { color: "#ABABAB" }]}
             value={`${value}`}
             textAlignVertical="center"
             editable={false}
@@ -235,7 +235,6 @@ const styles = StyleSheet.create({
     height: 50,
     marginTop: 10,
     paddingLeft: 10,
-    color: "#ABABAB",
   },
   input2: {
     flex: 1,

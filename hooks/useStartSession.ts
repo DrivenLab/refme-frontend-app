@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import useSession from "./useSession";
 import { Iteration, Session } from "@/types/session";
 import { useQueryClient } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";

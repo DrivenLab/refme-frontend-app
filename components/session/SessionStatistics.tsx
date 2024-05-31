@@ -11,15 +11,16 @@ import { useDMWorkout } from "@/context/DmContext";
 type Props = {
   resume: WorkoutResume;
   resultBarData: WorkoutResultBarChart[];
+  handleSaveResult: () => void;
 };
-const SessionStatistics = ({ resume, resultBarData }: Props) => {
+const SessionStatistics = ({
+  resume,
+  resultBarData,
+  handleSaveResult,
+}: Props) => {
   const router = useRouter();
-  const { saveSession } = useDMWorkout();
   const handleXPress = () => {
     router.replace(`/workouts/`);
-  };
-  const handleSave = () => {
-    saveSession();
   };
   return (
     <ScrollView>
@@ -66,7 +67,7 @@ const SessionStatistics = ({ resume, resultBarData }: Props) => {
             <Pressable marginVertical="auto" onPress={handleXPress}>
               <XIcon width={40} height={40}></XIcon>
             </Pressable>
-            <Pressable marginVertical="auto" onPress={handleSave}>
+            <Pressable marginVertical="auto" onPress={handleSaveResult}>
               <SuccessIcon width={40} height={40}></SuccessIcon>
             </Pressable>
           </Box>

@@ -5,6 +5,7 @@ import {
   MEMORY_STEPS,
   IterationMemory,
   MEMORY_WORKOUT_STATUS,
+  SessionPostType,
 } from "@/types/session";
 import { Iteration } from "@/types/session";
 import {
@@ -29,6 +30,7 @@ import {
   TIME_TO_RPE,
   VIDEO_TIME_IN_SECONDS,
 } from "@/constants/Session";
+import { usePostSession } from "@/queries/session.query";
 type MemoryContextType = {
   currentIterarion: IterationMemory;
   currentIterationStep: MEMORY_STEPS;
@@ -43,6 +45,7 @@ type MemoryContextType = {
   workout: MemoryWorkout;
   resultCharBarData: WorkoutResultBarChart[];
   //handleNextStep:()=>void
+  saveSession: () => void;
 };
 
 const MemoryContext = createContext<MemoryContextType>({} as MemoryContextType);
@@ -63,6 +66,9 @@ export function MemoryProvider({ children }: PropsWithChildren) {
   const [resultCharBarData, setResultCharBarData] = useState<
     WorkoutResultBarChart[]
   >([]);
+  const { postSessionMutation } = usePostSession({
+    workoutId: workout.workoutId,
+  });
   const prepareIteration = ({
     i,
     timeToWorkout,
@@ -259,6 +265,17 @@ export function MemoryProvider({ children }: PropsWithChildren) {
   const startWorkout = () => {
     setWorkout((prev) => ({ ...prev, status: "inCourse" }));
   };
+
+  const saveSession = () => {
+    const sessionsPayload: SessionPostType[] = workout.iterations.map((it) => ({
+      workout_iteration: it.idIteration,
+      answer_1: `${it.userAnswer1}`,
+      answer_2: `${it.userAnswer2}`,
+      borgScale: it.rpe,
+      replyTime: it.answeredInMs,
+    }));
+    postSessionMutation.mutate(sessionsPayload);
+  };
   return (
     <MemoryContext.Provider
       value={{
@@ -274,6 +291,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
         handleUserRPE,
         updateWorkoutStatus,
         startWorkout,
+        saveSession,
       }}
     >
       {children}

@@ -11,7 +11,7 @@ import { useMemoryWorkout } from "@/context/MemoryContext";
 import MemoryIteration from "@/components/session/memory/MemoryIteration";
 
 const StartWorkoutDM = () => {
-  const { resume, startWorkout, workout, resultCharBarData } =
+  const { resume, workout, resultCharBarData, startWorkout, saveSession } =
     useMemoryWorkout();
   const { screenOrientation } = useOrientation();
   useEffect(() => {
@@ -33,6 +33,9 @@ const StartWorkoutDM = () => {
         tabBarStyle: undefined,
       });
   }, [navigation]);
+  const handleSaveResult = () => {
+    saveSession();
+  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       {workout.status === "pending" ? (
@@ -47,7 +50,11 @@ const StartWorkoutDM = () => {
       ) : workout.status === "inCourse" ? (
         <MemoryIteration />
       ) : (
-        <SessionStatistics resume={resume} resultBarData={resultCharBarData} />
+        <SessionStatistics
+          resume={resume}
+          resultBarData={resultCharBarData}
+          handleSaveResult={handleSaveResult}
+        />
       )}
     </SafeAreaView>
   );

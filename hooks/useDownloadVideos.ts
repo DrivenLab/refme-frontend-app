@@ -1,4 +1,9 @@
-import { Iteration, Session } from "@/types/session";
+import {
+  Answer,
+  Iteration,
+  Session,
+  VideoAnswerDonwload,
+} from "@/types/session";
 import { useCallback, useEffect, useState } from "react";
 import * as FileSystem from "expo-file-system";
 import { useGetSessionDetailById } from "@/queries/session.query";
@@ -25,13 +30,6 @@ const useDownloadVideos = () => {
     };
   }, []);
   const setProgressDebounced = debounce(setProgresses, 50);
-
-  const getUrl = (iteration: Iteration) => {
-    return iteration.answers[0].video1.video;
-  };
-  const getVideoName = (iteration: Iteration) => {
-    return `video_${iteration.answers[0].video1.id}.mp4`;
-  };
   const calculateDownloadProgress = (
     downloadProgress_: FileSystem.DownloadProgressData,
     url: string
@@ -51,30 +49,46 @@ const useDownloadVideos = () => {
       {},
       (x) => calculateDownloadProgress(x, url)
     );
-
-  const downloadVideo = async (i: Iteration, updateIteration = false) => {
+  const downloadVideoAnswer = async (i: Iteration, answer: Answer) => {
+    const obj: VideoAnswerDonwload = {
+      answerId: answer.id,
+      idIteration: i.id,
+    };
     try {
-      let url = getUrl(i);
-      let videoName = getVideoName(i);
-      const data = await downloadResumable(url, videoName).downloadAsync();
-      if (!data) return;
-      //if (updateIteration) updateIterationVideoUrl(i, data.uri);
-
-      return { uri: data.uri, idIteration: i.id };
+      const url1 = answer.video1.video;
+      const videoName1 = `video_${answer.video1.id}.mp4`;
+      const data = await downloadResumable(url1, videoName1).downloadAsync();
+      obj.uri1 = data?.uri;
+      if (answer.video2) {
+        const url2 = answer.video2.video;
+        const videoName2 = `video_${answer.video2.id}.mp4`;
+        const data2 = await downloadResumable(url2, videoName2).downloadAsync();
+        obj.uri2 = data2?.uri;
+      }
+      return obj;
     } catch (e) {
       console.error("eerrrr", e);
     }
   };
   const downloadVideos = async (workout: Workout) => {
-    const downloadVideosPromises = workout.iterations
+    const downloadVideos: Promise<VideoAnswerDonwload | undefined>[] = [];
+
+    workout.iterations
       .filter((i) => i.answers.length)
-      .map((i) => downloadVideo(i, true));
-    if (!downloadVideosPromises) return;
+      .forEach((i) => {
+        const x = "";
+        // const videos = downloadRecognitionSessionVideos(i, true);
+        for (const answer of i.answers) {
+          downloadVideos.push(downloadVideoAnswer(i, answer));
+        }
+      });
+    if (!downloadVideos) return;
     setIsDownloading(true);
     try {
-      const response = await Promise.all(downloadVideosPromises);
-      return response;
+      const _downloads = await Promise.all(downloadVideos);
+      return _downloads;
     } catch (error) {
+      console.log("Error downloading");
     } finally {
       setIsDownloading(false);
     }

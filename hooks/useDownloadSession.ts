@@ -11,7 +11,7 @@ type Props = {
 const useDownloadSession = ({ idSession }: Props) => {
   const [session, setSession] = useState<Session>();
   const [wasSessionDownloaded, setWasSessionDownloaded] = useState(false);
-  const { downloadVideos, downloadProgress, isDownloading, setIsDownloading } =
+  const { downloadProgress, isDownloading, downloadVideos, setIsDownloading } =
     useDownloadVideos();
   const queryClient = useQueryClient();
 
@@ -56,12 +56,27 @@ const useDownloadSession = ({ idSession }: Props) => {
       const { data, isSuccess } = await refetchSession();
       if (!isSuccess) return;
       setSession(data.data);
-      const response = await downloadVideos(data.data.workout);
-      const iterationsUpdated = data.data.workout.iterations.map((i) => {
-        const item = response?.find((r) => r?.idIteration === i.id);
-        if (!item) return i;
-        i.answers[0].video1.video = item.uri;
-        return i;
+      const responses = await downloadVideos(data.data.workout);
+      const iterationsUpdated = data.data.workout.iterations;
+      responses?.forEach((r) => {
+        const itIndex = iterationsUpdated.findIndex(
+          (it) => it.id === r?.idIteration
+        );
+        if (r && itIndex !== -1) {
+          const answerIndex = iterationsUpdated[itIndex].answers.findIndex(
+            (a) => a.id === r.answerId
+          );
+          if (answerIndex !== -1) {
+            if (r.uri1) {
+              iterationsUpdated[itIndex].answers[answerIndex].video1.video =
+                r.uri1;
+            }
+            if (r.uri2) {
+              iterationsUpdated[itIndex].answers[answerIndex].video2.video =
+                r.uri2;
+            }
+          }
+        }
       });
       updateSessionIterations({ iterations: iterationsUpdated });
       setWasSessionDownloaded(true);
@@ -74,9 +89,9 @@ const useDownloadSession = ({ idSession }: Props) => {
   return {
     session,
     wasSessionDownloaded,
-    downloadSession,
     downloadProgress,
     isDownloading,
+    downloadSession,
     setIsDownloading,
   };
 };

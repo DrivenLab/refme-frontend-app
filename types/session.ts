@@ -129,3 +129,10 @@ export type MEMORY_STEPS =
   | "video"
   | "decision"
   | "rpe";
+
+export type VideoAnswerDonwload = {
+  uri1?: string;
+  uri2?: string;
+  idIteration: number;
+  answerId: number;
+};

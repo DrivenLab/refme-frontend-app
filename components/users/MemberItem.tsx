@@ -1,4 +1,4 @@
-import { User, Member } from "@/types/user";
+import { Member } from "@/types/user";
 import { StyleSheet } from "react-native";
 import {
   Box,
@@ -9,11 +9,8 @@ import {
   AvatarImage,
 } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
-import { Href, Link } from "expo-router";
-import DownloadSessionBtn from "./DownloadSessionBtn";
 import { useState } from "react";
 import ConfirmMemberModal from "./ConfirmMemberModal";
-import useSession from "@/hooks/useSession";
 import ChevronForward from "@/assets/svgs/ChevronForward";
 
 type Props = {

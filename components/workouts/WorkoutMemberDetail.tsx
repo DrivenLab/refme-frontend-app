@@ -15,6 +15,7 @@ type Props = {
 const ROUTE_TO = {
   dm: "/workouts/startWorkoutDM",
   memory: "/workouts/startWorkoutMemory",
+  dmar: "/workouts/startWorkoutDM",
 };
 const WorkoutMemberDetail = ({ idSession }: Props) => {
   const {
@@ -40,7 +41,7 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
     }
   };
   const prepareWorkout = (workout: Workout) => {
-    if (workout.type === "dm") {
+    if (["dm", "dmar"].includes(workout.type)) {
       prepareDM(workout);
     } else prepareWorkoutMemory(workout);
   };

@@ -153,6 +153,7 @@
   },
   "workout_type": {
     "dm": "Decision Making",
+    "dmar": "Decision Making",
     "memory": "Memory",
     "recognition": "Reconocimiento"
   }

@@ -57,8 +57,8 @@
   "ifk": "Tiro libre indirecto",
   "dfk": "Tiro libre directo",
   "pk": "Tiro penal",
-  "off": "off",
-  "noff": "noff",
+  "off": "Offiside",
+  "noff": "No Offiside",
   "yes": "yes",
   "no": "no",
   "nc": "Sin Tarjeta",
@@ -153,6 +153,7 @@
   },
   "workout_type": {
     "dm": "Toma de decisión",
+    "dmar": "Toma de decisión",
     "memory": "Memoria",
     "recognition": "Reconocimiento"
   }

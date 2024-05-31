@@ -1,5 +1,5 @@
 import { Video } from "./multimedia";
-import { Workout } from "./workout";
+import { WORKOUT_TYPE, Workout } from "./workout";
 
 export interface Session {
   id: number;
@@ -45,6 +45,7 @@ export type WorkoutDate = {
   end: Date;
 };
 type GeneralWorkout = {
+  type: WORKOUT_TYPE;
   date: WorkoutDate;
   breakDuration: number;
   numberOfRepetitions: number;

@@ -14,8 +14,8 @@ type Props = {
 const WorkoutCard = ({
   id,
   workout,
-  downloadSession,
   wasSessionDownloaded,
+  downloadSession,
 }: Props) => {
   return (
     <Link href={`/workouts/${id}/` as Href<string>} asChild>
@@ -36,6 +36,7 @@ const WorkoutCard = ({
             py={"$1"}
           >
             <Box display="flex" flexDirection="row" gap={3}>
+              {/* TODO DEFINE MORE LOGO With workout type */}
               <DmLogo />
               <Text color="secondary">
                 {i18n.t(`workout_type.${workout.type}`)}

@@ -1,98 +1,83 @@
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  Box,
-  HStack,
-  Image,
-} from "@gluestack-ui/themed";
-import React, { useEffect, useMemo, useState } from "react";
+import { Box, Text } from "@gluestack-ui/themed";
+import React, { useEffect, useState } from "react";
 
-import { DM_ANSWER, IMAGE_NAME, IterationContext } from "@/types/session";
+import {
+  IMAGE_NAME,
+  RECOGNITION_VIDEO_TYPE,
+  IterationRecognition,
+  Answer,
+} from "@/types/session";
 import CProgress from "@/components/progress-bar/CProgress";
 import useCountdown from "@/hooks/useCountdown";
-import { get_image_from_name } from "@/utils/libs";
-import RecognitionOption from "./RecognitionOption";
+import * as RecognitionSingularAnswer from "./RecognitionSingularAnswer";
 
 type Props = {
+  iteration: IterationRecognition;
   onFinish: (a: any) => void;
-  iteration: IterationContext;
 };
 
-type RecognitionAnswerType = "1" | "2" | "";
+type RecognitionAnswerType = string | number | null;
 
-const PROP_IMAGE_NAME: IMAGE_NAME = "target_image";
-const REAL_ANSWER: RecognitionAnswerType = "2";
-
-const RecognitionAnswer = ({ onFinish, iteration }: Props) => {
-  const imageIconSource = useMemo(
-    () => get_image_from_name(PROP_IMAGE_NAME),
-    []
+const RecognitionAnswer = ({ iteration, onFinish }: Props) => {
+  const [answer, setAnswer] = useState<RecognitionAnswerType>(null);
+  const [currentAnswer, setCurrentAnswer] = useState<Answer>(
+    iteration.answers[0]
   );
-  const [answer, setAnswer] = useState<RecognitionAnswerType>("");
+  //   console.log({ currentAnswer });
+  //   console.log("iteration.answers", iteration.answers[0]);
+  const [userAnswer, setUserAnswer] = useState<RecognitionAnswerType[]>([
+    null,
+    null,
+    null,
+  ]);
   //   const [hasCompleted, setHasCompleted] = useState(false);
-  const isCorrect = answer === REAL_ANSWER;
+  //   const isCorrect = answer === REAL_ANSWER;
   const { hasFinished, elapsedRunningTime } = useCountdown({
     stopInSec: iteration.timeToAnswerInSec,
     delay: 1,
   });
+  useEffect(() => {
+    setCurrentAnswer(iteration.answers[0]);
+  }, [iteration]);
   useEffect(() => {
     if (hasFinished.current) handleOnFinishCountdown();
   }, [hasFinished.current]);
 
   function handleOnFinishCountdown() {
     // const a: DM_ANSWER = { ...asnwer };
-    onFinish(isCorrect);
+    onFinish(userAnswer);
   }
+  console.log("videoType", currentAnswer.videoType);
+  console.log("video1", currentAnswer.video1.video);
+  console.log("video2", currentAnswer.video2);
   return (
     <Box bg="$white" flex={1} height="100%">
       <CProgress totalTimeInSec={iteration.timeToAnswerInSec} />
-      <HStack>
-        <RecognitionOption
-          uri="https://j.gifs.com/xGgo4r.gif"
-          onPress={() => setAnswer("1")}
-          isCorrect={isCorrect}
-          isMarked={answer === "1"}
+      <Text>ans</Text>
+      {currentAnswer.videoType === "foult" && (
+        <RecognitionSingularAnswer.RecognitionSingularAnswerFault
+          recognitionAnswer={currentAnswer}
+          setAnswer={(a) => setAnswer(a)}
         />
-        <Box w="15%" display="flex" alignItems="center" justifyContent="center">
-          {/* <ArrowLeftIcon color="#ceced3" w="$16" h="$16" /> */}
-          <ArrowLeftIcon
-            color={
-              answer === ""
-                ? "#ceced3"
-                : REAL_ANSWER === "1"
-                ? "#4ed964"
-                : "#ff3a31"
-            }
-            w="$16"
-            h="$16"
-          />
-          <Box
-            rounded="$full"
-            bgColor="$primary"
-            padding={10}
-            style={{ transform: "scale(0.7)" }}
-          >
-            <Image source={imageIconSource} alt={PROP_IMAGE_NAME} />
-          </Box>
-          <ArrowRightIcon
-            color={
-              answer === ""
-                ? "#ceced3"
-                : REAL_ANSWER === "2"
-                ? "#4ed964"
-                : "#ff3a31"
-            }
-            w="$16"
-            h="$16"
-          />
-        </Box>
-        <RecognitionOption
-          uri="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmFoMXlnY29mNG05OGxzcTVoYmE5MDh1cTFsZjJ6aWZ3bDl5dTNiNSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/XI287y0miNy3Y1dq5O/giphy.gif"
-          onPress={() => setAnswer("2")}
-          isCorrect={isCorrect}
-          isMarked={answer === "2"}
+      )}
+      {currentAnswer.videoType === "hand" && (
+        <RecognitionSingularAnswer.RecognitionSingularAnswerHand
+          recognitionAnswer={currentAnswer}
+          setAnswer={(a) => setAnswer(a)}
         />
-      </HStack>
+      )}
+      {currentAnswer.videoType === "players" && (
+        <RecognitionSingularAnswer.RecognitionSingularAnswerNumberOfPlayers
+          recognitionAnswer={currentAnswer}
+          setAnswer={(a) => setAnswer(a)}
+        />
+      )}
+      {currentAnswer.videoType === "contact" && (
+        <RecognitionSingularAnswer.RecognitionSingularAnswerContactPoint
+          recognitionAnswer={currentAnswer}
+          setAnswer={(a) => setAnswer(a)}
+        />
+      )}
     </Box>
   );
 };

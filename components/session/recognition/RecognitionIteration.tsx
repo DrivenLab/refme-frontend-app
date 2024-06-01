@@ -1,22 +1,28 @@
 import { View } from "@gluestack-ui/themed";
 import React from "react";
-import { RECOGNITION_ANSWER, RECOGNITION_STEPS } from "@/types/session";
+import {
+  IMAGE_NAME,
+  RECOGNITION_ANSWER,
+  RECOGNITION_STEPS,
+  RECOGNITION_VIDEO_TYPE,
+} from "@/types/session";
 import SessionTrainingCountdown from "../SessionTrainingCountdown";
 import RPE from "../RPE";
 import SessionCountdown from "../SessionCountdown";
 
 import RecognitionAnswer from "./RecognitionAnswer";
 import { useRecognitionWorkout } from "@/context/RecognitionContext";
+import { RecognitionImageMap } from "@/utils/session";
 
 const RecognitionIteration = () => {
   const {
     currentIterarion,
     currentIterationStep,
+    workout,
     handleNextIteration,
     changeIterationStep,
     handleUserAnswer,
     handleUserRPE,
-    workout,
   } = useRecognitionWorkout();
   const handleFinishCountdown = (step: RECOGNITION_STEPS) => {
     // Defer the state update until after the current rendering cycle
@@ -24,8 +30,9 @@ const RecognitionIteration = () => {
       changeIterationStep(step);
     }, 0);
   };
-  const onFinishDecision = (answer: RECOGNITION_ANSWER) => {
-    handleUserAnswer(answer);
+  const onFinishDecision = (answer: RECOGNITION_ANSWER[]) => {
+    // TODO: onFinish
+    // handleUserAnswer(answer);
     handleFinishCountdown("rpe");
   };
   const onFinishRPE = (rpe?: number) => {
@@ -46,11 +53,9 @@ const RecognitionIteration = () => {
             onFinishCountdown={handleSessionNextStep}
             initialCountdown={currentIterarion.timeToGetReadyInSec}
             imageName="man_running_ready_to_workout"
-            // TODO: SEND IMAGE ACCORDINGLY
             iterationNumber={currentIterarion.iterationNumber}
             totalItaration={workout.iterations.length}
             type="recognition"
-            recognitionType={workout.recognitionType}
           />
         </>
       ) : currentIterationStep === "workout" ? (
@@ -60,15 +65,14 @@ const RecognitionIteration = () => {
           hasVideo={!(currentIterarion.video == undefined)}
           iterationNumber={currentIterarion.iterationNumber}
           totalItaration={workout.iterations.length}
-          imageName="touching_with_finger"
+          imageName={RecognitionImageMap[currentIterarion.videoType]}
           type="recognition"
-          recognitionType=""
+          recognitionType={currentIterarion.videoType}
         />
       ) : currentIterationStep === "imageDecision" ? (
         <RecognitionAnswer
           onFinish={onFinishDecision}
           iteration={currentIterarion}
-          recognitionType=""
         />
       ) : (
         <RPE onFinishRPE={onFinishRPE} iteration={currentIterarion} />

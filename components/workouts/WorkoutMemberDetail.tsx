@@ -17,6 +17,7 @@ const ROUTE_TO = {
   dm: "/workouts/startWorkoutDM",
   memory: "/workouts/startWorkoutMemory",
   dmar: "/workouts/startWorkoutDM",
+  recognition: "/workouts/startWorkoutRecognition",
 };
 const WorkoutMemberDetail = ({ idSession }: Props) => {
   const {
@@ -24,14 +25,24 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
     downloadProgress,
     wasSessionDownloaded,
     session,
-    setIsDownloading,
+    cancelDownload,
     downloadSession,
   } = useDownloadSession({ idSession });
 
   const router = useRouter();
   const { prepareWorkout: prepareDM } = useDMWorkout();
   const { prepareWorkout: prepareWorkoutMemory } = useMemoryWorkout();
-  const { prepareWorkout: prepareRecognitionWorkout } = useRecognitionWorkout();
+  const recognitionWorkout = useRecognitionWorkout();
+
+  const prepareWorkout = (workout: Workout) => {
+    if (["dm", "dmar"].includes(workout.type)) {
+      prepareDM(workout);
+    } else if (workout.type === "memory") {
+      prepareWorkoutMemory(workout);
+    } else if (workout.type === "recognition") {
+      recognitionWorkout.prepareWorkout(workout);
+    }
+  };
   const handleOnPress = () => {
     if (wasSessionDownloaded && session) {
       prepareWorkout(session.workout);
@@ -42,20 +53,11 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
       downloadSession();
     }
   };
-  const prepareWorkout = (workout: Workout) => {
-    if (["dm", "dmar"].includes(workout.type)) {
-      prepareDM(workout);
-    } else if (workout.type === "memory") {
-      prepareWorkoutMemory(workout);
-    } else if (workout.type === "recognition") {
-      prepareRecognitionWorkout(workout);
-    }
-  };
   return (
     <>
       <DownloadProgressModal
         isModalOpen={isDownloading}
-        onCancelDownload={() => setIsDownloading(false)}
+        onCancelDownload={cancelDownload}
         downloadProgress={downloadProgress}
       />
       <Button

@@ -41,12 +41,11 @@ export type IterationMemory = IterationWorkout & {
 };
 export type RECOGNITION_VIDEO_TYPE = "players" | "contact" | "foult" | "hand";
 export type IterationRecognition = IterationWorkout & {
-  answer1?: number;
-  answer2?: number;
-  userAnswer1?: number;
-  userAnswer2?: number;
+  answers: Answer[];
+  //   userAnswers: [];
   isCorrect: boolean;
   videoType: RECOGNITION_VIDEO_TYPE;
+  repetitionNumber: number;
 };
 export type WorkoutDate = {
   start: Date;
@@ -75,7 +74,6 @@ export type MemoryWorkout = GeneralWorkout & {
 export type RecognitionWorkout = GeneralWorkout & {
   iterations: IterationRecognition[];
   status: RECOGNITION_WORKOUT_STATUS;
-  recognitionType: RECOGNITION_VIDEO_TYPE;
 };
 export interface Iteration {
   id: number;
@@ -101,6 +99,7 @@ export interface Answer {
   modifiedAt: string;
   isActive: boolean;
   workoutIteration: number;
+  videoType?: RECOGNITION_VIDEO_TYPE;
 }
 export type IMAGE_NAME =
   | "man_running_ready_to_workout"
@@ -126,15 +125,10 @@ export type MEMORY_ANSWER = {
   answeredInMs: number;
   isCorrect?: boolean;
 };
-export type RECOGNITION_ANSWER = {
-  answer1?: number;
-  asnwer2?: number;
-  answeredInMs: number;
-  isCorrect?: boolean;
-};
-
 export type t_DM_ANSWER1 = "nf" | "ifk" | "dfk" | "pk";
 export type t_DM_ANSWER2 = "nc" | "yc" | "rc";
+
+export type RECOGNITION_ANSWER = string | number | null;
 
 export type Steps = "beginning" | "workout" | "video" | "decision" | "rpe";
 export type SESSION_STATUS = "pending" | "inCourse" | "finished";

@@ -1,7 +1,6 @@
 import { View } from "@gluestack-ui/themed";
 import React from "react";
-import { DM_ANSWER, MEMORY_ANSWER, Steps } from "@/types/session";
-import { useDMWorkout } from "@/context/DmContext";
+import { MEMORY_ANSWER, Steps } from "@/types/session";
 import CVideo from "@/components/CVideo";
 import SessionTrainingCountdown from "../SessionTrainingCountdown";
 import RPE from "../RPE";

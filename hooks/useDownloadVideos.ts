@@ -42,6 +42,7 @@ const useDownloadVideos = () => {
       [url]: progress,
     }));
   };
+  //   TODO: HANDLE ERROR IN DOWNLOAD
   const downloadResumable = (url: string, videoName: string) =>
     FileSystem.createDownloadResumable(
       url,
@@ -54,41 +55,39 @@ const useDownloadVideos = () => {
       answerId: answer.id,
       idIteration: i.id,
     };
-    try {
-      const url1 = answer.video1.video;
-      const videoName1 = `video_${answer.video1.id}.mp4`;
-      const data = await downloadResumable(url1, videoName1).downloadAsync();
-      obj.uri1 = data?.uri;
-      if (answer.video2) {
-        const url2 = answer.video2.video;
-        const videoName2 = `video_${answer.video2.id}.mp4`;
-        const data2 = await downloadResumable(url2, videoName2).downloadAsync();
-        obj.uri2 = data2?.uri;
-      }
-      return obj;
-    } catch (e) {
-      console.error("eerrrr", e);
+
+    const url1 = answer.video1.video;
+    const ext1 = answer.video1.video.split(".").pop();
+    const videoName1 = `video_${answer.video1.id}.${ext1}`;
+    const data = await downloadResumable(url1, videoName1).downloadAsync();
+    obj.uri1 = data?.uri;
+    if (answer.video2) {
+      const url2 = answer.video2.video;
+      const ext2 = answer.video2.video.split(".").pop();
+      const videoName2 = `video_${answer.video2.id}.${ext2}`;
+      const data2 = await downloadResumable(url2, videoName2).downloadAsync();
+      obj.uri2 = data2?.uri;
     }
+    return obj;
   };
   const downloadVideos = async (workout: Workout) => {
-    const downloadVideos: Promise<VideoAnswerDonwload | undefined>[] = [];
+    const _downloadVideos: Promise<VideoAnswerDonwload | undefined>[] = [];
 
     workout.iterations
       .filter((i) => i.answers.length)
       .forEach((i) => {
-        const x = "";
-        // const videos = downloadRecognitionSessionVideos(i, true);
         for (const answer of i.answers) {
-          downloadVideos.push(downloadVideoAnswer(i, answer));
+          _downloadVideos.push(downloadVideoAnswer(i, answer));
         }
       });
-    if (!downloadVideos) return;
+    if (!_downloadVideos) return;
     setIsDownloading(true);
     try {
-      const _downloads = await Promise.all(downloadVideos);
+      const _downloads = await Promise.all(_downloadVideos);
       return _downloads;
     } catch (error) {
       console.log("Error downloading");
+      return null;
     } finally {
       setIsDownloading(false);
     }

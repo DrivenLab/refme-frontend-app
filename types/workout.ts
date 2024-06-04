@@ -46,4 +46,4 @@ export type WorkoutResume = {
 export type TEXT_TYPES = "dm" | "memory" | "rpe";
 
 export type MEMBER_TYPE = "re" | "ar";
-export type WORKOUT_TYPE = "dm" | "memory" | "dmar";
+export type WORKOUT_TYPE = "dm" | "memory" | "dmar" | "dm+memory";

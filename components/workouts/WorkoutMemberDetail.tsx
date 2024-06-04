@@ -8,6 +8,7 @@ import useDownloadSession from "@/hooks/useDownloadSession";
 import { useDMWorkout } from "@/context/DmContext";
 import { useMemoryWorkout } from "@/context/MemoryContext";
 import { Workout } from "@/types/workout";
+import { useDMAndMemWorkout } from "@/context/DmAndMemoryContext";
 
 type Props = {
   idSession: number;
@@ -16,6 +17,7 @@ const ROUTE_TO = {
   dm: "/workouts/startWorkoutDM",
   memory: "/workouts/startWorkoutMemory",
   dmar: "/workouts/startWorkoutDM",
+  "dm+memory": "/workouts/startWorkoutDMAndMem",
 };
 const WorkoutMemberDetail = ({ idSession }: Props) => {
   const {
@@ -29,6 +31,7 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
 
   const router = useRouter();
   const { prepareWorkout: prepareDM } = useDMWorkout();
+  const { prepareWorkout: prepareDMAndMem } = useDMAndMemWorkout();
   const { prepareWorkout: prepareWorkoutMemory } = useMemoryWorkout();
   const handleOnPress = () => {
     if (wasSessionDownloaded && session) {
@@ -43,6 +46,8 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
   const prepareWorkout = (workout: Workout) => {
     if (["dm", "dmar"].includes(workout.type)) {
       prepareDM(workout);
+    } else if (workout.type === "dm+memory") {
+      prepareDMAndMem(workout);
     } else prepareWorkoutMemory(workout);
   };
   return (

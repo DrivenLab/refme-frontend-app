@@ -155,6 +155,7 @@
     "dm": "Toma de decisión",
     "dmar": "Toma de decisión",
     "memory": "Memoria",
-    "recognition": "Reconocimiento"
+    "recognition": "Reconocimiento",
+    "dm+memory": "Toma de decisión + Memoria"
   }
 }

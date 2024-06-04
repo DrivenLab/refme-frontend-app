@@ -9,6 +9,7 @@ import { useDMWorkout } from "@/context/DmContext";
 import { useMemoryWorkout } from "@/context/MemoryContext";
 import { Workout } from "@/types/workout";
 import { useDMAndMemWorkout } from "@/context/DmAndMemoryContext";
+import { useRecognitionWorkout } from "@/context/RecognitionContext";
 
 type Props = {
   idSession: number;
@@ -18,21 +19,35 @@ const ROUTE_TO = {
   memory: "/workouts/startWorkoutMemory",
   dmar: "/workouts/startWorkoutDM",
   "dm+memory": "/workouts/startWorkoutDMAndMem",
+  recognition: "/workouts/startWorkoutRecognition",
 };
 const WorkoutMemberDetail = ({ idSession }: Props) => {
   const {
     isDownloading,
     downloadProgress,
-    setIsDownloading,
-    downloadSession,
     wasSessionDownloaded,
     session,
+    cancelDownload,
+    downloadSession,
   } = useDownloadSession({ idSession });
 
   const router = useRouter();
   const { prepareWorkout: prepareDM } = useDMWorkout();
   const { prepareWorkout: prepareDMAndMem } = useDMAndMemWorkout();
   const { prepareWorkout: prepareWorkoutMemory } = useMemoryWorkout();
+  const recognitionWorkout = useRecognitionWorkout();
+
+  const prepareWorkout = (workout: Workout) => {
+    if (["dm", "dmar"].includes(workout.type)) {
+      prepareDM(workout);
+    } else if (workout.type === "memory") {
+      prepareWorkoutMemory(workout);
+    } else if (workout.type === "recognition") {
+      recognitionWorkout.prepareWorkout(workout);
+    } else if (workout.type === "dm+memory") {
+      prepareDMAndMem(workout);
+    }
+  };
   const handleOnPress = () => {
     if (wasSessionDownloaded && session) {
       prepareWorkout(session.workout);
@@ -43,18 +58,11 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
       downloadSession();
     }
   };
-  const prepareWorkout = (workout: Workout) => {
-    if (["dm", "dmar"].includes(workout.type)) {
-      prepareDM(workout);
-    } else if (workout.type === "dm+memory") {
-      prepareDMAndMem(workout);
-    } else prepareWorkoutMemory(workout);
-  };
   return (
     <>
       <DownloadProgressModal
         isModalOpen={isDownloading}
-        onCancelDownload={() => setIsDownloading(false)}
+        onCancelDownload={cancelDownload}
         downloadProgress={downloadProgress}
       />
       <Button

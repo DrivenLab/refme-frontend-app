@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 import { WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
 import SessionResultBarChart from "../workouts/SessionResultBarChart";
 import SuccessIcon from "@/assets/svgs/SuccessIcon";
-import { useDMWorkout } from "@/context/DmContext";
+
 type Props = {
   resume: WorkoutResume;
   resultBarData: WorkoutResultBarChart[];

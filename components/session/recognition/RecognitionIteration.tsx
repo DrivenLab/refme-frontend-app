@@ -1,31 +1,38 @@
 import { View } from "@gluestack-ui/themed";
 import React from "react";
-import { MEMORY_ANSWER, Steps } from "@/types/session";
-import CVideo from "@/components/CVideo";
+import {
+  IMAGE_NAME,
+  RECOGNITION_ANSWER,
+  RECOGNITION_STEPS,
+  RECOGNITION_VIDEO_TYPE,
+} from "@/types/session";
 import SessionTrainingCountdown from "../SessionTrainingCountdown";
 import RPE from "../RPE";
 import SessionCountdown from "../SessionCountdown";
-import { useMemoryWorkout } from "@/context/MemoryContext";
-import MemoryAnswer from "./MemoryAnswer";
 
-const MemoryIteration = () => {
+import RecognitionAnswer from "./RecognitionAnswer";
+import { useRecognitionWorkout } from "@/context/RecognitionContext";
+import { RecognitionImageMap } from "@/utils/session";
+
+const RecognitionIteration = () => {
   const {
     currentIterarion,
+    currentIterationStep,
+    workout,
     handleNextIteration,
     changeIterationStep,
-    currentIterationStep,
     handleUserAnswer,
     handleUserRPE,
-    workout,
-  } = useMemoryWorkout();
-  const handleFinishCountdown = (step: Steps) => {
+  } = useRecognitionWorkout();
+  const handleFinishCountdown = (step: RECOGNITION_STEPS) => {
     // Defer the state update until after the current rendering cycle
     setTimeout(() => {
       changeIterationStep(step);
     }, 0);
   };
-  const onFinishDecision = (answer: MEMORY_ANSWER) => {
-    handleUserAnswer(answer);
+  const onFinishDecision = (answer: RECOGNITION_ANSWER[]) => {
+    // TODO: onFinish
+    // handleUserAnswer(answer);
     handleFinishCountdown("rpe");
   };
   const onFinishRPE = (rpe?: number) => {
@@ -35,7 +42,7 @@ const MemoryIteration = () => {
     }, 0);
   };
   const handleSessionNextStep = () => {
-    if (currentIterarion.video) handleFinishCountdown("video");
+    if (currentIterarion.video) handleFinishCountdown("imageDecision");
     else handleFinishCountdown("workout");
   };
   return (
@@ -45,31 +52,25 @@ const MemoryIteration = () => {
           <SessionCountdown
             onFinishCountdown={handleSessionNextStep}
             initialCountdown={currentIterarion.timeToGetReadyInSec}
-            imageName="play_video"
+            imageName="man_running_ready_to_workout"
             iterationNumber={currentIterarion.iterationNumber}
             totalItaration={workout.iterations.length}
-            type="memory"
-          />
-        </>
-      ) : currentIterationStep === "video" && currentIterarion.video ? (
-        <>
-          <CVideo
-            uri={currentIterarion.video}
-            onFinishVideo={() => handleFinishCountdown("workout")}
+            type="recognition"
           />
         </>
       ) : currentIterationStep === "workout" ? (
         <SessionTrainingCountdown
-          onFinishCountdown={() => handleFinishCountdown("decision")}
+          onFinishCountdown={() => handleFinishCountdown("imageDecision")}
           initialCountdown={currentIterarion.timeToWorkoutInSec}
           hasVideo={!(currentIterarion.video == undefined)}
           iterationNumber={currentIterarion.iterationNumber}
           totalItaration={workout.iterations.length}
-          imageName="touching_with_finger"
-          type="memory"
+          imageName={RecognitionImageMap[currentIterarion.videoType]}
+          type="recognition"
+          recognitionType={currentIterarion.videoType}
         />
-      ) : currentIterationStep === "decision" ? (
-        <MemoryAnswer
+      ) : currentIterationStep === "imageDecision" ? (
+        <RecognitionAnswer
           onFinish={onFinishDecision}
           iteration={currentIterarion}
         />
@@ -80,4 +81,4 @@ const MemoryIteration = () => {
   );
 };
 
-export default MemoryIteration;
+export default RecognitionIteration;

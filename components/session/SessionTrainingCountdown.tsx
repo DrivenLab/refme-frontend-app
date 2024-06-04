@@ -9,25 +9,27 @@ import CircularProgress from "../progress-bar/CircularProgressBar";
 import ManRunningWithColor from "@/assets/svgs/ManRunningWithColor";
 import { get_image_from_name } from "@/utils/libs";
 import { TEXT_TYPES } from "@/types/workout";
-import { IMAGE_NAME } from "@/types/session";
+import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
 
 type Props = {
   initialCountdown: number;
   hasVideo: boolean;
-  onFinishCountdown: () => void;
   iterationNumber: number;
   totalItaration: number;
   imageName: IMAGE_NAME;
   type: TEXT_TYPES;
+  recognitionType?: RECOGNITION_VIDEO_TYPE;
+  onFinishCountdown: () => void;
 };
 const SessionTrainingCountdown = ({
   initialCountdown,
   hasVideo,
-  onFinishCountdown,
   iterationNumber,
   totalItaration,
   imageName,
   type,
+  recognitionType,
+  onFinishCountdown,
 }: Props) => {
   const [count, setCount] = useState(initialCountdown);
   const imageSource = useMemo(
@@ -81,7 +83,12 @@ const SessionTrainingCountdown = ({
                 style={{ height: 100, width: 100 }}
                 contentFit="contain"
               />
-              <TextInformation type={type} step={2} hasVideo={hasVideo} />
+              <TextInformation
+                type={type}
+                step={2}
+                hasVideo={hasVideo}
+                recognitionType={recognitionType}
+              />
             </Box>
           )}
           <Box flex={1} alignItems="center">
@@ -99,7 +106,12 @@ const SessionTrainingCountdown = ({
         </View>
       ) : (
         <IterationTextImage imageName={hasVideo ? imageName : "how_you_feel"}>
-          <TextInformation type={type} step={2} hasVideo={hasVideo} />
+          <TextInformation
+            type={type}
+            step={2}
+            hasVideo={hasVideo}
+            recognitionType={recognitionType}
+          />
         </IterationTextImage>
       )}
     </View>

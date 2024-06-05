@@ -16,6 +16,7 @@ import {
 } from "@/utils/session";
 import { Workout, WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
 import { usePostSession } from "@/queries/session.query";
+import { calculateNextTimeToGetReady } from "@/utils/workoutUtils";
 
 type DMContextType = {
   currentIterarion: IterationDM;
@@ -58,10 +59,12 @@ export function DMProvider({ children }: PropsWithChildren) {
   });
   const prepareIteration = ({
     i,
+    oldIteration,
     timeToWorkout,
     timeToAnswerInSec,
   }: {
     i: Iteration;
+    oldIteration?: Iteration;
     timeToWorkout: number;
     timeToAnswerInSec: number;
   }) => {
@@ -70,8 +73,12 @@ export function DMProvider({ children }: PropsWithChildren) {
       video: i.answers.length ? i.answers[0].video1.video : undefined,
       answer1: i.answers.length ? i.answers[0].video1.answer1 : undefined,
       answer2: i.answers.length ? i.answers[0].video1.answer2 : undefined,
-      timeToGetReadyInSec:
-        i.repetitionNumber === 1 ? 3 : i.answers.length ? 0 : 10,
+      timeToGetReadyInSec: calculateNextTimeToGetReady({
+        i: oldIteration,
+        breakDuration: workout.breakDuration,
+        type: workout.type,
+        memberType: workout.memberType || "ar",
+      }),
       timeToWorkoutInSec: timeToWorkout,
       timeToAnswerInSec: timeToAnswerInSec,
       timeToRPEInSec: 3,
@@ -112,9 +119,10 @@ export function DMProvider({ children }: PropsWithChildren) {
       maxRPETime: 7,
       numberOfDecisions: w.numberOfDecisions,
       numberOfRepetitions: w.numberOfRepetitions,
-      iterations: iterations_.map((i) =>
+      iterations: iterations_.map((i, itIndex) =>
         prepareIteration({
           i,
+          oldIteration: iterations_[itIndex - 1],
           timeToWorkout: w.excerciseDuration,
           timeToAnswerInSec: w.type === "dm" ? 7 : w.type === "dmar" ? 4 : 0,
         })
@@ -122,6 +130,7 @@ export function DMProvider({ children }: PropsWithChildren) {
       status: "pending",
       workoutId: w.id,
       type: w.type,
+      memberType: w.memberType,
     };
     setStatus("pending");
     setWorkout(workout_);
@@ -173,7 +182,6 @@ export function DMProvider({ children }: PropsWithChildren) {
     setWorkout((prev) => ({ ...prev, status }));
   };
   const getWorkoutResume = () => {
-    //console.log("session resume", s);
     const iterationWithVideos = workout.iterations.filter((i) => i.video);
     const correctAnswers = iterationWithVideos.filter((i) => {
       //Si al usuario le faltó responder algunas de las 2 preguntas, ya se pone como incorrecta.

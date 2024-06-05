@@ -38,8 +38,6 @@ const DMAndMemIteration = () => {
   };
   // Flujo normal: mem-beginning mem-video dm-beginning dm-workout
   // dm-video dm-rpe dm-decision mem-workout mem-decision rpe
-  // currentIterarion.iterationNumber = 2;
-  console.log({ currentIterationStep, step: currentIterarion.iterationNumber });
 
   return (
     <View flex={1}>
@@ -151,7 +149,6 @@ const DMAndMemIteration = () => {
       ) : currentIterationStep === "mem-decision" ? (
         <MemoryAnswer
           onFinish={(answer) => {
-            console.log("answer", answer);
             handleUserMemAnswer(answer);
             handleFinishCountdown("mem-rpe");
           }}

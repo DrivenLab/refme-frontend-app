@@ -170,6 +170,7 @@ export type DM_MEM_STEPS =
   | "dm-workout"
   | "dm-video"
   | "dm-decision"
+  | "beginning-mem-workout"
   | "mem-workout"
   | "mem-decision"
   | "dm-rpe"

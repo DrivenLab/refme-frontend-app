@@ -134,7 +134,6 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     return a_;
   };
   const prepareWorkout = (w: Workout) => {
-    console.log("prepareWorkout", JSON.stringify(w, null, 2));
     const iterations_ = getIterationsOrdered(w);
     const workout_: DMAndMemWorkout = {
       date: {
@@ -225,7 +224,6 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
       answerTotalTime += i.answeredDmInMs;
       answerTotalTime += i.answeredMemInMs;
     }
-    console.log("answerTotalTime", answerTotalTime);
 
     const data = {
       date: formatDate(workout.date.start),
@@ -237,7 +235,6 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
       ),
       answerTotalTime: formatSeconds(answerTotalTime),
     };
-    console.log("resumeData", data);
     return data;
   };
   const calculateResultCharBarData = () => {
@@ -302,7 +299,6 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
 const getOptions = (i: Iteration) => {
   const a1 = i.answers.length ? i.answers[1].video1.answer1 : undefined;
   const a2 = i.answers.length ? i.answers[1].video1.answer2 : undefined;
-  console.log("responses", a1, a2);
   let initialAnswerOptions = [];
   let optionsA1: number[] = [];
   let optionsA2: number[] = [];

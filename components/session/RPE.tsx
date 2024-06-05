@@ -8,10 +8,12 @@ import {
 import i18n from "@/languages/i18n";
 import CProgress from "../progress-bar/CProgress";
 import useCountdown from "@/hooks/useCountdown";
-import { IterationContext } from "@/types/session";
+
 type Props = {
   onFinishRPE: (rpe?: number) => void;
-  iteration: IterationContext;
+  iteration: {
+    timeToRPEInSec: number;
+  };
 };
 const RPE = ({ onFinishRPE, iteration }: Props) => {
   const [rpe, setRpe] = useState<number>();
@@ -50,7 +52,7 @@ const RPE = ({ onFinishRPE, iteration }: Props) => {
           </Text>
         </Box>
         {Object.entries(RPE_NUMBER_VALUES).map(([key, value]) => (
-          <Box width="$1/6" height={160} key={key} p={"$2"}>
+          <Box width="$1/6" height={160} key={key} px={"$1"} py={"$2"}>
             <Pressable
               flex={1}
               justifyContent="center"
@@ -61,8 +63,8 @@ const RPE = ({ onFinishRPE, iteration }: Props) => {
                   ? "#090b22"
                   : RPE_COLORS[key as keyof typeof RPE_COLORS]
               }
-              rounded={30}
-              width={"85%"}
+              rounded={20}
+              width={"90%"}
               onPress={() => handleOnPress(value)}
             >
               <Text
@@ -85,6 +87,7 @@ const RPE = ({ onFinishRPE, iteration }: Props) => {
                     : "#090b22"
                 }
                 textAlign="center"
+                paddingHorizontal="$2"
               >
                 {i18n.t(
                   "rpe_" +

@@ -12,7 +12,7 @@ export interface Session {
   workoutId: number;
   userIterationAnswer: any[];
 }
-type IterationWorkout = {
+export type IterationWorkout = {
   idIteration: number;
   video?: string;
   answeredInMs: number;
@@ -182,7 +182,8 @@ export type MEMORY_STEPS =
   | "workout"
   | "video"
   | "decision"
-  | "rpe";
+  | "rpe"
+  | "beginMemoryWorkout";
 
 export type VideoAnswerDonwload = {
   uri1?: string;

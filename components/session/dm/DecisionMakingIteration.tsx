@@ -12,12 +12,12 @@ import DecisionMakingAnswerAssistant from "./DecisionMakingAnswerAssistant";
 const DecisionMakingIteration = () => {
   const {
     currentIterarion,
+    currentIterationStep,
+    workout,
     handleNextIteration,
     changeIterationStep,
-    currentIterationStep,
     handleUserAnswer,
     handleUserRPE,
-    workout,
   } = useDMWorkout();
   const handleFinishCountdown = (step: Steps) => {
     // Defer the state update until after the current rendering cycle
@@ -35,6 +35,7 @@ const DecisionMakingIteration = () => {
       handleNextIteration(i);
     }, 0);
   };
+
   return (
     <View flex={1}>
       {currentIterationStep === "beginning" ? (

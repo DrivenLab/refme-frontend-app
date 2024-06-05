@@ -51,7 +51,7 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
   const handleOnPress = () => {
     if (wasSessionDownloaded && session) {
       prepareWorkout(session.workout);
-      router.push(
+      router.replace(
         ROUTE_TO[session.workout.type as keyof typeof ROUTE_TO] as Href<string>
       );
     } else {

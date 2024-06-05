@@ -3,35 +3,20 @@ import { Stack } from "expo-router";
 
 const _layout = () => {
   return (
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{ headerBackTitleVisible: false, headerShown: false }}
-      />
-      <Stack.Screen
-        name="[id]"
-        options={{ headerBackTitleVisible: false, headerShown: false }}
-      />
-      <Stack.Screen
-        name="startWorkoutDM"
-        options={{ headerShown: false, headerBackTitleVisible: false }}
-      />
-      <Stack.Screen
-        name="startWorkoutMemory"
-        options={{ headerShown: false, headerBackTitleVisible: false }}
-      />
-      <Stack.Screen
-        name="startWorkoutRecognition"
-        options={{ headerShown: false, headerBackTitleVisible: false }}
-      />
-      <Stack.Screen
-        name="createWorkout"
-        options={{ headerShown: false, headerBackTitleVisible: false }}
-      />
-      <Stack.Screen
-        name="assignReferee"
-        options={{ headerShown: false, headerBackTitleVisible: false }}
-      />
+    <Stack
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="index" />
+      <Stack.Screen name="[id]" />
+      <Stack.Screen name="startWorkoutDM" />
+      <Stack.Screen name="startWorkoutDMAndMem" />
+      <Stack.Screen name="startWorkoutMemory" />
+      <Stack.Screen name="startWorkoutRecognition" />
+      <Stack.Screen name="createWorkout" />
+      <Stack.Screen name="assignReferee" />
     </Stack>
   );
 };

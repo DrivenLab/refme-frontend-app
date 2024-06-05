@@ -62,11 +62,13 @@ export function DMProvider({ children }: PropsWithChildren) {
     oldIteration,
     timeToWorkout,
     timeToAnswerInSec,
+    workout,
   }: {
     i: Iteration;
     oldIteration?: Iteration;
     timeToWorkout: number;
     timeToAnswerInSec: number;
+    workout: Workout;
   }) => {
     const i_: IterationDM = {
       idIteration: i.id,
@@ -125,6 +127,7 @@ export function DMProvider({ children }: PropsWithChildren) {
           oldIteration: iterations_[itIndex - 1],
           timeToWorkout: w.excerciseDuration,
           timeToAnswerInSec: w.type === "dm" ? 7 : w.type === "dmar" ? 4 : 0,
+          workout: w,
         })
       ),
       status: "pending",

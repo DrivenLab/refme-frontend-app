@@ -140,7 +140,13 @@
     "answer_avg": "Promedio de respuesta",
     "total_time": "Tiempo total de respuestas: ",
     "date_title": "Realizado: ",
-    "before_rpe_text": "Indica cómo te sientes"
+    "before_rpe_text": "Indica cómo te sientes",
+    "remember_infractor_1": "Recuerda número de infractor y ",
+    "remember_infractor_2": "quien ",
+    "remember_infractor_3": "recibe la falta",
+    "select_infractor_1": "Selecciona número de infractor y",
+    "select_infractor_2": "quien recibió ",
+    "select_infractor_3": "la falta"
   },
   "create_workout": {
     "workout_name": "Nombre del entrenamiento",

@@ -59,15 +59,11 @@ const TextInformation = ({ type, step, hasVideo }: Props) => {
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            Recuerda número de infractor y{" "}
+            {i18n.t("workout_flow.remember_infractor_1")}
           </Text>
-          quien{" "}
+          {i18n.t("workout_flow.remember_infractor_2")}
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            recibe{" "}
-          </Text>
-          la{" "}
-          <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            falta{" "}
+            {i18n.t("workout_flow.remember_infractor_3")}
           </Text>
         </Text>
       </Box>
@@ -77,15 +73,11 @@ const TextInformation = ({ type, step, hasVideo }: Props) => {
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            Selecciona número de infractor y{" "}
+            {i18n.t("workout_flow.select_infractor_1")}
           </Text>
-          quien{" "}
+          {i18n.t("workout_flow.select_infractor_2")}
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            recibió{" "}
-          </Text>
-          la{" "}
-          <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            falta{" "}
+            {i18n.t("workout_flow.select_infractor_3")}
           </Text>
         </Text>
       </Box>

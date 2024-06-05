@@ -1,13 +1,16 @@
 import i18n from "@/languages/i18n";
+import { RECOGNITION_VIDEO_TYPE } from "@/types/session";
 import { TEXT_TYPES } from "@/types/workout";
 import { Box, Text } from "@gluestack-ui/themed";
 type Props = {
   type: TEXT_TYPES;
   step: number;
   hasVideo?: boolean;
+  recognitionType?: RECOGNITION_VIDEO_TYPE;
 };
 const FONT_SIZE = 30;
 const TEXT_COLOR = "black";
+
 const TextInformation = ({ type, step, hasVideo }: Props) => {
   if (step === 2 && !hasVideo)
     return (
@@ -56,37 +59,40 @@ const TextInformation = ({ type, step, hasVideo }: Props) => {
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            Recuerda número de infractor y{" "}
+            {i18n.t("workout_flow.remember_infractor_1")}
           </Text>
-          quien{" "}
+          {i18n.t("workout_flow.remember_infractor_2")}
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            recibe{" "}
-          </Text>
-          la{" "}
-          <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            falta{" "}
+            {i18n.t("workout_flow.remember_infractor_3")}
           </Text>
         </Text>
       </Box>
     );
-  if (type === "memory" && step === 2)
+  if (type === "memory" && step === 2) {
     return (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            Selecciona número de infractor y{" "}
+            {i18n.t("workout_flow.select_infractor_1")}
           </Text>
-          quien{" "}
+          {i18n.t("workout_flow.select_infractor_2")}
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            recibió{" "}
-          </Text>
-          la{" "}
-          <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
-            falta{" "}
+            {i18n.t("workout_flow.select_infractor_3")}
           </Text>
         </Text>
       </Box>
     );
+  }
+  if (type === "recognition") {
+    return (
+      <Box>
+        <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
+          Selecciona la
+          <Text bold>falta mano</Text>
+        </Text>
+      </Box>
+    );
+  }
 };
 
 export default TextInformation;

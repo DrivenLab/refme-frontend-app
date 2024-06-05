@@ -123,7 +123,7 @@ const WorkoutDetail = () => {
                 quantity={workout?.numberOfRepetitions}
               />
               <WorkoutConfigItem
-                configName="Desiciones"
+                configName="Decisiones"
                 quantity={workout?.numberOfDecisions}
               />
               <WorkoutConfigItem

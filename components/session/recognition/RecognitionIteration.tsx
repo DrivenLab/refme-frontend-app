@@ -1,15 +1,20 @@
 import { View } from "@gluestack-ui/themed";
 import React from "react";
-import { DM_ANSWER, Steps } from "@/types/session";
-import { useDMWorkout } from "@/context/DmContext";
-import CVideo from "@/components/CVideo";
+import {
+  IMAGE_NAME,
+  RECOGNITION_ANSWER,
+  RECOGNITION_STEPS,
+  RECOGNITION_VIDEO_TYPE,
+} from "@/types/session";
 import SessionTrainingCountdown from "../SessionTrainingCountdown";
-import DecisionMakingAnswer from "./DecisionMakingAnswer";
 import RPE from "../RPE";
 import SessionCountdown from "../SessionCountdown";
-import DecisionMakingAnswerAssistant from "./DecisionMakingAnswerAssistant";
 
-const DecisionMakingIteration = () => {
+import RecognitionAnswer from "./RecognitionAnswer";
+import { useRecognitionWorkout } from "@/context/RecognitionContext";
+import { RecognitionImageMap } from "@/utils/session";
+
+const RecognitionIteration = () => {
   const {
     currentIterarion,
     currentIterationStep,
@@ -18,15 +23,16 @@ const DecisionMakingIteration = () => {
     changeIterationStep,
     handleUserAnswer,
     handleUserRPE,
-  } = useDMWorkout();
-  const handleFinishCountdown = (step: Steps) => {
+  } = useRecognitionWorkout();
+  const handleFinishCountdown = (step: RECOGNITION_STEPS) => {
     // Defer the state update until after the current rendering cycle
     setTimeout(() => {
       changeIterationStep(step);
     }, 0);
   };
-  const onFinishDecision = (answer: DM_ANSWER) => {
-    handleUserAnswer(answer);
+  const onFinishDecision = (answer: RECOGNITION_ANSWER[]) => {
+    // TODO: onFinish
+    // handleUserAnswer(answer);
     handleFinishCountdown("rpe");
   };
   const onFinishRPE = (rpe?: number) => {
@@ -35,49 +41,39 @@ const DecisionMakingIteration = () => {
       handleNextIteration(i);
     }, 0);
   };
-
+  const handleSessionNextStep = () => {
+    if (currentIterarion.video) handleFinishCountdown("imageDecision");
+    else handleFinishCountdown("workout");
+  };
   return (
     <View flex={1}>
       {currentIterationStep === "beginning" ? (
         <>
           <SessionCountdown
-            onFinishCountdown={() => handleFinishCountdown("workout")}
+            onFinishCountdown={handleSessionNextStep}
             initialCountdown={currentIterarion.timeToGetReadyInSec}
             imageName="man_running_ready_to_workout"
             iterationNumber={currentIterarion.iterationNumber}
             totalItaration={workout.iterations.length}
-            type="dm"
+            type="recognition"
           />
         </>
       ) : currentIterationStep === "workout" ? (
         <SessionTrainingCountdown
-          onFinishCountdown={() => handleFinishCountdown("video")}
+          onFinishCountdown={() => handleFinishCountdown("imageDecision")}
           initialCountdown={currentIterarion.timeToWorkoutInSec}
           hasVideo={!(currentIterarion.video == undefined)}
           iterationNumber={currentIterarion.iterationNumber}
           totalItaration={workout.iterations.length}
-          type="dm"
-          imageName="play_video"
+          imageName={RecognitionImageMap[currentIterarion.videoType]}
+          type="recognition"
+          recognitionType={currentIterarion.videoType}
         />
-      ) : currentIterationStep === "video" && currentIterarion.video ? (
-        <>
-          <CVideo
-            uri={currentIterarion.video}
-            onFinishVideo={() => handleFinishCountdown("decision")}
-          />
-        </>
-      ) : currentIterationStep === "decision" ? (
-        workout.type === "dm" ? (
-          <DecisionMakingAnswer
-            onFinish={onFinishDecision}
-            iteration={currentIterarion}
-          />
-        ) : workout.type === "dmar" ? (
-          <DecisionMakingAnswerAssistant
-            onFinish={onFinishDecision}
-            iteration={currentIterarion}
-          />
-        ) : null
+      ) : currentIterationStep === "imageDecision" ? (
+        <RecognitionAnswer
+          onFinish={onFinishDecision}
+          iteration={currentIterarion}
+        />
       ) : (
         <RPE onFinishRPE={onFinishRPE} iteration={currentIterarion} />
       )}
@@ -85,4 +81,4 @@ const DecisionMakingIteration = () => {
   );
 };
 
-export default DecisionMakingIteration;
+export default RecognitionIteration;

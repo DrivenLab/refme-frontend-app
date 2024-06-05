@@ -1,5 +1,5 @@
 import { Video } from "./multimedia";
-import { Workout } from "./workout";
+import { WORKOUT_TYPE, Workout } from "./workout";
 
 export interface Session {
   id: number;
@@ -12,11 +12,10 @@ export interface Session {
   workoutId: number;
   userIterationAnswer: any[];
 }
-type IterationWorkout = {
+export type IterationWorkout = {
   idIteration: number;
   video?: string;
   answeredInMs: number;
-
   rpe?: number;
   timeToAnswerInSec: number;
   timeToRPEInSec: number;
@@ -31,6 +30,29 @@ export type IterationDM = IterationWorkout & {
   userAnswer2?: string;
   isCorrect: boolean;
 };
+type _IterationDMAndMem = IterationWorkout & {
+  dmVideo?: string;
+  memoryVideo?: string;
+  dmAnswer1?: string;
+  dmAnswer2?: string;
+  answeredMemInMs: number;
+  answeredDmInMs: number;
+  memoryAnswer1?: string;
+  memoryAnswer2?: string;
+  userAnswerDM1?: string;
+  userAnswerDM2?: string;
+  userAnswerMem1?: number;
+  userAnswerMem2?: number;
+  rpeMem?: number;
+  isCorrectDm: boolean;
+  isCorrectMem: boolean;
+  answer_1Options: number[];
+  answer_2Options: number[];
+};
+export type IterationDMAndMem = Omit<
+  _IterationDMAndMem,
+  "answeredInMs" | "isCorrect"
+>;
 export type IterationMemory = IterationWorkout & {
   answer1?: number;
   answer2?: number;
@@ -40,11 +62,20 @@ export type IterationMemory = IterationWorkout & {
   answer_2Options: number[];
   isCorrect: boolean;
 };
+export type RECOGNITION_VIDEO_TYPE = "players" | "contact" | "foult" | "hand";
+export type IterationRecognition = IterationWorkout & {
+  answers: Answer[];
+  //   userAnswers: [];
+  isCorrect: boolean;
+  videoType: RECOGNITION_VIDEO_TYPE;
+  repetitionNumber: number;
+};
 export type WorkoutDate = {
   start: Date;
   end: Date;
 };
 type GeneralWorkout = {
+  type: WORKOUT_TYPE;
   date: WorkoutDate;
   breakDuration: number;
   numberOfRepetitions: number;
@@ -53,14 +84,24 @@ type GeneralWorkout = {
   maxDesicionTime: number;
   maxRPETime: number;
   workoutId: number;
+  memberType?: "ar" | "re";
 };
 export type DMWorkout = GeneralWorkout & {
   iterations: IterationDM[];
   status: DM_WORKOUT_STATUS;
 };
+export type DMAndMemWorkout = GeneralWorkout & {
+  iterations: IterationDMAndMem[];
+  status: DM_WORKOUT_STATUS;
+};
 export type MemoryWorkout = GeneralWorkout & {
   iterations: IterationMemory[];
   status: DM_WORKOUT_STATUS;
+};
+
+export type RecognitionWorkout = GeneralWorkout & {
+  iterations: IterationRecognition[];
+  status: RECOGNITION_WORKOUT_STATUS;
 };
 export interface Iteration {
   id: number;
@@ -81,11 +122,12 @@ export type SessionPostType = {
 export interface Answer {
   id: number;
   video1: Video;
-  video2: Video;
+  video2?: Video;
   createdAt: string;
   modifiedAt: string;
   isActive: boolean;
   workoutIteration: number;
+  videoType?: RECOGNITION_VIDEO_TYPE;
 }
 export type IMAGE_NAME =
   | "man_running_ready_to_workout"
@@ -111,15 +153,29 @@ export type MEMORY_ANSWER = {
   answeredInMs: number;
   isCorrect?: boolean;
 };
-
 export type t_DM_ANSWER1 = "nf" | "ifk" | "dfk" | "pk";
 export type t_DM_ANSWER2 = "nc" | "yc" | "rc";
+
+export type RECOGNITION_ANSWER = string | number | null;
 
 export type Steps = "beginning" | "workout" | "video" | "decision" | "rpe";
 export type SESSION_STATUS = "pending" | "inCourse" | "finished";
 
 export type DM_WORKOUT_STATUS = "pending" | "inCourse" | "finished";
 export type DM_STEPS = "beginning" | "workout" | "video" | "decision" | "rpe";
+export type DM_MEM_STEPS =
+  | "beginning"
+  | "mem-beginning"
+  | "mem-video"
+  | "dm-beginning"
+  | "dm-workout"
+  | "dm-video"
+  | "dm-decision"
+  | "beginning-mem-workout"
+  | "mem-workout"
+  | "mem-decision"
+  | "dm-rpe"
+  | "mem-rpe";
 
 export type MEMORY_WORKOUT_STATUS = "pending" | "inCourse" | "finished";
 export type MEMORY_STEPS =
@@ -127,4 +183,18 @@ export type MEMORY_STEPS =
   | "workout"
   | "video"
   | "decision"
+  | "rpe"
+  | "beginMemoryWorkout";
+
+export type VideoAnswerDonwload = {
+  uri1?: string;
+  uri2?: string;
+  idIteration: number;
+  answerId: number;
+};
+export type RECOGNITION_WORKOUT_STATUS = "pending" | "inCourse" | "finished";
+export type RECOGNITION_STEPS =
+  | "beginning"
+  | "workout"
+  | "imageDecision"
   | "rpe";

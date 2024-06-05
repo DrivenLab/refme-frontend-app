@@ -23,14 +23,10 @@ import {
   WorkoutResultBarChart,
   WorkoutResume,
 } from "@/types/workout";
-import {
-  INITAL_TIME_TO_GET_READY,
-  ITERATION_TOTAL_TIME,
-  TIME_TO_ANSWER,
-  TIME_TO_RPE,
-  VIDEO_TIME_IN_SECONDS,
-} from "@/constants/Session";
+import { TIME_TO_ANSWER, TIME_TO_RPE } from "@/constants/Session";
 import { usePostSession } from "@/queries/session.query";
+import { calculateNextTimeToGetReady } from "@/utils/workoutUtils";
+
 type MemoryContextType = {
   currentIterarion: IterationMemory;
   currentIterationStep: MEMORY_STEPS;
@@ -52,7 +48,14 @@ const MemoryContext = createContext<MemoryContextType>({} as MemoryContextType);
 export function useMemoryWorkout() {
   return useContext(MemoryContext);
 }
-
+type PrepareIterationType = {
+  _currentIteration: Iteration;
+  oldIteration?: Iteration;
+  timeToWorkout: number;
+  type: WORKOUT_TYPE;
+  memberType: MEMBER_TYPE;
+  breakDuration: number;
+};
 const INITIAL_ITERATION_INDEX = 0;
 export function MemoryProvider({ children }: PropsWithChildren) {
   const [workout, setWorkout] = useState<MemoryWorkout>({} as MemoryWorkout);
@@ -70,18 +73,14 @@ export function MemoryProvider({ children }: PropsWithChildren) {
     workoutId: workout.workoutId,
   });
   const prepareIteration = ({
-    i,
+    _currentIteration,
+    oldIteration,
     timeToWorkout,
     ...rest
-  }: {
-    i: Iteration;
-    timeToWorkout: number;
-    type: WORKOUT_TYPE;
-    memberType: MEMBER_TYPE;
-    breakDuration: number;
-  }) => {
-    const a1 = i.answers.length ? i.answers[0].video1.answer1 : undefined;
-    const a2 = i.answers.length ? i.answers[0].video1.answer2 : undefined;
+  }: PrepareIterationType) => {
+    const { answers } = _currentIteration;
+    const a1 = answers.length ? answers[0].video1.answer1 : undefined;
+    const a2 = answers.length ? answers[0].video1.answer2 : undefined;
     let initialAnswerOptions = [];
     let optionsA1: number[] = [];
     let optionsA2: number[] = [];
@@ -96,45 +95,28 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       optionsA1 = shuffleArray(options);
       optionsA2 = shuffleArray(options);
     }
+
     const i_: IterationMemory = {
-      idIteration: i.id,
-      video: i.answers.length ? i.answers[0].video1.video : undefined,
-      answer1: i.answers.length
-        ? Number(i.answers[0].video1.answer1)
-        : undefined,
-      answer2: i.answers.length
-        ? Number(i.answers[0].video1.answer2)
-        : undefined,
-      timeToGetReadyInSec: calculateTimeToGetReady({ i, ...rest }),
+      idIteration: _currentIteration.id,
+      video: answers.length ? answers[0].video1.video : undefined,
+      answer1: answers.length ? Number(answers[0].video1.answer1) : undefined,
+      answer2: answers.length ? Number(answers[0].video1.answer2) : undefined,
+      timeToGetReadyInSec: calculateNextTimeToGetReady({
+        i: oldIteration,
+        ...rest,
+      }),
       timeToWorkoutInSec: timeToWorkout,
       timeToAnswerInSec: TIME_TO_ANSWER[rest.memberType][rest.type],
       timeToRPEInSec: TIME_TO_RPE[rest.memberType][rest.type],
       answeredInMs: TIME_TO_ANSWER[rest.memberType][rest.type],
-      iterationNumber: i.repetitionNumber,
+      iterationNumber: _currentIteration.repetitionNumber,
       answer_1Options: optionsA1,
       answer_2Options: optionsA2,
       isCorrect: false,
     };
     return i_;
   };
-  const calculateTimeToGetReady = (props: {
-    i: Iteration;
-    type: WORKOUT_TYPE;
-    memberType: MEMBER_TYPE;
-    breakDuration: number;
-  }) => {
-    if (props.i.repetitionNumber === 1) return 3;
-    if (props.i.answers.length === 0)
-      return (
-        props.breakDuration -
-        ITERATION_TOTAL_TIME[props.memberType][props.type] +
-        VIDEO_TIME_IN_SECONDS[props.memberType][props.type]
-      );
-    else
-      return (
-        props.breakDuration - ITERATION_TOTAL_TIME[props.memberType][props.type]
-      );
-  };
+
   const handleUserAnswer = (a: MEMORY_ANSWER) => {
     const a_: IterationMemory = {
       ...currentIterarion,
@@ -167,9 +149,10 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       maxRPETime: 7,
       numberOfDecisions: w.numberOfDecisions,
       numberOfRepetitions: w.numberOfRepetitions,
-      iterations: iterations_.map((i) =>
+      iterations: iterations_.map((i, itIndex) =>
         prepareIteration({
-          i,
+          _currentIteration: i,
+          oldIteration: iterations_[itIndex - 1],
           timeToWorkout: w.excerciseDuration,
           breakDuration: w.breakDuration,
           memberType: w.memberType,
@@ -199,6 +182,8 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       calculateResultCharBarData();
       setWorkout((prev) => ({ ...prev, date, status: "finished" }));
       setResume(getWorkoutResume());
+      setIterationIndex(0);
+      setCurrentIterarion(workout.iterations[INITIAL_ITERATION_INDEX]);
     }
   };
   const updateIteration = (iteration: IterationMemory) => {
@@ -226,7 +211,6 @@ export function MemoryProvider({ children }: PropsWithChildren) {
     setWorkout((prev) => ({ ...prev, status }));
   };
   const getWorkoutResume = () => {
-    //console.log("session resume", s);
     const iterationWithVideos = workout.iterations.filter((i) => i.video);
     const correctAnswers = iterationWithVideos.filter((i) => {
       //Si al usuario le faltó responder algunas de las 2 preguntas, ya se pone como incorrecta.

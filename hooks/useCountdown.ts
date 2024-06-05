@@ -22,7 +22,7 @@ const useCountdown = ({ stopInSec, delay = 1 }: Props) => {
   }, []);
   // The callback will be called every 1000 milliseconds.
   const { getElapsedRunningTime, stop } = useTimer(
-    { delay: delay * 1000, startImmediately: true },
+    { delay: delay * 100, startImmediately: true },
     callback
   );
 

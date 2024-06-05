@@ -1,56 +1,70 @@
 import { useState, createContext, useContext, PropsWithChildren } from "react";
 import {
-  DM_ANSWER,
-  DMWorkout,
-  DM_STEPS,
-  IterationDM,
-  DM_WORKOUT_STATUS,
+  RECOGNITION_ANSWER,
+  RecognitionWorkout,
+  RECOGNITION_STEPS,
+  IterationRecognition,
+  RECOGNITION_WORKOUT_STATUS,
   SessionPostType,
 } from "@/types/session";
 import { Iteration } from "@/types/session";
 import {
   formatDate,
-  formatTimeDifference,
   formatSeconds,
+  formatTimeDifference,
+  generateUniqueRandomNumbersWithInitialValues,
   getIterationsOrdered,
+  shuffleArray,
 } from "@/utils/session";
-import { Workout, WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
+import {
+  MEMBER_TYPE,
+  WORKOUT_TYPE,
+  Workout,
+  WorkoutResultBarChart,
+  WorkoutResume,
+} from "@/types/workout";
+import {
+  INITAL_TIME_TO_GET_READY,
+  ITERATION_TOTAL_TIME,
+  TIME_TO_ANSWER,
+  TIME_TO_RPE,
+  VIDEO_TIME_IN_SECONDS,
+} from "@/constants/Session";
 import { usePostSession } from "@/queries/session.query";
-import { calculateNextTimeToGetReady } from "@/utils/workoutUtils";
-
-type DMContextType = {
-  currentIterarion: IterationDM;
-  currentIterationStep: DM_STEPS;
+type RecognitionContextType = {
+  currentIterarion: IterationRecognition;
+  currentIterationStep: RECOGNITION_STEPS;
   resume: WorkoutResume;
-  status: DM_WORKOUT_STATUS;
-  workout: DMWorkout;
+  workout: RecognitionWorkout;
   resultCharBarData: WorkoutResultBarChart[];
   startWorkout: () => void;
-  prepareWorkout: (w: Workout) => void;
-  changeIterationStep: (s: DM_STEPS) => void;
-  handleUserAnswer: (a: DM_ANSWER) => void;
-  handleUserRPE: (a?: number) => IterationDM;
-  handleNextIteration: (i: IterationDM) => void;
-  updateWorkoutStatus: (s: DM_WORKOUT_STATUS) => void;
   saveSession: () => void;
+  prepareWorkout: (w: Workout) => void;
+  changeIterationStep: (s: RECOGNITION_STEPS) => void;
+  handleUserAnswer: (a: RECOGNITION_ANSWER) => void;
+  handleUserRPE: (a?: number) => IterationRecognition;
+  handleNextIteration: (i: IterationRecognition) => void;
+  updateWorkoutStatus: (s: RECOGNITION_WORKOUT_STATUS) => void;
 };
 
-const DMContext = createContext<DMContextType>({} as DMContextType);
-export function useDMWorkout() {
-  return useContext(DMContext);
+const RecognitionContext = createContext<RecognitionContextType>(
+  {} as RecognitionContextType
+);
+export function useRecognitionWorkout() {
+  return useContext(RecognitionContext);
 }
 
 const INITIAL_ITERATION_INDEX = 0;
-export function DMProvider({ children }: PropsWithChildren) {
-  const [workout, setWorkout] = useState<DMWorkout>({} as DMWorkout);
-  const [iterationIndex, setIterationIndex] = useState(0);
-  const [currentIterarion, setCurrentIterarion] = useState<IterationDM>(
-    {} as IterationDM
+export function RecognitionProvider({ children }: PropsWithChildren) {
+  const [workout, setWorkout] = useState<RecognitionWorkout>(
+    {} as RecognitionWorkout
   );
+  const [iterationIndex, setIterationIndex] = useState(0);
+  const [currentIterarion, setCurrentIterarion] =
+    useState<IterationRecognition>({} as IterationRecognition);
   const [currentIterationStep, setCurrentIterationStep] =
-    useState<DM_STEPS>("beginning");
+    useState<RECOGNITION_STEPS>("beginning");
   const [resume, setResume] = useState<WorkoutResume>({} as WorkoutResume);
-  const [status, setStatus] = useState<DM_WORKOUT_STATUS>("pending");
   const [resultCharBarData, setResultCharBarData] = useState<
     WorkoutResultBarChart[]
   >([]);
@@ -59,56 +73,94 @@ export function DMProvider({ children }: PropsWithChildren) {
   });
   const prepareIteration = ({
     i,
-    oldIteration,
     timeToWorkout,
-    timeToAnswerInSec,
+    ...rest
   }: {
     i: Iteration;
-    oldIteration?: Iteration;
     timeToWorkout: number;
-    timeToAnswerInSec: number;
+    type: WORKOUT_TYPE;
+    memberType: MEMBER_TYPE;
+    breakDuration: number;
   }) => {
-    const i_: IterationDM = {
+    const a1 = i.answers.length ? i.answers[0].video1.answer1 : undefined;
+    const a2 = i.answers.length ? i.answers[0].video1.answer2 : undefined;
+    let initialAnswerOptions = [];
+    let optionsA1: number[] = [];
+    let optionsA2: number[] = [];
+    if (a1 && a2) {
+      initialAnswerOptions = [Number(a1), Number(a2)];
+      const options = generateUniqueRandomNumbersWithInitialValues(
+        1,
+        44,
+        initialAnswerOptions,
+        4
+      );
+      optionsA1 = shuffleArray(options);
+      optionsA2 = shuffleArray(options);
+    }
+    const i_: IterationRecognition = {
       idIteration: i.id,
       video: i.answers.length ? i.answers[0].video1.video : undefined,
-      answer1: i.answers.length ? i.answers[0].video1.answer1 : undefined,
-      answer2: i.answers.length ? i.answers[0].video1.answer2 : undefined,
-      timeToGetReadyInSec: calculateNextTimeToGetReady({
-        i: oldIteration,
-        breakDuration: workout.breakDuration,
-        type: workout.type,
-        memberType: workout.memberType || "ar",
-      }),
+      answer1: i.answers.length
+        ? Number(i.answers[0].video1.answer1)
+        : undefined,
+      answer2: i.answers.length
+        ? Number(i.answers[0].video1.answer2)
+        : undefined,
+      timeToGetReadyInSec: calculateTimeToGetReady({ i, ...rest }),
       timeToWorkoutInSec: timeToWorkout,
-      timeToAnswerInSec: timeToAnswerInSec,
-      timeToRPEInSec: 3,
-      answeredInMs: 7,
+      timeToAnswerInSec: TIME_TO_ANSWER[rest.memberType][rest.type],
+      timeToRPEInSec: TIME_TO_RPE[rest.memberType][rest.type],
+      answeredInMs: TIME_TO_ANSWER[rest.memberType][rest.type],
       iterationNumber: i.repetitionNumber,
+      //   answer_1Options: optionsA1,
+      //   answer_2Options: optionsA2,
       isCorrect: false,
     };
     return i_;
   };
-  const handleUserAnswer = (a: DM_ANSWER) => {
-    const a_: IterationDM = {
+  const calculateTimeToGetReady = (props: {
+    i: Iteration;
+    type: WORKOUT_TYPE;
+    memberType: MEMBER_TYPE;
+    breakDuration: number;
+  }) => {
+    if (props.i.repetitionNumber === 1) return 3;
+    if (props.i.answers.length === 0)
+      return (
+        props.breakDuration -
+        ITERATION_TOTAL_TIME[props.memberType][props.type] +
+        VIDEO_TIME_IN_SECONDS[props.memberType][props.type]
+      );
+    else
+      return (
+        props.breakDuration - ITERATION_TOTAL_TIME[props.memberType][props.type]
+      );
+  };
+  const handleUserAnswer = (a: RECOGNITION_ANSWER) => {
+    // TODO: CORRECT ANSWERS TO USE 3
+    const a_: IterationRecognition = {
       ...currentIterarion,
       userAnswer1: a.answer1,
       userAnswer2: a.asnwer2,
-      isCorrect: a.isCorrect ?? false,
       answeredInMs: a.answeredInMs ?? 7,
+      isCorrect: a.isCorrect ?? false,
+      //   answers: [];
     };
     setCurrentIterarion(a_);
   };
   const handleUserRPE = (rpe?: number) => {
-    const a_: IterationDM = {
+    const a_: IterationRecognition = {
       ...currentIterarion,
       rpe: rpe,
     };
     setCurrentIterarion(a_);
     return a_;
   };
+
   const prepareWorkout = (w: Workout) => {
     const iterations_ = getIterationsOrdered(w);
-    const workout_: DMWorkout = {
+    const workout_: RecognitionWorkout = {
       date: {
         start: new Date(),
         end: new Date(),
@@ -119,45 +171,41 @@ export function DMProvider({ children }: PropsWithChildren) {
       maxRPETime: 7,
       numberOfDecisions: w.numberOfDecisions,
       numberOfRepetitions: w.numberOfRepetitions,
-      iterations: iterations_.map((i, itIndex) =>
+      iterations: iterations_.map((i) =>
         prepareIteration({
           i,
-          oldIteration: iterations_[itIndex - 1],
           timeToWorkout: w.excerciseDuration,
-          timeToAnswerInSec: w.type === "dm" ? 7 : w.type === "dmar" ? 4 : 0,
+          breakDuration: w.breakDuration,
+          memberType: w.memberType,
+          type: w.type,
         })
       ),
       status: "pending",
       workoutId: w.id,
-      type: w.type,
-      memberType: w.memberType,
     };
-    setStatus("pending");
     setWorkout(workout_);
     setCurrentIterationStep("beginning");
     setCurrentIterarion(workout_.iterations[INITIAL_ITERATION_INDEX]);
+    setIterationIndex(0);
   };
 
-  const handleNextIteration = (currentIterarion: IterationDM) => {
+  const handleNextIteration = (currentIterarion: IterationRecognition) => {
     updateIteration(currentIterarion);
+
     if (iterationIndex < workout.iterations.length - 1) {
       const newCurrentIteration = workout.iterations[iterationIndex + 1];
       setCurrentIterarion(newCurrentIteration);
       setIterationIndex((prev) => prev + 1);
-      setCurrentIterationStep(() =>
-        newCurrentIteration.timeToGetReadyInSec === 0 ? "workout" : "beginning"
-      );
+      setCurrentIterationStep(() => "beginning");
     } else {
       const date = workout.date;
       date.end = new Date();
       calculateResultCharBarData();
       setWorkout((prev) => ({ ...prev, date, status: "finished" }));
       setResume(getWorkoutResume());
-      setIterationIndex(0);
-      setCurrentIterarion(workout.iterations[INITIAL_ITERATION_INDEX]);
     }
   };
-  const updateIteration = (iteration: IterationDM) => {
+  const updateIteration = (iteration: IterationRecognition) => {
     const index = workout.iterations.findIndex(
       (i) => i.idIteration === iteration.idIteration
     );
@@ -171,14 +219,14 @@ export function DMProvider({ children }: PropsWithChildren) {
     setWorkout(w_);
   };
 
-  const changeIterationStep = (step_: DM_STEPS) => {
-    if (step_ === "video" && !currentIterarion.video)
+  const changeIterationStep = (step_: RECOGNITION_STEPS) => {
+    if (step_ === "imageDecision" && !currentIterarion.video)
       setCurrentIterationStep("rpe");
-    else if (step_ === "decision" && !currentIterarion.video)
+    else if (step_ === "workout" && !currentIterarion.video)
       setCurrentIterationStep("rpe");
     else setCurrentIterationStep(step_);
   };
-  const updateWorkoutStatus = (status: DM_WORKOUT_STATUS) => {
+  const updateWorkoutStatus = (status: RECOGNITION_WORKOUT_STATUS) => {
     setWorkout((prev) => ({ ...prev, status }));
   };
   const getWorkoutResume = () => {
@@ -220,25 +268,25 @@ export function DMProvider({ children }: PropsWithChildren) {
   const startWorkout = () => {
     setWorkout((prev) => ({ ...prev, status: "inCourse" }));
   };
+
   const saveSession = () => {
     const sessionsPayload: SessionPostType[] = workout.iterations.map((it) => ({
       workout_iteration: it.idIteration,
-      answer_1: it.userAnswer1,
-      answer_2: it.userAnswer2,
+      answer_1: `${it.userAnswer1}`,
+      answer_2: `${it.userAnswer2}`,
       borgScale: it.rpe,
       replyTime: it.answeredInMs,
     }));
     postSessionMutation.mutate(sessionsPayload);
   };
   return (
-    <DMContext.Provider
+    <RecognitionContext.Provider
       value={{
         currentIterarion,
         currentIterationStep,
+        resume,
         workout,
         resultCharBarData,
-        resume,
-        status,
         prepareWorkout,
         handleNextIteration,
         changeIterationStep,
@@ -250,6 +298,6 @@ export function DMProvider({ children }: PropsWithChildren) {
       }}
     >
       {children}
-    </DMContext.Provider>
+    </RecognitionContext.Provider>
   );
 }

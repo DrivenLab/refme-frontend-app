@@ -1,7 +1,6 @@
 import { View } from "@gluestack-ui/themed";
 import React from "react";
-import { DM_ANSWER, MEMORY_ANSWER, Steps } from "@/types/session";
-import { useDMWorkout } from "@/context/DmContext";
+import { MEMORY_ANSWER, MEMORY_STEPS, Steps } from "@/types/session";
 import CVideo from "@/components/CVideo";
 import SessionTrainingCountdown from "../SessionTrainingCountdown";
 import RPE from "../RPE";
@@ -12,14 +11,15 @@ import MemoryAnswer from "./MemoryAnswer";
 const MemoryIteration = () => {
   const {
     currentIterarion,
+    currentIterationStep,
+    workout,
     handleNextIteration,
     changeIterationStep,
-    currentIterationStep,
     handleUserAnswer,
     handleUserRPE,
-    workout,
   } = useMemoryWorkout();
-  const handleFinishCountdown = (step: Steps) => {
+
+  const handleFinishCountdown = (step: MEMORY_STEPS) => {
     // Defer the state update until after the current rendering cycle
     setTimeout(() => {
       changeIterationStep(step);
@@ -46,17 +46,32 @@ const MemoryIteration = () => {
           <SessionCountdown
             onFinishCountdown={handleSessionNextStep}
             initialCountdown={currentIterarion.timeToGetReadyInSec}
-            imageName="play_video"
+            imageName={
+              currentIterarion.video
+                ? "play_video"
+                : "man_running_ready_to_workout"
+            }
             iterationNumber={currentIterarion.iterationNumber}
             totalItaration={workout.iterations.length}
-            type="memory"
+            type={currentIterarion.video ? "memory" : "dm"}
           />
         </>
       ) : currentIterationStep === "video" && currentIterarion.video ? (
         <>
           <CVideo
             uri={currentIterarion.video}
-            onFinishVideo={() => handleFinishCountdown("workout")}
+            onFinishVideo={() => handleFinishCountdown("beginMemoryWorkout")}
+          />
+        </>
+      ) : currentIterationStep === "beginMemoryWorkout" ? (
+        <>
+          <SessionCountdown
+            onFinishCountdown={() => handleFinishCountdown("workout")}
+            initialCountdown={0}
+            iterationNumber={currentIterarion.iterationNumber}
+            totalItaration={workout.iterations.length}
+            imageName="man_running_ready_to_workout"
+            type="dm"
           />
         </>
       ) : currentIterationStep === "workout" ? (

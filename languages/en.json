@@ -140,7 +140,13 @@
     "answer_avg": "Average response time",
     "total_time": "Total response time:",
     "date_title": "Completed in: ",
-    "before_rpe_text": "Select your level of perceived exertion"
+    "before_rpe_text": "Select your level of perceived exertion",
+    "remember_infractor_1": "Remember the number of the infractor and ",
+    "remember_infractor_2": "who ",
+    "remember_infractor_3": "recieved the fault",
+    "select_infractor_1": "Select the number of the infractor and ",
+    "select_infractor_2": "who recieved ",
+    "select_infractor_3": "the fault"
   },
   "create_workout": {
     "workout_name": "Workout name",
@@ -153,7 +159,9 @@
   },
   "workout_type": {
     "dm": "Decision Making",
+    "dmar": "Decision Making",
     "memory": "Memory",
-    "recognition": "Reconocimiento"
+    "recognition": "Reconocimiento",
+    "dm+memory": "Decision Making + Memory"
   }
 }

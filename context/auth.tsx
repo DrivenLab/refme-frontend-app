@@ -91,8 +91,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
   async function loadUserProfile() {
     try {
       const { data } = await api.get<User>("users/profile/");
-
-      //console.log("loading user profile", data);
       setUser(data);
       //POR DEFAULT SE SETEA LA PRIMERA ORGANIZACION, ESTO CAMBIAR PARA QUE SEA LO QUE EL USUARIO SELECCIONE.
       handleSetUserOrganization(data.organizations[0]);

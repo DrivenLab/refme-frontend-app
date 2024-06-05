@@ -17,8 +17,10 @@ const DMAndMemIteration = () => {
     handleNextIteration,
     changeIterationStep,
     currentIterationStep,
-    handleUserAnswer,
-    handleUserRPE,
+    handleUserDMAnswer,
+    handleUserMemAnswer,
+    handleUserDMRPE,
+    handleUserMemRPE,
     workout,
   } = useDMAndMemWorkout();
 
@@ -29,13 +31,14 @@ const DMAndMemIteration = () => {
     }, 0);
   };
   const onFinishRPE = (rpe?: number) => {
-    const i = handleUserRPE(rpe);
+    const i = handleUserMemRPE(rpe);
     setTimeout(() => {
       handleNextIteration(i);
     }, 0);
   };
   // Flujo normal: mem-beginning mem-video dm-beginning dm-workout
   // dm-video dm-rpe dm-decision mem-workout mem-decision rpe
+  // currentIterarion.iterationNumber = 2;
   console.log({ currentIterationStep, step: currentIterarion.iterationNumber });
 
   return (
@@ -105,23 +108,30 @@ const DMAndMemIteration = () => {
       ) : currentIterationStep === "dm-decision" ? (
         <DecisionMakingAnswer
           onFinish={(answer) => {
-            handleUserAnswer(answer);
+            handleUserDMAnswer(answer);
             handleFinishCountdown("dm-rpe");
           }}
-          iteration={currentIterarion}
+          iteration={{
+            ...currentIterarion,
+            answer1: currentIterarion.dmAnswer1,
+            answer2: currentIterarion.dmAnswer2,
+          }}
         />
       ) : currentIterationStep === "dm-rpe" ? (
         <RPE
           onFinishRPE={(rpe) => {
-            console.log(rpe);
-
+            handleUserDMRPE(rpe);
             handleFinishCountdown("mem-workout");
           }}
           iteration={currentIterarion}
         />
       ) : currentIterationStep === "mem-workout" ? (
         <SessionTrainingCountdown
-          onFinishCountdown={() => handleFinishCountdown("mem-decision")}
+          onFinishCountdown={() => {
+            if (currentIterarion.memoryVideo)
+              handleFinishCountdown("mem-decision");
+            else handleFinishCountdown("mem-rpe");
+          }}
           initialCountdown={currentIterarion.timeToWorkoutInSec}
           hasVideo={!(currentIterarion.memoryVideo == undefined)}
           iterationNumber={currentIterarion.iterationNumber}
@@ -132,10 +142,19 @@ const DMAndMemIteration = () => {
       ) : currentIterationStep === "mem-decision" ? (
         <MemoryAnswer
           onFinish={(answer) => {
-            // handleUserAnswer(answer);
+            console.log("answer", answer);
+            handleUserMemAnswer(answer);
             handleFinishCountdown("mem-rpe");
           }}
-          iteration={currentIterarion}
+          iteration={{
+            ...currentIterarion,
+            answer1: currentIterarion.memoryAnswer1,
+            answer2: currentIterarion.memoryAnswer2,
+            // @ts-ignore
+            answer_1Options: currentIterarion.answer_1Options,
+            // @ts-ignore
+            answer_2Options: currentIterarion.answer_2Options,
+          }}
         />
       ) : currentIterationStep === "mem-rpe" ? (
         <RPE onFinishRPE={onFinishRPE} iteration={currentIterarion} />

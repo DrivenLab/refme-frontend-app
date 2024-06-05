@@ -34,11 +34,13 @@ const MemoryAnswer = ({ onFinish, iteration }: Props) => {
   const handleUserAnswer = (answerSelected: number, questionType: string) => {
     const answer_ = { ...asnwer };
     let completed = false;
+    console.log({ questionType });
     if (questionType === "q1") {
       answer_.answer1 = answerSelected;
     } else if (questionType === "q2") {
       answer_.asnwer2 = answerSelected;
     }
+    console.log({ answer_ });
     if (answer_.answer1 && answer_.asnwer2) completed = true;
     if (completed) {
       answer_.answeredInMs = elapsedRunningTime.current;

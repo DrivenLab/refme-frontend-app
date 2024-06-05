@@ -30,15 +30,25 @@ export type IterationDM = IterationWorkout & {
   userAnswer2?: string;
   isCorrect: boolean;
 };
-export type IterationDMAndMem = IterationWorkout & {
+type _IterationDMAndMem = IterationWorkout & {
   dmVideo?: string;
   memoryVideo?: string;
-  answer1?: string;
-  answer2?: string;
-  userAnswer1?: string;
-  userAnswer2?: string;
+  dmAnswer1?: string;
+  dmAnswer2?: string;
+  answeredMemInMs: number;
+  answeredDmInMs: number;
+  memoryAnswer1?: string;
+  memoryAnswer2?: string;
+  userAnswerDM1?: string;
+  userAnswerDM2?: string;
+  userAnswerMem1?: number;
+  userAnswerMem2?: number;
+  rpeMem?: number;
   isCorrect: boolean;
+  answer_1Options: number[];
+  answer_2Options: number[];
 };
+export type IterationDMAndMem = Omit<_IterationDMAndMem, "answeredInMs">;
 export type IterationMemory = IterationWorkout & {
   answer1?: number;
   answer2?: number;
@@ -73,6 +83,10 @@ type GeneralWorkout = {
 };
 export type DMWorkout = GeneralWorkout & {
   iterations: IterationDM[];
+  status: DM_WORKOUT_STATUS;
+};
+export type DMAndMemWorkout = GeneralWorkout & {
+  iterations: IterationDMAndMem[];
   status: DM_WORKOUT_STATUS;
 };
 export type MemoryWorkout = GeneralWorkout & {

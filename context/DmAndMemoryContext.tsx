@@ -1,11 +1,12 @@
 import { useState, createContext, useContext, PropsWithChildren } from "react";
 import {
   DM_ANSWER,
-  DMWorkout,
+  DMAndMemWorkout,
   IterationDMAndMem,
   DM_WORKOUT_STATUS,
   SessionPostType,
   DM_MEM_STEPS,
+  MEMORY_ANSWER,
 } from "@/types/session";
 import { Iteration } from "@/types/session";
 import {
@@ -24,13 +25,15 @@ type DMAndMemoryContextType = {
   currentIterationStep: DM_MEM_STEPS;
   resume: WorkoutResume;
   status: DM_WORKOUT_STATUS;
-  workout: DMWorkout;
+  workout: DMAndMemWorkout;
   resultCharBarData: WorkoutResultBarChart[];
   startWorkout: () => void;
   prepareWorkout: (w: Workout) => void;
   changeIterationStep: (s: DM_MEM_STEPS) => void;
-  handleUserAnswer: (a: DM_ANSWER) => void;
-  handleUserRPE: (a?: number) => IterationDMAndMem;
+  handleUserDMAnswer: (a: DM_ANSWER) => void;
+  handleUserMemAnswer: (ans: MEMORY_ANSWER) => void;
+  handleUserDMRPE: (a?: number) => IterationDMAndMem;
+  handleUserMemRPE: (a?: number) => IterationDMAndMem;
   handleNextIteration: (i: IterationDMAndMem) => void;
   updateWorkoutStatus: (s: DM_WORKOUT_STATUS) => void;
   saveSession: () => void;
@@ -45,7 +48,9 @@ export function useDMAndMemWorkout() {
 
 const INITIAL_ITERATION_INDEX = 0;
 export function DMAndMemProvider({ children }: PropsWithChildren) {
-  const [workout, setWorkout] = useState<DMWorkout>({} as DMWorkout);
+  const [workout, setWorkout] = useState<DMAndMemWorkout>(
+    {} as DMAndMemWorkout
+  );
   const [iterationIndex, setIterationIndex] = useState(0);
   const [currentIterarion, setCurrentIterarion] = useState<IterationDMAndMem>(
     {} as IterationDMAndMem
@@ -83,25 +88,36 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
       timeToWorkoutInSec: timeToWorkout,
       timeToAnswerInSec: timeToAnswerInSec,
       timeToRPEInSec: 3,
-      answeredInMs: 7,
+      answeredDmInMs: 7,
+      answeredMemInMs: 7,
       iterationNumber: i.repetitionNumber,
       isCorrect: false,
       answer_1Options: getOptions(i).optionsA1,
       answer_2Options: getOptions(i).optionsA2,
-    } as IterationDMAndMem;
+    };
     return i_;
   };
-  const handleUserAnswer = (a: DM_ANSWER) => {
+  const handleUserDMAnswer = (a: DM_ANSWER) => {
     const a_: IterationDMAndMem = {
       ...currentIterarion,
-      userAnswer1: a.answer1,
-      userAnswer2: a.asnwer2,
+      userAnswerDM1: a.answer1,
+      userAnswerDM2: a.asnwer2,
       isCorrect: a.isCorrect ?? false,
-      answeredInMs: a.answeredInMs ?? 7,
+      answeredDmInMs: a.answeredInMs ?? 7,
     };
     setCurrentIterarion(a_);
   };
-  const handleUserRPE = (rpe?: number) => {
+  const handleUserMemAnswer = (a: MEMORY_ANSWER) => {
+    const a_: IterationDMAndMem = {
+      ...currentIterarion,
+      userAnswerMem1: a.answer1,
+      userAnswerMem2: a.asnwer2,
+      answeredMemInMs: a.answeredInMs ?? 7,
+      isCorrect: a.isCorrect ?? false,
+    };
+    setCurrentIterarion(a_);
+  };
+  const handleUserDMRPE = (rpe?: number) => {
     const a_: IterationDMAndMem = {
       ...currentIterarion,
       rpe: rpe,
@@ -109,10 +125,18 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     setCurrentIterarion(a_);
     return a_;
   };
+  const handleUserMemRPE = (rpe?: number) => {
+    const a_: IterationDMAndMem = {
+      ...currentIterarion,
+      rpeMem: rpe,
+    };
+    setCurrentIterarion(a_);
+    return a_;
+  };
   const prepareWorkout = (w: Workout) => {
     console.log("prepareWorkout", JSON.stringify(w, null, 2));
     const iterations_ = getIterationsOrdered(w);
-    const workout_: DMWorkout = {
+    const workout_: DMAndMemWorkout = {
       date: {
         start: new Date(),
         end: new Date(),
@@ -176,24 +200,37 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     setWorkout((prev) => ({ ...prev, status }));
   };
   const getWorkoutResume = () => {
-    //console.log("session resume", s);
-    const iterationWithVideos = workout.iterations.filter((i) => i.video);
-    const correctAnswers = iterationWithVideos.filter((i) => {
-      //Si al usuario le faltó responder algunas de las 2 preguntas, ya se pone como incorrecta.
-      if (!i.answer1 || !i.answer2) return false;
-      return i.answer1 == i.userAnswer1 && i.answer2 == i.userAnswer2;
-    }).length;
+    const iterationWithVideos = workout.iterations.filter(
+      (i) => i.dmVideo || i.memoryVideo
+    );
+    const correctAnswers = iterationWithVideos.reduce((ant, act) => {
+      let count = 0;
+      if (
+        act.dmAnswer1 == act.userAnswerDM1 &&
+        act.dmAnswer2 == act.userAnswerDM2
+      )
+        count++;
+      if (
+        act.memoryAnswer1 == act.userAnswerMem1 &&
+        act.memoryAnswer2 == act.userAnswerMem2
+      )
+        count++;
+
+      return count + ant;
+    }, 0);
     //Manejo de Promedio
     let answerTotalTime = 0;
     for (const i of iterationWithVideos) {
-      answerTotalTime += i.answeredInMs;
+      answerTotalTime += i.answeredDmInMs;
+      answerTotalTime += i.answeredMemInMs;
     }
+    console.log("answerTotalTime", answerTotalTime);
 
     return {
       date: formatDate(workout.date.start),
       totalTime: formatTimeDifference(workout.date.start, workout.date.end),
       correctAnswers,
-      wrongAnswers: Math.abs(iterationWithVideos.length - correctAnswers),
+      wrongAnswers: Math.abs(2 * iterationWithVideos.length - correctAnswers),
       answerAverageTime: formatSeconds(
         answerTotalTime / iterationWithVideos.length
       ),
@@ -201,16 +238,25 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     };
   };
   const calculateResultCharBarData = () => {
-    const data_: WorkoutResultBarChart[] = workout.iterations.map(
+    const memData: WorkoutResultBarChart[] = workout.iterations.map(
       (i, index) => ({
         x: index + 1,
-        y: i.answeredInMs / 1000,
-        hasVideo: i.video?.length ? true : false,
+        y: i.answeredMemInMs / 1000,
+        hasVideo: i.memoryVideo?.length ? true : false,
         isCorrect: i.isCorrect,
         rpe: i.rpe,
       })
     );
-    setResultCharBarData(data_);
+    const dataDm: WorkoutResultBarChart[] = workout.iterations.map(
+      (i, index) => ({
+        x: index + 1,
+        y: i.answeredDmInMs / 1000,
+        hasVideo: i.dmVideo?.length ? true : false,
+        isCorrect: i.isCorrect,
+        rpe: i.rpe,
+      })
+    );
+    setResultCharBarData([...memData, ...dataDm]);
   };
   const startWorkout = () => {
     setWorkout((prev) => ({ ...prev, status: "inCourse" }));
@@ -237,8 +283,10 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
         prepareWorkout,
         handleNextIteration,
         changeIterationStep,
-        handleUserAnswer,
-        handleUserRPE,
+        handleUserDMAnswer,
+        handleUserMemAnswer,
+        handleUserDMRPE,
+        handleUserMemRPE,
         updateWorkoutStatus,
         startWorkout,
         saveSession,
@@ -250,8 +298,9 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
 }
 
 const getOptions = (i: Iteration) => {
-  const a1 = i.answers.length ? i.answers[0].video1.answer1 : undefined;
-  const a2 = i.answers.length ? i.answers[0].video1.answer2 : undefined;
+  const a1 = i.answers.length ? i.answers[1].video1.answer1 : undefined;
+  const a2 = i.answers.length ? i.answers[1].video1.answer2 : undefined;
+  console.log("responses", a1, a2);
   let initialAnswerOptions = [];
   let optionsA1: number[] = [];
   let optionsA2: number[] = [];

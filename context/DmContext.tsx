@@ -78,7 +78,7 @@ export function DMProvider({ children }: PropsWithChildren) {
       answeredInMs: 7,
       iterationNumber: i.repetitionNumber,
       isCorrect: false,
-    } as IterationDM;
+    };
     return i_;
   };
   const handleUserAnswer = (a: DM_ANSWER) => {
@@ -144,6 +144,8 @@ export function DMProvider({ children }: PropsWithChildren) {
       calculateResultCharBarData();
       setWorkout((prev) => ({ ...prev, date, status: "finished" }));
       setResume(getWorkoutResume());
+      setIterationIndex(0);
+      setCurrentIterarion(workout.iterations[INITIAL_ITERATION_INDEX]);
     }
   };
   const updateIteration = (iteration: IterationDM) => {

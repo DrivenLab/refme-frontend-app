@@ -84,6 +84,7 @@ type GeneralWorkout = {
   maxDesicionTime: number;
   maxRPETime: number;
   workoutId: number;
+  memberType?: "ar" | "re";
 };
 export type DMWorkout = GeneralWorkout & {
   iterations: IterationDM[];

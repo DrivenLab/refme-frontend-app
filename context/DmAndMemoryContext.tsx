@@ -19,6 +19,7 @@ import {
 } from "@/utils/session";
 import { Workout, WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
 import { usePostSession } from "@/queries/session.query";
+import { calculateNextTimeToGetReady } from "@/utils/workoutUtils";
 
 type DMAndMemoryContextType = {
   currentIterarion: IterationDMAndMem;
@@ -67,10 +68,12 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
   });
   const prepareIteration = ({
     i,
+    oldIteration,
     timeToWorkout,
     timeToAnswerInSec,
   }: {
     i: Iteration;
+    oldIteration?: Iteration;
     timeToWorkout: number;
     timeToAnswerInSec: number;
   }) => {
@@ -83,7 +86,12 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
       memoryAnswer1: i.answers.length ? i.answers[1].video1.answer1 : undefined,
       memoryAnswer2: i.answers.length ? i.answers[1].video1.answer2 : undefined,
 
-      timeToGetReadyInSec: i.repetitionNumber === 1 ? 3 : 10,
+      timeToGetReadyInSec: calculateNextTimeToGetReady({
+        i: oldIteration,
+        breakDuration: workout.breakDuration,
+        memberType: workout.memberType || "ar",
+        type: workout.type,
+      }),
       timeToWorkoutInSec: timeToWorkout,
       timeToAnswerInSec: timeToAnswerInSec,
       timeToRPEInSec: 3,
@@ -146,9 +154,10 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
       maxRPETime: 7,
       numberOfDecisions: w.numberOfDecisions,
       numberOfRepetitions: w.numberOfRepetitions,
-      iterations: iterations_.map((i) =>
+      iterations: iterations_.map((i, itIndex) =>
         prepareIteration({
           i,
+          oldIteration: iterations_[itIndex - 1],
           timeToWorkout: w.excerciseDuration,
           timeToAnswerInSec: 7,
         })
@@ -156,6 +165,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
       status: "pending",
       workoutId: w.id,
       type: w.type,
+      memberType: w.memberType,
     };
     setStatus("pending");
     setWorkout(workout_);

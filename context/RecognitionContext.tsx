@@ -230,7 +230,6 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
     setWorkout((prev) => ({ ...prev, status }));
   };
   const getWorkoutResume = () => {
-    //console.log("session resume", s);
     const iterationWithVideos = workout.iterations.filter((i) => i.video);
     const correctAnswers = iterationWithVideos.filter((i) => {
       //Si al usuario le faltó responder algunas de las 2 preguntas, ya se pone como incorrecta.

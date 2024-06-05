@@ -14,14 +14,14 @@ import MemoryAnswer from "../memory/MemoryAnswer";
 const DMAndMemIteration = () => {
   const {
     currentIterarion,
+    workout,
+    currentIterationStep,
     handleNextIteration,
     changeIterationStep,
-    currentIterationStep,
     handleUserDMAnswer,
     handleUserMemAnswer,
     handleUserDMRPE,
     handleUserMemRPE,
-    workout,
   } = useDMAndMemWorkout();
 
   const handleFinishCountdown = (step: DM_MEM_STEPS) => {

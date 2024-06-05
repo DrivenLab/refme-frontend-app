@@ -111,7 +111,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       }),
       timeToWorkoutInSec: timeToWorkout,
       timeToAnswerInSec: TIME_TO_ANSWER[rest.memberType][rest.type],
-      timeToRPEInSec: 300000,
+      timeToRPEInSec: TIME_TO_RPE[rest.memberType][rest.type],
       answeredInMs: TIME_TO_ANSWER[rest.memberType][rest.type],
       iterationNumber: _currentIteration.repetitionNumber,
       answer_1Options: optionsA1,

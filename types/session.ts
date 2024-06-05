@@ -44,11 +44,15 @@ type _IterationDMAndMem = IterationWorkout & {
   userAnswerMem1?: number;
   userAnswerMem2?: number;
   rpeMem?: number;
-  isCorrect: boolean;
+  isCorrectDm: boolean;
+  isCorrectMem: boolean;
   answer_1Options: number[];
   answer_2Options: number[];
 };
-export type IterationDMAndMem = Omit<_IterationDMAndMem, "answeredInMs">;
+export type IterationDMAndMem = Omit<
+  _IterationDMAndMem,
+  "answeredInMs" | "isCorrect"
+>;
 export type IterationMemory = IterationWorkout & {
   answer1?: number;
   answer2?: number;

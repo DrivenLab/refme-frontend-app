@@ -83,15 +83,15 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
       memoryAnswer1: i.answers.length ? i.answers[1].video1.answer1 : undefined,
       memoryAnswer2: i.answers.length ? i.answers[1].video1.answer2 : undefined,
 
-      timeToGetReadyInSec:
-        i.repetitionNumber === 1 ? 3 : i.answers.length ? 0 : 10,
+      timeToGetReadyInSec: i.repetitionNumber === 1 ? 3 : 10,
       timeToWorkoutInSec: timeToWorkout,
       timeToAnswerInSec: timeToAnswerInSec,
       timeToRPEInSec: 3,
       answeredDmInMs: 7,
       answeredMemInMs: 7,
       iterationNumber: i.repetitionNumber,
-      isCorrect: false,
+      isCorrectDm: false,
+      isCorrectMem: false,
       answer_1Options: getOptions(i).optionsA1,
       answer_2Options: getOptions(i).optionsA2,
     };
@@ -102,7 +102,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
       ...currentIterarion,
       userAnswerDM1: a.answer1,
       userAnswerDM2: a.asnwer2,
-      isCorrect: a.isCorrect ?? false,
+      isCorrectDm: a.isCorrect ?? false,
       answeredDmInMs: a.answeredInMs ?? 7,
     };
     setCurrentIterarion(a_);
@@ -113,7 +113,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
       userAnswerMem1: a.answer1,
       userAnswerMem2: a.asnwer2,
       answeredMemInMs: a.answeredInMs ?? 7,
-      isCorrect: a.isCorrect ?? false,
+      isCorrectMem: a.isCorrect ?? false,
     };
     setCurrentIterarion(a_);
   };
@@ -177,6 +177,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
       calculateResultCharBarData();
       setWorkout((prev) => ({ ...prev, date, status: "finished" }));
       setResume(getWorkoutResume());
+      setCurrentIterarion(workout.iterations[INITIAL_ITERATION_INDEX]);
     }
   };
   const updateIteration = (iteration: IterationDMAndMem) => {
@@ -226,37 +227,38 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     }
     console.log("answerTotalTime", answerTotalTime);
 
-    return {
+    const data = {
       date: formatDate(workout.date.start),
       totalTime: formatTimeDifference(workout.date.start, workout.date.end),
       correctAnswers,
       wrongAnswers: Math.abs(2 * iterationWithVideos.length - correctAnswers),
       answerAverageTime: formatSeconds(
-        answerTotalTime / iterationWithVideos.length
+        answerTotalTime / (iterationWithVideos.length * 2)
       ),
       answerTotalTime: formatSeconds(answerTotalTime),
     };
+    console.log("resumeData", data);
+    return data;
   };
   const calculateResultCharBarData = () => {
-    const memData: WorkoutResultBarChart[] = workout.iterations.map(
-      (i, index) => ({
-        x: index + 1,
-        y: i.answeredMemInMs / 1000,
-        hasVideo: i.memoryVideo?.length ? true : false,
-        isCorrect: i.isCorrect,
-        rpe: i.rpe,
-      })
-    );
-    const dataDm: WorkoutResultBarChart[] = workout.iterations.map(
-      (i, index) => ({
-        x: index + 1,
+    const data: any = [];
+    workout.iterations.forEach((i, index) => {
+      data.push({
+        x: index * 2 + 1,
         y: i.answeredDmInMs / 1000,
         hasVideo: i.dmVideo?.length ? true : false,
-        isCorrect: i.isCorrect,
+        isCorrect: i.isCorrectDm,
         rpe: i.rpe,
-      })
-    );
-    setResultCharBarData([...memData, ...dataDm]);
+      });
+      data.push({
+        x: index * 2 + 2,
+        y: i.answeredMemInMs / 1000,
+        hasVideo: i.memoryVideo?.length ? true : false,
+        isCorrect: i.isCorrectMem,
+        rpe: i.rpeMem,
+      });
+    });
+    setResultCharBarData(data);
   };
   const startWorkout = () => {
     setWorkout((prev) => ({ ...prev, status: "inCourse" }));
@@ -264,12 +266,12 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
   const saveSession = () => {
     const sessionsPayload: SessionPostType[] = workout.iterations.map((it) => ({
       workout_iteration: it.idIteration,
-      answer_1: it.userAnswer1,
-      answer_2: it.userAnswer2,
-      borgScale: it.rpe,
-      replyTime: it.answeredInMs,
+      // answer_1: it.userAnswer1,
+      // answer_2: it.userAnswer2,
+      // borgScale: it.rpe,
+      // replyTime: it.answeredInMs,
     }));
-    postSessionMutation.mutate(sessionsPayload);
+    // postSessionMutation.mutate(sessionsPayload);
   };
   return (
     <DMAndMemoryContext.Provider

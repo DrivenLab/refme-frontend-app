@@ -121,9 +121,18 @@ const DMAndMemIteration = () => {
         <RPE
           onFinishRPE={(rpe) => {
             handleUserDMRPE(rpe);
-            handleFinishCountdown("mem-workout");
+            handleFinishCountdown("beginning-mem-workout");
           }}
           iteration={currentIterarion}
+        />
+      ) : currentIterationStep === "beginning-mem-workout" ? (
+        <SessionCountdown
+          onFinishCountdown={() => handleFinishCountdown("mem-workout")}
+          initialCountdown={0}
+          imageName="man_running_ready_to_workout"
+          iterationNumber={currentIterarion.iterationNumber}
+          totalItaration={workout.iterations.length}
+          type="dm"
         />
       ) : currentIterationStep === "mem-workout" ? (
         <SessionTrainingCountdown
@@ -148,11 +157,11 @@ const DMAndMemIteration = () => {
           }}
           iteration={{
             ...currentIterarion,
+            // @ts-ignore
             answer1: currentIterarion.memoryAnswer1,
+            // @ts-ignore
             answer2: currentIterarion.memoryAnswer2,
-            // @ts-ignore
             answer_1Options: currentIterarion.answer_1Options,
-            // @ts-ignore
             answer_2Options: currentIterarion.answer_2Options,
           }}
         />

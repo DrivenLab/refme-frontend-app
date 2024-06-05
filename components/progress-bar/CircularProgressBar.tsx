@@ -8,10 +8,6 @@ import Animated, {
 } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
 
-//TODO: CHECK GLITCHING ON CIRCULAR PROGRESS BAR
-// https://medium.com/@dexpetkovic/creating-a-circular-progress-react-component-a-step-by-step-guide-722bc13af548
-// https://github.com/dexpetkovic/elands-react-helpers
-
 export const CircularProgress = (props: {
   initialCountdown: number;
   circleColor: string;

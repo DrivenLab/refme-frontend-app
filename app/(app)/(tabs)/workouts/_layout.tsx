@@ -1,7 +1,9 @@
 import React from "react";
 import { Stack } from "expo-router";
+import { useKeepAwake } from "expo-keep-awake";
 
 const _layout = () => {
+  useKeepAwake();
   return (
     <Stack
       screenOptions={{

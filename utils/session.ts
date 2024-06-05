@@ -56,10 +56,10 @@ export const getDifferenceDate = (date1: Date, date2: Date) => {
 export function formatSeconds(milliseconds: number) {
   // Extract seconds and milliseconds
   const seconds = Math.floor(milliseconds / 1000);
-  const ms = Math.floor((milliseconds % 1000) / 100);
+  const ms = Math.floor(milliseconds % 1000);
 
   // Format the result as a string
-  return `${seconds}.${ms.toString().padStart(3, "0")} s`;
+  return `${seconds}.${ms.toString().substring(0, 3).padStart(3, "0")} s`;
 }
 export function formatTimeDifference(date1: Date, date2: Date) {
   // Calculate the difference in milliseconds

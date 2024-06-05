@@ -41,9 +41,6 @@ export default function AboutYouScreen() {
   const [isLogging, setIsLogging] = useState(false);
 
   function handleOnChange(name: string, value: string) {
-    if (name === "birthdate" || name === "expirationMedicalRecord") {
-      console.log("value", value);
-    }
     setProfileData((prev) => ({ ...prev, [name]: value }));
   }
   const handleUpdateProfile = async () => {

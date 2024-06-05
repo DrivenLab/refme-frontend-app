@@ -32,10 +32,12 @@ export const VIDEO_TIME_IN_SECONDS = {
   re: {
     dm: 10,
     memory: 5,
+    recognition: 10,
   },
   ar: {
     dm: 5,
     memory: 5,
+    recognition: 10,
   },
 };
 export const ITERATION_TOTAL_TIME = {
@@ -43,11 +45,13 @@ export const ITERATION_TOTAL_TIME = {
     dm: 21,
     memory: 21,
     "dm+memory": 22,
+    recognition: 15,
   },
   ar: {
     dm: 14,
     memory: 21,
     "dm+memory": 22,
+    recognition: 15,
   },
 };
 export const TIME_TO_ANSWER = {
@@ -55,11 +59,13 @@ export const TIME_TO_ANSWER = {
     dm: 6,
     memory: 6,
     "dm+memory": 6,
+    recognition: 10,
   },
   ar: {
     dm: 5,
     memory: 6,
     "dm+memory": 6,
+    recognition: 10,
   },
 };
 export const TIME_TO_RPE = {
@@ -67,11 +73,13 @@ export const TIME_TO_RPE = {
     dm: 3,
     memory: 3,
     "dm+memory": 3,
+    recognition: 3,
   },
   ar: {
     dm: 3,
     memory: 3,
     "dm+memory": 3,
+    recognition: 3,
   },
 };
 export const INITAL_TIME_TO_GET_READY = 3;

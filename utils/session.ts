@@ -1,4 +1,11 @@
-import { Session } from "@/types/session";
+import {
+  IMAGE_NAME,
+  Iteration,
+  IterationRecognition,
+  RECOGNITION_VIDEO_TYPE,
+  RecognitionWorkout,
+  Session,
+} from "@/types/session";
 import { Workout } from "@/types/workout";
 
 export const getSessionOrderedByIterations = (session: Session) => {
@@ -8,7 +15,6 @@ export const getSessionOrderedByIterations = (session: Session) => {
   session.workout.iterations = iterations_;
   return { ...session };
 };
-
 export const getIterationsOrdered = (workout: Workout) => {
   const iterations_ = workout.iterations.sort(
     (a, b) => a.repetitionNumber - b.repetitionNumber
@@ -50,10 +56,10 @@ export const getDifferenceDate = (date1: Date, date2: Date) => {
 export function formatSeconds(milliseconds: number) {
   // Extract seconds and milliseconds
   const seconds = Math.floor(milliseconds / 1000);
-  const ms = Math.floor((milliseconds % 1000) / 100);
+  const ms = Math.floor(milliseconds % 1000);
 
   // Format the result as a string
-  return `${seconds}.${ms.toString().padStart(3, "0")} s`;
+  return `${seconds}.${ms.toString().substring(0, 3).padStart(3, "0")} s`;
 }
 export function formatTimeDifference(date1: Date, date2: Date) {
   // Calculate the difference in milliseconds
@@ -132,3 +138,9 @@ export function shuffleArray(array: number[]) {
   }
   return array;
 }
+export const RecognitionImageMap: Record<RECOGNITION_VIDEO_TYPE, IMAGE_NAME> = {
+  players: "shirt_plus",
+  contact: "target_image",
+  foult: "whistle",
+  hand: "hand_ball",
+};

@@ -26,17 +26,17 @@ const MemoryAnswer = ({ onFinish, iteration }: Props) => {
     const a: MEMORY_ANSWER = {
       ...asnwer,
       isCorrect:
-        asnwer.answer1 === iteration.answer1 &&
-        asnwer.asnwer2 === iteration.answer2,
+        asnwer.answer1 == iteration.answer1 &&
+        asnwer.asnwer2 == iteration.answer2,
     };
     onFinish(a);
   }
   const handleUserAnswer = (answerSelected: number, questionType: string) => {
     const answer_ = { ...asnwer };
     let completed = false;
-    if (questionType === "q1") {
+    if (questionType == "q1") {
       answer_.answer1 = answerSelected;
-    } else if (questionType === "q2") {
+    } else if (questionType == "q2") {
       answer_.asnwer2 = answerSelected;
     }
     if (answer_.answer1 && answer_.asnwer2) completed = true;
@@ -62,8 +62,8 @@ const MemoryAnswer = ({ onFinish, iteration }: Props) => {
               key={key}
               text={option + ""}
               handleUserAnswer={() => handleUserAnswer(option, "q1")}
-              hasMarked={option === asnwer.answer1}
-              isCorrect={asnwer.answer1 === iteration.answer1}
+              hasMarked={option == asnwer.answer1}
+              isCorrect={asnwer.answer1 == iteration.answer1}
               showAnswer={hasCompleted}
               canTouch={hasCompleted == false}
             />
@@ -96,8 +96,8 @@ const MemoryAnswer = ({ onFinish, iteration }: Props) => {
               key={key}
               text={option + ""}
               handleUserAnswer={() => handleUserAnswer(option, "q2")}
-              hasMarked={option === asnwer.asnwer2}
-              isCorrect={asnwer.asnwer2 === iteration.answer2}
+              hasMarked={option == asnwer.asnwer2}
+              isCorrect={asnwer.asnwer2 == iteration.answer2}
               showAnswer={hasCompleted}
               canTouch={hasCompleted == false}
             />

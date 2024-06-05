@@ -13,16 +13,16 @@ const WorkoutMemberItem = ({ workout, idSession }: Props) => {
   const {
     isDownloading,
     downloadProgress,
-    setIsDownloading,
-    downloadSession,
     wasSessionDownloaded,
+    cancelDownload,
+    downloadSession,
   } = useDownloadSession({ idSession });
 
   return (
     <>
       <DownloadProgressModal
         isModalOpen={isDownloading}
-        onCancelDownload={() => setIsDownloading(false)}
+        onCancelDownload={cancelDownload}
         downloadProgress={downloadProgress}
       />
       <WorkoutCard

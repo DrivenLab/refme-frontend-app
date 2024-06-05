@@ -1,13 +1,16 @@
 import i18n from "@/languages/i18n";
+import { RECOGNITION_VIDEO_TYPE } from "@/types/session";
 import { TEXT_TYPES } from "@/types/workout";
 import { Box, Text } from "@gluestack-ui/themed";
 type Props = {
   type: TEXT_TYPES;
   step: number;
   hasVideo?: boolean;
+  recognitionType?: RECOGNITION_VIDEO_TYPE;
 };
 const FONT_SIZE = 30;
 const TEXT_COLOR = "black";
+
 const TextInformation = ({ type, step, hasVideo }: Props) => {
   if (step === 2 && !hasVideo)
     return (
@@ -69,7 +72,7 @@ const TextInformation = ({ type, step, hasVideo }: Props) => {
         </Text>
       </Box>
     );
-  if (type === "memory" && step === 2)
+  if (type === "memory" && step === 2) {
     return (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
@@ -87,6 +90,17 @@ const TextInformation = ({ type, step, hasVideo }: Props) => {
         </Text>
       </Box>
     );
+  }
+  if (type === "recognition") {
+    return (
+      <Box>
+        <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
+          Selecciona la
+          <Text bold>falta mano</Text>
+        </Text>
+      </Box>
+    );
+  }
 };
 
 export default TextInformation;

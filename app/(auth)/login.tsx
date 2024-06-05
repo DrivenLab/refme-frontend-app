@@ -14,7 +14,7 @@ import { SafeAreaViewStyle } from "@/utils/Styles";
 export default function LoginScreen() {
   const { setToken } = useAuth();
   const [loginData, setLoginData] = useState<LoginData>({
-    email: "fernando.referee@dlab.software",
+    email: "refme.referee@dlab.software",
     password: "12345",
   } as LoginData);
   const [error, setError] = useState("");

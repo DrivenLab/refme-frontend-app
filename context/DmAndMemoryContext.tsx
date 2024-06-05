@@ -2,10 +2,10 @@ import { useState, createContext, useContext, PropsWithChildren } from "react";
 import {
   DM_ANSWER,
   DMWorkout,
-  DM_STEPS,
-  IterationDM,
+  IterationDMAndMem,
   DM_WORKOUT_STATUS,
   SessionPostType,
+  DM_MEM_STEPS,
 } from "@/types/session";
 import { Iteration } from "@/types/session";
 import {
@@ -13,23 +13,25 @@ import {
   formatTimeDifference,
   formatSeconds,
   getIterationsOrdered,
+  generateUniqueRandomNumbersWithInitialValues,
+  shuffleArray,
 } from "@/utils/session";
 import { Workout, WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
 import { usePostSession } from "@/queries/session.query";
 
 type DMAndMemoryContextType = {
-  currentIterarion: IterationDM;
-  currentIterationStep: DM_STEPS;
+  currentIterarion: IterationDMAndMem;
+  currentIterationStep: DM_MEM_STEPS;
   resume: WorkoutResume;
   status: DM_WORKOUT_STATUS;
   workout: DMWorkout;
   resultCharBarData: WorkoutResultBarChart[];
   startWorkout: () => void;
   prepareWorkout: (w: Workout) => void;
-  changeIterationStep: (s: DM_STEPS) => void;
+  changeIterationStep: (s: DM_MEM_STEPS) => void;
   handleUserAnswer: (a: DM_ANSWER) => void;
-  handleUserRPE: (a?: number) => IterationDM;
-  handleNextIteration: (i: IterationDM) => void;
+  handleUserRPE: (a?: number) => IterationDMAndMem;
+  handleNextIteration: (i: IterationDMAndMem) => void;
   updateWorkoutStatus: (s: DM_WORKOUT_STATUS) => void;
   saveSession: () => void;
 };
@@ -45,11 +47,11 @@ const INITIAL_ITERATION_INDEX = 0;
 export function DMAndMemProvider({ children }: PropsWithChildren) {
   const [workout, setWorkout] = useState<DMWorkout>({} as DMWorkout);
   const [iterationIndex, setIterationIndex] = useState(0);
-  const [currentIterarion, setCurrentIterarion] = useState<IterationDM>(
-    {} as IterationDM
+  const [currentIterarion, setCurrentIterarion] = useState<IterationDMAndMem>(
+    {} as IterationDMAndMem
   );
   const [currentIterationStep, setCurrentIterationStep] =
-    useState<DM_STEPS>("beginning");
+    useState<DM_MEM_STEPS>("beginning");
   const [resume, setResume] = useState<WorkoutResume>({} as WorkoutResume);
   const [status, setStatus] = useState<DM_WORKOUT_STATUS>("pending");
   const [resultCharBarData, setResultCharBarData] = useState<
@@ -67,11 +69,15 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     timeToWorkout: number;
     timeToAnswerInSec: number;
   }) => {
-    const i_: IterationDM = {
+    const i_: IterationDMAndMem = {
       idIteration: i.id,
-      video: i.answers.length ? i.answers[0].video1.video : undefined,
-      answer1: i.answers.length ? i.answers[0].video1.answer1 : undefined,
-      answer2: i.answers.length ? i.answers[0].video1.answer2 : undefined,
+      dmVideo: i.answers.length ? i.answers[0].video1.video : undefined,
+      memoryVideo: i.answers.length ? i.answers[1].video1.video : undefined,
+      dmAnswer1: i.answers.length ? i.answers[0].video1.answer1 : undefined,
+      dmAnswer2: i.answers.length ? i.answers[0].video1.answer2 : undefined,
+      memoryAnswer1: i.answers.length ? i.answers[1].video1.answer1 : undefined,
+      memoryAnswer2: i.answers.length ? i.answers[1].video1.answer2 : undefined,
+
       timeToGetReadyInSec:
         i.repetitionNumber === 1 ? 3 : i.answers.length ? 0 : 10,
       timeToWorkoutInSec: timeToWorkout,
@@ -80,11 +86,13 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
       answeredInMs: 7,
       iterationNumber: i.repetitionNumber,
       isCorrect: false,
-    } as IterationDM;
+      answer_1Options: getOptions(i).optionsA1,
+      answer_2Options: getOptions(i).optionsA2,
+    } as IterationDMAndMem;
     return i_;
   };
   const handleUserAnswer = (a: DM_ANSWER) => {
-    const a_: IterationDM = {
+    const a_: IterationDMAndMem = {
       ...currentIterarion,
       userAnswer1: a.answer1,
       userAnswer2: a.asnwer2,
@@ -94,7 +102,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     setCurrentIterarion(a_);
   };
   const handleUserRPE = (rpe?: number) => {
-    const a_: IterationDM = {
+    const a_: IterationDMAndMem = {
       ...currentIterarion,
       rpe: rpe,
     };
@@ -102,6 +110,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     return a_;
   };
   const prepareWorkout = (w: Workout) => {
+    console.log("prepareWorkout", JSON.stringify(w, null, 2));
     const iterations_ = getIterationsOrdered(w);
     const workout_: DMWorkout = {
       date: {
@@ -118,7 +127,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
         prepareIteration({
           i,
           timeToWorkout: w.excerciseDuration,
-          timeToAnswerInSec: w.type === "dm" ? 7 : w.type === "dmar" ? 4 : 0,
+          timeToAnswerInSec: 7,
         })
       ),
       status: "pending",
@@ -131,15 +140,13 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     setCurrentIterarion(workout_.iterations[INITIAL_ITERATION_INDEX]);
   };
 
-  const handleNextIteration = (currentIterarion: IterationDM) => {
+  const handleNextIteration = (currentIterarion: IterationDMAndMem) => {
     updateIteration(currentIterarion);
     if (iterationIndex < workout.iterations.length - 1) {
       const newCurrentIteration = workout.iterations[iterationIndex + 1];
       setCurrentIterarion(newCurrentIteration);
       setIterationIndex((prev) => prev + 1);
-      setCurrentIterationStep(() =>
-        newCurrentIteration.timeToGetReadyInSec === 0 ? "workout" : "beginning"
-      );
+      setCurrentIterationStep(() => "beginning");
     } else {
       const date = workout.date;
       date.end = new Date();
@@ -148,7 +155,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
       setResume(getWorkoutResume());
     }
   };
-  const updateIteration = (iteration: IterationDM) => {
+  const updateIteration = (iteration: IterationDMAndMem) => {
     const index = workout.iterations.findIndex(
       (i) => i.idIteration === iteration.idIteration
     );
@@ -162,12 +169,8 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     setWorkout(w_);
   };
 
-  const changeIterationStep = (step_: DM_STEPS) => {
-    if (step_ === "video" && !currentIterarion.video)
-      setCurrentIterationStep("rpe");
-    else if (step_ === "decision" && !currentIterarion.video)
-      setCurrentIterationStep("rpe");
-    else setCurrentIterationStep(step_);
+  const changeIterationStep = (step_: DM_MEM_STEPS) => {
+    setCurrentIterationStep(step_);
   };
   const updateWorkoutStatus = (status: DM_WORKOUT_STATUS) => {
     setWorkout((prev) => ({ ...prev, status }));
@@ -245,3 +248,23 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     </DMAndMemoryContext.Provider>
   );
 }
+
+const getOptions = (i: Iteration) => {
+  const a1 = i.answers.length ? i.answers[0].video1.answer1 : undefined;
+  const a2 = i.answers.length ? i.answers[0].video1.answer2 : undefined;
+  let initialAnswerOptions = [];
+  let optionsA1: number[] = [];
+  let optionsA2: number[] = [];
+  if (a1 && a2) {
+    initialAnswerOptions = [Number(a1), Number(a2)];
+    const options = generateUniqueRandomNumbersWithInitialValues(
+      1,
+      44,
+      initialAnswerOptions,
+      4
+    );
+    optionsA1 = shuffleArray(options);
+    optionsA2 = shuffleArray(options);
+  }
+  return { optionsA1, optionsA2 };
+};

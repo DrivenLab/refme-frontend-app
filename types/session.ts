@@ -30,6 +30,15 @@ export type IterationDM = IterationWorkout & {
   userAnswer2?: string;
   isCorrect: boolean;
 };
+export type IterationDMAndMem = IterationWorkout & {
+  dmVideo?: string;
+  memoryVideo?: string;
+  answer1?: string;
+  answer2?: string;
+  userAnswer1?: string;
+  userAnswer2?: string;
+  isCorrect: boolean;
+};
 export type IterationMemory = IterationWorkout & {
   answer1?: number;
   answer2?: number;
@@ -135,6 +144,18 @@ export type SESSION_STATUS = "pending" | "inCourse" | "finished";
 
 export type DM_WORKOUT_STATUS = "pending" | "inCourse" | "finished";
 export type DM_STEPS = "beginning" | "workout" | "video" | "decision" | "rpe";
+export type DM_MEM_STEPS =
+  | "beginning"
+  | "mem-beginning"
+  | "mem-video"
+  | "dm-beginning"
+  | "dm-workout"
+  | "dm-video"
+  | "dm-decision"
+  | "mem-workout"
+  | "mem-decision"
+  | "dm-rpe"
+  | "mem-rpe";
 
 export type MEMORY_WORKOUT_STATUS = "pending" | "inCourse" | "finished";
 export type MEMORY_STEPS =

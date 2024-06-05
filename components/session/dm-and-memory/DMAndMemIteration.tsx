@@ -1,15 +1,15 @@
-import { Text, View } from "@gluestack-ui/themed";
 import React from "react";
-import { DM_ANSWER, Steps } from "@/types/session";
-import { useDMWorkout } from "@/context/DmContext";
+import { Text, View } from "@gluestack-ui/themed";
+
+import { DM_MEM_STEPS, IterationDMAndMem } from "@/types/session";
 import CVideo from "@/components/CVideo";
+import { useDMAndMemWorkout } from "@/context/DmAndMemoryContext";
+
 import SessionTrainingCountdown from "../SessionTrainingCountdown";
 import DecisionMakingAnswer from "../dm/DecisionMakingAnswer";
 import RPE from "../RPE";
 import SessionCountdown from "../SessionCountdown";
-import DecisionMakingAnswerAssistant from "../dm/DecisionMakingAnswerAssistant";
-import { useDMAndMemWorkout } from "@/context/DmAndMemoryContext";
-import { useNavigation, useRouter } from "expo-router";
+import MemoryAnswer from "../memory/MemoryAnswer";
 
 const DMAndMemIteration = () => {
   const {
@@ -22,15 +22,11 @@ const DMAndMemIteration = () => {
     workout,
   } = useDMAndMemWorkout();
 
-  const handleFinishCountdown = (step: Steps) => {
+  const handleFinishCountdown = (step: DM_MEM_STEPS) => {
     // Defer the state update until after the current rendering cycle
     setTimeout(() => {
       changeIterationStep(step);
     }, 0);
-  };
-  const onFinishDecision = (answer: DM_ANSWER) => {
-    handleUserAnswer(answer);
-    handleFinishCountdown("rpe");
   };
   const onFinishRPE = (rpe?: number) => {
     const i = handleUserRPE(rpe);
@@ -38,14 +34,21 @@ const DMAndMemIteration = () => {
       handleNextIteration(i);
     }, 0);
   };
+  // Flujo normal: mem-beginning mem-video dm-beginning dm-workout
+  // dm-video dm-rpe dm-decision mem-workout mem-decision rpe
+  console.log({ currentIterationStep, step: currentIterarion.iterationNumber });
 
   return (
     <View flex={1}>
       {currentIterationStep === "beginning" ? (
+        <BeginningStep
+          currentIteration={currentIterarion}
+          handleFinishCountdown={handleFinishCountdown}
+        />
+      ) : currentIterationStep === "mem-beginning" ? (
         <>
-          <Text>uhea</Text>
           <SessionCountdown
-            onFinishCountdown={() => handleFinishCountdown("workout")}
+            onFinishCountdown={() => handleFinishCountdown("mem-video")}
             initialCountdown={currentIterarion.timeToGetReadyInSec}
             imageName="play_video"
             iterationNumber={currentIterarion.iterationNumber}
@@ -53,33 +56,107 @@ const DMAndMemIteration = () => {
             type="memory"
           />
         </>
-      ) : currentIterationStep === "workout" ? (
+      ) : currentIterationStep === "mem-video" &&
+        currentIterarion.memoryVideo ? (
+        <>
+          <CVideo
+            uri={currentIterarion.memoryVideo}
+            onFinishVideo={() => handleFinishCountdown("dm-beginning")}
+          />
+        </>
+      ) : currentIterationStep === "dm-beginning" ? (
+        <>
+          <SessionCountdown
+            onFinishCountdown={() => handleFinishCountdown("dm-workout")}
+            initialCountdown={
+              !currentIterarion.dmVideo
+                ? currentIterarion.timeToGetReadyInSec
+                : 0
+            }
+            imageName="man_running_ready_to_workout"
+            iterationNumber={currentIterarion.iterationNumber}
+            totalItaration={workout.iterations.length}
+            type="dm"
+          />
+        </>
+      ) : currentIterationStep === "dm-workout" ? (
         <SessionTrainingCountdown
-          onFinishCountdown={() => handleFinishCountdown("video")}
+          onFinishCountdown={() => {
+            if (currentIterarion.dmVideo) {
+              handleFinishCountdown("dm-video");
+            } else {
+              handleFinishCountdown("dm-rpe");
+            }
+          }}
           initialCountdown={currentIterarion.timeToWorkoutInSec}
-          hasVideo={!(currentIterarion.video == undefined)}
+          hasVideo={!(currentIterarion.dmVideo == undefined)}
           iterationNumber={currentIterarion.iterationNumber}
           totalItaration={workout.iterations.length}
           type="dm"
           imageName="play_video"
         />
-      ) : currentIterationStep === "video" && currentIterarion.video ? (
+      ) : currentIterationStep === "dm-video" && currentIterarion.dmVideo ? (
         <>
           <CVideo
-            uri={currentIterarion.video}
-            onFinishVideo={() => handleFinishCountdown("decision")}
+            uri={currentIterarion.dmVideo}
+            onFinishVideo={() => handleFinishCountdown("dm-decision")}
           />
         </>
-      ) : currentIterationStep === "decision" ? (
+      ) : currentIterationStep === "dm-decision" ? (
         <DecisionMakingAnswer
-          onFinish={onFinishDecision}
+          onFinish={(answer) => {
+            handleUserAnswer(answer);
+            handleFinishCountdown("dm-rpe");
+          }}
           iteration={currentIterarion}
         />
-      ) : (
+      ) : currentIterationStep === "dm-rpe" ? (
+        <RPE
+          onFinishRPE={(rpe) => {
+            console.log(rpe);
+
+            handleFinishCountdown("mem-workout");
+          }}
+          iteration={currentIterarion}
+        />
+      ) : currentIterationStep === "mem-workout" ? (
+        <SessionTrainingCountdown
+          onFinishCountdown={() => handleFinishCountdown("mem-decision")}
+          initialCountdown={currentIterarion.timeToWorkoutInSec}
+          hasVideo={!(currentIterarion.memoryVideo == undefined)}
+          iterationNumber={currentIterarion.iterationNumber}
+          totalItaration={workout.iterations.length}
+          imageName="touching_with_finger"
+          type="memory"
+        />
+      ) : currentIterationStep === "mem-decision" ? (
+        <MemoryAnswer
+          onFinish={(answer) => {
+            // handleUserAnswer(answer);
+            handleFinishCountdown("mem-rpe");
+          }}
+          iteration={currentIterarion}
+        />
+      ) : currentIterationStep === "mem-rpe" ? (
         <RPE onFinishRPE={onFinishRPE} iteration={currentIterarion} />
+      ) : (
+        <Text>Invalid Step{currentIterationStep}</Text>
       )}
     </View>
   );
 };
 
 export default DMAndMemIteration;
+
+type BeginningStepProps = {
+  currentIteration: IterationDMAndMem;
+  handleFinishCountdown: (step: DM_MEM_STEPS) => void;
+};
+const BeginningStep = ({
+  currentIteration,
+  handleFinishCountdown,
+}: BeginningStepProps) => {
+  if (!currentIteration.dmVideo) handleFinishCountdown("dm-beginning");
+  else handleFinishCountdown("mem-beginning");
+  return <></>;
+};

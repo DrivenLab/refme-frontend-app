@@ -73,7 +73,13 @@ const DecisionMakingOption = ({
         </Box>
       ) : (
         text && (
-          <Text color={textColor} textAlign="center" fontSize={20}>
+          <Text
+            color={textColor}
+            textAlign="center"
+            fontSize={20}
+            fontWeight="bold"
+            textTransform="uppercase"
+          >
             {text}
           </Text>
         )

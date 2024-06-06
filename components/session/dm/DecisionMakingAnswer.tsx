@@ -1,4 +1,4 @@
-import { Box, Divider, Text, VStack } from "@gluestack-ui/themed";
+import { Box, VStack } from "@gluestack-ui/themed";
 import React, { useEffect, useState } from "react";
 import { DM_ANSWER1, DM_ANSWER2 } from "@/constants/Session";
 import DecisionMakingOption from "./DecisionMakingOption";
@@ -6,6 +6,7 @@ import i18n from "@/languages/i18n";
 import { DM_ANSWER, IterationDM } from "@/types/session";
 import CProgress from "@/components/progress-bar/CProgress";
 import useCountdown from "@/hooks/useCountdown";
+import { DecisionMakingAnswerDivider } from "./DecisionMakingAnswerDivider";
 
 type Props = {
   onFinish: (a: DM_ANSWER) => void;
@@ -69,7 +70,7 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
             />
           ))}
         </VStack>
-        <Divider my="$5" bg="$black" />
+        <DecisionMakingAnswerDivider />
         <VStack
           width={"100%"}
           flexDirection="row"

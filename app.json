@@ -42,7 +42,15 @@
         }
       ],
       ["expo-asset"],
-      "expo-font",
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/plus-jakarta-sans/PlusJakartaSans_400Regular.ttf",
+            "node_modules/@expo-google-fonts/plus-jakarta-sans/PlusJakartaSans_700Bold.ttf"
+          ]
+        }
+      ],
       [
         "expo-camera",
         {

@@ -9,13 +9,14 @@ type Props = {
   step: number;
   hasVideo?: boolean;
   recognitionType?: RECOGNITION_VIDEO_TYPE;
+  showRpeText?: boolean;
 };
 const FONT_SIZE = 36;
 const TEXT_COLOR = "black";
 
-const TextInformation = ({ type, step, hasVideo }: Props) => {
+const TextInformation = ({ type, step, hasVideo, showRpeText }: Props) => {
   let CMP: ReactNode | null = null;
-  if (step === 2 && !hasVideo)
+  if ((step === 2 && !hasVideo) || showRpeText)
     CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" bold color={TEXT_COLOR}>

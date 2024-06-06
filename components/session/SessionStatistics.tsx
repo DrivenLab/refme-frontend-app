@@ -44,6 +44,7 @@ const SessionStatistics = ({
               paddingHorizontal={10}
               paddingVertical={15}
               borderRadius={10}
+              marginTop={"$2"}
             >
               <Text fontSize="$lg" bold>
                 {i18n.t("workout_flow.total_time")}

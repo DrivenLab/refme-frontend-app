@@ -9,12 +9,20 @@ export const useWhistle = () => {
   const longSound = useRef<Audio.Sound | null>(null);
 
   useEffect(() => {
+    const enableAudio = async () => {
+      await Audio.setAudioModeAsync({
+        playsInSilentModeIOS: true,
+        staysActiveInBackground: false,
+        shouldDuckAndroid: false,
+      });
+    };
     const loadSounds = async () => {
       const { sound: _sound } = await Audio.Sound.createAsync(ShortSound);
       shortSound.current = _sound;
       const { sound: __sound } = await Audio.Sound.createAsync(LongSound);
       longSound.current = __sound;
     };
+    enableAudio();
     loadSounds();
 
     return () => {

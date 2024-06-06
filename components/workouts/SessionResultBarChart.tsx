@@ -8,22 +8,20 @@ import {
 } from "victory-native";
 import { WorkoutResultBarChart } from "@/types/workout";
 export const PASTEL_RPE_COLORS = {
-  "0": "#58DAFC",
-  "1": "#58DAFC",
-  "2": "#58DAFC",
-  "3": "#4ed964",
-  "4": "#4ed964",
-  "5": "#F3e790",
-  "6": "#F3e790",
-  "7": "#FF6622",
-  "8": "#FF6622",
-  "9": "#FF3A31",
-  "10": "#FF3A31",
+  "1": "#92e2f9",
+  "2": "#92e2f9",
+  "3": "#9ae3ab",
+  "4": "#9ae3ab",
+  "5": "#e7e7c0",
+  "6": "#e7e7c0",
+  "7": "#f3aa8b",
+  "8": "#f3aa8b",
+  "9": "#f39592",
+  "10": "#f39592",
 };
 type Props = { data: WorkoutResultBarChart[] };
 const SessionResultBarChart = ({ data }: Props) => {
   const colors = data.map(
-    // TODO: CAMBIAR POR COLORES PASTELES QUE ESTAN EL FIGMA
     (d) => PASTEL_RPE_COLORS[`${d.rpe}` as keyof typeof PASTEL_RPE_COLORS]
   );
   return (

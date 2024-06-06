@@ -20,6 +20,7 @@ import {
 import { Workout, WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
 import { usePostSession } from "@/queries/session.query";
 import { calculateNextTimeToGetReady } from "@/utils/workoutUtils";
+import { TIME_TO_ANSWER, TIME_TO_RPE } from "@/constants/Session";
 
 type DMAndMemoryContextType = {
   currentIterarion: IterationDMAndMem;
@@ -69,14 +70,13 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
   const prepareIteration = ({
     i,
     oldIteration,
-    timeToWorkout,
-    timeToAnswerInSec,
+    workout,
   }: {
     i: Iteration;
     oldIteration?: Iteration;
-    timeToWorkout: number;
-    timeToAnswerInSec: number;
+    workout: Workout;
   }) => {
+    const { type, memberType, excerciseDuration } = workout;
     const i_: IterationDMAndMem = {
       idIteration: i.id,
       dmVideo: i.answers.length ? i.answers[0].video1.video : undefined,
@@ -92,9 +92,9 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
         memberType: workout.memberType || "ar",
         type: workout.type,
       }),
-      timeToWorkoutInSec: timeToWorkout,
-      timeToAnswerInSec: timeToAnswerInSec,
-      timeToRPEInSec: 3,
+      timeToWorkoutInSec: excerciseDuration,
+      timeToAnswerInSec: TIME_TO_ANSWER[memberType][type],
+      timeToRPEInSec: TIME_TO_RPE[memberType][type],
       answeredDmInMs: 7,
       answeredMemInMs: 7,
       iterationNumber: i.repetitionNumber,
@@ -158,8 +158,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
         prepareIteration({
           i,
           oldIteration: iterations_[itIndex - 1],
-          timeToWorkout: w.excerciseDuration,
-          timeToAnswerInSec: 7,
+          workout: w,
         })
       ),
       status: "pending",

@@ -1,10 +1,17 @@
-import { Workout } from "@/types/workout";
+import { WORKOUT_TYPE, Workout } from "@/types/workout";
 import { StyleSheet } from "react-native";
 import { Box, Pressable, Text } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
 import { Href, Link } from "expo-router";
 import DownloadSessionBtn from "./DownloadSessionBtn";
-import DmLogo from "@/assets/svgs/DmLogo";
+import ExerciseLogo from "@/assets/svgs/ExerciseLogo";
+const COLOR_TYPE: Record<WORKOUT_TYPE, string> = {
+  "dm+memory": "#A6ECB1",
+  dm: "#F3E890",
+  dmar: "#FFC107",
+  memory: "#ABEDFD",
+  recognition: "#FFB290",
+};
 type Props = {
   id: number;
   workout: Workout;
@@ -32,13 +39,15 @@ const WorkoutCard = ({
             justifyContent="space-between"
             alignItems="center"
             alignContent="center"
-            style={{ borderBottomWidth: 2, borderBottomColor: "#ede18a" }}
+            style={{
+              borderBottomWidth: 2,
+              borderBottomColor: COLOR_TYPE[workout.type],
+            }}
             py={"$1"}
           >
-            <Box display="flex" flexDirection="row" gap={3}>
-              {/* TODO DEFINE MORE LOGO With workout type */}
-              <DmLogo />
-              <Text color="secondary">
+            <Box display="flex" flexDirection="row" gap={3} alignItems="center">
+              <ExerciseLogo type={workout.type} />
+              <Text color="secondary" width={150}>
                 {i18n.t(`workout_type.${workout.type}`)}
               </Text>
             </Box>

@@ -51,10 +51,7 @@ export function useMemoryWorkout() {
 type PrepareIterationType = {
   _currentIteration: Iteration;
   oldIteration?: Iteration;
-  timeToWorkout: number;
-  type: WORKOUT_TYPE;
-  memberType: MEMBER_TYPE;
-  breakDuration: number;
+  workout: Workout;
 };
 const INITIAL_ITERATION_INDEX = 0;
 export function MemoryProvider({ children }: PropsWithChildren) {
@@ -75,8 +72,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
   const prepareIteration = ({
     _currentIteration,
     oldIteration,
-    timeToWorkout,
-    ...rest
+    workout,
   }: PrepareIterationType) => {
     const { answers } = _currentIteration;
     const a1 = answers.length ? answers[0].video1.answer1 : undefined;
@@ -95,7 +91,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       optionsA1 = shuffleArray(options);
       optionsA2 = shuffleArray(options);
     }
-
+    const { type, memberType, breakDuration, excerciseDuration } = workout;
     const i_: IterationMemory = {
       idIteration: _currentIteration.id,
       video: answers.length ? answers[0].video1.video : undefined,
@@ -103,12 +99,14 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       answer2: answers.length ? Number(answers[0].video1.answer2) : undefined,
       timeToGetReadyInSec: calculateNextTimeToGetReady({
         i: oldIteration,
-        ...rest,
+        type,
+        breakDuration,
+        memberType,
       }),
-      timeToWorkoutInSec: timeToWorkout,
-      timeToAnswerInSec: TIME_TO_ANSWER[rest.memberType][rest.type],
-      timeToRPEInSec: TIME_TO_RPE[rest.memberType][rest.type],
-      answeredInMs: TIME_TO_ANSWER[rest.memberType][rest.type],
+      timeToWorkoutInSec: excerciseDuration,
+      timeToAnswerInSec: TIME_TO_ANSWER[memberType][type],
+      timeToRPEInSec: TIME_TO_RPE[memberType][type],
+      answeredInMs: TIME_TO_ANSWER[memberType][type],
       iterationNumber: _currentIteration.repetitionNumber,
       answer_1Options: optionsA1,
       answer_2Options: optionsA2,
@@ -153,10 +151,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
         prepareIteration({
           _currentIteration: i,
           oldIteration: iterations_[itIndex - 1],
-          timeToWorkout: w.excerciseDuration,
-          breakDuration: w.breakDuration,
-          memberType: w.memberType,
-          type: w.type,
+          workout: w,
         })
       ),
       status: "pending",

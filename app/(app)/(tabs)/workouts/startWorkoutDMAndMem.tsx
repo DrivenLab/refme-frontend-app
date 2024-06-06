@@ -26,6 +26,12 @@ const startWorkoutDMAndMem = () => {
       ScreenOrientation.lockAsync(
         ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT
       );
+    } else if (
+      screenOrientation === ScreenOrientation.Orientation.LANDSCAPE_LEFT
+    ) {
+      ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.LANDSCAPE_LEFT
+      );
     }
   }, [screenOrientation]);
   const navigation = useNavigation();

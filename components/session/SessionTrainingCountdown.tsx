@@ -26,6 +26,7 @@ type Props = {
   onFinishCountdown: () => void;
 };
 async function playSound() {
+  // TODO: PLAY 3-2-1 SOUND
   //   const { sound } = await Audio.Sound.createAsync(
   //     require("@/assets/audio/silbatoCorto.mp3")
   //   );

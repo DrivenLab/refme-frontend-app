@@ -23,6 +23,13 @@ const StartWorkoutRecognition = () => {
       setStatusBarHidden(false, "slide");
     };
   }, []);
+  useEffect(() => {
+    if (screenOrientation === ScreenOrientation.Orientation.LANDSCAPE_RIGHT) {
+      ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT
+      );
+    }
+  }, [screenOrientation]);
   const navigation = useNavigation();
   useEffect(() => {
     // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);

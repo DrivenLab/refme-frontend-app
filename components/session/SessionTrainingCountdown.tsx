@@ -7,9 +7,13 @@ import IterationTextImage from "./IterationTextImage";
 import TextInformation from "../workouts/TextInformation";
 import CircularProgress from "../progress-bar/CircularProgressBar";
 import ManRunningWithColor from "@/assets/svgs/ManRunningWithColor";
+// import Sound from "@/assets/audio/silbatoCorto.MP3";
+// import Sound from "../../assets/audio/silbatoCorto.MP3";
+
 import { get_image_from_name } from "@/utils/libs";
 import { TEXT_TYPES } from "@/types/workout";
 import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
+import { Audio } from "expo-av";
 
 type Props = {
   initialCountdown: number;
@@ -21,6 +25,12 @@ type Props = {
   recognitionType?: RECOGNITION_VIDEO_TYPE;
   onFinishCountdown: () => void;
 };
+async function playSound() {
+  //   const { sound } = await Audio.Sound.createAsync(
+  //     require("@/assets/audio/silbatoCorto.mp3")
+  //   );
+  //   await sound.playAsync();
+}
 const SessionTrainingCountdown = ({
   initialCountdown,
   hasVideo,
@@ -45,7 +55,11 @@ const SessionTrainingCountdown = ({
           onFinishCountdown();
           return 0;
         }
-        return prevCount - 1;
+        const newCountdownValue = prevCount - 1;
+        if ([3, 2, 1].includes(prevCount)) {
+          playSound();
+        }
+        return newCountdownValue;
       });
     }, 1000);
 

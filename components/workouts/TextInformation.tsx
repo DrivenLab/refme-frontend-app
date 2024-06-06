@@ -2,6 +2,8 @@ import i18n from "@/languages/i18n";
 import { RECOGNITION_VIDEO_TYPE } from "@/types/session";
 import { TEXT_TYPES } from "@/types/workout";
 import { Box, Text } from "@gluestack-ui/themed";
+import { ReactNode } from "react";
+
 type Props = {
   type: TEXT_TYPES;
   step: number;
@@ -12,8 +14,9 @@ const FONT_SIZE = 36;
 const TEXT_COLOR = "black";
 
 const TextInformation = ({ type, step, hasVideo }: Props) => {
+  let CMP: ReactNode | null = null;
   if (step === 2 && !hasVideo)
-    return (
+    CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" bold color={TEXT_COLOR}>
           {i18n.t("workout_flow.before_rpe_text")}
@@ -21,7 +24,7 @@ const TextInformation = ({ type, step, hasVideo }: Props) => {
       </Box>
     );
   if (type === "dm" && step === 1)
-    return (
+    CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
           {/* Prepárate para el ejercicio físico */}
@@ -37,7 +40,7 @@ const TextInformation = ({ type, step, hasVideo }: Props) => {
       </Box>
     );
   if (type === "dm" && step === 2)
-    return (
+    CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
@@ -55,7 +58,7 @@ const TextInformation = ({ type, step, hasVideo }: Props) => {
       </Box>
     );
   if (type === "memory" && step === 1)
-    return (
+    CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
@@ -69,7 +72,7 @@ const TextInformation = ({ type, step, hasVideo }: Props) => {
       </Box>
     );
   if (type === "memory" && step === 2) {
-    return (
+    CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
           <Text fontWeight="bold" fontSize={FONT_SIZE} color={TEXT_COLOR}>
@@ -84,7 +87,7 @@ const TextInformation = ({ type, step, hasVideo }: Props) => {
     );
   }
   if (type === "recognition") {
-    return (
+    CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
           Selecciona la
@@ -93,6 +96,7 @@ const TextInformation = ({ type, step, hasVideo }: Props) => {
       </Box>
     );
   }
+  return <Box pl={"$5"}>{CMP}</Box>;
 };
 
 export default TextInformation;

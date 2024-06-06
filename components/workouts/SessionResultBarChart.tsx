@@ -1,4 +1,3 @@
-import { RPE_COLORS } from "@/constants/Session";
 import { Box } from "@gluestack-ui/themed";
 import {
   VictoryAxis,
@@ -8,11 +7,24 @@ import {
   VictoryTheme,
 } from "victory-native";
 import { WorkoutResultBarChart } from "@/types/workout";
-
+export const PASTEL_RPE_COLORS = {
+  "0": "#58DAFC",
+  "1": "#58DAFC",
+  "2": "#58DAFC",
+  "3": "#4ed964",
+  "4": "#4ed964",
+  "5": "#F3e790",
+  "6": "#F3e790",
+  "7": "#FF6622",
+  "8": "#FF6622",
+  "9": "#FF3A31",
+  "10": "#FF3A31",
+};
 type Props = { data: WorkoutResultBarChart[] };
 const SessionResultBarChart = ({ data }: Props) => {
   const colors = data.map(
-    (d) => RPE_COLORS[`${d.rpe}` as keyof typeof RPE_COLORS]
+    // TODO: CAMBIAR POR COLORES PASTELES QUE ESTAN EL FIGMA
+    (d) => PASTEL_RPE_COLORS[`${d.rpe}` as keyof typeof PASTEL_RPE_COLORS]
   );
   return (
     <Box borderWidth={1} margin={10} borderColor="#a1a1a1" borderRadius={7}>
@@ -30,8 +42,8 @@ const SessionResultBarChart = ({ data }: Props) => {
                 fill: ({ datum }: { datum?: WorkoutResultBarChart }) => {
                   const colorIndex = datum?.rpe;
                   if (colorIndex)
-                    return RPE_COLORS[
-                      `${colorIndex}` as keyof typeof RPE_COLORS
+                    return PASTEL_RPE_COLORS[
+                      `${colorIndex}` as keyof typeof PASTEL_RPE_COLORS
                     ];
                   else return "#a1a1a1";
                 },

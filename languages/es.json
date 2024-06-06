@@ -45,7 +45,7 @@
   "decision_making": "Toma de decisión",
   "memory": "Memoria",
   "recognition": "Reconocimiento",
-  "dm+memory": "Toma de decisión + Memoria",
+  "dm+memory": "TD + Memoria",
   "random": "Aleatorio",
   "prepare": "Preparar",
   "repetitions": "Repeticiones",
@@ -162,6 +162,6 @@
     "dmar": "Toma de decisión",
     "memory": "Memoria",
     "recognition": "Reconocimiento",
-    "dm+memory": "Toma de decisión + Memoria"
+    "dm+memory": "TD + Memoria"
   }
 }

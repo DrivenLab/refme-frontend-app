@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-
 import { RadarChart } from "@/components/statistcs/RadarChart";
 import { PieChart } from "@/components/statistcs/PieChart";
 import { ScrollView } from "@gluestack-ui/themed";

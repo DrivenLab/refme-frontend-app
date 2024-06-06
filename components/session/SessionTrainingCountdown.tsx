@@ -7,9 +7,16 @@ import IterationTextImage from "./IterationTextImage";
 import TextInformation from "../workouts/TextInformation";
 import CircularProgress from "../progress-bar/CircularProgressBar";
 import ManRunningWithColor from "@/assets/svgs/ManRunningWithColor";
+// import Sound from "@/assets/audio/silbatoCorto.MP3";
+// import Sound from "../../assets/audio/silbatoCorto.MP3";
+
 import { get_image_from_name } from "@/utils/libs";
 import { TEXT_TYPES } from "@/types/workout";
 import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
+import { Audio } from "expo-av";
+import { Dimensions } from "react-native";
+
+const mobileWidth = Dimensions.get("window").width;
 
 type Props = {
   initialCountdown: number;
@@ -21,6 +28,13 @@ type Props = {
   recognitionType?: RECOGNITION_VIDEO_TYPE;
   onFinishCountdown: () => void;
 };
+async function playSound() {
+  // TODO: PLAY 3-2-1 SOUND
+  //   const { sound } = await Audio.Sound.createAsync(
+  //     require("@/assets/audio/silbatoCorto.mp3")
+  //   );
+  //   await sound.playAsync();
+}
 const SessionTrainingCountdown = ({
   initialCountdown,
   hasVideo,
@@ -45,7 +59,11 @@ const SessionTrainingCountdown = ({
           onFinishCountdown();
           return 0;
         }
-        return prevCount - 1;
+        const newCountdownValue = prevCount - 1;
+        if ([3, 2, 1].includes(prevCount)) {
+          playSound();
+        }
+        return newCountdownValue;
       });
     }, 1000);
 
@@ -75,9 +93,16 @@ const SessionTrainingCountdown = ({
               height={"100%"}
               justifyContent="center"
               alignItems="center"
-              borderTopRightRadius={100}
-              borderBottomRightRadius={100}
+              position="relative"
             >
+              <Box
+                width={mobileWidth}
+                aspectRatio={1}
+                left={-mobileWidth / 2 - 20}
+                bg="$primary"
+                position="absolute"
+                borderRadius="$full"
+              />
               <Image
                 source={imageSource}
                 style={{ height: 100, width: 100 }}
@@ -92,10 +117,9 @@ const SessionTrainingCountdown = ({
             </Box>
           )}
           <Box flex={1} alignItems="center">
-            <Box mb="$2">
+            <Box mb="$6">
               <CircularProgress
                 circleColor="#090B22"
-                size={180}
                 strokeWidth={6}
                 text={`${count}`}
                 initialCountdown={initialCountdown}

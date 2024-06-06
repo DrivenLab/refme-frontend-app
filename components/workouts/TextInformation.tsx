@@ -8,7 +8,7 @@ type Props = {
   hasVideo?: boolean;
   recognitionType?: RECOGNITION_VIDEO_TYPE;
 };
-const FONT_SIZE = 30;
+const FONT_SIZE = 36;
 const TEXT_COLOR = "black";
 
 const TextInformation = ({ type, step, hasVideo }: Props) => {

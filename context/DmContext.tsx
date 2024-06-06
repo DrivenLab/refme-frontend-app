@@ -17,6 +17,7 @@ import {
 import { Workout, WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
 import { usePostSession } from "@/queries/session.query";
 import { calculateNextTimeToGetReady } from "@/utils/workoutUtils";
+import { TIME_TO_ANSWER, TIME_TO_RPE } from "@/constants/Session";
 
 type DMContextType = {
   currentIterarion: IterationDM;
@@ -60,16 +61,13 @@ export function DMProvider({ children }: PropsWithChildren) {
   const prepareIteration = ({
     i,
     oldIteration,
-    timeToWorkout,
-    timeToAnswerInSec,
     workout,
   }: {
     i: Iteration;
     oldIteration?: Iteration;
-    timeToWorkout: number;
-    timeToAnswerInSec: number;
     workout: Workout;
   }) => {
+    const { excerciseDuration, type, memberType } = workout;
     const i_: IterationDM = {
       idIteration: i.id,
       video: i.answers.length ? i.answers[0].video1.video : undefined,
@@ -81,10 +79,10 @@ export function DMProvider({ children }: PropsWithChildren) {
         type: workout.type,
         memberType: workout.memberType || "ar",
       }),
-      timeToWorkoutInSec: timeToWorkout,
-      timeToAnswerInSec: timeToAnswerInSec,
-      timeToRPEInSec: 3,
-      answeredInMs: 7,
+      timeToWorkoutInSec: excerciseDuration,
+      timeToAnswerInSec: TIME_TO_ANSWER[memberType][type],
+      timeToRPEInSec: TIME_TO_RPE[memberType][type],
+      answeredInMs: TIME_TO_ANSWER[memberType][type],
       iterationNumber: i.repetitionNumber,
       isCorrect: false,
     };
@@ -125,8 +123,6 @@ export function DMProvider({ children }: PropsWithChildren) {
         prepareIteration({
           i,
           oldIteration: iterations_[itIndex - 1],
-          timeToWorkout: w.excerciseDuration,
-          timeToAnswerInSec: w.type === "dm" ? 7 : w.type === "dmar" ? 4 : 0,
           workout: w,
         })
       ),

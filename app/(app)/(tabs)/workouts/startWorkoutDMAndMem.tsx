@@ -23,14 +23,14 @@ const startWorkoutDMAndMem = () => {
   }, []);
   const navigation = useNavigation();
   useEffect(() => {
-    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
+    // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
     navigation.getParent()?.setOptions({
       tabBarStyle: {
         display: "none",
       },
     });
     return () => {
-      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
+      ScreenOrientation.unlockAsync();
       navigation.getParent()?.setOptions({
         tabBarStyle: undefined,
       });

@@ -4,6 +4,7 @@ import IterationTextImageCountdown from "./IterationTextImageCountdown";
 import IterationTextImage from "./IterationTextImage";
 import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
 import { TEXT_TYPES } from "@/types/workout";
+import { useWhistle } from "@/hooks/useWhistle";
 
 type Props = {
   onFinishCountdown: () => void;
@@ -23,6 +24,7 @@ const SessionCountdown = ({
   type,
   recognitionType,
 }: Props) => {
+  const { playShortSound, playLongSound } = useWhistle();
   const [count, setCount] = useState(initialCountdown);
 
   useEffect(() => {
@@ -33,7 +35,14 @@ const SessionCountdown = ({
           onFinishCountdown();
           return 0;
         }
-        return prevCount - 1;
+        const res = prevCount - 1;
+        if ([4, 3, 2].includes(prevCount)) {
+          playShortSound();
+        }
+        if (prevCount === 1) {
+          playLongSound();
+        }
+        return res;
       });
     }, 1000);
 

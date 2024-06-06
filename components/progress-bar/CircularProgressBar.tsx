@@ -18,7 +18,7 @@ export const CircularProgress = (props: {
 }): React.ReactElement => {
   const {
     circleColor,
-    size = 24,
+    size = 220,
     strokeWidth = 6,
     style = {},
     initialCountdown,
@@ -51,7 +51,12 @@ export const CircularProgress = (props: {
         justifyContent="center"
         alignItems="center"
       >
-        <Text bold fontSize={70}>
+        <Text
+          bold
+          fontSize={Number(text) > 100 ? 100 : 150}
+          textAlign="center"
+          color="black"
+        >
           {text ?? ""}
         </Text>
       </Box>

@@ -14,6 +14,9 @@ import { get_image_from_name } from "@/utils/libs";
 import { TEXT_TYPES } from "@/types/workout";
 import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
 import { Audio } from "expo-av";
+import { Dimensions } from "react-native";
+
+const mobileWidth = Dimensions.get("window").width;
 
 type Props = {
   initialCountdown: number;
@@ -90,9 +93,16 @@ const SessionTrainingCountdown = ({
               height={"100%"}
               justifyContent="center"
               alignItems="center"
-              borderTopRightRadius={100}
-              borderBottomRightRadius={100}
+              position="relative"
             >
+              <Box
+                width={mobileWidth}
+                aspectRatio={1}
+                left={-mobileWidth / 2 - 20}
+                bg="$primary"
+                position="absolute"
+                borderRadius="$full"
+              />
               <Image
                 source={imageSource}
                 style={{ height: 100, width: 100 }}
@@ -107,10 +117,9 @@ const SessionTrainingCountdown = ({
             </Box>
           )}
           <Box flex={1} alignItems="center">
-            <Box mb="$2">
+            <Box mb="$6">
               <CircularProgress
                 circleColor="#090B22"
-                size={180}
                 strokeWidth={6}
                 text={`${count}`}
                 initialCountdown={initialCountdown}

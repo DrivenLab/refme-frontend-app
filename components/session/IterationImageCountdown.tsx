@@ -37,11 +37,10 @@ const IterationImageCountdown = ({
         )}
       </Box>
       <Box flex={1} alignItems="center">
-        <Box mb="$2">
+        <Box mb="$6">
           <CircularProgress
             initialCountdown={initialCountdown}
             circleColor="#090B22"
-            size={180}
             strokeWidth={6}
             text={`${count}`}
           />

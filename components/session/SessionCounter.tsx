@@ -11,7 +11,7 @@ const SessionCounter = ({ current, total }: Props) => {
       px={"$4"}
       py={"$2"}
     >
-      <Text color="white" fontWeight="bold" fontSize={30}>
+      <Text color="white" fontWeight="bold" fontSize={40}>
         {current}/{total}
       </Text>
     </View>

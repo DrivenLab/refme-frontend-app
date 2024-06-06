@@ -36,6 +36,9 @@ const DecisionMakingIteration = () => {
     }, 0);
   };
 
+  // const currentIterationStep = "workout";
+  // console.log(JSON.stringify(workout, null, 2));
+
   return (
     <View flex={1}>
       {currentIterationStep === "beginning" ? (

@@ -26,10 +26,10 @@ const DecisionMakingAnswerAssistant = ({ onFinish, iteration }: Props) => {
   function handleOnFinishCountdown() {
     const a: DM_ANSWER = {
       ...asnwer,
-      isCorrect:
-        asnwer.answer1 === iteration.answer1 &&
-        asnwer.asnwer2 === iteration.answer2,
+      isCorrect: asnwer.answer1 === iteration.answer1,
     };
+    console.log(asnwer);
+    console.log(iteration.answer1);
     onFinish(a);
   }
   const handleUserAnswer = (answerSelected: string, questionType: string) => {
@@ -37,10 +37,8 @@ const DecisionMakingAnswerAssistant = ({ onFinish, iteration }: Props) => {
     let completed = false;
     if (questionType === "q1") {
       answer_.answer1 = answerSelected;
-    } else if (questionType === "q2") {
-      answer_.asnwer2 = answerSelected;
     }
-    if (answer_.answer1 && answer_.asnwer2) completed = true;
+    if (answer_.answer1) completed = true;
     if (completed) {
       answer_.answeredInMs = elapsedRunningTime.current;
     }

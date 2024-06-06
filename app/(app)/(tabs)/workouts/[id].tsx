@@ -96,7 +96,8 @@ const WorkoutDetail = () => {
                 alignItems="center"
               >
                 <WorkoutTypeBadge
-                  type={i18n.t(`workout_type.${workout?.type}`)}
+                  typeText={i18n.t(`workout_type.${workout?.type}`)}
+                  type={workout?.type || "dm"}
                 />
                 <Button variant="link">
                   <ButtonText fontWeight="medium">

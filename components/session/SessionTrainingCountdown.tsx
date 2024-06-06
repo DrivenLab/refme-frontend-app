@@ -95,9 +95,10 @@ const SessionTrainingCountdown = ({
               <Box
                 width={mobileWidth}
                 aspectRatio={1}
-                left={-mobileWidth / 2 - 20}
+                left={-(mobileWidth / 2 - 20)}
                 position="absolute"
                 borderRadius="$full"
+                bg="$primary"
               />
               <Image
                 source={imageSource}

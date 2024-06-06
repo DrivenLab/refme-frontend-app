@@ -33,6 +33,7 @@ const IterationTextImageCountdown = ({
   recognitionType,
 }: Props) => {
   const imageSource = useMemo(() => get_image_from_name(imageName), []);
+
   return (
     <View
       flex={1}
@@ -51,7 +52,7 @@ const IterationTextImageCountdown = ({
         <Box
           width={mobileWidth}
           aspectRatio={1}
-          left={-mobileWidth / 2 - 20}
+          left={-(mobileWidth / 2 - 20)}
           bg="$primary"
           position="absolute"
           borderRadius="$full"

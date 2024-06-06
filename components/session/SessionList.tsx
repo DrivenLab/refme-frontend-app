@@ -19,17 +19,15 @@ const SessionList = ({ state, sessions }: Props) => {
     <>
       {sessionFiltered.length === 0 ? (
         <Box height="$3/4">
-          <EmptyWorkouts sessionsCount={sessions.length} state={state} />
+          <EmptyWorkouts count={sessions.length} state={state} />
         </Box>
       ) : (
         <FlatList
+          // mt={30}
+          height="$3/4"
           data={sessionFiltered}
           renderItem={({ item: session }: ListRenderItemInfo<any>) => (
-            <WorkoutItem
-              workout={session.workout}
-              idSession={session.id}
-              idWorkout={session.workout.id}
-            />
+            <WorkoutItem workout={session.workout} idSession={session.id} />
           )}
           keyExtractor={(item: any) => item.id}
         />

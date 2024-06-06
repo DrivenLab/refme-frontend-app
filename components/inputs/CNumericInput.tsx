@@ -19,7 +19,6 @@ interface CNumericInputProps {
 
 const CNumericInput = ({
   placeholder,
-  onChangeText,
   unity,
   error,
   value,
@@ -27,6 +26,7 @@ const CNumericInput = ({
   containerStyle,
   options = [],
   isDisabled,
+  onChangeText,
   ...props
 }: CNumericInputProps) => {
   const [text, setText] = useState(value);

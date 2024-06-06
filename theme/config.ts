@@ -14,6 +14,8 @@ export const customConfig = {
       orange: "#FF6622",
       alertYellow: "#E8D12280",
       alertYellow400: "#E8D12280",
+      ligthGray: "#f2f3f4",
+      ligthGray400: "#f2f3f4",
     },
   },
 };

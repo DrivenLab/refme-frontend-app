@@ -1,22 +1,24 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { Stack } from "expo-router";
+import { useKeepAwake } from "expo-keep-awake";
 
 const _layout = () => {
+  useKeepAwake();
   return (
-    <Stack>
-      <Stack.Screen
-        name="index"
-        options={{ headerBackTitleVisible: false, headerShown: false }}
-      />
-      <Stack.Screen
-        name="[id]"
-        options={{ headerBackTitleVisible: false, headerShown: false }}
-      />
-      <Stack.Screen
-        name="startWorkout"
-        options={{ headerShown: false, headerBackTitleVisible: false }}
-      />
+    <Stack
+      screenOptions={{
+        headerBackTitleVisible: false,
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="index" />
+      <Stack.Screen name="[id]" />
+      <Stack.Screen name="startWorkoutDM" />
+      <Stack.Screen name="startWorkoutDMAndMem" />
+      <Stack.Screen name="startWorkoutMemory" />
+      <Stack.Screen name="startWorkoutRecognition" />
+      <Stack.Screen name="createWorkout" />
+      <Stack.Screen name="assignReferee" />
     </Stack>
   );
 };

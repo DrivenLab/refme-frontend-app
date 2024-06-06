@@ -3,15 +3,19 @@ import { Image } from "expo-image";
 import TextInformation from "../workouts/TextInformation";
 import SessionCounter from "./SessionCounter";
 import { useMemo } from "react";
-import { IMAGE_NAME } from "@/types/session";
+import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
 import { get_image_from_name } from "@/utils/libs";
 import CircularProgress from "../progress-bar/CircularProgressBar";
+import { TEXT_TYPES } from "@/types/workout";
 type Props = {
   count: number;
   imageName: IMAGE_NAME;
-  textType: "dm";
+  textType: TEXT_TYPES;
   textStep: number;
   initialCountdown: number;
+  iterationNumber: number;
+  totalItaration: number;
+  recognitionType?: RECOGNITION_VIDEO_TYPE;
 };
 const IterationTextImageCountdown = ({
   count,
@@ -19,12 +23,11 @@ const IterationTextImageCountdown = ({
   textType,
   textStep,
   initialCountdown,
+  iterationNumber,
+  totalItaration,
+  recognitionType,
 }: Props) => {
   const imageSource = useMemo(() => get_image_from_name(imageName), []);
-  const progress =
-    initialCountdown - count > 0
-      ? (initialCountdown - count) / initialCountdown
-      : 0;
   return (
     <View
       flex={1}
@@ -48,19 +51,23 @@ const IterationTextImageCountdown = ({
           style={{ height: 100, width: 100 }}
           contentFit="contain"
         />
-        <TextInformation type={textType} step={textStep} />
+        <TextInformation
+          type={textType}
+          step={textStep}
+          recognitionType={recognitionType}
+        />
       </Box>
       <Box flex={1} alignItems="center">
         <Box mb="$2">
           <CircularProgress
-            progress={1 - progress}
             circleColor="#090B22"
             size={180}
             strokeWidth={6}
             text={`${count}`}
+            initialCountdown={initialCountdown}
           />
         </Box>
-        <SessionCounter />
+        <SessionCounter current={iterationNumber} total={totalItaration} />
       </Box>
     </View>
   );

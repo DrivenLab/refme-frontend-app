@@ -1,21 +1,23 @@
 import { Text, Box, Badge, BadgeText, Pressable } from "@gluestack-ui/themed";
 import React from "react";
-import { StyleSheet } from "react-native";
+import { ImageSourcePropType, StyleSheet } from "react-native";
 import { ImageBackground } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
-import { Link } from "expo-router";
+import { Href, Link } from "expo-router";
 import { Image } from "expo-image";
 import i18n from "@/languages/i18n";
+
 type Props = {
   bgImage: any;
   title: string;
   hasNewItems: boolean;
   iconName?: string;
-  iconImage: string;
+  iconImage: ImageSourcePropType;
+  href: Href<string>;
 };
 const SectionItem = (props: Props) => {
   return (
-    <Link href={"/workouts/"} asChild>
+    <Link href={props.href} asChild>
       <Pressable>
         <ImageBackground
           source={props.bgImage}

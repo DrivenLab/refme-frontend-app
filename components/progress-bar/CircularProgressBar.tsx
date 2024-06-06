@@ -1,19 +1,15 @@
 import { Box, Text } from "@gluestack-ui/themed";
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
 import Animated, {
   useAnimatedProps,
-  useDerivedValue,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
-//TODO: CHECK GLITCHING ON CIRCULAR PROGRESS BAR
-// https://medium.com/@dexpetkovic/creating-a-circular-progress-react-component-a-step-by-step-guide-722bc13af548
-// https://github.com/dexpetkovic/elands-react-helpers
 
 export const CircularProgress = (props: {
-  progress: number;
+  initialCountdown: number;
   circleColor: string;
   size?: number;
   strokeWidth?: number;
@@ -21,31 +17,26 @@ export const CircularProgress = (props: {
   text?: string;
 }): React.ReactElement => {
   const {
-    progress = 0,
     circleColor,
     size = 24,
     strokeWidth = 6,
     style = {},
+    initialCountdown,
   } = props;
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  useEffect(() => {
-    currentProgress.value = withTiming(progress, { duration: 500 });
-  }, [progress]);
+  const currentProgress = useSharedValue(1);
 
-  const getStrokeDashOffset = useCallback(() => {
-    return circumference * (1 - progress);
-  }, [progress]);
-  const strokeDashOffset = getStrokeDashOffset();
-  const currentProgress = useSharedValue(0);
-  const strokeDashOffsetAnimation = useDerivedValue(
-    () => circumference * (1 - currentProgress.value)
-  );
+  useEffect(() => {
+    currentProgress.value = withTiming(0, {
+      duration: initialCountdown * 1000,
+    });
+  }, []);
+
   const animatedProps = useAnimatedProps(() => {
-    return { strokeDashoffset: strokeDashOffsetAnimation?.value };
+    return { strokeDashoffset: circumference * (1 - currentProgress.value) };
   });
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-  //   console.log({ progress });
   return (
     <View
       style={[

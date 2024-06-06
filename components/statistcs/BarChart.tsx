@@ -3,8 +3,6 @@ import {
   VictoryAxis,
   VictoryBar,
   VictoryChart,
-  VictoryContainer,
-  VictoryGroup,
   VictoryLabel,
   VictoryStack,
   VictoryTheme,
@@ -67,23 +65,48 @@ export const BarChart = () => {
         p={10}
       >
         <Box display="flex" flexDirection="row" gap={4} alignItems="center">
-          <Box width={20} height={20} borderRadius={10} backgroundColor="red" />
+          <Box
+            width={20}
+            height={20}
+            borderRadius={10}
+            backgroundColor="#ABEDFD"
+          />
           <Text>Z1</Text>
         </Box>
         <Box display="flex" flexDirection="row" gap={4} alignItems="center">
-          <Box width={16} height={16} borderRadius={10} backgroundColor="red" />
+          <Box
+            width={16}
+            height={16}
+            borderRadius={10}
+            backgroundColor="#A6ECB1"
+          />
           <Text>Z2</Text>
         </Box>
         <Box display="flex" flexDirection="row" gap={4} alignItems="center">
-          <Box width={16} height={16} borderRadius={10} backgroundColor="red" />
+          <Box
+            width={16}
+            height={16}
+            borderRadius={10}
+            backgroundColor="#F9F3C8"
+          />
           <Text>Z3</Text>
         </Box>
         <Box display="flex" flexDirection="row" gap={4} alignItems="center">
-          <Box width={16} height={16} borderRadius={10} backgroundColor="red" />
+          <Box
+            width={16}
+            height={16}
+            borderRadius={10}
+            backgroundColor="#FFB290"
+          />
           <Text>Z4</Text>
         </Box>
         <Box display="flex" flexDirection="row" gap={4} alignItems="center">
-          <Box width={16} height={16} borderRadius={10} backgroundColor="red" />
+          <Box
+            width={16}
+            height={16}
+            borderRadius={10}
+            backgroundColor="#FF9C98"
+          />
           <Text>Z5</Text>
         </Box>
       </Box>

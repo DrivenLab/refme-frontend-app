@@ -1,11 +1,13 @@
 {
   "question1_home": "What are you going to train today?",
-  "welcome": "¡Hola %{name}! es un placer recibirte.",
+  "welcome": "¡Hello %{name}! welcome to your app.",
   "update_password": "Dado que tu contraseña actual fue creada por nosotros de forma automática, puedes cambiarla por una creada por ti.",
   "update_password_title": "Update password",
   "workout": "Workout",
   "personal": "Personal",
   "dm": "Decision Making",
+  "dmar": "Decision Making",
+  "sign_out": "Sign Out",
   "videos_available": "You have 20 videos available",
   "official_test_workout": "Official Workouts",
   "official_training": "Official Exercises",
@@ -36,7 +38,7 @@
   "change_profile_picture": "Change photo",
   "not_now": "Not now",
   "finish": "Finish",
-  "member_type": "Type",
+  "member_type": "Referee Type",
   "type": "Cognitive ability",
   "referee": "Referee",
   "assistant_referee": "Assistant Referee",
@@ -82,6 +84,7 @@
     "category_label": "Category",
     "email_label": "Email",
     "confirm_label": "Confirm",
+    "confirm_and_continue": "Confirm and continue",
     "cancel": "Cancel",
     "configuration": "Configuration"
   },
@@ -93,7 +96,13 @@
   "errors": {
     "generic_error": "Error, please try again later.",
     "login_invalid_credentials": "Invalid credentials",
-    "password_doesnt_match": "Passwords do not match"
+    "password_doesnt_match": "Passwords do not match",
+    "workout_creation": {
+      "workout_name": "Please complete the workout name",
+      "workout_type": "Please complete hability type",
+      "workout_member_type": "Please complete member type",
+      "workout_pause_time": "Please set pause time to be more than 21 seconds"
+    }
   },
   "about_you_screen": {
     "birthdate_label": "Date of birth",
@@ -124,9 +133,35 @@
     "prepare_for": "for the ",
     "prepare_to_bold": "physical training",
     "look_at_bold": "Look ",
-    "look_at_the": "the",
+    "look_at_the": "the ",
     "look_at_video_bold": "video ",
     "look_at_take": "and take a ",
-    "look_at_decision": "decisión"
+    "look_at_decision": "decision",
+    "answer_avg": "Average response time",
+    "total_time": "Total response time:",
+    "date_title": "Completed in: ",
+    "before_rpe_text": "Select your level of perceived exertion",
+    "remember_infractor_1": "Remember the number of the infractor and ",
+    "remember_infractor_2": "who ",
+    "remember_infractor_3": "recieved the fault",
+    "select_infractor_1": "Select the number of the infractor and ",
+    "select_infractor_2": "who recieved ",
+    "select_infractor_3": "the fault"
+  },
+  "create_workout": {
+    "workout_name": "Workout name",
+    "create_new_workout": "Create new workout",
+    "assign_workout": "Assign workout"
+  },
+  "assign_workout": {
+    "who_do_test": "Who is going to perform this test?",
+    "search_by_name": "Search by name"
+  },
+  "workout_type": {
+    "dm": "Decision Making",
+    "dmar": "Decision Making",
+    "memory": "Memory",
+    "recognition": "Reconocimiento",
+    "dm+memory": "Decision Making + Memory"
   }
 }

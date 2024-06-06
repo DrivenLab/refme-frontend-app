@@ -1,20 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "@gluestack-ui/themed";
 import useOrientation from "@/hooks/useOrientation";
 import RotateScreen from "@/components/session/RotateScreen";
 import { ORIENTATION_NUMBER } from "@/constants/Orientation";
-
-import SessionIteration from "@/components/session/SessionIteration";
-import { useSession } from "@/context/SessionContext";
 import SessionStatistics from "@/components/session/SessionStatistics";
 import { useNavigation } from "expo-router";
+import { setStatusBarHidden } from "expo-status-bar";
+import { useRecognitionWorkout } from "@/context/RecognitionContext";
+import RecognitionIteration from "@/components/session/recognition/RecognitionIteration";
 
-const StartWorkout = () => {
-  const { session, updateSessionStatus } = useSession();
+const StartWorkoutRecognition = () => {
+  const { resume, workout, resultCharBarData, startWorkout, saveSession } =
+    useRecognitionWorkout();
   const { screenOrientation } = useOrientation();
   useEffect(() => {
     //loadFiles();
+    setStatusBarHidden(true, "slide");
+    return () => {
+      setStatusBarHidden(false, "slide");
+    };
   }, []);
   const navigation = useNavigation();
   useEffect(() => {
@@ -28,29 +33,33 @@ const StartWorkout = () => {
         tabBarStyle: undefined,
       });
   }, [navigation]);
+  const handleSaveResult = () => {
+    saveSession();
+  };
   return (
-    <SafeAreaView style={styles.contentContainer}>
-      {session.status === "pending" ? (
+    <SafeAreaView style={{ flex: 1 }}>
+      {workout.status === "pending" ? (
         <RotateScreen
           orientation={
             ORIENTATION_NUMBER[
               screenOrientation as keyof typeof ORIENTATION_NUMBER
             ]
           }
-          onStartWorkout={() => updateSessionStatus("inCourse")}
+          onStartWorkout={startWorkout}
         />
-      ) : session.status === "inCourse" ? (
-        <SessionIteration />
+      ) : workout.status === "inCourse" ? (
+        <RecognitionIteration />
       ) : (
-        <SessionStatistics session={session} />
+        <SessionStatistics
+          resume={resume}
+          resultBarData={resultCharBarData}
+          handleSaveResult={handleSaveResult}
+        />
       )}
     </SafeAreaView>
   );
 };
 const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-  },
   video: {
     width: 350,
     height: 275,
@@ -63,4 +72,4 @@ const styles = StyleSheet.create({
     height: 100,
   },
 });
-export default StartWorkout;
+export default StartWorkoutRecognition;

@@ -1,9 +1,8 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "./api";
-import { Workout } from "@/types/workout";
 import { AxiosResponse } from "axios";
 import { useAuth } from "@/context/auth";
-import { Session } from "@/types/session";
+import { Session, SessionPostType } from "@/types/session";
 
 /*Esta función es la encargada de obtener los datos de una sesión en especifica del servidor y guardar en el storage. */
 const useGetSessionDetailById = ({
@@ -18,7 +17,7 @@ const useGetSessionDetailById = ({
 
   const getSession = () =>
     api.get<Session>(
-      `organizations/${currentOrganization.id}/sessions/${idSession}/`
+      `organizations/${currentOrganization?.id}/sessions/${idSession}/`
     );
   // Queries
 
@@ -35,48 +34,24 @@ const useGetSessionDetailById = ({
   };
 };
 /*Esta función obtiene los datos de una sessión, pero lo que está almacenado en el sessions query cache */
-const useGetSessionById = ({ idWorkout }: { idWorkout: string | number }) => {
+const useGetSessionById = ({ idSession }: { idSession: number }) => {
+  const queryClient = useQueryClient();
   const { currentOrganization, userRole } = useAuth();
 
-  const fetchWorkout = async (): Promise<Session | Workout | undefined> => {
-    if (userRole === "member") {
-      const { data } = await api.get<Session[]>(
-        `organizations/${currentOrganization.id}/sessions/`
-      );
-      return data.find((s) => s.workout.id == idWorkout);
-    } else {
-      const { data } = await api.get<Workout[]>(
-        `organizations/${currentOrganization.id}/workouts/?usage_type=official`
-      );
-      return data.find((s) => s.id == idWorkout);
-    }
-  };
+  const data = queryClient.getQueryData<AxiosResponse<Session[]>>(["sessions"]);
+  const session = data?.data.find((s) => s.id === idSession);
 
-  const {
-    data: workout,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["workout", idWorkout],
-    queryFn: fetchWorkout,
-    enabled: !!idWorkout,
-  });
-
-  return { workout, isLoading, error };
+  return { session };
 };
+
+/*Esta función obtiene los datos de todas las sesiones del servidor y las guarda en el query cache */
 const useGetSessions = () => {
-  const { currentOrganization, userRole } = useAuth();
+  const { currentOrganization } = useAuth();
   //Get Data
   const getSessions = () => {
-    if (userRole === "member") {
-      return api.get<Session[]>(
-        `organizations/${currentOrganization.id}/sessions/`
-      );
-    } else {
-      return api.get<Workout[]>(
-        `organizations/${currentOrganization.id}/workouts/?usage_type=official`
-      );
-    }
+    return api.get<Session[]>(
+      `organizations/${currentOrganization?.id}/sessions/`
+    );
   };
   // Queries
   // Realizar la consulta usando react-query
@@ -89,5 +64,43 @@ const useGetSessions = () => {
     isLoadingSession: isLoading,
   };
 };
+const usePostSession = ({
+  userId,
+  workoutId,
+}: {
+  userId?: number;
+  workoutId: number;
+}) => {
+  const { currentOrganization, user } = useAuth();
+  const queryClient = useQueryClient();
+  const _userId = userId || user?.id;
+  const postSessionMutation = useMutation({
+    mutationKey: ["sessions"],
+    mutationFn: async (payload: SessionPostType[]) =>
+      api.post(
+        `organizations/${currentOrganization?.id}/users/${_userId}/workouts/${workoutId}/`,
+        payload
+      ),
+    onMutate: async (payload: SessionPostType[]) => {
+      await queryClient.cancelQueries({ queryKey: ["sessions"] });
+      // updateLocalExerciseList(payload.id, payload.isDone, true);
+      // TODO: Eliminar video
+      // TODO: Marcar entrenamiento como completo en react query
+    },
+    onSuccess(data) {
+      queryClient.cancelQueries({ queryKey: ["sessions"] });
+      // updateLocalExerciseList(data.id, data.isDone, false);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+  return { postSessionMutation };
+};
 
-export { useGetSessionById, useGetSessions, useGetSessionDetailById };
+export {
+  useGetSessionById,
+  useGetSessions,
+  useGetSessionDetailById,
+  usePostSession,
+};

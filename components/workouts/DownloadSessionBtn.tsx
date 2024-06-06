@@ -1,6 +1,7 @@
 import { Box, Icon, Pressable, Text, PlayIcon } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
 import { Path, Svg } from "react-native-svg";
+import PlayBtnIcon from "@/assets/svgs/PlayBtnIcon";
 
 type Props = {
   wasDownloaded: boolean;
@@ -13,8 +14,8 @@ function DownloadSessionBtn({ wasDownloaded, downloadSession }: Props) {
         {wasDownloaded ? i18n.t("downloaded") : i18n.t("download")}
       </Text>
       {wasDownloaded ? (
-        <Pressable p={"$1"} bgColor="black" rounded="$full">
-          <Icon as={PlayIcon} w="$5" h="$5" color="white" />
+        <Pressable p={"$1"} rounded="$full">
+          <PlayBtnIcon />
         </Pressable>
       ) : (
         <Pressable p={"$1"} rounded="$full" onPress={downloadSession}>

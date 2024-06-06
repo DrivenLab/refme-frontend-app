@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
-import { SafeAreaView } from "@gluestack-ui/themed";
+import * as ScreenOrientation from "expo-screen-orientation";
+import { View } from "@gluestack-ui/themed";
 import useOrientation from "@/hooks/useOrientation";
 import RotateScreen from "@/components/session/RotateScreen";
 import { ORIENTATION_NUMBER } from "@/constants/Orientation";
@@ -23,21 +23,24 @@ const startWorkoutDMAndMem = () => {
   }, []);
   const navigation = useNavigation();
   useEffect(() => {
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
     navigation.getParent()?.setOptions({
       tabBarStyle: {
         display: "none",
       },
     });
-    return () =>
+    return () => {
+      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT);
       navigation.getParent()?.setOptions({
         tabBarStyle: undefined,
       });
+    };
   }, [navigation]);
   const handleSaveResult = () => {
     saveSession();
   };
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       {workout.status === "pending" ? (
         <RotateScreen
           orientation={
@@ -56,7 +59,7 @@ const startWorkoutDMAndMem = () => {
           handleSaveResult={handleSaveResult}
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 export default startWorkoutDMAndMem;

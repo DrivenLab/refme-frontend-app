@@ -87,7 +87,6 @@ const SessionTrainingCountdown = ({
           ) : (
             <Box
               flex={1}
-              bg="$primary"
               height={"100%"}
               justifyContent="center"
               alignItems="center"
@@ -97,7 +96,6 @@ const SessionTrainingCountdown = ({
                 width={mobileWidth}
                 aspectRatio={1}
                 left={-mobileWidth / 2 - 20}
-                bg="$primary"
                 position="absolute"
                 borderRadius="$full"
               />

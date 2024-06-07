@@ -7,7 +7,7 @@
   "personal": "Personal",
   "dm": "Toma de decisión",
   "dmar": "Toma de decisión",
-
+  "sign_out": "Cerrar sesión",
   "videos_available": "Te quedan 20 videos disponibles",
   "official_test_workout": "Entrenamiento Oficiales",
   "official_training": "Ejercicios Oficiales",
@@ -38,14 +38,14 @@
   "change_profile_picture": "Cambiar foto",
   "not_now": "Ahora no quiero",
   "finish": "Finalizar",
-  "member_type": "Tipo",
+  "member_type": "Tipo de referee",
   "type": "Habilidad Cognitiva",
   "referee": "Árbitro principal",
   "assistant_referee": "Árbitro asistente",
   "decision_making": "Toma de decisión",
   "memory": "Memoria",
   "recognition": "Reconocimiento",
-  "dm+memory": "Toma de decisión + Memoria",
+  "dm+memory": "TD + Memoria",
   "random": "Aleatorio",
   "prepare": "Preparar",
   "repetitions": "Repeticiones",
@@ -57,8 +57,8 @@
   "ifk": "Tiro libre indirecto",
   "dfk": "Tiro libre directo",
   "pk": "Tiro penal",
-  "off": "off",
-  "noff": "noff",
+  "off": "Offiside",
+  "noff": "No Offiside",
   "yes": "yes",
   "no": "no",
   "nc": "Sin Tarjeta",
@@ -76,7 +76,7 @@
   "rpe_very_very_hard": "Muy, muy pesado",
   "rpe_almost_maximal": "Casi máximo",
   "rpe_maximal_exertion": "Esfuerzo máximo",
-  "rpe_how_do_you_feel": "Como te sientes?",
+  "rpe_how_do_you_feel": "¿Cómo te sientes?",
   "common": {
     "name_label": "Nombre",
     "last_name_label": "Apellido",
@@ -108,7 +108,13 @@
   "errors": {
     "generic_error": "Error, inténtelo más tarde.",
     "login_invalid_credentials": "Credenciales inválidas",
-    "password_doesnt_match": "Las contraseñas no coinciden"
+    "password_doesnt_match": "Las contraseñas no coinciden",
+    "workout_creation": {
+      "workout_name": "Por favor completa el nombre del entrenamiento",
+      "workout_type": "Por favor selecciona el tipo de entrenamiento",
+      "workout_member_type": "Por favor completa el tipo del arbitro",
+      "workout_pause_time": "El tiempo de pausa debe ser mayor a 21"
+    }
   },
   "genre_options": {
     "m": "Masculino",
@@ -130,7 +136,17 @@
     "look_at_the": "el ",
     "look_at_video_bold": "video ",
     "look_at_take": "y toma una ",
-    "look_at_decision": "decisión"
+    "look_at_decision": "decisión",
+    "answer_avg": "Promedio de respuesta",
+    "total_time": "Tiempo total de respuestas: ",
+    "date_title": "Realizado: ",
+    "before_rpe_text": "Indica cómo te sientes",
+    "remember_infractor_1": "Recuerda número de infractor y ",
+    "remember_infractor_2": "quien ",
+    "remember_infractor_3": "recibe la falta",
+    "select_infractor_1": "Selecciona número de infractor y ",
+    "select_infractor_2": "quien recibió ",
+    "select_infractor_3": "la falta"
   },
   "create_workout": {
     "workout_name": "Nombre del entrenamiento",
@@ -140,5 +156,13 @@
   "assign_workout": {
     "who_do_test": "¿Quién va a realizar este test?",
     "search_by_name": "Buscar por nombre"
+  },
+  "workout_type": {
+    "dm": "Toma de decisión",
+    "dmar": "Toma de decisión",
+    "memory": "Memoria",
+    "recognition": "Reconocimiento",
+    "dm+memory": "TD + Memoria",
+    "random": "Random"
   }
 }

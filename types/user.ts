@@ -36,9 +36,9 @@ export type CreateProfile = {
   nationality: string;
   phoneNumber: string;
   address: string;
-  weight: 0;
-  height: 0;
-  medicalExpiration: string;
+  weight: number;
+  height: number;
+  expirationMedicalRecord: string;
   medicalObservations: string;
 };
 export type Profile = CreateProfile & {
@@ -50,7 +50,6 @@ export type Profile = CreateProfile & {
   isActive: boolean;
   fifaEntryYear: number;
   memberType: string;
-  expirationMedicalRecord: string;
   countries: string;
   isVerified: boolean;
   userOrganization: number;

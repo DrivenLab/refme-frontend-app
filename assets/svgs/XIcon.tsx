@@ -1,6 +1,15 @@
 import Svg, { Rect, Path } from "react-native-svg";
-const XIcon = () => (
-  <Svg width="19" height="20" viewBox="0 0 19 20" fill="none">
+type Props = {
+  width?: number;
+  height?: number;
+};
+const XIcon = ({ width, height }: Props) => (
+  <Svg
+    width={width || "19"}
+    height={height || "20"}
+    viewBox="0 0 19 20"
+    fill="none"
+  >
     <Rect
       x="0.322581"
       y="0.822581"

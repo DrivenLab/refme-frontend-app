@@ -8,16 +8,16 @@ type Props = {
   imageName: "man_running_with_color";
   //   TODO:  Add more image names
   initialCountdown: number;
+  iterationNumber: number;
+  totalItaration: number;
 };
 const IterationImageCountdown = ({
   count,
   imageName,
   initialCountdown,
+  iterationNumber,
+  totalItaration,
 }: Props) => {
-  const progress =
-    initialCountdown - count > 0
-      ? (initialCountdown - count) / initialCountdown
-      : 0;
   return (
     <View
       flex={1}
@@ -37,16 +37,15 @@ const IterationImageCountdown = ({
         )}
       </Box>
       <Box flex={1} alignItems="center">
-        <Box mb="$2">
+        <Box mb="$6">
           <CircularProgress
-            progress={1 - progress}
+            initialCountdown={initialCountdown}
             circleColor="#090B22"
-            size={180}
             strokeWidth={6}
             text={`${count}`}
           />
         </Box>
-        <SessionCounter />
+        <SessionCounter current={iterationNumber} total={totalItaration} />
       </Box>
     </View>
   );

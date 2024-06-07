@@ -27,13 +27,13 @@ const CVideo = ({ uri, onFinishVideo }: Props) => {
     }
   };
   return (
-    <View flex={1} bg="$red">
+    <View flex={1}>
       <Video
         ref={video}
         source={{ uri }}
         rate={1.0}
         volume={1.0}
-        isMuted={false}
+        isMuted={true}
         resizeMode={ResizeMode.COVER}
         shouldPlay
         isLooping={false}

@@ -17,13 +17,12 @@ import WorkoutConfigItem from "@/components/workouts/WorkoutConfigurationItem";
 import WorkoutMaterial from "@/components/workouts/WorkoutMaterial";
 import WorkoutTypeBadge from "@/components/workouts/WorkoutTypeBadge";
 import { useGetWorkoutById } from "@/queries/workouts.query";
-import { Href, useLocalSearchParams, useRouter } from "expo-router";
-import useSession from "@/hooks/useSession";
-import { useSession as useSessionContext } from "@/context/SessionContext";
+import { useLocalSearchParams } from "expo-router";
 import { useAuth } from "@/context/auth";
 import CAlert from "@/components/CAlert";
 import WorkoutMemberDetail from "@/components/workouts/WorkoutMemberDetail";
 import WorkoutInstructorDetail from "@/components/workouts/WorkoutInstructorDetail";
+import { SafeAreaViewStyle } from "@/utils/Styles";
 
 const WorkoutDetail = () => {
   //TODO solo id
@@ -40,7 +39,7 @@ const WorkoutDetail = () => {
 
   return (
     <>
-      <SafeAreaView bg="white" flex={1} px="$3" py={"$2"}>
+      <SafeAreaView bg="white" pb={"$2"} style={[SafeAreaViewStyle.s]}>
         <ImageBackground
           source={require("@/assets/images/workout_banner.png")}
           style={styles.backgroundImage}
@@ -96,7 +95,10 @@ const WorkoutDetail = () => {
                 justifyContent="space-between"
                 alignItems="center"
               >
-                <WorkoutTypeBadge type={i18n.t(workout?.type || "s")} />
+                <WorkoutTypeBadge
+                  typeText={i18n.t(`workout_type.${workout?.type}`)}
+                  type={workout?.type || "dm"}
+                />
                 <Button variant="link">
                   <ButtonText fontWeight="medium">
                     {i18n.t("workout_flow.watch_tutorial_label")}
@@ -122,7 +124,7 @@ const WorkoutDetail = () => {
                 quantity={workout?.numberOfRepetitions}
               />
               <WorkoutConfigItem
-                configName="Desiciones"
+                configName="Decisiones"
                 quantity={workout?.numberOfDecisions}
               />
               <WorkoutConfigItem
@@ -138,9 +140,9 @@ const WorkoutDetail = () => {
             </VStack>
           </VStack>
           {userRole === "member" ? (
-            <WorkoutMemberDetail idSession={id} />
+            <WorkoutMemberDetail idSession={Number(id as string)} />
           ) : (
-            <WorkoutInstructorDetail idWorkout={id} />
+            <WorkoutInstructorDetail idWorkout={Number(id as string)} />
           )}
         </ScrollView>
       </SafeAreaView>

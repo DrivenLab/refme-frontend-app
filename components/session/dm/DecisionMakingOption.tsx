@@ -1,21 +1,30 @@
-import { t_DM_ANSWER1, t_DM_ANSWER2 } from "@/types/session";
-import { Box, Pressable, Text } from "@gluestack-ui/themed";
-import React, { useMemo, useState } from "react";
+import { Box, Pressable, Text, useColorMode } from "@gluestack-ui/themed";
+import React, { useMemo } from "react";
+import Colors from "@/constants/Colors";
+import SanctionCardIcon from "@/assets/svgs/SanctionCardIcon";
 
 type Props = {
   text?: string;
-  handleUserAnswer: () => void;
+  answerKey: string;
   isCorrect: boolean;
   hasMarked: boolean;
   showAnswer: boolean;
+  canTouch: boolean;
+  handleUserAnswer: () => void;
 };
 const DecisionMakingOption = ({
   text,
-  handleUserAnswer,
+  answerKey,
   isCorrect,
   hasMarked,
   showAnswer,
+  canTouch,
+  handleUserAnswer,
 }: Props) => {
+  const handleOnPress = () => {
+    if (canTouch) handleUserAnswer();
+  };
+  const mode = useColorMode();
   const bgColor = useMemo(() => {
     if (!hasMarked) return "#f5f5f6";
     if (!showAnswer) return "#090b22";
@@ -24,9 +33,8 @@ const DecisionMakingOption = ({
   }, [isCorrect, hasMarked, showAnswer]);
   const textColor = useMemo(() => {
     if (!hasMarked) return "#090b22";
-    if (!showAnswer) return "#ffffff";
-    if (isCorrect) return "#090b22";
-    else return "#ffffff";
+    else if (!showAnswer) return "#ffffff";
+    else return "#090b22";
   }, [isCorrect, hasMarked, showAnswer]);
   return (
     <Pressable
@@ -37,12 +45,44 @@ const DecisionMakingOption = ({
         backgroundColor: bgColor,
       }}
       rounded={10}
-      onPress={handleUserAnswer}
+      onPress={handleOnPress}
+      borderWidth={showAnswer && hasMarked ? 2 : 0}
+      borderColor={
+        isCorrect
+          ? Colors[mode as keyof typeof Colors].success
+          : Colors[mode as keyof typeof Colors].error
+      }
     >
-      {text && (
-        <Text color={textColor} textAlign="center">
-          {text}
-        </Text>
+      {answerKey === "yc" ? (
+        <Box margin="auto">
+          <SanctionCardIcon
+            cardColor="yellow"
+            width={80}
+            height={80}
+            outlineFillColor={bgColor === "#090b22" ? "#ffffff" : "black"}
+          />
+        </Box>
+      ) : answerKey === "rc" ? (
+        <Box margin="auto">
+          <SanctionCardIcon
+            cardColor="red"
+            width={80}
+            height={80}
+            outlineFillColor={bgColor === "#090b22" ? "#ffffff" : "black"}
+          />
+        </Box>
+      ) : (
+        text && (
+          <Text
+            color={textColor}
+            textAlign="center"
+            fontSize={20}
+            fontWeight="bold"
+            textTransform="uppercase"
+          >
+            {text}
+          </Text>
+        )
       )}
     </Pressable>
   );

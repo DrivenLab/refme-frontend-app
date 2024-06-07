@@ -1,47 +1,34 @@
-import { useAuth } from "@/context/auth";
 import CSearchInput from "@/components/inputs/CSearchInput";
 import { useState, useEffect } from "react";
-import api from "@/queries/api";
 import { useGetMembers } from "@/queries/users.query";
-
-import { Image } from "expo-image";
-import { Platform, StyleSheet } from "react-native";
-import CBtn from "@/components/CBtn";
+import { StyleSheet } from "react-native";
 import {
-  SafeAreaView,
   Text,
   Box,
   VStack,
-  Divider,
-  Button,
-  ButtonText,
-  ScrollView,
   ImageBackground,
-  FlatList,
+  SafeAreaView,
 } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
-
 import i18n from "@/languages/i18n";
-import { useRouter, useLocalSearchParams } from "expo-router";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import { useLocalSearchParams } from "expo-router";
 import MemberList from "@/components/users/MemberList";
 import { useGetWorkoutById } from "@/queries/workouts.query";
+import { Member } from "@/types/user";
 
 export default function AsignRefereeScreen() {
   const [error, setError] = useState("");
   const [memberName, setMemberName] = useState("");
-  const router = useRouter();
-  const queryClient = useQueryClient();
   const { id: idWorkout } = useLocalSearchParams();
-  const { workout, isLoadingWorkout } = useGetWorkoutById({
+  const { workout } = useGetWorkoutById({
     idWorkout: Number(idWorkout),
   });
 
+  //TODO: Setear un valor por default válido
   const { members, isLoadingMembers } = useGetMembers({
-    memberType: workout?.memberType,
+    memberType: workout?.memberType || "",
   });
-  const [memberList, setMemberList] = useState([]);
+  const [memberList, setMemberList] = useState<Member[]>([]);
 
   useEffect(() => {
     setMemberList(members);
@@ -50,7 +37,7 @@ export default function AsignRefereeScreen() {
   const handleFilterMembers = (text: string) => {
     if (text) {
       let filteredMembers = members.filter((member) =>
-        member?.user?.fullName.toLowerCase().includes(text.toLowerCase())
+        member?.user.fullName.toLowerCase().includes(text.toLowerCase())
       );
       setMemberList(filteredMembers);
     } else {
@@ -58,7 +45,7 @@ export default function AsignRefereeScreen() {
     }
   };
 
-  if (isLoadingWorkout || isLoadingMembers) {
+  if (isLoadingMembers) {
     return (
       //TODO mejorar vista de espera
       <SafeAreaView>
@@ -117,7 +104,10 @@ export default function AsignRefereeScreen() {
           error=""
           width="100%"
         />
-        <MemberList members={memberList} idWorkout={idWorkout} />
+        <MemberList
+          members={memberList}
+          idWorkout={Number(idWorkout as string)}
+        />
       </VStack>
     </SafeAreaView>
   );

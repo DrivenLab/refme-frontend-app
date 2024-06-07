@@ -3,7 +3,6 @@ import CTextInput from "@/components/inputs/CTextInput";
 import CNumericInput from "@/components/inputs/CNumericInput";
 import { useState } from "react";
 import api from "@/queries/api";
-import { Image } from "expo-image";
 
 import { Platform, StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
@@ -12,9 +11,6 @@ import {
   Text,
   Box,
   VStack,
-  Divider,
-  Button,
-  ButtonText,
   ScrollView,
   ImageBackground,
 } from "@gluestack-ui/themed";
@@ -23,10 +19,11 @@ import i18n from "@/languages/i18n";
 import { useRouter } from "expo-router";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { SafeAreaViewStyle } from "@/utils/Styles";
 
 export default function CreateWorkoutScreen() {
   const [error, setError] = useState("");
-  const { signOut, user, profile, currentOrganization } = useAuth();
+  const { currentOrganization } = useAuth();
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -60,7 +57,25 @@ export default function CreateWorkoutScreen() {
     [i18n.t("referee")]: "re",
     [i18n.t("assistant_referee")]: "ra",
   };
-
+  const validate = () => {
+    if (!workoutName.trim()) {
+      setError(i18n.t("errors.workout_creation.workout_name"));
+      return false;
+    }
+    if (!memberType.trim()) {
+      setError(i18n.t("errors.workout_creation.workout_member_type"));
+      return false;
+    }
+    if (!type.trim()) {
+      setError(i18n.t("errors.workout_creation.workout_type"));
+      return false;
+    }
+    if (pauseTime < 21) {
+      setError(i18n.t("errors.workout_creation.workout_pause_time"));
+      return false;
+    }
+    return true;
+  };
   const createWorkout = async () => {
     let finalType = typeMapping[type];
     if (type === i18n.t("decision_making")) {
@@ -96,23 +111,28 @@ export default function CreateWorkoutScreen() {
   const mutation = useMutation({
     mutationFn: createWorkout,
     onSuccess: (data) => {
-      queryClient.invalidateQueries("workouts");
+      queryClient.invalidateQueries({ queryKey: ["workouts"] });
       const idWorkout = data.id;
       router.replace(`/workouts/assignReferee/${idWorkout}`);
     },
     onError: (err) => {
       const error = err as AxiosError;
-      setError(error.message || "Error, inténtelo más tarde.");
+      const message = error.message;
+      setError(i18n.t("errors.generic_error"));
     },
   });
 
   const handleCreateWorkout = () => {
+    const val = validate();
+    if (!val) {
+      return;
+    }
     setError("");
     mutation.mutate();
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={SafeAreaViewStyle.s}>
       <ImageBackground
         source={require("@/assets/images/workout_banner.png")}
         style={styles.backgroundImage}
@@ -129,8 +149,8 @@ export default function CreateWorkoutScreen() {
           </Text>
         </LinearGradient>
       </ImageBackground>
-      <VStack space="md">
-        <VStack space="md" paddingHorizontal={24} mb={50}>
+      <ScrollView pt={Platform.OS === "android" ? 10 : "$2"}>
+        <VStack space="md" mb={50} paddingHorizontal={24}>
           {error && (
             <Box
               bg="$red200"
@@ -149,6 +169,7 @@ export default function CreateWorkoutScreen() {
             error=""
             containerStyle={{ marginTop: 20 }}
             width="100%"
+            required
           />
 
           <CTextInput
@@ -159,6 +180,7 @@ export default function CreateWorkoutScreen() {
             error=""
             secureTextEntry={false}
             width="100%"
+            required
           />
           <CTextInput
             value={type}
@@ -169,6 +191,7 @@ export default function CreateWorkoutScreen() {
             secureTextEntry={false}
             // containerStyle={}
             width="100%"
+            required
           />
           <Text fontWeight="bold" fontSize={24} color="black" mt={15}>
             {i18n.t("common.configuration")}
@@ -215,7 +238,7 @@ export default function CreateWorkoutScreen() {
             mb={300}
           />
         </VStack>
-      </VStack>
+      </ScrollView>
     </SafeAreaView>
   );
 }

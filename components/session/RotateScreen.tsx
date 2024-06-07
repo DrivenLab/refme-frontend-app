@@ -30,7 +30,7 @@ const RotateScreen = ({ orientation, onStartWorkout }: Props) => {
           mr="$3"
           bg="$white"
           onPress={onStartWorkout}
-          isDisabled={ORIENTATION.PORTRAIT == orientation}
+          isDisabled={ORIENTATION.PORTRAIT === orientation}
           rounded={"$full"}
         >
           <ButtonText

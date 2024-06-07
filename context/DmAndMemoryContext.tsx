@@ -77,6 +77,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     workout: Workout;
   }) => {
     const { type, memberType, excerciseDuration } = workout;
+    const answerOptions = getOptions(i);
     const i_: IterationDMAndMem = {
       idIteration: i.id,
       dmVideo: i.answers.length ? i.answers[0].video1.video : undefined,
@@ -100,8 +101,8 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
       iterationNumber: i.repetitionNumber,
       isCorrectDm: false,
       isCorrectMem: false,
-      answer_1Options: getOptions(i).optionsA1,
-      answer_2Options: getOptions(i).optionsA2,
+      answer_1Options: answerOptions.optionsA1,
+      answer_2Options: answerOptions.optionsA2,
     };
     return i_;
   };

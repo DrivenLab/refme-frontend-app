@@ -53,7 +53,7 @@ export const CircularProgress = (props: {
       >
         <Text
           bold
-          fontSize={Number(text) > 100 ? 100 : 150}
+          fontSize={Number(text) > 100 ? 90 : 120}
           textAlign="center"
           color="black"
         >

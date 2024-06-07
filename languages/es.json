@@ -162,6 +162,7 @@
     "dmar": "Toma de decisión",
     "memory": "Memoria",
     "recognition": "Reconocimiento",
-    "dm+memory": "TD + Memoria"
+    "dm+memory": "TD + Memoria",
+    "random": "Random"
   }
 }

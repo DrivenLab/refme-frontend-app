@@ -21,6 +21,19 @@ const startWorkoutDMAndMem = () => {
       setStatusBarHidden(false, "slide");
     };
   }, []);
+  useEffect(() => {
+    if (screenOrientation === ScreenOrientation.Orientation.LANDSCAPE_RIGHT) {
+      ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT
+      );
+    } else if (
+      screenOrientation === ScreenOrientation.Orientation.LANDSCAPE_LEFT
+    ) {
+      ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.LANDSCAPE_LEFT
+      );
+    }
+  }, [screenOrientation]);
   const navigation = useNavigation();
   useEffect(() => {
     // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);

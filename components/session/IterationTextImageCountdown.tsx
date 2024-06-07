@@ -1,4 +1,4 @@
-import { View, Box, Text } from "@gluestack-ui/themed";
+import { View, Box } from "@gluestack-ui/themed";
 import { Image } from "expo-image";
 import TextInformation from "../workouts/TextInformation";
 import SessionCounter from "./SessionCounter";
@@ -7,10 +7,6 @@ import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
 import { get_image_from_name } from "@/utils/libs";
 import CircularProgress from "../progress-bar/CircularProgressBar";
 import { TEXT_TYPES } from "@/types/workout";
-import { Dimensions, Platform } from "react-native";
-
-// get the width of the screen
-const mobileWidth = Dimensions.get("window").width;
 
 type Props = {
   count: number;
@@ -50,9 +46,9 @@ const IterationTextImageCountdown = ({
         position="relative"
       >
         <Box
-          width={mobileWidth}
+          width="150%"
           aspectRatio={1}
-          left={-(mobileWidth / 2 - 20)}
+          left={"-50%"}
           bg="$primary"
           position="absolute"
           borderRadius="$full"

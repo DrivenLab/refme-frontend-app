@@ -1,7 +1,7 @@
 import { View, Box } from "@gluestack-ui/themed";
 import React, { useEffect, useMemo, useState } from "react";
-import SessionCounter from "./SessionCounter";
 import { Image } from "expo-image";
+import SessionCounter from "./SessionCounter";
 
 import IterationTextImage from "./IterationTextImage";
 import TextInformation from "../workouts/TextInformation";
@@ -11,10 +11,7 @@ import ManRunningWithColor from "@/assets/svgs/ManRunningWithColor";
 import { get_image_from_name } from "@/utils/libs";
 import { TEXT_TYPES } from "@/types/workout";
 import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
-import { Dimensions } from "react-native";
 import { useWhistle } from "../../hooks/useWhistle";
-
-const mobileWidth = Dimensions.get("window").width;
 
 type Props = {
   initialCountdown: number;
@@ -93,9 +90,9 @@ const SessionTrainingCountdown = ({
               position="relative"
             >
               <Box
-                width={mobileWidth}
+                width={"150%"}
                 aspectRatio={1}
-                left={-(mobileWidth / 2 - 20)}
+                left={"-50%"}
                 position="absolute"
                 borderRadius="$full"
                 bg="$primary"
@@ -132,6 +129,7 @@ const SessionTrainingCountdown = ({
             step={2}
             hasVideo={hasVideo}
             recognitionType={recognitionType}
+            showRpeText={hasVideo ? false : true}
           />
         </IterationTextImage>
       )}

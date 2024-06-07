@@ -37,7 +37,7 @@ const SessionStatistics = ({
             <SessionResultBarChart data={resultBarData} />
           </Box>
         </Box>
-        <Box display="flex" flexDirection="row" mt={"$5"}>
+        <Box display="flex" flexDirection="row" margin={10}>
           <Box width="50%">
             <Box
               bgColor="#f2f3f4"
@@ -52,25 +52,29 @@ const SessionStatistics = ({
               </Text>
             </Box>
           </Box>
-          <Box marginHorizontal={10}>
-            <Box marginVertical="auto">
-              <Text bold>{i18n.t("workout_flow.date_title")}</Text>
-              <Text>{resume.date}</Text>
+          <Box width={"50%"}>
+            <Box marginHorizontal={10}>
+              <Box marginVertical="auto">
+                <Text bold>{i18n.t("workout_flow.date_title")}</Text>
+                <Text>{resume.date}</Text>
+              </Box>
             </Box>
-          </Box>
-          <Box
-            display="flex"
-            flexDirection="row"
-            alignItems="flex-end"
-            marginStart={10}
-            gap={5}
-          >
-            <Pressable marginVertical="auto" onPress={handleXPress}>
-              <XIcon width={40} height={40}></XIcon>
-            </Pressable>
-            <Pressable marginVertical="auto" onPress={handleSaveResult}>
-              <SuccessIcon width={40} height={40}></SuccessIcon>
-            </Pressable>
+            <Box
+              display="flex"
+              flexDirection="row"
+              //   alignItems="center"
+              justifyContent="flex-end"
+              marginStart={10}
+              gap={5}
+              width={"100%"}
+            >
+              <Pressable marginVertical="auto" onPress={handleXPress}>
+                <XIcon width={40} height={40}></XIcon>
+              </Pressable>
+              <Pressable marginVertical="auto" onPress={handleSaveResult}>
+                <SuccessIcon width={40} height={40}></SuccessIcon>
+              </Pressable>
+            </Box>
           </Box>
         </Box>
       </Box>

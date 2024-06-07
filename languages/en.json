@@ -1,7 +1,7 @@
 {
   "question1_home": "What are you going to train today?",
   "welcome": "¡Hello %{name}! welcome to your app.",
-  "update_password": "Dado que tu contraseña actual fue creada por nosotros de forma automática, puedes cambiarla por una creada por ti.",
+  "update_password": "Since your actual password was created by us, you can chage it for another one.",
   "update_password_title": "Update password",
   "workout": "Workout",
   "personal": "Personal",
@@ -162,6 +162,7 @@
     "dmar": "Decision Making",
     "memory": "Memory",
     "recognition": "Reconocimiento",
-    "dm+memory": "Decision Making + Memory"
+    "dm+memory": "Decision Making + Memory",
+    "random": "Random"
   }
 }

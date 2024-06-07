@@ -1,15 +1,17 @@
 import { View, Box } from "@gluestack-ui/themed";
 import React, { useEffect, useMemo, useState } from "react";
-import SessionCounter from "./SessionCounter";
 import { Image } from "expo-image";
+import SessionCounter from "./SessionCounter";
 
 import IterationTextImage from "./IterationTextImage";
 import TextInformation from "../workouts/TextInformation";
 import CircularProgress from "../progress-bar/CircularProgressBar";
 import ManRunningWithColor from "@/assets/svgs/ManRunningWithColor";
+
 import { get_image_from_name } from "@/utils/libs";
 import { TEXT_TYPES } from "@/types/workout";
 import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
+import { useWhistle } from "../../hooks/useWhistle";
 
 type Props = {
   initialCountdown: number;
@@ -21,6 +23,7 @@ type Props = {
   recognitionType?: RECOGNITION_VIDEO_TYPE;
   onFinishCountdown: () => void;
 };
+
 const SessionTrainingCountdown = ({
   initialCountdown,
   hasVideo,
@@ -31,6 +34,8 @@ const SessionTrainingCountdown = ({
   recognitionType,
   onFinishCountdown,
 }: Props) => {
+  const { playShortSound, playLongSound } = useWhistle();
+
   const [count, setCount] = useState(initialCountdown);
   const imageSource = useMemo(
     () => get_image_from_name(hasVideo ? imageName : "how_you_feel"),
@@ -45,12 +50,20 @@ const SessionTrainingCountdown = ({
           onFinishCountdown();
           return 0;
         }
-        return prevCount - 1;
+        const newCountdownValue = prevCount - 1;
+        if ([4, 3, 2].includes(prevCount)) {
+          playShortSound();
+        }
+        if (prevCount === 1) {
+          playLongSound();
+        }
+        return newCountdownValue;
       });
     }, 1000);
 
     return () => clearInterval(interval); // Cleanup the interval on component unmount
   }, []);
+
   return (
     <View flex={1}>
       {count >= 1 ? (
@@ -71,13 +84,19 @@ const SessionTrainingCountdown = ({
           ) : (
             <Box
               flex={1}
-              bg="$primary"
               height={"100%"}
               justifyContent="center"
               alignItems="center"
-              borderTopRightRadius={100}
-              borderBottomRightRadius={100}
+              position="relative"
             >
+              <Box
+                width={"150%"}
+                aspectRatio={1}
+                left={"-50%"}
+                position="absolute"
+                borderRadius="$full"
+                bg="$primary"
+              />
               <Image
                 source={imageSource}
                 style={{ height: 100, width: 100 }}
@@ -92,10 +111,9 @@ const SessionTrainingCountdown = ({
             </Box>
           )}
           <Box flex={1} alignItems="center">
-            <Box mb="$2">
+            <Box mb="$6">
               <CircularProgress
                 circleColor="#090B22"
-                size={180}
                 strokeWidth={6}
                 text={`${count}`}
                 initialCountdown={initialCountdown}
@@ -111,6 +129,7 @@ const SessionTrainingCountdown = ({
             step={2}
             hasVideo={hasVideo}
             recognitionType={recognitionType}
+            showRpeText={hasVideo ? false : true}
           />
         </IterationTextImage>
       )}

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
-import { SafeAreaView } from "@gluestack-ui/themed";
+import * as ScreenOrientation from "expo-screen-orientation";
+import { useNavigation } from "expo-router";
+import { setStatusBarHidden } from "expo-status-bar";
+
+import { View } from "@gluestack-ui/themed";
 import useOrientation from "@/hooks/useOrientation";
 import RotateScreen from "@/components/session/RotateScreen";
 import { ORIENTATION_NUMBER } from "@/constants/Orientation";
 import SessionStatistics from "@/components/session/SessionStatistics";
-import { useNavigation } from "expo-router";
-import { setStatusBarHidden } from "expo-status-bar";
 import { useDMWorkout } from "@/context/DmContext";
 import DecisionMakingIteration from "@/components/session/dm/DecisionMakingIteration";
 
@@ -21,23 +23,39 @@ const StartWorkoutDM = () => {
       setStatusBarHidden(false, "slide");
     };
   }, []);
+  useEffect(() => {
+    if (screenOrientation === ScreenOrientation.Orientation.LANDSCAPE_RIGHT) {
+      ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT
+      );
+    } else if (
+      screenOrientation === ScreenOrientation.Orientation.LANDSCAPE_LEFT
+    ) {
+      ScreenOrientation.lockAsync(
+        ScreenOrientation.OrientationLock.LANDSCAPE_LEFT
+      );
+    }
+  }, [screenOrientation]);
   const navigation = useNavigation();
   useEffect(() => {
+    // ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE);
     navigation.getParent()?.setOptions({
       tabBarStyle: {
         display: "none",
       },
     });
-    return () =>
+    return () => {
+      ScreenOrientation.unlockAsync();
       navigation.getParent()?.setOptions({
         tabBarStyle: undefined,
       });
+    };
   }, [navigation]);
   const handleSaveResult = () => {
     saveSession();
   };
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       {workout.status === "pending" ? (
         <RotateScreen
           orientation={
@@ -56,7 +74,7 @@ const StartWorkoutDM = () => {
           handleSaveResult={handleSaveResult}
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 const styles = StyleSheet.create({

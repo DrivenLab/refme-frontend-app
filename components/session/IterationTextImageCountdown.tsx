@@ -1,4 +1,4 @@
-import { View, Box, Text } from "@gluestack-ui/themed";
+import { View, Box } from "@gluestack-ui/themed";
 import { Image } from "expo-image";
 import TextInformation from "../workouts/TextInformation";
 import SessionCounter from "./SessionCounter";
@@ -7,6 +7,7 @@ import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
 import { get_image_from_name } from "@/utils/libs";
 import CircularProgress from "../progress-bar/CircularProgressBar";
 import { TEXT_TYPES } from "@/types/workout";
+
 type Props = {
   count: number;
   imageName: IMAGE_NAME;
@@ -28,6 +29,7 @@ const IterationTextImageCountdown = ({
   recognitionType,
 }: Props) => {
   const imageSource = useMemo(() => get_image_from_name(imageName), []);
+
   return (
     <View
       flex={1}
@@ -39,13 +41,18 @@ const IterationTextImageCountdown = ({
     >
       <Box
         flex={1}
-        bg="$primary"
-        height={"100%"}
         justifyContent="center"
         alignItems="center"
-        borderTopRightRadius={100}
-        borderBottomRightRadius={100}
+        position="relative"
       >
+        <Box
+          width="150%"
+          aspectRatio={1}
+          left={"-50%"}
+          bg="$primary"
+          position="absolute"
+          borderRadius="$full"
+        />
         <Image
           source={imageSource}
           style={{ height: 100, width: 100 }}
@@ -58,10 +65,9 @@ const IterationTextImageCountdown = ({
         />
       </Box>
       <Box flex={1} alignItems="center">
-        <Box mb="$2">
+        <Box mb="$6">
           <CircularProgress
             circleColor="#090B22"
-            size={180}
             strokeWidth={6}
             text={`${count}`}
             initialCountdown={initialCountdown}

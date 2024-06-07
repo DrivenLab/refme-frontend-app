@@ -23,7 +23,7 @@ const SessionStatistics = ({
     router.replace(`/workouts/`);
   };
   return (
-    <ScrollView>
+    <ScrollView bgColor="white" px="$6" pt="$2">
       <Box py={"$2"} px={"$3"} flex={1} bg="$white">
         <Box display="flex" flexDirection="row" height={270}>
           <VStack width="30%" height="$full" space="md" paddingVertical={"$1"}>
@@ -44,6 +44,7 @@ const SessionStatistics = ({
               paddingHorizontal={10}
               paddingVertical={15}
               borderRadius={10}
+              marginTop={"$2"}
             >
               <Text fontSize="$lg" bold>
                 {i18n.t("workout_flow.total_time")}

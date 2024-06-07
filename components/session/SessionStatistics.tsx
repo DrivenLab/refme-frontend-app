@@ -4,18 +4,27 @@ import StatsResultPill from "../workouts/StatsResultPill";
 import XIcon from "@/assets/svgs/XIcon";
 import i18n from "@/languages/i18n";
 import { useRouter } from "expo-router";
-import { WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
+import {
+  MEMBER_TYPE,
+  WORKOUT_TYPE,
+  WorkoutResultBarChart,
+  WorkoutResume,
+} from "@/types/workout";
 import SessionResultBarChart from "../workouts/SessionResultBarChart";
 import SuccessIcon from "@/assets/svgs/SuccessIcon";
 
 type Props = {
   resume: WorkoutResume;
   resultBarData: WorkoutResultBarChart[];
+  workoutType: WORKOUT_TYPE;
+  memberType: MEMBER_TYPE;
   handleSaveResult: () => void;
 };
 const SessionStatistics = ({
   resume,
   resultBarData,
+  workoutType,
+  memberType,
   handleSaveResult,
 }: Props) => {
   const router = useRouter();
@@ -34,7 +43,11 @@ const SessionStatistics = ({
             <StatsResultPill type="time" text={resume.answerAverageTime + ""} />
           </VStack>
           <Box width="70%" height="100%">
-            <SessionResultBarChart data={resultBarData} />
+            <SessionResultBarChart
+              data={resultBarData}
+              workoutType={workoutType}
+              memberType={memberType}
+            />
           </Box>
         </Box>
         <Box display="flex" flexDirection="row" margin={10}>

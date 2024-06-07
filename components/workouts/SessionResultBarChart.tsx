@@ -6,7 +6,12 @@ import {
   VictoryStack,
   VictoryTheme,
 } from "victory-native";
-import { WorkoutResultBarChart } from "@/types/workout";
+import {
+  MEMBER_TYPE,
+  WORKOUT_TYPE,
+  WorkoutResultBarChart,
+} from "@/types/workout";
+import { TIME_TO_ANSWER } from "@/constants/Session";
 export const PASTEL_RPE_COLORS = {
   "1": "#92e2f9",
   "2": "#92e2f9",
@@ -19,17 +24,22 @@ export const PASTEL_RPE_COLORS = {
   "9": "#f39592",
   "10": "#f39592",
 };
-type Props = { data: WorkoutResultBarChart[] };
-const SessionResultBarChart = ({ data }: Props) => {
+type Props = {
+  data: WorkoutResultBarChart[];
+  workoutType: WORKOUT_TYPE;
+  memberType: MEMBER_TYPE;
+};
+const SessionResultBarChart = ({ data, workoutType, memberType }: Props) => {
   const colors = data.map(
     (d) => PASTEL_RPE_COLORS[`${d.rpe}` as keyof typeof PASTEL_RPE_COLORS]
   );
+  const maxYValue = TIME_TO_ANSWER[memberType][workoutType];
   return (
     <Box borderWidth={1} margin={10} borderColor="#a1a1a1" borderRadius={7}>
       <VictoryChart theme={VictoryTheme.material} height={220} width={500}>
         <VictoryStack
           colorScale={colors}
-          domain={{ x: [0, data.length + 1], y: [0, 7] }}
+          domain={{ x: [0, data.length + 1], y: [0, maxYValue] }}
         >
           <VictoryBar
             animate={{ duration: 1000, onLoad: { duration: 500 } }}

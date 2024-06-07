@@ -16,13 +16,7 @@ import {
   getIterationsOrdered,
   shuffleArray,
 } from "@/utils/session";
-import {
-  MEMBER_TYPE,
-  WORKOUT_TYPE,
-  Workout,
-  WorkoutResultBarChart,
-  WorkoutResume,
-} from "@/types/workout";
+import { Workout, WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
 import { TIME_TO_ANSWER, TIME_TO_RPE } from "@/constants/Session";
 import { usePostSession } from "@/queries/session.query";
 import { calculateNextTimeToGetReady } from "@/utils/workoutUtils";

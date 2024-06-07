@@ -106,6 +106,7 @@ const SessionTrainingCountdown = ({
                 type={type}
                 step={2}
                 hasVideo={hasVideo}
+                showRpeText={hasVideo ? false : true}
                 recognitionType={recognitionType}
               />
             </Box>

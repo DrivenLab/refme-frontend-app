@@ -150,6 +150,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       ),
       status: "pending",
       workoutId: w.id,
+      type: w.type,
     };
     setWorkout(workout_);
     setCurrentIterationStep("beginning");
@@ -227,7 +228,9 @@ export function MemoryProvider({ children }: PropsWithChildren) {
     const data_: WorkoutResultBarChart[] = workout.iterations.map(
       (i, index) => ({
         x: index + 1,
-        y: i.answeredInMs / 1000,
+        y:
+          i.answeredInMs / 1000 ||
+          TIME_TO_ANSWER[workout.memberType || "ar"][workout.type],
         hasVideo: i.video?.length ? true : false,
         isCorrect: i.isCorrect,
         rpe: i.rpe,

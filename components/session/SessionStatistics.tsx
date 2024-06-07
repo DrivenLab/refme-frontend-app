@@ -52,8 +52,8 @@ const SessionStatistics = ({
               </Text>
             </Box>
           </Box>
-          <Box width={"50%"}>
-            <Box marginHorizontal={10}>
+          <Box width={"50%"} display="flex" flexDirection="row">
+            <Box marginHorizontal={10} flexGrow={1}>
               <Box marginVertical="auto">
                 <Text bold>{i18n.t("workout_flow.date_title")}</Text>
                 <Text>{resume.date}</Text>
@@ -62,11 +62,12 @@ const SessionStatistics = ({
             <Box
               display="flex"
               flexDirection="row"
-              //   alignItems="center"
+              alignItems="center"
               justifyContent="flex-end"
               marginStart={10}
               gap={5}
-              width={"100%"}
+              flexGrow={1}
+              //   width={"100%"}
             >
               <Pressable marginVertical="auto" onPress={handleXPress}>
                 <XIcon width={40} height={40}></XIcon>

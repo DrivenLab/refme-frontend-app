@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, HStack, Pressable, Text, VStack } from "@gluestack-ui/themed";
+import { Box, HStack, Pressable, Text } from "@gluestack-ui/themed";
 import {
   RPE_COLORS,
   RPE_STRING_VALUES,
@@ -7,7 +7,7 @@ import {
 } from "@/constants/Session";
 import i18n from "@/languages/i18n";
 import CProgress from "../progress-bar/CProgress";
-import useCountdown from "@/hooks/useCountdown";
+import { useDelay } from "react-use-precision-timer";
 
 type Props = {
   onFinishRPE: (rpe?: number) => void;
@@ -17,17 +17,15 @@ type Props = {
 };
 const RPE = ({ onFinishRPE, iteration }: Props) => {
   const [rpe, setRpe] = useState<number>();
-  const { hasFinished } = useCountdown({
-    stopInSec: iteration.timeToRPEInSec,
-    delay: 1,
-  });
-  useEffect(() => {
-    if (hasFinished.current) onFinishRPE(rpe);
-  }, [hasFinished.current]);
-
   const handleOnPress = (rpe_: number) => {
     setRpe(rpe_);
   };
+  const onceTimer = useDelay(iteration.timeToRPEInSec * 1000, () =>
+    onFinishRPE(rpe)
+  );
+  useEffect(() => {
+    onceTimer.start();
+  }, []);
   return (
     <Box bg="$white" flex={1}>
       <CProgress totalTimeInSec={iteration.timeToRPEInSec} />

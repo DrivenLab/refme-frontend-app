@@ -7,6 +7,7 @@ import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
 import { getImageFromName } from "@/utils/libs";
 import CircularProgress from "../progress-bar/CircularProgressBar";
 import { TEXT_TYPES } from "@/types/workout";
+import { ImageSourcePropType } from "react-native";
 
 type Props = {
   count: number;
@@ -54,7 +55,7 @@ const IterationTextImageCountdown = ({
           borderRadius="$full"
         />
         <Image
-          source={imageSource}
+          source={imageSource as unknown as ImageSourcePropType}
           style={{ height: 100, width: 100 }}
           contentFit="contain"
         />

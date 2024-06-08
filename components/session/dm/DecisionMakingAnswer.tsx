@@ -24,11 +24,15 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
     if (hasFinished.current) handleOnFinishCountdown();
   }, [hasFinished.current]);
   function handleOnFinishCountdown() {
+    const isCorrect =
+      Boolean(asnwer.answer1) &&
+      asnwer.answer1 === iteration.answer1 &&
+      Boolean(asnwer.asnwer2) &&
+      asnwer.asnwer2 === iteration.answer2;
+
     const a: DM_ANSWER = {
       ...asnwer,
-      isCorrect:
-        asnwer.answer1 === iteration.answer1 &&
-        asnwer.asnwer2 === iteration.answer2,
+      isCorrect,
     };
     onFinish(a);
   }

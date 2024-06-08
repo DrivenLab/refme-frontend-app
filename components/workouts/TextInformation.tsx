@@ -24,7 +24,7 @@ const TextInformation = ({ type, step, hasVideo, showRpeText }: Props) => {
         </Text>
       </Box>
     );
-  if (type === "dm" && step === 1)
+  else if (type === "dm" && step === 1)
     CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
@@ -40,7 +40,7 @@ const TextInformation = ({ type, step, hasVideo, showRpeText }: Props) => {
         </Text>
       </Box>
     );
-  if (type === "dm" && step === 2)
+  else if (type === "dm" && step === 2)
     CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
@@ -58,7 +58,7 @@ const TextInformation = ({ type, step, hasVideo, showRpeText }: Props) => {
         </Text>
       </Box>
     );
-  if (type === "memory" && step === 1)
+  else if (type === "memory" && step === 1)
     CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
@@ -72,7 +72,7 @@ const TextInformation = ({ type, step, hasVideo, showRpeText }: Props) => {
         </Text>
       </Box>
     );
-  if (type === "memory" && step === 2) {
+  else if (type === "memory" && step === 2) {
     CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
@@ -86,8 +86,7 @@ const TextInformation = ({ type, step, hasVideo, showRpeText }: Props) => {
         </Text>
       </Box>
     );
-  }
-  if (type === "recognition") {
+  } else if (type === "recognition") {
     CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>

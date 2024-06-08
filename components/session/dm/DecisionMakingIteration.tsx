@@ -1,5 +1,5 @@
 import { View } from "@gluestack-ui/themed";
-import React from "react";
+import React, { useEffect } from "react";
 import { DM_ANSWER, Steps } from "@/types/session";
 import { useDMWorkout } from "@/context/DmContext";
 import CVideo from "@/components/CVideo";
@@ -8,6 +8,7 @@ import DecisionMakingAnswer from "./DecisionMakingAnswer";
 import RPE from "../RPE";
 import SessionCountdown from "../SessionCountdown";
 import DecisionMakingAnswerAssistant from "./DecisionMakingAnswerAssistant";
+import { useWhistle } from "@/hooks/useWhistle";
 
 const DecisionMakingIteration = () => {
   const {
@@ -19,6 +20,7 @@ const DecisionMakingIteration = () => {
     handleUserAnswer,
     handleUserRPE,
   } = useDMWorkout();
+  const whistle = useWhistle();
   const handleFinishCountdown = (step: Steps) => {
     // Defer the state update until after the current rendering cycle
     setTimeout(() => {
@@ -35,6 +37,14 @@ const DecisionMakingIteration = () => {
       handleNextIteration(i);
     }, 0);
   };
+  useEffect(() => {
+    if (
+      currentIterationStep === "beginning" &&
+      currentIterarion.timeToGetReadyInSec === 0
+    ) {
+      whistle.playLongSound();
+    }
+  }, [currentIterationStep, currentIterarion.timeToGetReadyInSec]);
 
   return (
     <View flex={1}>

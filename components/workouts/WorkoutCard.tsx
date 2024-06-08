@@ -12,6 +12,7 @@ const COLOR_TYPE: Record<WORKOUT_TYPE, string> = {
   dmar: "#FFC107",
   memory: "#ABEDFD",
   recognition: "#FFB290",
+  random: "#fff",
 };
 type Props = {
   id: number;
@@ -31,8 +32,13 @@ const WorkoutCard = ({
         <Box
           rounded={"$md"}
           overflow="hidden"
-          borderBottomColor={COLOR_TYPE[workout.type]}
+          borderWidth={workout.type === "random" ? 1 : 0}
+          borderColor="#F3F3F4"
           borderBottomWidth={3}
+          borderBottomColor={COLOR_TYPE[workout.type]}
+          borderTopWidth={workout.type === "random" ? 1 : 0}
+          borderRightWidth={workout.type === "random" ? 1 : 0}
+          borderLeftWidth={workout.type === "random" ? 1 : 0}
           backgroundColor="#F3F3F4"
         >
           <Box bgColor={COLOR_TYPE[workout.type]}>

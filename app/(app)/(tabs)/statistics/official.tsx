@@ -9,43 +9,38 @@ import { ChartCard } from "@/components/statistcs/ChartCard";
 import { generateFakePoints } from "@/utils";
 
 import { useGetStats } from "@/queries/stats.query";
-
+import { Stats } from "@/types/stats";
 
 
 export default function TabTwoScreen() {
   const { stats, isLoadingStats } = useGetStats();
-  
-  
-  
-
 
   /* %de Acierto por Habilidad Cognitiva */
-  const { radarLabels, characterData } = getRadarData(stats);
-  
+  const { radarLabels, characterData } = getRadarData(stats as Stats);
 
-  function getRadarData(stats) {
+  function getRadarData(stats: Stats) {
     const radarLabels = [
-      `${stats?.successByType?.[0]?.user?.[0]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[0]?.prom ?? 0}% / T ${(stats?.successByType?.[0]?.user?.[0]?.responseAvgTime ?? 0).toFixed(2)}s`,
-      `${stats?.successByType?.[0]?.user?.[1]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[1]?.prom ?? 0}% / T ${(stats?.successByType?.[0]?.user?.[1]?.responseAvgTime ?? 0).toFixed(2)}s`,
-      `${stats?.successByType?.[0]?.user?.[2]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[2]?.prom ?? 0}% / T ${(stats?.successByType?.[0]?.user?.[2]?.responseAvgTime ?? 0).toFixed(2)}s`,
-      `${stats?.successByType?.[0]?.user?.[3]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[3]?.prom ?? 0}% / T ${(stats?.successByType?.[0]?.user?.[3]?.responseAvgTime ?? 0).toFixed(2)}s`,
-      `${stats?.successByType?.[0]?.user?.[4]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[4]?.prom ?? 0}% / T ${(stats?.successByType?.[0]?.user?.[4]?.responseAvgTime ?? 0).toFixed(2)}s`,
+      `${stats?.successByType?.[0]?.user?.[1]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[1]?.prom ?? 0}%`,
+      `${stats?.successByType?.[0]?.user?.[0]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[0]?.prom ?? 0}%`,
+      `${stats?.successByType?.[0]?.user?.[4]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[4]?.prom ?? 0}%`,
+      `${stats?.successByType?.[0]?.user?.[3]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[3]?.prom ?? 0}%`,
+      `${stats?.successByType?.[0]?.user?.[2]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[2]?.prom ?? 0}%`,
     ];
   
     const characterData = [
       {
-        "Toma de Decisión": stats?.successByType?.[0]?.user?.[0]?.prom ?? 0,
         Memoria: stats?.successByType?.[0]?.user?.[1]?.prom ?? 0,
-        "TD + Memoria": stats?.successByType?.[0]?.user?.[2]?.prom ?? 0,
-        Reconocimiento: stats?.successByType?.[0]?.user?.[3]?.prom ?? 0,
+        "Toma de Decisión": stats?.successByType?.[0]?.user?.[0]?.prom ?? 0,
         Random: stats?.successByType?.[0]?.user?.[4]?.prom ?? 0,
+        Reconocimiento: stats?.successByType?.[0]?.user?.[3]?.prom ?? 0,
+        "TD + Memoria": stats?.successByType?.[0]?.user?.[2]?.prom ?? 0,
       },
       {
-        "Toma de Decisión": stats?.successByType?.[1]?.refme?.[0]?.prom ?? 0,
         Memoria: stats?.successByType?.[1]?.refme?.[1]?.prom ?? 0,
-        "TD + Memoria": stats?.successByType?.[1]?.refme?.[2]?.prom ?? 0,
-        Reconocimiento: stats?.successByType?.[1]?.refme?.[3]?.prom ?? 0,
+        "Toma de Decisión": stats?.successByType?.[1]?.refme?.[0]?.prom ?? 0,
         Random: stats?.successByType?.[1]?.refme?.[4]?.prom ?? 0,
+        Reconocimiento: stats?.successByType?.[1]?.refme?.[3]?.prom ?? 0,
+        "TD + Memoria": stats?.successByType?.[1]?.refme?.[2]?.prom ?? 0,
       },
     ];
   
@@ -53,9 +48,9 @@ export default function TabTwoScreen() {
   }
 
   /* % de Acierto por zona de RPE  */
-  const {  barchartLabels, barchartData } = getBarChartData(stats);
+  const {  barchartLabels, barchartData } = getBarChartData(stats as Stats);
 
-  function getBarChartData(stats) {
+  function getBarChartData(stats: Stats) {
     const barchartLabels = ["Z1", "Z2", "Z3", "Z4", "Z5"];
     const barchartData = [
       {
@@ -84,9 +79,9 @@ export default function TabTwoScreen() {
   }
 
   /* Evolucion de actividades */
-  const activitiesData2  = getActivitiesData(stats);
+  const activitiesData2  = getActivitiesData(stats as Stats);
 
-  function getActivitiesData(stats) {
+  function getActivitiesData(stats: Stats) {
     
     const activitiesData2 = {
       "Toma de decisión": [
@@ -133,9 +128,9 @@ export default function TabTwoScreen() {
   }
 
   /* Evolucion de Toma de Decision */
-  const { decisionData } = getDecisionData(stats);
+  const { decisionData } = getDecisionData(stats as Stats);
 
-  function getDecisionData(stats) {
+  function getDecisionData(stats: Stats) {
     const decisionData = {
       "Manos":  [
         { x: 1, y: stats?.successByTopicAndTime?.hand?.[0]?.prom ?? 0 },
@@ -165,9 +160,9 @@ export default function TabTwoScreen() {
   }
 
   /* Evolución de tiempo de respuesta */
-  const { timeResponseData } = getTimeResponseData(stats);
+  const { timeResponseData } = getTimeResponseData(stats as Stats);
 
-  function getTimeResponseData(stats) {
+  function getTimeResponseData(stats: Stats) {
     const timeResponseData = {
       "Toma de decisión": [
         { x: 1, y: stats?.successByTypeAndTime?.dm?.[0]?.responseAvgTime ?? 0 },
@@ -228,8 +223,8 @@ export default function TabTwoScreen() {
         <LineChart
           linesData={timeResponseData}
           tickFormat={(v) => `${v} s`}
-          yAxis={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-          domain={{ y: [0, 10] }}
+          yAxis={[0, 1, 2, 3, 4, 5, 6]}
+          domain={{ y: [0, 6] }}
         />
       </ChartCard>
     </ScrollView>

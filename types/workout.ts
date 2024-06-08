@@ -51,4 +51,5 @@ export type WORKOUT_TYPE =
   | "memory"
   | "dmar"
   | "dm+memory"
-  | "recognition";
+  | "recognition"
+  | "random";

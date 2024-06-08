@@ -146,7 +146,10 @@
     "remember_infractor_3": "recieved the fault",
     "select_infractor_1": "Select the number of the infractor and ",
     "select_infractor_2": "who recieved ",
-    "select_infractor_3": "the fault"
+    "select_infractor_3": "the fault",
+    "recognition": {
+      "pick_the_hand_ball": "Pick the hand ball"
+    }
   },
   "create_workout": {
     "workout_name": "Workout name",

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { ScrollView } from "@gluestack-ui/themed";
+import { ScrollView, get } from "@gluestack-ui/themed";
 
 import { RadarChart } from "@/components/statistcs/RadarChart";
 import { PieChart } from "@/components/statistcs/PieChart";
@@ -8,20 +8,218 @@ import { LineChart } from "@/components/statistcs/LineChart";
 import { ChartCard } from "@/components/statistcs/ChartCard";
 import { generateFakePoints } from "@/utils";
 
+import { useGetStats } from "@/queries/stats.query";
+
+
+
 export default function TabTwoScreen() {
+  const { stats, isLoadingStats } = useGetStats();
+  
+  
+  
+
+
+  /* %de Acierto por Habilidad Cognitiva */
+  const { radarLabels, characterData } = getRadarData(stats);
+  
+
+  function getRadarData(stats) {
+    const radarLabels = [
+      `${stats?.successByType?.[0]?.user?.[0]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[0]?.prom ?? 0}% / T ${(stats?.successByType?.[0]?.user?.[0]?.responseAvgTime ?? 0).toFixed(2)}s`,
+      `${stats?.successByType?.[0]?.user?.[1]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[1]?.prom ?? 0}% / T ${(stats?.successByType?.[0]?.user?.[1]?.responseAvgTime ?? 0).toFixed(2)}s`,
+      `${stats?.successByType?.[0]?.user?.[2]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[2]?.prom ?? 0}% / T ${(stats?.successByType?.[0]?.user?.[2]?.responseAvgTime ?? 0).toFixed(2)}s`,
+      `${stats?.successByType?.[0]?.user?.[3]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[3]?.prom ?? 0}% / T ${(stats?.successByType?.[0]?.user?.[3]?.responseAvgTime ?? 0).toFixed(2)}s`,
+      `${stats?.successByType?.[0]?.user?.[4]?.decisions ?? 0} reps. ${stats?.successByType?.[0]?.user?.[4]?.prom ?? 0}% / T ${(stats?.successByType?.[0]?.user?.[4]?.responseAvgTime ?? 0).toFixed(2)}s`,
+    ];
+  
+    const characterData = [
+      {
+        "Toma de Decisión": stats?.successByType?.[0]?.user?.[0]?.prom ?? 0,
+        Memoria: stats?.successByType?.[0]?.user?.[1]?.prom ?? 0,
+        "TD + Memoria": stats?.successByType?.[0]?.user?.[2]?.prom ?? 0,
+        Reconocimiento: stats?.successByType?.[0]?.user?.[3]?.prom ?? 0,
+        Random: stats?.successByType?.[0]?.user?.[4]?.prom ?? 0,
+      },
+      {
+        "Toma de Decisión": stats?.successByType?.[1]?.refme?.[0]?.prom ?? 0,
+        Memoria: stats?.successByType?.[1]?.refme?.[1]?.prom ?? 0,
+        "TD + Memoria": stats?.successByType?.[1]?.refme?.[2]?.prom ?? 0,
+        Reconocimiento: stats?.successByType?.[1]?.refme?.[3]?.prom ?? 0,
+        Random: stats?.successByType?.[1]?.refme?.[4]?.prom ?? 0,
+      },
+    ];
+  
+    return { radarLabels, characterData };
+  }
+
+  /* % de Acierto por zona de RPE  */
+  const {  barchartLabels, barchartData } = getBarChartData(stats);
+
+  function getBarChartData(stats) {
+    const barchartLabels = ["Z1", "Z2", "Z3", "Z4", "Z5"];
+    const barchartData = [
+      {
+        x: stats?.userDataRpeZone?.[0]?.percentageZone ?? 0,
+        y: stats?.userDataRpeZone?.[0]?.successPercentage ?? 0,
+      },
+      {
+        x: stats?.userDataRpeZone?.[1]?.percentageZone ?? 0,
+        y: stats?.userDataRpeZone?.[1]?.successPercentage ?? 0,
+      },
+      {
+        x: stats?.userDataRpeZone?.[2]?.percentageZone ?? 0,
+        y: stats?.userDataRpeZone?.[2]?.successPercentage ?? 0,
+      },
+      {
+        x: stats?.userDataRpeZone?.[3]?.percentageZone ?? 0,
+        y: stats?.userDataRpeZone?.[3]?.successPercentage ?? 0,
+      },
+      {
+        x: stats?.userDataRpeZone?.[4]?.percentageZone ?? 0,
+        y: stats?.userDataRpeZone?.[4]?.successPercentage ?? 0,
+      },
+    ];
+  
+    return { barchartLabels, barchartData };
+  }
+
+  /* Evolucion de actividades */
+  const activitiesData2  = getActivitiesData(stats);
+
+  function getActivitiesData(stats) {
+    
+    const activitiesData2 = {
+      "Toma de decisión": [
+        { x: 1, y: stats?.successByTypeAndTime?.dm?.[0]?.prom ?? 0 },
+        { x: 2, y: stats?.successByTypeAndTime?.dm?.[1]?.prom ?? 0 },
+        { x: 3, y: stats?.successByTypeAndTime?.dm?.[2]?.prom ?? 0 },
+        { x: 4, y: stats?.successByTypeAndTime?.dm?.[3]?.prom ?? 0 },
+        { x: 5, y: stats?.successByTypeAndTime?.dm?.[4]?.prom ?? 0 },
+      ],
+      "Memoria": [
+        { x: 1, y: stats?.successByTypeAndTime?.memory?.[0]?.prom ?? 0 },
+        { x: 2, y: stats?.successByTypeAndTime?.memory?.[1]?.prom ?? 0 },
+        { x: 3, y: stats?.successByTypeAndTime?.memory?.[2]?.prom ?? 0 },
+        { x: 4, y: stats?.successByTypeAndTime?.memory?.[3]?.prom ?? 0 },
+        { x: 5, y: stats?.successByTypeAndTime?.memory?.[4]?.prom ?? 0 },
+      ],
+      "Reconocimiento": [
+        { x: 1, y: stats?.successByTypeAndTime?.recognition?.[0]?.prom ?? 0 },
+        { x: 2, y: stats?.successByTypeAndTime?.recognition?.[1]?.prom ?? 0 },
+        { x: 3, y: stats?.successByTypeAndTime?.recognition?.[2]?.prom ?? 0 },
+        { x: 4, y: stats?.successByTypeAndTime?.recognition?.[3]?.prom ?? 0 },
+        { x: 5, y: stats?.successByTypeAndTime?.recognition?.[4]?.prom ?? 0 },
+      ],
+      "T.D. + Memoria": [
+        { x: 1, y: stats?.successByTypeAndTime?.dmMemory?.[0]?.prom ?? 0 },
+        { x: 2, y: stats?.successByTypeAndTime?.dmMemory?.[1]?.prom ?? 0 },
+        { x: 3, y: stats?.successByTypeAndTime?.dmMemory?.[2]?.prom ?? 0 },
+        { x: 4, y: stats?.successByTypeAndTime?.dmMemory?.[3]?.prom ?? 0 },
+        { x: 5, y: stats?.successByTypeAndTime?.dmMemory?.[4]?.prom ?? 0 },
+      
+      ],
+      "Random": [
+        { x: 1, y: stats?.successByTypeAndTime?.random?.[0]?.prom ?? 0 },
+        { x: 2, y: stats?.successByTypeAndTime?.random?.[1]?.prom ?? 0 },
+        { x: 3, y: stats?.successByTypeAndTime?.random?.[2]?.prom ?? 0 },
+        { x: 4, y: stats?.successByTypeAndTime?.random?.[3]?.prom ?? 0 },
+        { x: 5, y: stats?.successByTypeAndTime?.random?.[4]?.prom ?? 0 },
+      
+      ],
+    };
+
+    
+    return  activitiesData2 ;
+  }
+
+  /* Evolucion de Toma de Decision */
+  const { decisionData } = getDecisionData(stats);
+
+  function getDecisionData(stats) {
+    const decisionData = {
+      "Manos":  [
+        { x: 1, y: stats?.successByTopicAndTime?.hand?.[0]?.prom ?? 0 },
+        { x: 2, y: stats?.successByTopicAndTime?.hand?.[1]?.prom ?? 0 },
+        { x: 3, y: stats?.successByTopicAndTime?.hand?.[2]?.prom ?? 0 },
+        { x: 4, y: stats?.successByTopicAndTime?.hand?.[3]?.prom ?? 0 },
+        { x: 5, y: stats?.successByTopicAndTime?.hand?.[4]?.prom ?? 0 },
+      ],
+      "Faltas tácticas": [
+        { x: 1, y: stats?.successByTopicAndTime?.tacticalFouls?.[0]?.prom ?? 0 },
+        { x: 2, y: stats?.successByTopicAndTime?.tacticalFouls?.[1]?.prom ?? 0 },
+        { x: 3, y: stats?.successByTopicAndTime?.tacticalFouls?.[2]?.prom ?? 0 },
+        { x: 4, y: stats?.successByTopicAndTime?.tacticalFouls?.[3]?.prom ?? 0 },
+        { x: 5, y: stats?.successByTopicAndTime?.tacticalFouls?.[4]?.prom ?? 0 },
+      
+      ],
+      Disputas: [
+        { x: 1, y: stats?.successByTopicAndTime?.disputes?.[0]?.prom ?? 0 },
+        { x: 2, y: stats?.successByTopicAndTime?.disputes?.[1]?.prom ?? 0 },
+        { x: 3, y: stats?.successByTopicAndTime?.disputes?.[2]?.prom ?? 0 },
+        { x: 4, y: stats?.successByTopicAndTime?.disputes?.[3]?.prom ?? 0 },
+        { x: 5, y: stats?.successByTopicAndTime?.disputes?.[4]?.prom ?? 0 },
+      
+      ],
+    };
+    return { decisionData };
+  }
+
+  /* Evolución de tiempo de respuesta */
+  const { timeResponseData } = getTimeResponseData(stats);
+
+  function getTimeResponseData(stats) {
+    const timeResponseData = {
+      "Toma de decisión": [
+        { x: 1, y: stats?.successByTypeAndTime?.dm?.[0]?.responseAvgTime ?? 0 },
+        { x: 2, y: stats?.successByTypeAndTime?.dm?.[1]?.responseAvgTime ?? 0 },
+        { x: 3, y: stats?.successByTypeAndTime?.dm?.[2]?.responseAvgTime ?? 0 },
+        { x: 4, y: stats?.successByTypeAndTime?.dm?.[3]?.responseAvgTime ?? 0 },
+        { x: 5, y: stats?.successByTypeAndTime?.dm?.[4]?.responseAvgTime ?? 0 },
+      ],
+      Memoria: [
+        { x: 1, y: stats?.successByTypeAndTime?.memory?.[0]?.responseAvgTime ?? 0 },
+        { x: 2, y: stats?.successByTypeAndTime?.memory?.[1]?.responseAvgTime ?? 0 },
+        { x: 3, y: stats?.successByTypeAndTime?.memory?.[2]?.responseAvgTime ?? 0 },
+        { x: 4, y: stats?.successByTypeAndTime?.memory?.[3]?.responseAvgTime ?? 0 },
+        { x: 5, y: stats?.successByTypeAndTime?.memory?.[4]?.responseAvgTime ?? 0 },
+      ],
+      Reconocimiento: [
+        { x: 1, y: stats?.successByTypeAndTime?.recognition?.[0]?.responseAvgTime ?? 0 },
+        { x: 2, y: stats?.successByTypeAndTime?.recognition?.[1]?.responseAvgTime ?? 0 },
+        { x: 3, y: stats?.successByTypeAndTime?.recognition?.[2]?.responseAvgTime ?? 0 },
+        { x: 4, y: stats?.successByTypeAndTime?.recognition?.[3]?.responseAvgTime ?? 0 },
+        { x: 5, y: stats?.successByTypeAndTime?.recognition?.[4]?.responseAvgTime ?? 0 },
+      ],
+      "T.D. + Memoria": [
+        { x: 1, y: stats?.successByTypeAndTime?.dmMemory?.[0]?.responseAvgTime ?? 0 },
+        { x: 2, y: stats?.successByTypeAndTime?.dmMemory?.[1]?.responseAvgTime ?? 0 },
+        { x: 3, y: stats?.successByTypeAndTime?.dmMemory?.[2]?.responseAvgTime ?? 0 },
+        { x: 4, y: stats?.successByTypeAndTime?.dmMemory?.[3]?.responseAvgTime ?? 0 },
+        { x: 5, y: stats?.successByTypeAndTime?.dmMemory?.[4]?.responseAvgTime ?? 0 },
+      ],
+      Random: [
+        { x: 1, y: stats?.successByTypeAndTime?.random?.[0]?.responseAvgTime ?? 0 },
+        { x: 2, y: stats?.successByTypeAndTime?.random?.[1]?.responseAvgTime ?? 0 },
+        { x: 3, y: stats?.successByTypeAndTime?.random?.[2]?.responseAvgTime ?? 0 },
+        { x: 4, y: stats?.successByTypeAndTime?.random?.[3]?.responseAvgTime ?? 0 },
+        { x: 5, y: stats?.successByTypeAndTime?.random?.[4]?.responseAvgTime ?? 0 },
+      ],
+    };
+    return { timeResponseData };
+  }
+
+
   return (
     <ScrollView style={styles.container}>
       <ChartCard title="% de acierto por habilidad">
         <RadarChart labels={radarLabels} characterData={characterData} />
       </ChartCard>
-      <ChartCard title="Áreas entrenadas / entrenamiento total">
-        <PieChart data={pieData} />
-      </ChartCard>
+      
       <ChartCard title="Respuestas / RPE">
         <BarChart data={barchartData} labels={barchartLabels} />
       </ChartCard>
       <ChartCard title="Evolución de actividades">
-        <LineChart linesData={activitiesData} />
+        <LineChart linesData={activitiesData2} />
       </ChartCard>
       <ChartCard title="Evolución de toma de decisión">
         <LineChart linesData={decisionData} />
@@ -53,13 +251,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const activitiesData = {
-  "Toma de decisión": generateFakePoints(),
-  Memoria: generateFakePoints(),
-  Reconocimiento: generateFakePoints(),
-  "T.D. + Memoria": generateFakePoints(),
-  Random: generateFakePoints(),
-};
+/* Para Grafico de Evolucion de Actividades */
+
+
 
 const decisionData = {
   Manos: generateFakePoints(),
@@ -67,85 +261,14 @@ const decisionData = {
   Disputas: generateFakePoints(),
 };
 
-const timeResponseData = {
-  "Toma de decisión": [
-    { x: 1, y: 6 },
-    { x: 2, y: 5 },
-    { x: 3, y: 6 },
-    { x: 4, y: 5 },
-    { x: 5, y: 6 },
-    { x: 6, y: 5 },
-  ],
-  Memoria: [
-    { x: 1, y: 5 },
-    { x: 2, y: 4 },
-    { x: 3, y: 5 },
-    { x: 4, y: 4 },
-    { x: 5, y: 5 },
-    { x: 6, y: 4 },
-  ],
-  Reconocimiento: [
-    { x: 1, y: 4 },
-    { x: 2, y: 3 },
-    { x: 3, y: 4 },
-    { x: 4, y: 3 },
-    { x: 5, y: 4 },
-    { x: 6, y: 3 },
-  ],
-  "T.D. + Memoria": [
-    { x: 1, y: 3 },
-    { x: 2, y: 2 },
-    { x: 3, y: 3 },
-    { x: 4, y: 2 },
-    { x: 5, y: 3 },
-    { x: 6, y: 2 },
-  ],
-  Random: [
-    { x: 1, y: 2 },
-    { x: 2, y: 1 },
-    { x: 3, y: 2 },
-    { x: 4, y: 1 },
-    { x: 5, y: 2 },
-    { x: 6, y: 1 },
-  ],
-};
 
-const radarLabels = [
-  "2O reps. 80% / T 3,4s",
-  "2O reps. 40% / T 3,4s",
-  "18 reps. 60% / T 3,4s",
-  "12 reps. 40% / T 3,4s",
-  "2O reps. 90% / T 3,4s",
-];
 
-const characterData = [
-  {
-    "Toma de Decisión": 2,
-    Memoria: 300,
-    "TD + Memoria": 2,
-    Reconocimiento: 80,
-    Random: 90,
-  },
-  {
-    "Toma de Decisión": 5,
-    Memoria: 225,
-    "TD + Memoria": 3,
-    Reconocimiento: 60,
-    Random: 120,
-  },
-];
+/* Para Grafico de % Acierto por Habilidad Cognitiva */
+
 
 const pieData = [
   { x: "Velocidad", y: 35 },
   { x: "Resistencia", y: 40 },
   { x: "Agilidad y cambio de dirección", y: 55 },
 ];
-
-const barchartData = [
-  { x: 10, y: 60 },
-  { x: 20, y: 50 },
-  { x: 30, y: 70 },
-  { x: 30, y: 50 },
-  { x: 10, y: 30 },
-];
-const barchartLabels = ["Z1", "Z2", "Z3", "Z4", "Z5"];
+/* Para Grafico Respuestas/RPE */

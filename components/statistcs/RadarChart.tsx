@@ -25,6 +25,8 @@ export function RadarChart({ labels, characterData }: Props) {
     maxima: getMaxima(characterData),
   };
 
+  
+
   return (
     <VictoryChart
       polar
@@ -111,7 +113,8 @@ function getMaxima(data: Data) {
     return memo;
   }, {});
   return Object.keys(groupedData).reduce((memo: any, key) => {
-    memo[key] = Math.max(...groupedData[key]);
+    memo[key] = Math.max(...groupedData[key], 100);
+    
     return memo;
   }, {});
 }
@@ -131,6 +134,7 @@ const CustomLabelWithBackground = (props: any) => {
   const angles = [90, 90 / 5, -(3 * 90) / 5, (3 * 90) / 5, -90 / 5];
   const angle = angles[datum._x - 1];
 
+  
   return (
     <G transform={`rotate(${angle}, ${x}, ${y})`}>
       <Rect

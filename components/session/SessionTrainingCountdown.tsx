@@ -8,7 +8,7 @@ import TextInformation from "../workouts/TextInformation";
 import CircularProgress from "../progress-bar/CircularProgressBar";
 import ManRunningWithColor from "@/assets/svgs/ManRunningWithColor";
 
-import { get_image_from_name } from "@/utils/libs";
+import { getImageFromName } from "@/utils/libs";
 import { TEXT_TYPES } from "@/types/workout";
 import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
 import { useWhistle } from "../../hooks/useWhistle";
@@ -49,13 +49,13 @@ const SessionTrainingCountdown = ({
   const imageSource = useMemo(() => {
     let img: NodeRequire | undefined;
     if (!hasVideo) {
-      img = get_image_from_name("how_you_feel");
+      img = getImageFromName("how_you_feel");
     } else if (type === "recognition") {
-      img = get_image_from_name(
+      img = getImageFromName(
         MapRecognitionTypeImageName[recognitionType || "foult"]
       );
     } else {
-      img = get_image_from_name(imageName);
+      img = getImageFromName(imageName);
     }
     return img;
   }, [hasVideo]);

@@ -4,7 +4,7 @@ import TextInformation from "../workouts/TextInformation";
 import SessionCounter from "./SessionCounter";
 import { useMemo } from "react";
 import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
-import { get_image_from_name } from "@/utils/libs";
+import { getImageFromName } from "@/utils/libs";
 import CircularProgress from "../progress-bar/CircularProgressBar";
 import { TEXT_TYPES } from "@/types/workout";
 
@@ -28,7 +28,7 @@ const IterationTextImageCountdown = ({
   totalItaration,
   recognitionType,
 }: Props) => {
-  const imageSource = useMemo(() => get_image_from_name(imageName), []);
+  const imageSource = useMemo(() => getImageFromName(imageName), []);
 
   return (
     <View

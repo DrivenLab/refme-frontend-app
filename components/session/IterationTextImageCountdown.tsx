@@ -1,12 +1,12 @@
-import { View, Box } from "@gluestack-ui/themed";
-import { Image } from "expo-image";
-import TextInformation from "../workouts/TextInformation";
-import SessionCounter from "./SessionCounter";
 import { useMemo } from "react";
+import { View, Box } from "@gluestack-ui/themed";
+
 import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
-import { get_image_from_name } from "@/utils/libs";
-import CircularProgress from "../progress-bar/CircularProgressBar";
 import { TEXT_TYPES } from "@/types/workout";
+import { get_image_from_name } from "@/utils/libs";
+import SessionCounter from "./SessionCounter";
+import CircularProgress from "../progress-bar/CircularProgressBar";
+import { IterationSemiCircle } from "./IterationSemiCircle";
 
 type Props = {
   count: number;
@@ -18,6 +18,7 @@ type Props = {
   totalItaration: number;
   recognitionType?: RECOGNITION_VIDEO_TYPE;
 };
+
 const IterationTextImageCountdown = ({
   count,
   imageName,
@@ -39,31 +40,12 @@ const IterationTextImageCountdown = ({
       bg="white"
       height={"100%"}
     >
-      <Box
-        flex={1}
-        justifyContent="center"
-        alignItems="center"
-        position="relative"
-      >
-        <Box
-          width="150%"
-          aspectRatio={1}
-          left={"-50%"}
-          bg="$primary"
-          position="absolute"
-          borderRadius="$full"
-        />
-        <Image
-          source={imageSource}
-          style={{ height: 100, width: 100 }}
-          contentFit="contain"
-        />
-        <TextInformation
-          type={textType}
-          step={textStep}
-          recognitionType={recognitionType}
-        />
-      </Box>
+      <IterationSemiCircle
+        imageSource={imageSource}
+        textType={textType}
+        textStep={textStep}
+        recognitionType={recognitionType}
+      />
       <Box flex={1} alignItems="center">
         <Box mb="$6">
           <CircularProgress

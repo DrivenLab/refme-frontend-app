@@ -11,7 +11,8 @@ import ManRunningWithColor from "@/assets/svgs/ManRunningWithColor";
 import { get_image_from_name } from "@/utils/libs";
 import { TEXT_TYPES } from "@/types/workout";
 import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
-import { useWhistle } from "../../hooks/useWhistle";
+import { useWhistle } from "@/hooks/useWhistle";
+import { IterationSemiCircle } from "./IterationSemiCircle";
 
 type Props = {
   initialCountdown: number;
@@ -82,33 +83,12 @@ const SessionTrainingCountdown = ({
               </Box>
             </Box>
           ) : (
-            <Box
-              flex={1}
-              height={"100%"}
-              justifyContent="center"
-              alignItems="center"
-              position="relative"
-            >
-              <Box
-                width={"150%"}
-                aspectRatio={1}
-                left={"-50%"}
-                position="absolute"
-                borderRadius="$full"
-                bg="$primary"
-              />
-              <Image
-                source={imageSource}
-                style={{ height: 100, width: 100 }}
-                contentFit="contain"
-              />
-              <TextInformation
-                type={type}
-                step={2}
-                hasVideo={hasVideo}
-                recognitionType={recognitionType}
-              />
-            </Box>
+            <IterationSemiCircle
+              imageSource={imageSource}
+              textType={type}
+              textStep={2}
+              recognitionType={recognitionType}
+            />
           )}
           <Box flex={1} alignItems="center">
             <Box mb="$6">

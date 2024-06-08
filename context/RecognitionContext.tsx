@@ -12,25 +12,13 @@ import {
   formatDate,
   formatSeconds,
   formatTimeDifference,
-  generateUniqueRandomNumbersWithInitialValues,
   getIterationsOrdered,
-  shuffleArray,
 } from "@/utils/session";
-import {
-  MEMBER_TYPE,
-  WORKOUT_TYPE,
-  Workout,
-  WorkoutResultBarChart,
-  WorkoutResume,
-} from "@/types/workout";
-import {
-  INITAL_TIME_TO_GET_READY,
-  ITERATION_TOTAL_TIME,
-  TIME_TO_ANSWER,
-  TIME_TO_RPE,
-  VIDEO_TIME_IN_SECONDS,
-} from "@/constants/Session";
+import { Workout, WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
+import { TIME_TO_ANSWER, TIME_TO_RPE } from "@/constants/Session";
 import { usePostSession } from "@/queries/session.query";
+import { calculateNextTimeToGetReady } from "@/utils/workoutUtils";
+
 type RecognitionContextType = {
   currentIterarion: IterationRecognition;
   currentIterationStep: RECOGNITION_STEPS;
@@ -73,69 +61,34 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
   });
   const prepareIteration = ({
     i,
-    timeToWorkout,
-    ...rest
+    oldIteration,
+    workout,
   }: {
     i: Iteration;
-    timeToWorkout: number;
-    type: WORKOUT_TYPE;
-    memberType: MEMBER_TYPE;
-    breakDuration: number;
+    oldIteration: Iteration;
+    workout: Workout;
   }) => {
-    const a1 = i.answers.length ? i.answers[0].video1.answer1 : undefined;
-    const a2 = i.answers.length ? i.answers[0].video1.answer2 : undefined;
-    let initialAnswerOptions = [];
-    let optionsA1: number[] = [];
-    let optionsA2: number[] = [];
-    if (a1 && a2) {
-      initialAnswerOptions = [Number(a1), Number(a2)];
-      const options = generateUniqueRandomNumbersWithInitialValues(
-        1,
-        44,
-        initialAnswerOptions,
-        4
-      );
-      optionsA1 = shuffleArray(options);
-      optionsA2 = shuffleArray(options);
-    }
+    const { excerciseDuration, type, memberType, breakDuration } = workout;
     const i_: IterationRecognition = {
       idIteration: i.id,
       video: i.answers.length ? i.answers[0].video1.video : undefined,
-      answer1: i.answers.length
-        ? Number(i.answers[0].video1.answer1)
-        : undefined,
-      answer2: i.answers.length
-        ? Number(i.answers[0].video1.answer2)
-        : undefined,
-      timeToGetReadyInSec: calculateTimeToGetReady({ i, ...rest }),
-      timeToWorkoutInSec: timeToWorkout,
-      timeToAnswerInSec: TIME_TO_ANSWER[rest.memberType][rest.type],
-      timeToRPEInSec: TIME_TO_RPE[rest.memberType][rest.type],
-      answeredInMs: TIME_TO_ANSWER[rest.memberType][rest.type],
+      timeToGetReadyInSec: calculateNextTimeToGetReady({
+        i: oldIteration,
+        breakDuration,
+        type,
+        memberType,
+      }),
+      timeToWorkoutInSec: excerciseDuration,
+      timeToAnswerInSec: TIME_TO_ANSWER[memberType][type],
+      timeToRPEInSec: TIME_TO_RPE[memberType][type],
+      answeredInMs: TIME_TO_ANSWER[memberType][type],
       iterationNumber: i.repetitionNumber,
-      //   answer_1Options: optionsA1,
-      //   answer_2Options: optionsA2,
       isCorrect: false,
+      answers: i.answers,
+      repetitionNumber: i.repetitionNumber,
+      videoType: i.videoType,
     };
     return i_;
-  };
-  const calculateTimeToGetReady = (props: {
-    i: Iteration;
-    type: WORKOUT_TYPE;
-    memberType: MEMBER_TYPE;
-    breakDuration: number;
-  }) => {
-    if (props.i.repetitionNumber === 1) return 3;
-    if (props.i.answers.length === 0)
-      return (
-        props.breakDuration -
-        ITERATION_TOTAL_TIME[props.memberType][props.type] +
-        VIDEO_TIME_IN_SECONDS[props.memberType][props.type]
-      );
-    else
-      return (
-        props.breakDuration - ITERATION_TOTAL_TIME[props.memberType][props.type]
-      );
   };
   const handleUserAnswer = (a: RECOGNITION_ANSWER) => {
     // TODO: CORRECT ANSWERS TO USE 3
@@ -171,13 +124,11 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
       maxRPETime: 7,
       numberOfDecisions: w.numberOfDecisions,
       numberOfRepetitions: w.numberOfRepetitions,
-      iterations: iterations_.map((i) =>
+      iterations: iterations_.map((i, itIndex) =>
         prepareIteration({
           i,
-          timeToWorkout: w.excerciseDuration,
-          breakDuration: w.breakDuration,
-          memberType: w.memberType,
-          type: w.type,
+          workout: w,
+          oldIteration: iterations_[itIndex - 1],
         })
       ),
       status: "pending",
@@ -221,8 +172,6 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
 
   const changeIterationStep = (step_: RECOGNITION_STEPS) => {
     if (step_ === "imageDecision" && !currentIterarion.video)
-      setCurrentIterationStep("rpe");
-    else if (step_ === "workout" && !currentIterarion.video)
       setCurrentIterationStep("rpe");
     else setCurrentIterationStep(step_);
   };

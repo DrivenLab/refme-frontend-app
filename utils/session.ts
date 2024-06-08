@@ -1,11 +1,4 @@
-import {
-  IMAGE_NAME,
-  Iteration,
-  IterationRecognition,
-  RECOGNITION_VIDEO_TYPE,
-  RecognitionWorkout,
-  Session,
-} from "@/types/session";
+import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE, Session } from "@/types/session";
 import { Workout } from "@/types/workout";
 
 export const getSessionOrderedByIterations = (session: Session) => {
@@ -141,6 +134,6 @@ export function shuffleArray(array: number[]) {
 export const RecognitionImageMap: Record<RECOGNITION_VIDEO_TYPE, IMAGE_NAME> = {
   players: "shirt_plus",
   contact: "target_image",
-  foult: "whistle",
+  foul: "whistle",
   hand: "hand_ball",
 };

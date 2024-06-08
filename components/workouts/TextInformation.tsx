@@ -100,7 +100,7 @@ const TextInformation = ({
             i18n.t("workout_flow.recognition.pick_the_hand_ball")}
           {recognitionType === "contact" &&
             i18n.t("workout_flow.recognition.pick_contact_point")}
-          {recognitionType === "foult" &&
+          {recognitionType === "foul" &&
             i18n.t("workout_flow.recognition.pick_the_foul")}
           {recognitionType === "players" &&
             i18n.t("workout_flow.recognition.pick_the_one_with_more_players")}

@@ -96,7 +96,7 @@ const TextInformation = ({ type, step, hasVideo, showRpeText }: Props) => {
       </Box>
     );
   }
-  return <Box pl={"$8"}>{CMP}</Box>;
+  return <Box px={"$8"}>{CMP}</Box>;
 };
 
 export default TextInformation;

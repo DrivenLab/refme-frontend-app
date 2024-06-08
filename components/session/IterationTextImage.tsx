@@ -23,7 +23,7 @@ const IterationTextImage = ({ children, imageName }: Props) => {
       <Box flex={2} height={"100%"} justifyContent="center">
         {children}
       </Box>
-      <Box flex={1}>
+      <Box flex={1} pr="$8">
         <Image
           source={imageSource}
           style={{ height: 150, width: "100%" }}

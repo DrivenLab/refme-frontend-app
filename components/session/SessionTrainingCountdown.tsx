@@ -12,6 +12,7 @@ import { get_image_from_name } from "@/utils/libs";
 import { TEXT_TYPES } from "@/types/workout";
 import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
 import { useWhistle } from "../../hooks/useWhistle";
+import { ImageSourcePropType } from "react-native";
 
 type Props = {
   initialCountdown: number;
@@ -23,7 +24,15 @@ type Props = {
   recognitionType?: RECOGNITION_VIDEO_TYPE;
   onFinishCountdown: () => void;
 };
-
+const MapRecognitionTypeImageName: Record<
+  Partial<RECOGNITION_VIDEO_TYPE>,
+  IMAGE_NAME
+> = {
+  contact: "target_image",
+  foult: "whistle",
+  players: "shirt_plus",
+  hand: "hand_ball",
+};
 const SessionTrainingCountdown = ({
   initialCountdown,
   hasVideo,
@@ -37,10 +46,19 @@ const SessionTrainingCountdown = ({
   const { playShortSound, playLongSound } = useWhistle();
 
   const [count, setCount] = useState(initialCountdown);
-  const imageSource = useMemo(
-    () => get_image_from_name(hasVideo ? imageName : "how_you_feel"),
-    [hasVideo]
-  );
+  const imageSource = useMemo(() => {
+    let img: NodeRequire | undefined;
+    if (!hasVideo) {
+      img = get_image_from_name("how_you_feel");
+    } else if (type === "recognition") {
+      img = get_image_from_name(
+        MapRecognitionTypeImageName[recognitionType || "foult"]
+      );
+    } else {
+      img = get_image_from_name(imageName);
+    }
+    return img;
+  }, [hasVideo]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -98,7 +116,7 @@ const SessionTrainingCountdown = ({
                 bg="$primary"
               />
               <Image
-                source={imageSource}
+                source={imageSource as unknown as ImageSourcePropType}
                 style={{ height: 100, width: 100 }}
                 contentFit="contain"
               />

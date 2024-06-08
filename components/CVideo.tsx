@@ -1,17 +1,14 @@
-import {
-  AVPlaybackStatus,
-  AVPlaybackStatusSuccess,
-  ResizeMode,
-  Video,
-} from "expo-av";
-import { StyleSheet, Button } from "react-native";
+import { StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { useEffect, useRef, useState } from "react";
+import { AVPlaybackStatus, ResizeMode, Video } from "expo-av";
 import { View } from "@gluestack-ui/themed";
 type Props = {
   uri: string;
+  isLooping?: boolean;
+  customStyles?: StyleProp<ViewStyle>;
   onFinishVideo: () => void;
 };
-const CVideo = ({ uri, onFinishVideo }: Props) => {
+const CVideo = ({ uri, isLooping, customStyles, onFinishVideo }: Props) => {
   const video = useRef<any>(null);
   const [status, setStatus] = useState<AVPlaybackStatus>();
   useEffect(() => {}, []);
@@ -36,9 +33,9 @@ const CVideo = ({ uri, onFinishVideo }: Props) => {
         isMuted={true}
         resizeMode={ResizeMode.COVER}
         shouldPlay
-        isLooping={false}
+        isLooping={isLooping}
         onPlaybackStatusUpdate={onPlaybackStatusUpdate}
-        style={{ width: "100%", height: "100%" }}
+        style={[{ width: "100%", height: "100%" }, customStyles]}
       />
     </View>
   );

@@ -148,7 +148,10 @@
     "select_infractor_2": "quien recibió ",
     "select_infractor_3": "la falta",
     "recognition": {
-      "pick_the_hand_ball": "Selecciona la falta mano"
+      "pick_the_hand_ball": "Selecciona la falta mano",
+      "pick_the_foul": "Selecciona  la falta ",
+      "pick_the_one_with_more_players": "Selecciona  el video con más jugadores",
+      "pick_contact_point": "Selecciona  el punto de contacto"
     }
   },
   "create_workout": {

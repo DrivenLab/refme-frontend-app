@@ -9,13 +9,20 @@ import {
 } from "victory-native";
 
 const colors = ["#ABEDFD", "#A6ECB1", "#F9F3C8", "#FFB290", "#FF9C98"];
+const yAxisDefault = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+const xAxisDefault = ["Z1", "Z2", "Z3", "Z4", "Z5"];
+
 
 type Props = {
   data: { x: number; y: number }[];
+  xAxis?: string[];
+
+  yAxis?: number[];
+
   labels: string[];
 };
 
-export const BarChart = ({ data, labels }: Props) => {
+export const BarChart = ({ data, labels, yAxis = yAxisDefault, xAxis=xAxisDefault }: Props) => {
   const getAccumulativeX = (i: number) =>
     data.slice(0, i).reduce((acc, { x }) => acc + x, 0);
 
@@ -31,21 +38,34 @@ export const BarChart = ({ data, labels }: Props) => {
                 data={[{ x: xdata, y: y }]}
                 barWidth={x * 3}
                 labels={({ datum }) =>
-                  datum.x == xdata ? `${data[i].x}%` : ""
+                  datum.x === xdata ? `${xAxis[i]}\n${data[i].x}%` : ""
                 }
-                labelComponent={<VictoryLabel y={380} />}
+                labelComponent={<VictoryLabel y={390} />}
+                style={{labels: { fontSize: 12, fill: "black" }}}
+                
               />
             );
           })}
 
-          <VictoryAxis dependentAxis tickFormat={(t) => `${t}%`} />
+          <VictoryAxis 
+            dependentAxis 
+            tickValues={yAxis}
+            tickFormat={(t) => `${t}%`} 
+            style={{
+              axis: {stroke: "none"},
+              ticks: {stroke: "none", padding: 0},
+              tickLabels: {fontSize: 12, padding: 10, fill: "black",},
+              grid: {stroke:  "lightgray", strokeWidth: 1, strokeDasharray: "0",},
+              }} 
+          />
+        
+
         </VictoryStack>
       </VictoryChart>
       <Box
         borderColor="lightgray"
-        mx={10}
+        mx={5}
         borderWidth={1}
-        width="100%"
         height={1}
       />
       <Box

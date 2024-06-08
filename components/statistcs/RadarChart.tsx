@@ -10,6 +10,8 @@ import {
   VictoryScatter,
   VictoryTheme,
 } from "victory-native";
+import { Box, Text } from "@gluestack-ui/themed";
+
 const width = Dimensions.get("window").width;
 
 type Data = Record<string, number>[];
@@ -28,6 +30,8 @@ export function RadarChart({ labels, characterData }: Props) {
   
 
   return (
+    <Box>
+
     <VictoryChart
       polar
       theme={VictoryTheme.material}
@@ -40,7 +44,9 @@ export function RadarChart({ labels, characterData }: Props) {
           paddingBottom: 10,
           transform: `rotate(-${90 / 5}deg)`,
         },
+        
       }}
+
     >
       <VictoryGroup
         colorScale={["#58DAFC", "#FF6622", "tomato"]}
@@ -57,7 +63,7 @@ export function RadarChart({ labels, characterData }: Props) {
             dependentAxis
             style={{
               axisLabel: {
-                padding: 40,
+                padding: 30,
                 fontWeight: "bold",
               },
               axis: { stroke: "none" },
@@ -76,9 +82,9 @@ export function RadarChart({ labels, characterData }: Props) {
         tickFormat={() => ""}
         style={{
           axis: { stroke: "none" },
-          grid: { stroke: "grey", opacity: 0.8 },
+          grid: { stroke: "grey", opacity: 0.4 },
         }}
-        tickLabelComponent={<VictoryLabel labelPlacement="vertical" />}
+        tickLabelComponent={<VictoryLabel labelPlacement="parallel" />}
       />
       {Object.entries(state.data[0]).map(([key, value], i) => (
         <VictoryScatter
@@ -86,24 +92,77 @@ export function RadarChart({ labels, characterData }: Props) {
           data={[
             {
               x: i + 1,
-              y: value.y,
+              y: 1,
             },
           ]}
           size={6}
           style={{
-            data: { fill: "#58DAFC" },
+            data: { fill: "#58DAFC", opacity: 0 },
             labels: {
               fill: "black",
               fontSize: 10,
-              padding: 18,
+              padding: 10,
               backgroundColor: "#ff0000",
             },
           }}
           labelComponent={<CustomLabelWithBackground />}
-          labels={labels}
+          labels={[labels[i]]} 
         />
       ))}
     </VictoryChart>
+    <Box
+        borderColor="lightgray"
+        mx={5}
+        borderWidth={1}
+        height={1}
+      />
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-around"
+        p={10}
+      >
+        <Box
+          display="flex"
+          flexDirection="row"
+          gap={16}
+          alignItems="center"
+          justifyContent="center"
+          flexWrap="wrap"
+        >
+          
+            <Box
+              display="flex"
+              flexDirection="row"
+              gap={4}
+              alignItems="center"
+            >
+              <Box
+                width={16}
+                height={16}
+                borderRadius={10}
+                backgroundColor={"#FF6622"}
+              />
+              <Text size="sm">Promedio de todos los usuarios REFME</Text>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="row"
+              gap={4}
+              alignItems="center"
+            >
+              <Box
+                width={16}
+                height={16}
+                borderRadius={10}
+                backgroundColor={"#ABEDFD"}
+              />
+              <Text size="sm">Promedio personal</Text>
+            </Box>
+         
+        </Box>
+      </Box>
+    </Box>
   );
 }
 
@@ -119,7 +178,7 @@ function getMaxima(data: Data) {
   }, {});
 }
 
-function processData(data: Data) {
+function processData(data: Data ) {
   const maxByGroup = getMaxima(data);
   const makeDataArray = (d: any) => {
     return Object.keys(d).map((key) => {
@@ -133,7 +192,8 @@ const CustomLabelWithBackground = (props: any) => {
   const { x, y, text, datum } = props;
   const angles = [90, 90 / 5, -(3 * 90) / 5, (3 * 90) / 5, -90 / 5];
   const angle = angles[datum._x - 1];
-
+  
+  
   
   return (
     <G transform={`rotate(${angle}, ${x}, ${y})`}>

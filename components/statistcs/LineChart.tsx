@@ -16,7 +16,7 @@ import {
 
 const COLORS = ["#ABEDFD", "#FF6622", "#4ED964", "#E8D122", "#090B22"];
 const yAxisDefault = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-const xAxisDefault = ["Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7"];
+const xAxisDefault = ["W1", "W2", "W3", "W4", "W5"];
 const domainDefault: DomainType = { y: [0, 100] };
 const tickFormatDefault = (t: number) => `${t}%`;
 
@@ -38,6 +38,8 @@ export const LineChart = ({
   domain = domainDefault,
 }: Props) => {
   const lineNames = Object.keys(linesData);
+
+  
 
   return (
     <Box>

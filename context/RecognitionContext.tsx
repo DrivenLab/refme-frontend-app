@@ -1,11 +1,10 @@
 import { useState, createContext, useContext, PropsWithChildren } from "react";
 import {
-  RECOGNITION_ANSWER,
   RecognitionWorkout,
   RECOGNITION_STEPS,
   IterationRecognition,
   RECOGNITION_WORKOUT_STATUS,
-  SessionPostType,
+  RecognitionSingularAnswer,
 } from "@/types/session";
 import { Iteration } from "@/types/session";
 import {
@@ -29,7 +28,7 @@ type RecognitionContextType = {
   saveSession: () => void;
   prepareWorkout: (w: Workout) => void;
   changeIterationStep: (s: RECOGNITION_STEPS) => void;
-  handleUserAnswer: (a: RECOGNITION_ANSWER) => void;
+  handleUserAnswer: (a: RecognitionSingularAnswer[]) => void;
   handleUserRPE: (a?: number) => IterationRecognition;
   handleNextIteration: (i: IterationRecognition) => void;
   updateWorkoutStatus: (s: RECOGNITION_WORKOUT_STATUS) => void;
@@ -42,7 +41,7 @@ export function useRecognitionWorkout() {
   return useContext(RecognitionContext);
 }
 
-const INITIAL_ITERATION_INDEX = 0;
+const INITIAL_ITERATION_INDEX = 1;
 export function RecognitionProvider({ children }: PropsWithChildren) {
   const [workout, setWorkout] = useState<RecognitionWorkout>(
     {} as RecognitionWorkout
@@ -86,19 +85,15 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
       isCorrect: false,
       answers: i.answers,
       repetitionNumber: i.repetitionNumber,
-      videoType: i.videoType,
+      videoType: i.videoType || "foul",
+      userAnswers: [],
     };
     return i_;
   };
-  const handleUserAnswer = (a: RECOGNITION_ANSWER) => {
-    // TODO: CORRECT ANSWERS TO USE 3
+  const handleUserAnswer = (a: RecognitionSingularAnswer[]) => {
     const a_: IterationRecognition = {
       ...currentIterarion,
-      userAnswer1: a.answer1,
-      userAnswer2: a.asnwer2,
-      answeredInMs: a.answeredInMs ?? 7,
-      isCorrect: a.isCorrect ?? false,
-      //   answers: [];
+      userAnswers: a,
     };
     setCurrentIterarion(a_);
   };
@@ -133,6 +128,7 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
       ),
       status: "pending",
       workoutId: w.id,
+      type: w.type,
     };
     setWorkout(workout_);
     setCurrentIterationStep("beginning");
@@ -171,47 +167,56 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
   };
 
   const changeIterationStep = (step_: RECOGNITION_STEPS) => {
-    if (step_ === "imageDecision" && !currentIterarion.video)
-      setCurrentIterationStep("rpe");
-    else setCurrentIterationStep(step_);
+    setCurrentIterationStep(step_);
   };
   const updateWorkoutStatus = (status: RECOGNITION_WORKOUT_STATUS) => {
     setWorkout((prev) => ({ ...prev, status }));
   };
   const getWorkoutResume = () => {
-    const iterationWithVideos = workout.iterations.filter((i) => i.video);
-    const correctAnswers = iterationWithVideos.filter((i) => {
-      //Si al usuario le faltó responder algunas de las 2 preguntas, ya se pone como incorrecta.
-      if (!i.answer1 || !i.answer2) return false;
-      return i.answer1 == i.userAnswer1 && i.answer2 == i.userAnswer2;
-    }).length;
-    //Manejo de Promedio
+    const iterationWithVideos = workout.iterations.filter(
+      (i) => i.answers.length > 0
+    );
+    let totalAnswers = 0;
+    let correctAnswers = 0;
+    iterationWithVideos.forEach((i) => {
+      i.userAnswers.forEach((a) => {
+        if (a.selectedAnswer) totalAnswers++;
+        if (a.isCorrect) correctAnswers++;
+      });
+    });
+
     let answerTotalTime = 0;
     for (const i of iterationWithVideos) {
-      answerTotalTime += i.answeredInMs;
+      i.userAnswers.forEach((a) => {
+        answerTotalTime += a.answeredInMs;
+      });
     }
-
     return {
       date: formatDate(workout.date.start),
       totalTime: formatTimeDifference(workout.date.start, workout.date.end),
       correctAnswers,
-      wrongAnswers: Math.abs(iterationWithVideos.length - correctAnswers),
-      answerAverageTime: formatSeconds(
-        answerTotalTime / iterationWithVideos.length
-      ),
+      wrongAnswers: Math.abs(totalAnswers - correctAnswers),
+      answerAverageTime: formatSeconds(answerTotalTime / totalAnswers),
       answerTotalTime: formatSeconds(answerTotalTime),
     };
   };
   const calculateResultCharBarData = () => {
-    const data_: WorkoutResultBarChart[] = workout.iterations.map(
-      (i, index) => ({
-        x: index + 1,
-        y: i.answeredInMs / 1000,
-        hasVideo: i.video?.length ? true : false,
-        isCorrect: i.isCorrect,
-        rpe: i.rpe,
-      })
-    );
+    const data_: WorkoutResultBarChart[] = [];
+    let xIndex = 1;
+    workout.iterations.forEach((i, index) => {
+      i.userAnswers.forEach((a) => {
+        if (a.selectedAnswer) {
+          data_.push({
+            x: xIndex,
+            y: a.answeredInMs / 1000,
+            hasVideo: i.video?.length ? true : false,
+            isCorrect: a.isCorrect || false,
+            rpe: i.rpe,
+          });
+          xIndex++;
+        }
+      });
+    });
     setResultCharBarData(data_);
   };
   const startWorkout = () => {
@@ -219,14 +224,14 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
   };
 
   const saveSession = () => {
-    const sessionsPayload: SessionPostType[] = workout.iterations.map((it) => ({
-      workout_iteration: it.idIteration,
-      answer_1: `${it.userAnswer1}`,
-      answer_2: `${it.userAnswer2}`,
-      borgScale: it.rpe,
-      replyTime: it.answeredInMs,
-    }));
-    postSessionMutation.mutate(sessionsPayload);
+    // const sessionsPayload: SessionPostType[] = workout.iterations.map((it) => ({
+    //   workout_iteration: it.idIteration,
+    //   answer_1: `${it.userAnswer1}`,
+    //   answer_2: `${it.userAnswer2}`,
+    //   borgScale: it.rpe,
+    //   replyTime: it.answeredInMs,
+    // }));
+    // postSessionMutation.mutate(sessionsPayload);
   };
   return (
     <RecognitionContext.Provider

@@ -69,6 +69,7 @@ export type IterationRecognition = IterationWorkout & {
   isCorrect: boolean;
   videoType: RECOGNITION_VIDEO_TYPE;
   repetitionNumber: number;
+  userAnswers: RecognitionSingularAnswer[];
 };
 export type WorkoutDate = {
   start: Date;
@@ -111,6 +112,7 @@ export interface Iteration {
   isActive: boolean;
   repetitionNumber: number;
   workout: number;
+  videoType?: RECOGNITION_VIDEO_TYPE;
 }
 export type SessionPostType = {
   workout_iteration: string | number;
@@ -153,10 +155,18 @@ export type MEMORY_ANSWER = {
   answeredInMs: number;
   isCorrect?: boolean;
 };
+export type RecognitionSingularAnswer = {
+  selectedAnswer?: string | null;
+  answeredInMs: number;
+  isCorrect?: boolean;
+};
+export type RECOGNITION_ANSWER_DATA = {
+  answers: RecognitionSingularAnswer[];
+  isCorrect?: boolean;
+};
+
 export type t_DM_ANSWER1 = "nf" | "ifk" | "dfk" | "pk";
 export type t_DM_ANSWER2 = "nc" | "yc" | "rc";
-
-export type RECOGNITION_ANSWER = string | number | null;
 
 export type Steps = "beginning" | "workout" | "video" | "decision" | "rpe";
 export type SESSION_STATUS = "pending" | "inCourse" | "finished";

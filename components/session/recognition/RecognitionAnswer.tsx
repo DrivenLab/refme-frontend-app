@@ -1,71 +1,104 @@
-import { Box } from "@gluestack-ui/themed";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useDelay } from "react-use-precision-timer";
 
-import { IterationRecognition, Answer } from "@/types/session";
+import { Box } from "@gluestack-ui/themed";
+import {
+  IterationRecognition,
+  RecognitionSingularAnswer as RecognitionSingularAnswerType,
+} from "@/types/session";
 import CProgress from "@/components/progress-bar/CProgress";
-import useCountdown from "@/hooks/useCountdown";
-import * as RecognitionSingularAnswer from "./RecognitionSingularAnswer";
+import { RecognitionSingularAnswer } from "./RecognitionSingularAnswer";
 
 type Props = {
   iteration: IterationRecognition;
-  onFinish: (a: any) => void;
+  onFinish: (a: RecognitionSingularAnswerType[]) => void;
 };
 
-type RecognitionAnswerType = string | number | null;
-
 const RecognitionAnswer = ({ iteration, onFinish }: Props) => {
-  const [answer, setAnswer] = useState<RecognitionAnswerType>(null);
-  const [currentAnswer, setCurrentAnswer] = useState<Answer>(
-    iteration.answers[0]
+  const [currentAnswerIndex, setCurrentAnswerIndex] = useState(0);
+  const [userAnswer, setUserAnswer] = useState<RecognitionSingularAnswerType[]>(
+    []
   );
-  const [userAnswer, setUserAnswer] = useState<RecognitionAnswerType[]>([
-    null,
-    null,
-    null,
-  ]);
-  //   const [hasCompleted, setHasCompleted] = useState(false);
-  //   const isCorrect = answer === REAL_ANSWER;
-  const { hasFinished, elapsedRunningTime } = useCountdown({
-    stopInSec: iteration.timeToAnswerInSec,
-    delay: 1,
-  });
-  useEffect(() => {
-    setCurrentAnswer(iteration.answers[0]);
-  }, [iteration]);
-  useEffect(() => {
-    if (hasFinished.current) handleOnFinishCountdown();
-  }, [hasFinished.current]);
 
-  function handleOnFinishCountdown() {
-    onFinish(userAnswer);
-  }
+  const handleOnFinishCountdown = useCallback(() => {
+    const _userAnswer = [...userAnswer];
+    for (let i = currentAnswerIndex; i < 3; i++) {
+      // If user didn't answer, set the answer to empty string and ms to 0
+      _userAnswer.push({ selectedAnswer: null, answeredInMs: 0 });
+    }
+    onFinish(_userAnswer);
+  }, [userAnswer]);
+
+  const onceTimer = useDelay(
+    iteration.timeToAnswerInSec * 1000,
+    handleOnFinishCountdown
+  );
+
+  useEffect(() => {
+    onceTimer.start();
+  }, []);
+
+  const handleNextCurrentAnswer = () => {
+    if (currentAnswerIndex < 2) {
+      setCurrentAnswerIndex((prev) => prev + 1);
+    }
+  };
+
+  const currentAnswer = useMemo(
+    () =>
+      iteration?.answers.length > 0
+        ? iteration.answers[currentAnswerIndex]
+        : null,
+    [iteration.answers, currentAnswerIndex]
+  );
+
+  const handleUserAnswer = (userSelectedAnswer: string) => {
+    const maxPlayers =
+      currentAnswer &&
+      currentAnswer.video2?.answer1 &&
+      iteration.videoType === "players"
+        ? currentAnswer.video1.answer1 > currentAnswer.video2.answer1
+          ? currentAnswer.video1.answer1
+          : currentAnswer.video2.answer1
+        : "";
+    setUserAnswer((prev) => {
+      const newAnswer = [...prev];
+      newAnswer[currentAnswerIndex] = {
+        selectedAnswer: userSelectedAnswer,
+        answeredInMs: onceTimer.getElapsedResumedTime(),
+        isCorrect: ["hand", "foul"].includes(iteration.videoType)
+          ? userSelectedAnswer === "yes"
+          : iteration.videoType === "players"
+          ? userSelectedAnswer === maxPlayers
+          : iteration.videoType === "contact"
+          ? false
+          : true,
+      };
+      // TODO: HANDLE CONTACT!! Type
+      return newAnswer;
+    });
+    handleNextCurrentAnswer();
+  };
+
   return (
     <Box bg="$white" flex={1} height="100%">
       <CProgress totalTimeInSec={iteration.timeToAnswerInSec} />
-      {currentAnswer.videoType === "foult" && (
-        <RecognitionSingularAnswer.RecognitionSingularAnswerFault
+      {currentAnswer && (
+        <RecognitionSingularAnswer
           recognitionAnswer={currentAnswer}
-          setAnswer={(a) => setAnswer(a)}
+          setAnswer={handleUserAnswer}
+          selectedAnswer={
+            userAnswer[currentAnswerIndex]?.selectedAnswer || null
+          }
+          recognitionType={currentAnswer?.videoType || "foul"}
         />
       )}
-      {currentAnswer.videoType === "hand" && (
-        <RecognitionSingularAnswer.RecognitionSingularAnswerHand
-          recognitionAnswer={currentAnswer}
-          setAnswer={(a) => setAnswer(a)}
-        />
-      )}
-      {currentAnswer.videoType === "players" && (
-        <RecognitionSingularAnswer.RecognitionSingularAnswerNumberOfPlayers
-          recognitionAnswer={currentAnswer}
-          setAnswer={(a) => setAnswer(a)}
-        />
-      )}
-      {currentAnswer.videoType === "contact" && (
+      {/* {currentAnswer.videoType === "contact" && (
         <RecognitionSingularAnswer.RecognitionSingularAnswerContactPoint
           recognitionAnswer={currentAnswer}
           setAnswer={(a) => setAnswer(a)}
         />
-      )}
+      )} */}
     </Box>
   );
 };

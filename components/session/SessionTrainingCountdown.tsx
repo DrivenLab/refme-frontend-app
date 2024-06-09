@@ -24,15 +24,7 @@ type Props = {
   recognitionType?: RECOGNITION_VIDEO_TYPE;
   onFinishCountdown: () => void;
 };
-const MapRecognitionTypeImageName: Record<
-  Partial<RECOGNITION_VIDEO_TYPE>,
-  IMAGE_NAME
-> = {
-  contact: "target_image",
-  foult: "whistle",
-  players: "shirt_plus",
-  hand: "hand_ball",
-};
+
 const SessionTrainingCountdown = ({
   initialCountdown,
   hasVideo,
@@ -48,15 +40,7 @@ const SessionTrainingCountdown = ({
   const [count, setCount] = useState(initialCountdown);
   const imageSource = useMemo(() => {
     let img: NodeRequire | undefined;
-    if (!hasVideo) {
-      img = getImageFromName("how_you_feel");
-    } else if (type === "recognition") {
-      img = getImageFromName(
-        MapRecognitionTypeImageName[recognitionType || "foult"]
-      );
-    } else {
-      img = getImageFromName(imageName);
-    }
+    img = getImageFromName(hasVideo ? imageName : "how_you_feel");
     return img;
   }, [hasVideo]);
 
@@ -78,7 +62,6 @@ const SessionTrainingCountdown = ({
         return newCountdownValue;
       });
     }, 1000);
-
     return () => clearInterval(interval); // Cleanup the interval on component unmount
   }, []);
 

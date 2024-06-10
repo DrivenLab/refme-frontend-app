@@ -2,14 +2,14 @@ import { View, Box } from "@gluestack-ui/themed";
 import React, { useMemo } from "react";
 import { Image } from "expo-image";
 import { IMAGE_NAME } from "@/types/session";
-import { get_image_from_name } from "@/utils/libs";
+import { getImageFromName } from "@/utils/libs";
 
 type Props = {
   children: React.ReactNode;
   imageName: IMAGE_NAME;
 };
 const IterationTextImage = ({ children, imageName }: Props) => {
-  const imageSource = useMemo(() => get_image_from_name(imageName), []);
+  const imageSource = useMemo(() => getImageFromName(imageName), []);
 
   return (
     <View

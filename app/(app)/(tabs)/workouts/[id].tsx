@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   SafeAreaView,
   Text,
@@ -9,6 +9,7 @@ import {
   ButtonText,
   ScrollView,
   ImageBackground,
+  FlatList,
 } from "@gluestack-ui/themed";
 import { Platform, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -36,7 +37,7 @@ const WorkoutDetail = () => {
   const date = workout?.createdAt
     ? new Date(Date.parse(workout.createdAt))
     : new Date();
-
+  const materials: string[] = workout?.material || [];
   return (
     <>
       <SafeAreaView bg="white" pb={"$2"} style={[SafeAreaViewStyle.s]}>
@@ -106,15 +107,27 @@ const WorkoutDetail = () => {
                 </Button>
               </VStack>
             </VStack>
-            <VStack mt="$2" space="sm">
-              <Text fontSize={20} fontWeight="bold" color="black">
-                {i18n.t("workout_flow.materials_title")}
-              </Text>
-              <VStack flexDirection="row" space="md">
-                <WorkoutMaterial name="5 conos" />
-                <WorkoutMaterial name="1 cuerda" />
+            {materials.length > 0 && (
+              <VStack mt="$2" space="sm">
+                <Text fontSize={20} fontWeight="bold" color="black">
+                  {i18n.t("workout_flow.materials_title")}
+                </Text>
+                <VStack flexDirection="row" space="md">
+                  <FlatList
+                    data={materials}
+                    renderItem={({ item }: { item: unknown }) => (
+                      <WorkoutMaterial name={`${item}`} />
+                    )}
+                    //   CHECK WHY TYPESCRIPT DOESNT SUPPORT THIS:
+                    //   renderItem={({ item }: { item: string }) => (
+                    //     <WorkoutMaterial name={`${item}`} />
+                    //   )}
+                    keyExtractor={(item, i) => `workoutMaterial-${i}`}
+                    horizontal={true}
+                  />
+                </VStack>
               </VStack>
-            </VStack>
+            )}
             <VStack mt="$2" space="md">
               <Text fontSize={20} fontWeight="bold" color="black">
                 {i18n.t("common.configuration")}

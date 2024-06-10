@@ -146,7 +146,13 @@
     "remember_infractor_3": "recieved the fault",
     "select_infractor_1": "Select the number of the infractor and ",
     "select_infractor_2": "who recieved ",
-    "select_infractor_3": "the fault"
+    "select_infractor_3": "the fault",
+    "recognition": {
+      "pick_the_hand_ball": "Select the hand ball",
+      "pick_the_foul": "Select the foul",
+      "pick_the_one_with_more_players": "Select the video with more players",
+      "pick_contact_point": "Select the contact point"
+    }
   },
   "create_workout": {
     "workout_name": "Workout name",

@@ -33,7 +33,7 @@ const SessionStatistics = ({
   };
   return (
     <ScrollView bgColor="white" px="$6" pt="$2">
-      <Box py={"$2"} px={"$3"} flex={1} bg="$white">
+      <Box py={"$2"} px={"$3"} flex={1} bg="$white" margin="auto">
         <Box display="flex" flexDirection="row" height={270}>
           <VStack width="30%" height="$full" space="md" paddingVertical={"$1"}>
             <StatsResultPill type="time" text={resume.totalTime} />

@@ -33,7 +33,7 @@ const SessionResultBarChart = ({ data, workoutType, memberType }: Props) => {
   const colors = data.map(
     (d) => PASTEL_RPE_COLORS[`${d.rpe}` as keyof typeof PASTEL_RPE_COLORS]
   );
-  const maxYValue = TIME_TO_ANSWER[memberType][workoutType];
+  const maxYValue = TIME_TO_ANSWER[memberType][workoutType] || 6;
   return (
     <Box borderWidth={1} margin={10} borderColor="#a1a1a1" borderRadius={7}>
       <VictoryChart theme={VictoryTheme.material} height={220} width={500}>

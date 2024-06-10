@@ -12,6 +12,7 @@ function WorkoutMaterial(props: Props) {
       variant="outline"
       bgColor="transparent"
       p="$1.5"
+      mr={"$1"}
     >
       <BadgeText color="black" fontSize="$md" textTransform="none">
         {" "}

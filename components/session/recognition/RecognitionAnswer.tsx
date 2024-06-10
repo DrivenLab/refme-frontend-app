@@ -7,7 +7,10 @@ import {
   RecognitionSingularAnswer as RecognitionSingularAnswerType,
 } from "@/types/session";
 import CProgress from "@/components/progress-bar/CProgress";
-import { RecognitionSingularAnswer } from "./RecognitionSingularAnswer";
+import {
+  RecognitionSingularAnswer,
+  RecognitionSingularAnswerContactPoint,
+} from "./RecognitionSingularAnswer";
 
 type Props = {
   iteration: IterationRecognition;
@@ -53,37 +56,56 @@ const RecognitionAnswer = ({ iteration, onFinish }: Props) => {
   );
 
   const handleUserAnswer = (userSelectedAnswer: string) => {
-    const maxPlayers =
-      currentAnswer &&
-      currentAnswer.video2?.answer1 &&
-      iteration.videoType === "players"
-        ? currentAnswer.video1.answer1 > currentAnswer.video2.answer1
-          ? currentAnswer.video1.answer1
-          : currentAnswer.video2.answer1
-        : "";
     setUserAnswer((prev) => {
       const newAnswer = [...prev];
+      if (newAnswer[currentAnswerIndex]) {
+        return newAnswer;
+      }
+      let isCorrect = false;
+      if (iteration.videoType === "hand" || iteration.videoType === "foul") {
+        isCorrect = userSelectedAnswer === "yes";
+      } else if (iteration.videoType === "players") {
+        const maxPlayers =
+          currentAnswer &&
+          currentAnswer.video2?.answer1 &&
+          iteration.videoType === "players"
+            ? currentAnswer.video1.answer1 > currentAnswer.video2.answer1
+              ? currentAnswer.video1.answer1
+              : currentAnswer.video2.answer1
+            : "";
+        userSelectedAnswer === maxPlayers;
+      } else {
+        isCorrect =
+          userSelectedAnswer.toLowerCase() === currentAnswer?.video1.answer3;
+      }
       newAnswer[currentAnswerIndex] = {
         selectedAnswer: userSelectedAnswer,
         answeredInMs: onceTimer.getElapsedResumedTime(),
-        isCorrect: ["hand", "foul"].includes(iteration.videoType)
-          ? userSelectedAnswer === "yes"
-          : iteration.videoType === "players"
-          ? userSelectedAnswer === maxPlayers
-          : iteration.videoType === "contact"
-          ? false
-          : true,
+        isCorrect,
       };
       // TODO: HANDLE CONTACT!! Type
       return newAnswer;
     });
-    handleNextCurrentAnswer();
-  };
 
+    //SHOW The current answer for 500ms
+    setTimeout(() => {
+      handleNextCurrentAnswer();
+    }, 500);
+  };
+  if (!currentAnswer) return null;
   return (
     <Box bg="$white" flex={1} height="100%">
       <CProgress totalTimeInSec={iteration.timeToAnswerInSec} />
-      {currentAnswer && (
+      {currentAnswer.videoType === "contact" ? (
+        <RecognitionSingularAnswerContactPoint
+          recognitionAnswer={currentAnswer}
+          setAnswer={handleUserAnswer}
+          selectedAnswer={
+            userAnswer[currentAnswerIndex]?.selectedAnswer || null
+          }
+          recognitionType={currentAnswer?.videoType || "foul"}
+        />
+      ) : (
         <RecognitionSingularAnswer
           recognitionAnswer={currentAnswer}
           setAnswer={handleUserAnswer}
@@ -93,12 +115,6 @@ const RecognitionAnswer = ({ iteration, onFinish }: Props) => {
           recognitionType={currentAnswer?.videoType || "foul"}
         />
       )}
-      {/* {currentAnswer.videoType === "contact" && (
-        <RecognitionSingularAnswer.RecognitionSingularAnswerContactPoint
-          recognitionAnswer={currentAnswer}
-          setAnswer={(a) => setAnswer(a)}
-        />
-      )} */}
     </Box>
   );
 };

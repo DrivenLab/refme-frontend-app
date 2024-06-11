@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { createContext, useContext, useEffect, useRef } from "react";
 import { Audio } from "expo-av";
 
 import ShortSound from "@/assets/audio/silbato-corto.mp3";
@@ -42,4 +42,29 @@ export const useWhistle = () => {
     playShortSound,
     playLongSound,
   };
+};
+
+type Props = {
+  playShortSound: () => void;
+  playLongSound: () => void;
+};
+const WhistleContext = createContext<Props>({
+  playShortSound: () => {},
+  playLongSound: () => {},
+});
+
+export const useWhistleContext = () => useContext(WhistleContext);
+
+export const WhistleProvider = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
+  const whistle = useWhistle();
+
+  return (
+    <WhistleContext.Provider value={whistle}>
+      {children}
+    </WhistleContext.Provider>
+  );
 };

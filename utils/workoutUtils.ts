@@ -15,10 +15,10 @@ export const calculateNextTimeToGetReady = (props: {
   if (!props.i) return 3;
   if (props.i.answers.length === 0) {
     return (
-      props.breakDuration +
+      2 * props.breakDuration +
       VIDEO_TIME_IN_SECONDS[props.memberType][props.type] +
-      TIME_TO_ANSWER[props.memberType][props.type] -
-      ITERATION_TOTAL_TIME[props.memberType][props.type]
+      2 * TIME_TO_ANSWER[props.memberType][props.type] -
+      2 * ITERATION_TOTAL_TIME[props.memberType][props.type]
     );
   }
   return (

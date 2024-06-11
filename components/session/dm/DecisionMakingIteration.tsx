@@ -8,7 +8,7 @@ import DecisionMakingAnswer from "./DecisionMakingAnswer";
 import RPE from "../RPE";
 import SessionCountdown from "../SessionCountdown";
 import DecisionMakingAnswerAssistant from "./DecisionMakingAnswerAssistant";
-import { useWhistle } from "@/hooks/useWhistle";
+import { useWhistleContext } from "@/hooks/useWhistle";
 
 const DecisionMakingIteration = () => {
   const {
@@ -20,7 +20,7 @@ const DecisionMakingIteration = () => {
     handleUserAnswer,
     handleUserRPE,
   } = useDMWorkout();
-  const whistle = useWhistle();
+  const whistle = useWhistleContext();
   const handleFinishCountdown = (step: Steps) => {
     // Defer the state update until after the current rendering cycle
     setTimeout(() => {

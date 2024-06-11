@@ -1,11 +1,12 @@
-import Colors from "@/constants/Colors";
+import React, { memo, useEffect } from "react";
 import { View, useColorMode } from "@gluestack-ui/themed";
-import React, { useEffect } from "react";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+
+import Colors from "@/constants/Colors";
 
 type Props = {
   totalTimeInSec: number;
@@ -27,7 +28,7 @@ const CProgress = ({ totalTimeInSec }: Props) => {
         style={[
           {
             height: "100%",
-            borderEndEndRadius: 10,
+            borderBottomEndRadius: 10,
             borderTopEndRadius: 10,
             backgroundColor:
               reverseProgress.value > 40
@@ -41,4 +42,4 @@ const CProgress = ({ totalTimeInSec }: Props) => {
   );
 };
 
-export default CProgress;
+export default memo(CProgress);

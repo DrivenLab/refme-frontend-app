@@ -9,11 +9,18 @@ type Props = {
   isLooping?: boolean;
   customStyles?: StyleProp<ViewStyle>;
   onFinishVideo: () => void;
+  delayTime?: number;
 };
-const CVideo = ({ uri, isLooping, customStyles, onFinishVideo }: Props) => {
+const CVideo = ({
+  uri,
+  isLooping,
+  customStyles,
+  onFinishVideo,
+  delayTime = 10,
+}: Props) => {
   const video = useRef<Video>(null);
 
-  const onceTimer = useDelay(10 * 1000, () => onFinishVideo());
+  const onceTimer = useDelay(delayTime * 1000, () => onFinishVideo());
   useEffect(() => {
     onceTimer.start();
   }, []);
@@ -21,7 +28,7 @@ const CVideo = ({ uri, isLooping, customStyles, onFinishVideo }: Props) => {
   const handleLoad = async (status: any) => {
     if (status.durationMillis) {
       const duration = status.durationMillis;
-      const desiredDuration = 10 * 1000;
+      const desiredDuration = delayTime * 1000;
       const speedFactor = duration / desiredDuration;
 
       await video.current!.setRateAsync(speedFactor, false);

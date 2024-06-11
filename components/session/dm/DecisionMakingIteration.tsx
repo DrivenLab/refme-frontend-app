@@ -9,6 +9,7 @@ import RPE from "../RPE";
 import SessionCountdown from "../SessionCountdown";
 import DecisionMakingAnswerAssistant from "./DecisionMakingAnswerAssistant";
 import { useWhistleContext } from "@/hooks/useWhistle";
+import { VIDEO_TIME_IN_SECONDS } from "@/constants/Session";
 
 const DecisionMakingIteration = () => {
   const {
@@ -73,6 +74,7 @@ const DecisionMakingIteration = () => {
         <>
           <CVideo
             uri={currentIterarion.video}
+            delayTime={VIDEO_TIME_IN_SECONDS["re"][workout.type]}
             onFinishVideo={() => handleFinishCountdown("decision")}
           />
         </>

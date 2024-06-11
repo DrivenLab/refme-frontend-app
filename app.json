@@ -18,7 +18,8 @@
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true
       },
-      "bundleIdentifier": "com.nundlab99.refmeproapp"
+      "bundleIdentifier": "com.nundlab99.refmeproapp",
+      "userInterfaceStyle": "light"
     },
     "android": {
       "adaptiveIcon": {

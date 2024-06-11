@@ -186,11 +186,10 @@ export function DMProvider({ children }: PropsWithChildren) {
   };
   const getWorkoutResume = () => {
     const iterationWithVideos = workout.iterations.filter((i) => i.video);
-    const correctAnswers = iterationWithVideos.filter((i) => {
-      //Si al usuario le faltó responder algunas de las 2 preguntas, ya se pone como incorrecta.
-      if (!i.answer1 || !i.answer2) return false;
-      return i.answer1 == i.userAnswer1 && i.answer2 == i.userAnswer2;
-    }).length;
+    const correctAnswers = iterationWithVideos.reduce(
+      (prev, curr) => prev + (curr.isCorrect ? 1 : 0),
+      0
+    );
     //Manejo de Promedio
     let answerTotalTime = 0;
     for (const i of iterationWithVideos) {

@@ -63,7 +63,7 @@ const DecisionMakingIteration = () => {
         <SessionTrainingCountdown
           onFinishCountdown={() => handleFinishCountdown("video")}
           initialCountdown={currentIterarion.timeToWorkoutInSec}
-          hasVideo={!(currentIterarion.video == undefined)}
+          hasVideo={Boolean(currentIterarion.video)}
           iterationNumber={currentIterarion.iterationNumber}
           totalItaration={workout.iterations.length}
           type="dm"

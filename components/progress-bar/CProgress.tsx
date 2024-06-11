@@ -28,7 +28,7 @@ const CProgress = ({ totalTimeInSec }: Props) => {
         style={[
           {
             height: "100%",
-            borderEndEndRadius: 10,
+            borderBottomEndRadius: 10,
             borderTopEndRadius: 10,
             backgroundColor:
               reverseProgress.value > 40

@@ -72,6 +72,8 @@ const StartWorkoutRecognition = () => {
           resume={resume}
           resultBarData={resultCharBarData}
           handleSaveResult={handleSaveResult}
+          workoutType={workout.type}
+          memberType={workout.memberType || "ar"}
         />
       )}
     </View>

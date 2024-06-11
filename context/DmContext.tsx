@@ -67,7 +67,7 @@ export function DMProvider({ children }: PropsWithChildren) {
     oldIteration?: Iteration;
     workout: Workout;
   }) => {
-    const { excerciseDuration, type, memberType } = workout;
+    const { excerciseDuration, type, memberType, breakDuration } = workout;
     const i_: IterationDM = {
       idIteration: i.id,
       video: i.answers.length ? i.answers[0].video1.video : undefined,
@@ -75,9 +75,9 @@ export function DMProvider({ children }: PropsWithChildren) {
       answer2: i.answers.length ? i.answers[0].video1.answer2 : undefined,
       timeToGetReadyInSec: calculateNextTimeToGetReady({
         i: oldIteration,
-        breakDuration: workout.breakDuration,
-        type: workout.type,
-        memberType: workout.memberType || "ar",
+        breakDuration,
+        type,
+        memberType,
       }),
       timeToWorkoutInSec: excerciseDuration,
       timeToAnswerInSec: TIME_TO_ANSWER[memberType][type],
@@ -143,9 +143,13 @@ export function DMProvider({ children }: PropsWithChildren) {
       const newCurrentIteration = workout.iterations[iterationIndex + 1];
       setCurrentIterarion(newCurrentIteration);
       setIterationIndex((prev) => prev + 1);
-      setCurrentIterationStep(() =>
-        newCurrentIteration.timeToGetReadyInSec === 0 ? "workout" : "beginning"
-      );
+      //   setCurrentIterationStep(() =>
+      //     newCurrentIteration.timeToGetReadyInSec === 0 ? "workout" : "beginning"
+      //   );
+      //   if(currentIterationStep === 'rpe'){
+      // 	console.log('Next iteration', );
+      //   }
+      setCurrentIterationStep("beginning");
     } else {
       const date = workout.date;
       date.end = new Date();

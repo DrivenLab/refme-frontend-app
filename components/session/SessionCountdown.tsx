@@ -7,22 +7,22 @@ import { TEXT_TYPES } from "@/types/workout";
 import { useWhistle } from "@/hooks/useWhistle";
 
 type Props = {
-  onFinishCountdown: () => void;
   initialCountdown: number;
   imageName: IMAGE_NAME;
   iterationNumber: number;
   totalItaration: number;
   type: TEXT_TYPES;
   recognitionType?: RECOGNITION_VIDEO_TYPE;
+  onFinishCountdown: () => void;
 };
 const SessionCountdown = ({
-  onFinishCountdown,
   initialCountdown,
   imageName,
   iterationNumber,
   totalItaration,
   type,
   recognitionType,
+  onFinishCountdown,
 }: Props) => {
   const { playShortSound, playLongSound } = useWhistle();
   const [count, setCount] = useState(initialCountdown);

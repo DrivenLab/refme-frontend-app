@@ -16,13 +16,7 @@ import {
   getIterationsOrdered,
   shuffleArray,
 } from "@/utils/session";
-import {
-  MEMBER_TYPE,
-  WORKOUT_TYPE,
-  Workout,
-  WorkoutResultBarChart,
-  WorkoutResume,
-} from "@/types/workout";
+import { Workout, WorkoutResultBarChart, WorkoutResume } from "@/types/workout";
 import { TIME_TO_ANSWER, TIME_TO_RPE } from "@/constants/Session";
 import { usePostSession } from "@/queries/session.query";
 import { calculateNextTimeToGetReady } from "@/utils/workoutUtils";
@@ -156,6 +150,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       ),
       status: "pending",
       workoutId: w.id,
+      type: w.type,
     };
     setWorkout(workout_);
     setCurrentIterationStep("beginning");
@@ -233,7 +228,9 @@ export function MemoryProvider({ children }: PropsWithChildren) {
     const data_: WorkoutResultBarChart[] = workout.iterations.map(
       (i, index) => ({
         x: index + 1,
-        y: i.answeredInMs / 1000,
+        y:
+          i.answeredInMs / 1000 ||
+          TIME_TO_ANSWER[workout.memberType || "ar"][workout.type],
         hasVideo: i.video?.length ? true : false,
         isCorrect: i.isCorrect,
         rpe: i.rpe,

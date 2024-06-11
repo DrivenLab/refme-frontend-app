@@ -13,7 +13,7 @@ export interface Workout {
   memberType: MEMBER_TYPE;
   type: WORKOUT_TYPE;
   usageType: string;
-  material: string;
+  material?: string[];
   numberOfRepetitions: number;
   numberOfDecisions: number;
   excerciseDuration: number;
@@ -51,4 +51,5 @@ export type WORKOUT_TYPE =
   | "memory"
   | "dmar"
   | "dm+memory"
-  | "recognition";
+  | "recognition"
+  | "random";

@@ -14,11 +14,12 @@ export const calculateNextTimeToGetReady = (props: {
 }) => {
   if (!props.i) return 3;
   if (props.i.answers.length === 0) {
+    const multiplier = props.type === "dm+memory" ? 2 : 1;
     return (
-      2 * props.breakDuration +
+      multiplier * props.breakDuration +
       VIDEO_TIME_IN_SECONDS[props.memberType][props.type] +
-      2 * TIME_TO_ANSWER[props.memberType][props.type] -
-      2 * ITERATION_TOTAL_TIME[props.memberType][props.type]
+      multiplier * TIME_TO_ANSWER[props.memberType][props.type] -
+      multiplier * ITERATION_TOTAL_TIME[props.memberType][props.type]
     );
   }
   return (

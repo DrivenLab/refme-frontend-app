@@ -1,12 +1,11 @@
-import { Box, Divider, Text, VStack } from "@gluestack-ui/themed";
+import { Box, VStack } from "@gluestack-ui/themed";
 import React, { useEffect, useState } from "react";
-import { DMAR_ANSWER, DM_ANSWER1, DM_ANSWER2 } from "@/constants/Session";
-import DecisionMakingOption from "./DecisionMakingOption";
+import { DMAR_ANSWER } from "@/constants/Session";
 import i18n from "@/languages/i18n";
 import { DM_ANSWER, IterationDM } from "@/types/session";
 import CProgress from "@/components/progress-bar/CProgress";
-import useCountdown from "@/hooks/useCountdown";
 import DecisionMakingOptionAssistant from "./DecisionMakingOptionAssistant";
+import { useDelay } from "react-use-precision-timer";
 
 type Props = {
   onFinish: (a: DM_ANSWER) => void;
@@ -16,13 +15,13 @@ type Props = {
 const DecisionMakingAnswerAssistant = ({ onFinish, iteration }: Props) => {
   const [asnwer, setAnswer] = useState<DM_ANSWER>({} as DM_ANSWER);
   const [hasCompleted, setHasCompleted] = useState(false);
-  const { hasFinished, elapsedRunningTime } = useCountdown({
-    stopInSec: iteration.timeToAnswerInSec,
-    delay: 1,
-  });
+  const onceTimer = useDelay(
+    iteration.timeToAnswerInSec * 1000,
+    handleOnFinishCountdown
+  );
   useEffect(() => {
-    if (hasFinished.current) handleOnFinishCountdown();
-  }, [hasFinished.current]);
+    onceTimer.start();
+  }, []);
   function handleOnFinishCountdown() {
     const isCorrect =
       Boolean(asnwer.answer1) && asnwer.answer1 === iteration.answer1;
@@ -40,7 +39,7 @@ const DecisionMakingAnswerAssistant = ({ onFinish, iteration }: Props) => {
     }
     if (answer_.answer1) completed = true;
     if (completed) {
-      answer_.answeredInMs = elapsedRunningTime.current;
+      answer_.answeredInMs = onceTimer.getElapsedRunningTime();
     }
     setAnswer(answer_);
     setHasCompleted(completed);

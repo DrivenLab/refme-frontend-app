@@ -38,7 +38,7 @@ export type CreateProfile = {
   address: string;
   weight: number;
   height: number;
-  expirationMedicalRecord: string;
+  expirationMedicalRecord: string | null;
   medicalObservations: string;
 };
 export type Profile = CreateProfile & {

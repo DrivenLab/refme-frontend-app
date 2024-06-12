@@ -24,10 +24,10 @@ export default function Layout() {
         <CTabScroll
           currentTab={currentTab}
           tabs={[
-            { label: "Personales", value: "personal" },
-            { label: "Ranking", value: "ranking" },
+            // { label: "Personales", value: "personal" },
+            // { label: "Ranking", value: "ranking" },
             { label: "Ejercicios oficiales", value: "official" },
-            { label: "Tests oficiales", value: "tests" },
+            // { label: "Tests oficiales", value: "tests" },
           ]}
           changeCurrentTab={function (tab: string): void {
             setCurrentTab(tab);

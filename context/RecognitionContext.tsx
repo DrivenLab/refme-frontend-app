@@ -80,7 +80,7 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
       timeToWorkoutInSec: excerciseDuration,
       timeToAnswerInSec: TIME_TO_ANSWER[memberType][type],
       timeToRPEInSec: TIME_TO_RPE[memberType][type],
-      answeredInMs: TIME_TO_ANSWER[memberType][type],
+      answeredInMs: TIME_TO_ANSWER[memberType][type] * 1000,
       iterationNumber: i.repetitionNumber,
       isCorrect: false,
       answers: i.answers,

@@ -4,6 +4,7 @@
   },
   "build": {
     "development": {
+      "node": "20.9.0",
       "developmentClient": true,
       "distribution": "internal",
       "android": {
@@ -11,6 +12,13 @@
       },
       "ios": {
         "image": "latest"
+      }
+    },
+    "genApk": {
+      "developmentClient": false,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
       }
     },
     "preview": {

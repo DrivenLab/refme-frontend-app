@@ -16,7 +16,7 @@ import {
 
 const COLORS = ["#ABEDFD", "#FF6622", "#4ED964", "#E8D122", "#090B22"];
 const yAxisDefault = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-const xAxisDefault = ["Z1", "Z2", "Z3", "Z4", "Z5", "Z6", "Z7"];
+const xAxisDefault = ["W1", "W2", "W3", "W4", "W5"];
 const domainDefault: DomainType = { y: [0, 100] };
 const tickFormatDefault = (t: number) => `${t}%`;
 
@@ -39,25 +39,34 @@ export const LineChart = ({
 }: Props) => {
   const lineNames = Object.keys(linesData);
 
+  
+
   return (
     <Box>
       <VictoryChart
         theme={VictoryTheme.material}
         height={400}
-        domainPadding={{ x: 10 }}
+        padding={{ top: 10, bottom: 40, left: 50, right: 60 }}
       >
         <VictoryAxis
           dependentAxis
           tickValues={yAxis}
           tickFormat={tickFormat}
           style={{
-            grid: { stroke: "lightgray" },
+            grid: {stroke:  "lightgray", strokeWidth: 1, strokeDasharray: "0", },
+            tickLabels: {fontSize: 12, padding: 10, fill: "black",},
+            ticks: {stroke: "none", padding: 0},
+            axis: {stroke: "none"},
+            
           }}
         />
         <VictoryAxis
-          tickValues={xAxis}
+          tickValues={xAxis}          
           style={{
-            grid: { stroke: "lightgray", strokeWidth: 1 },
+            axis: {stroke: "none"},
+            ticks: {stroke: "none", padding: 0},
+            tickLabels: {fontSize: 12, padding: 10, fill: "black",},
+            grid: {stroke:  "lightgray", strokeWidth: 1, strokeDasharray: "0",},
           }}
         />
         <VictoryGroup colorScale={COLORS} domain={domain}>
@@ -66,17 +75,16 @@ export const LineChart = ({
               key={i}
               data={data}
               labels={({ datum }) => datum.x}
-              labelComponent={<Circle cx={0} cy={0} r={3} fill={COLORS[i]} />}
+              labelComponent={<Circle cx={0} cy={0} r={5} fill={COLORS[i]} />}
             />
           ))}
         </VictoryGroup>
       </VictoryChart>
       <Box
-        borderColor="lightgray"
-        mx={10}
-        borderWidth={1}
-        width="100%"
-        height={1}
+       borderColor="lightgray"
+       mx={5}
+       borderWidth={1}
+       height={1}
       />
       <Box
         display="flex"

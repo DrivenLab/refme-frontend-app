@@ -65,18 +65,20 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
         onCancelDownload={cancelDownload}
         downloadProgress={downloadProgress}
       />
-      <Button
-        onPress={handleOnPress}
-        mt={"$6"}
-        bg="$primary"
-        rounded="$full"
-        height={50}
-        mb={20}
-      >
-        <ButtonText color="black" fontWeight="medium">
-          {wasSessionDownloaded ? "Comenzar" : "Preparar"}
-        </ButtonText>
-      </Button>
+      {!session?.isCompleted ?? (
+        <Button
+          onPress={handleOnPress}
+          mt={"$6"}
+          bg="$primary"
+          rounded="$full"
+          height={50}
+          mb={20}
+        >
+          <ButtonText color="black" fontWeight="medium">
+            {wasSessionDownloaded ? "Comenzar" : "Preparar"}
+          </ButtonText>
+        </Button>
+      )}
     </>
   );
 };

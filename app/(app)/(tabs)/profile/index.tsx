@@ -49,7 +49,7 @@ export default function TabTwoScreen() {
               <HStack justifyContent="center" space="sm" marginTop={10}>
                 <Badge backgroundColor="$secondary" rounded="$full" padding={6}>
                   <Text textAlign="center" color="white">
-                    {profile?.length && profile[0].memberType === "ra"
+                    {profile?.length && profile[0].memberType === "ar"
                       ? "Asistant"
                       : "Referee"}
                   </Text>

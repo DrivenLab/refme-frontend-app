@@ -9,13 +9,14 @@ const useGetWorkoutById = ({ idWorkout }: { idWorkout: number }) => {
   const queryClient = useQueryClient();
   const { currentOrganization, userRole } = useAuth();
   let workout;
-
+  let session;
   //Si es miembro el id realmente es una Session , si es instructor, el id es Workout
   if (userRole === "member") {
-    const { session } = useGetSessionById({
+    const result = useGetSessionById({
       idSession: Number(idWorkout),
     });
-    workout = session?.workout;
+    session = result.session;
+    workout = result.session?.workout;
   } else {
     const data = queryClient.getQueryData<AxiosResponse<Workout[]>>([
       "workouts",
@@ -24,7 +25,7 @@ const useGetWorkoutById = ({ idWorkout }: { idWorkout: number }) => {
     workout = data?.data.find((w) => w.id === idWorkout);
   }
 
-  return { workout };
+  return { workout, session };
 };
 
 /*Esta función obtiene los datos de todos los workouts de una organizacion del servidor y las guarda en el query cache */

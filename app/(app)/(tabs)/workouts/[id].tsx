@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import {
   SafeAreaView,
   Text,
@@ -30,7 +30,7 @@ const WorkoutDetail = () => {
   const { id: id } = useLocalSearchParams();
   const { userRole, currentOrganization } = useAuth();
   const idWorkout = id;
-  const { workout } = useGetWorkoutById({
+  const { workout, session } = useGetWorkoutById({
     idWorkout: Number(idWorkout as string),
   });
 
@@ -152,10 +152,14 @@ const WorkoutDetail = () => {
               />
             </VStack>
           </VStack>
-          {userRole === "member" ? (
-            <WorkoutMemberDetail idSession={Number(id as string)} />
-          ) : (
-            <WorkoutInstructorDetail idWorkout={Number(id as string)} />
+          {!session?.isCompleted && (
+            <>
+              {userRole === "member" ? (
+                <WorkoutMemberDetail idSession={Number(id as string)} />
+              ) : (
+                <WorkoutInstructorDetail idWorkout={Number(id as string)} />
+              )}
+            </>
           )}
         </ScrollView>
       </SafeAreaView>

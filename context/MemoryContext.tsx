@@ -114,7 +114,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       ...currentIterarion,
       userAnswer1: a.answer1,
       userAnswer2: a.asnwer2,
-      answeredInMs: a.answeredInMs ?? 7,
+      answeredInMs: a.answeredInMs ?? 7000,
       isCorrect: a.isCorrect ?? false,
     };
     setCurrentIterarion(a_);

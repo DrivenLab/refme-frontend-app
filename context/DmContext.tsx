@@ -94,7 +94,7 @@ export function DMProvider({ children }: PropsWithChildren) {
       userAnswer1: a.answer1,
       userAnswer2: a.asnwer2,
       isCorrect: a.isCorrect ?? false,
-      answeredInMs: a.answeredInMs ?? 7,
+      answeredInMs: a.answeredInMs ?? 7000,
     };
     setCurrentIterarion(a_);
   };

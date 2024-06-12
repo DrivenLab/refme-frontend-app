@@ -89,12 +89,17 @@ export function DMProvider({ children }: PropsWithChildren) {
     return i_;
   };
   const handleUserAnswer = (a: DM_ANSWER) => {
+    if (!workout || !workout.memberType) {
+      return;
+    }
     const a_: IterationDM = {
       ...currentIterarion,
       userAnswer1: a.answer1,
       userAnswer2: a.asnwer2,
       isCorrect: a.isCorrect ?? false,
-      answeredInMs: a.answeredInMs ?? 6000,
+      answeredInMs:
+        a.answeredInMs ??
+        TIME_TO_ANSWER[workout.memberType][workout.type] * 1000,
     };
     setCurrentIterarion(a_);
   };

@@ -1,5 +1,5 @@
 import { Box, VStack } from "@gluestack-ui/themed";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { DM_ANSWER1, DM_ANSWER2 } from "@/constants/Session";
 import DecisionMakingOption from "./DecisionMakingOption";
 import i18n from "@/languages/i18n";
@@ -16,14 +16,7 @@ type Props = {
 const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
   const [asnwer, setAnswer] = useState<DM_ANSWER>({} as DM_ANSWER);
   const [hasCompleted, setHasCompleted] = useState(false);
-  const onceTimer = useDelay(
-    iteration.timeToAnswerInSec * 1000,
-    handleOnFinishCountdown
-  );
-  useEffect(() => {
-    onceTimer.start();
-  }, []);
-  function handleOnFinishCountdown() {
+  const handleOnFinishCountdown = useCallback(() => {
     const isCorrect =
       Boolean(asnwer.answer1) &&
       asnwer.answer1 === iteration.answer1 &&
@@ -35,7 +28,15 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
       isCorrect,
     };
     onFinish(a);
-  }
+  }, [asnwer, iteration]);
+
+  const onceTimer = useDelay(
+    iteration.timeToAnswerInSec * 1000,
+    handleOnFinishCountdown
+  );
+  useEffect(() => {
+    onceTimer.start();
+  }, []);
   const handleUserAnswer = (answerSelected: string, questionType: string) => {
     const answer_ = { ...asnwer };
     let completed = false;

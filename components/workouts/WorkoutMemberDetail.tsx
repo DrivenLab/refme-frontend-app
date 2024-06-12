@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { Button, ButtonText } from "@gluestack-ui/themed";
 import { Href, useRouter } from "expo-router";
-import React, { useEffect } from "react";
+import React from "react";
 import DownloadProgressModal from "./DownloadProgressModal";
 
 import useDownloadSession from "@/hooks/useDownloadSession";
@@ -58,10 +58,7 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
       downloadSession();
     }
   };
-  useEffect(() => {
-    console.log({ idSession });
-    console.log(session);
-  }, [session]);
+
   return (
     <>
       <DownloadProgressModal

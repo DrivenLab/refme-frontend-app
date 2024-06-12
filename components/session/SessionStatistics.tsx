@@ -1,9 +1,10 @@
 import { Box, Text, VStack, Pressable, ScrollView } from "@gluestack-ui/themed";
 import React from "react";
+import { useRouter } from "expo-router";
+
 import StatsResultPill from "../workouts/StatsResultPill";
 import XIcon from "@/assets/svgs/XIcon";
 import i18n from "@/languages/i18n";
-import { useRouter } from "expo-router";
 import {
   MEMBER_TYPE,
   WORKOUT_TYPE,
@@ -11,7 +12,6 @@ import {
   WorkoutResume,
 } from "@/types/workout";
 import SessionResultBarChart from "../workouts/SessionResultBarChart";
-import SuccessIcon from "@/assets/svgs/SuccessIcon";
 
 type Props = {
   resume: WorkoutResume;
@@ -84,9 +84,6 @@ const SessionStatistics = ({
             >
               <Pressable marginVertical="auto" onPress={handleXPress}>
                 <XIcon width={40} height={40}></XIcon>
-              </Pressable>
-              <Pressable marginVertical="auto" onPress={handleSaveResult}>
-                <SuccessIcon width={40} height={40}></SuccessIcon>
               </Pressable>
             </Box>
           </Box>

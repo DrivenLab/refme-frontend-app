@@ -143,12 +143,6 @@ export function DMProvider({ children }: PropsWithChildren) {
       const newCurrentIteration = workout.iterations[iterationIndex + 1];
       setCurrentIterarion(newCurrentIteration);
       setIterationIndex((prev) => prev + 1);
-      //   setCurrentIterationStep(() =>
-      //     newCurrentIteration.timeToGetReadyInSec === 0 ? "workout" : "beginning"
-      //   );
-      //   if(currentIterationStep === 'rpe'){
-      // 	console.log('Next iteration', );
-      //   }
       setCurrentIterationStep("beginning");
     } else {
       const date = workout.date;
@@ -158,6 +152,7 @@ export function DMProvider({ children }: PropsWithChildren) {
       setResume(getWorkoutResume());
       setIterationIndex(0);
       setCurrentIterarion(workout.iterations[INITIAL_ITERATION_INDEX]);
+      saveSession();
     }
   };
   const updateIteration = (iteration: IterationDM) => {

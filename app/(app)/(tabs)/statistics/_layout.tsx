@@ -40,7 +40,7 @@ export default function Layout() {
           animation: "simple_push",
         }}
       >
-        <Stack.Screen name="personal" />
+        <Stack.Screen name="official" />
       </Stack>
     </>
   );

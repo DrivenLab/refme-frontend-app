@@ -89,12 +89,17 @@ export function DMProvider({ children }: PropsWithChildren) {
     return i_;
   };
   const handleUserAnswer = (a: DM_ANSWER) => {
+    if (!workout || !workout.memberType) {
+      return;
+    }
     const a_: IterationDM = {
       ...currentIterarion,
       userAnswer1: a.answer1,
       userAnswer2: a.asnwer2,
       isCorrect: a.isCorrect ?? false,
-      answeredInMs: a.answeredInMs ?? 7,
+      answeredInMs:
+        a.answeredInMs ??
+        TIME_TO_ANSWER[workout.memberType][workout.type] * 1000,
     };
     setCurrentIterarion(a_);
   };
@@ -143,12 +148,6 @@ export function DMProvider({ children }: PropsWithChildren) {
       const newCurrentIteration = workout.iterations[iterationIndex + 1];
       setCurrentIterarion(newCurrentIteration);
       setIterationIndex((prev) => prev + 1);
-      //   setCurrentIterationStep(() =>
-      //     newCurrentIteration.timeToGetReadyInSec === 0 ? "workout" : "beginning"
-      //   );
-      //   if(currentIterationStep === 'rpe'){
-      // 	console.log('Next iteration', );
-      //   }
       setCurrentIterationStep("beginning");
     } else {
       const date = workout.date;
@@ -158,6 +157,7 @@ export function DMProvider({ children }: PropsWithChildren) {
       setResume(getWorkoutResume());
       setIterationIndex(0);
       setCurrentIterarion(workout.iterations[INITIAL_ITERATION_INDEX]);
+      saveSession();
     }
   };
   const updateIteration = (iteration: IterationDM) => {

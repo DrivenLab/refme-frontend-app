@@ -110,11 +110,16 @@ export function MemoryProvider({ children }: PropsWithChildren) {
   };
 
   const handleUserAnswer = (a: MEMORY_ANSWER) => {
+    if (!workout || !workout.memberType) {
+      return;
+    }
     const a_: IterationMemory = {
       ...currentIterarion,
       userAnswer1: a.answer1,
       userAnswer2: a.asnwer2,
-      answeredInMs: a.answeredInMs ?? 7,
+      answeredInMs:
+        a.answeredInMs ??
+        TIME_TO_ANSWER[workout.memberType][workout.type] * 1000,
       isCorrect: a.isCorrect ?? false,
     };
     setCurrentIterarion(a_);

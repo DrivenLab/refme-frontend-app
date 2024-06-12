@@ -1,4 +1,4 @@
-import { Box } from "@gluestack-ui/themed";
+import { Box, HStack, Text } from "@gluestack-ui/themed";
 import {
   VictoryAxis,
   VictoryBar,
@@ -24,11 +24,14 @@ export const PASTEL_RPE_COLORS = {
   "9": "#f39592",
   "10": "#f39592",
 };
+const ZONE_COLORS = ["#92e2f9", "#9ae3ab", "#e7e7c0", "#f3aa8b", "#f39592"];
+
 type Props = {
   data: WorkoutResultBarChart[];
   workoutType: WORKOUT_TYPE;
   memberType: MEMBER_TYPE;
 };
+const labels = ["Zona 1", "Zona 2", "Zona 3", "Zona 4", "Zona 5"];
 const SessionResultBarChart = ({ data, workoutType, memberType }: Props) => {
   const colors = data.map(
     (d) => PASTEL_RPE_COLORS[`${d.rpe}` as keyof typeof PASTEL_RPE_COLORS]
@@ -70,6 +73,33 @@ const SessionResultBarChart = ({ data, workoutType, memberType }: Props) => {
           />
         </VictoryStack>
       </VictoryChart>
+      <HStack
+        bgColor=""
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-around"
+        gap={4}
+        alignItems="center"
+        marginBottom={"$2"}
+      >
+        {labels.map((label, i) => (
+          <Box
+            key={i}
+            display="flex"
+            flexDirection="row"
+            gap={4}
+            alignItems="center"
+          >
+            <Box
+              width={20}
+              height={20}
+              borderRadius={10}
+              backgroundColor={ZONE_COLORS[i]}
+            />
+            <Text>{label}</Text>
+          </Box>
+        ))}
+      </HStack>
     </Box>
   );
 };

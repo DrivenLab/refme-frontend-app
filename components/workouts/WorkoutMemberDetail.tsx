@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { Button, ButtonText } from "@gluestack-ui/themed";
 import { Href, useRouter } from "expo-router";
-import React from "react";
+import React, { useEffect } from "react";
 import DownloadProgressModal from "./DownloadProgressModal";
 
 import useDownloadSession from "@/hooks/useDownloadSession";
@@ -58,6 +58,10 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
       downloadSession();
     }
   };
+  useEffect(() => {
+    console.log({ idSession });
+    console.log(session);
+  }, [session]);
   return (
     <>
       <DownloadProgressModal
@@ -65,20 +69,20 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
         onCancelDownload={cancelDownload}
         downloadProgress={downloadProgress}
       />
-      {!session?.isCompleted ?? (
-        <Button
-          onPress={handleOnPress}
-          mt={"$6"}
-          bg="$primary"
-          rounded="$full"
-          height={50}
-          mb={20}
-        >
-          <ButtonText color="black" fontWeight="medium">
-            {wasSessionDownloaded ? "Comenzar" : "Preparar"}
-          </ButtonText>
-        </Button>
-      )}
+      {/* {!session?.isCompleted ?? ( */}
+      <Button
+        onPress={handleOnPress}
+        mt={"$6"}
+        bg="$primary"
+        rounded="$full"
+        height={50}
+        mb={20}
+      >
+        <ButtonText color="black" fontWeight="medium">
+          {wasSessionDownloaded ? "Comenzar" : "Preparar"}
+        </ButtonText>
+      </Button>
+      {/* )} */}
     </>
   );
 };

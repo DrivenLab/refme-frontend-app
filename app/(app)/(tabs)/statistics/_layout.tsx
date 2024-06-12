@@ -7,7 +7,7 @@ import { CTabScroll } from "@/components/CTabScroll";
 export default function Layout() {
   const navigation = useNavigation<any>();
   const pathname = usePathname();
-  const [currentTab, setCurrentTab] = useState<string>("personal");
+  const [currentTab, setCurrentTab] = useState<string>("official");
 
   useEffect(() => {
     if (pathname.startsWith("/statistics")) {

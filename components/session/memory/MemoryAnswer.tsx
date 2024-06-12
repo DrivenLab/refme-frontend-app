@@ -2,10 +2,10 @@ import { Box, Divider, HStack } from "@gluestack-ui/themed";
 import React, { useEffect, useState } from "react";
 import { MEMORY_ANSWER, IterationMemory } from "@/types/session";
 import CProgress from "@/components/progress-bar/CProgress";
-import useCountdown from "@/hooks/useCountdown";
 import MemoryOption from "./MemoryOption";
 import IconPersonWhoFault from "@/assets/svgs/IconPersonWhoFault";
 import IconPersonWhoRecieveFault from "@/assets/svgs/IconPersonWhoRecieveFault";
+import { useDelay } from "react-use-precision-timer";
 
 type Props = {
   onFinish: (a: MEMORY_ANSWER) => void;
@@ -15,13 +15,13 @@ type Props = {
 const MemoryAnswer = ({ onFinish, iteration }: Props) => {
   const [asnwer, setAnswer] = useState<MEMORY_ANSWER>({} as MEMORY_ANSWER);
   const [hasCompleted, setHasCompleted] = useState(false);
-  const { hasFinished, elapsedRunningTime } = useCountdown({
-    stopInSec: iteration.timeToAnswerInSec,
-    delay: 1,
-  });
+  const onceTimer = useDelay(
+    iteration.timeToAnswerInSec * 1000,
+    handleOnFinishCountdown
+  );
   useEffect(() => {
-    if (hasFinished.current) handleOnFinishCountdown();
-  }, [hasFinished.current]);
+    onceTimer.start();
+  }, []);
   function handleOnFinishCountdown() {
     const a: MEMORY_ANSWER = {
       ...asnwer,
@@ -41,7 +41,7 @@ const MemoryAnswer = ({ onFinish, iteration }: Props) => {
     }
     if (answer_.answer1 && answer_.asnwer2) completed = true;
     if (completed) {
-      answer_.answeredInMs = elapsedRunningTime.current;
+      answer_.answeredInMs = onceTimer.getElapsedRunningTime();
     }
     setAnswer(answer_);
     setHasCompleted(completed);

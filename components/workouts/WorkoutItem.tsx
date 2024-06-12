@@ -9,15 +9,20 @@ import WorkoutInstructorItem from "./WorkoutInstructorItem";
 type Props = {
   idSession: number;
   workout: Workout;
+  isCompleted?: boolean;
 };
 
-const WorkoutItem = ({ workout, idSession }: Props) => {
+const WorkoutItem = ({ workout, idSession, isCompleted }: Props) => {
   const { userRole } = useAuth();
 
   return (
     <>
       {userRole === "member" ? (
-        <WorkoutMemberItem workout={workout} idSession={idSession} />
+        <WorkoutMemberItem
+          workout={workout}
+          idSession={idSession}
+          isCompleted={isCompleted}
+        />
       ) : (
         <WorkoutInstructorItem workout={workout} />
       )}

@@ -27,7 +27,11 @@ const SessionList = ({ state, sessions }: Props) => {
           height="$3/4"
           data={sessionFiltered}
           renderItem={({ item: session }: ListRenderItemInfo<any>) => (
-            <WorkoutItem workout={session.workout} idSession={session.id} />
+            <WorkoutItem
+              workout={session.workout}
+              idSession={session.id}
+              isCompleted={session.isCompleted}
+            />
           )}
           keyExtractor={(item: any) => item.id}
         />

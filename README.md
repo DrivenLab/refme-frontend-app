@@ -6,3 +6,6 @@ Made with expo and react-native
 
 ## Generate APK on EAS
 ``eas build -p android --profile genApk``
+
+## UPDATE BRANCH on Expo Go
+``eas update --branch dev-branch --message "Update ms time in coetext"``

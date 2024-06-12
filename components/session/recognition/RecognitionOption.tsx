@@ -1,5 +1,6 @@
 import ErrorIcon from "@/assets/svgs/ErrorIcon";
 import SuccessIcon from "@/assets/svgs/SuccessIcon";
+import CVideo from "@/components/CVideo";
 import { Box, Image, Pressable } from "@gluestack-ui/themed";
 import { StyleSheet } from "react-native";
 type Props = {
@@ -22,13 +23,7 @@ const RecognitionOption = ({ uri, isMarked, isCorrect, onPress }: Props) => {
         {isMarked && isCorrect && <SuccessIcon width={35} height={35} />}
         {isMarked && !isCorrect && <ErrorIcon width={35} height={35} />}
       </Box>
-      <Image
-        source={{
-          uri,
-        }}
-        alt="Gif 2"
-        style={styles.image}
-      />
+      <CVideo onFinishVideo={() => {}} uri={uri} isLooping />
     </Pressable>
   );
 };

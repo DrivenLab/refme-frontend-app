@@ -1,16 +1,10 @@
 //import FontAwesome from "@expo/vector-icons/FontAwesome";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import { GluestackUIProvider, StyledProvider } from "@gluestack-ui/themed";
-import { config } from "@gluestack-ui/config"; // Optional if you want to use default theme
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { customConfig } from "@/theme/config";
-import { Slot, Stack } from "expo-router";
+import { Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { useColorScheme } from "@/components/useColorScheme";
 import { onlineManager, QueryClient } from "@tanstack/react-query";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
@@ -23,6 +17,7 @@ import {
   PlusJakartaSans_400Regular,
   PlusJakartaSans_700Bold,
 } from "@expo-google-fonts/plus-jakarta-sans";
+import { Platform, StatusBar } from "react-native";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -68,13 +63,17 @@ const persister = createAsyncStoragePersister({
   //throttleTime: 1000 * 60 * 60 * 24, // 24 hours,
 });
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
   useEffect(() => {
+    if (Platform.OS === "android") {
+      StatusBar.setBarStyle("dark-content");
+    }
+
     return NetInfo.addEventListener((state) => {
       const status = !!state.isConnected;
       onlineManager.setOnline(status);
     });
   }, []);
+
   return (
     <PersistQueryClientProvider
       client={queryClient}
@@ -90,9 +89,7 @@ function RootLayoutNav() {
     >
       <GluestackUIProvider config={customConfig}>
         <AuthProvider>
-          <ThemeProvider
-            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-          >
+          <ThemeProvider value={DefaultTheme}>
             <Slot />
           </ThemeProvider>
         </AuthProvider>

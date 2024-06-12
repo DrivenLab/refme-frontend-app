@@ -7,9 +7,10 @@ import useDownloadSession from "@/hooks/useDownloadSession";
 type Props = {
   workout: Workout;
   idSession: number;
+  isCompleted?: boolean;
 };
 
-const WorkoutMemberItem = ({ workout, idSession }: Props) => {
+const WorkoutMemberItem = ({ workout, idSession, isCompleted }: Props) => {
   const {
     isDownloading,
     downloadProgress,
@@ -30,6 +31,7 @@ const WorkoutMemberItem = ({ workout, idSession }: Props) => {
         workout={workout}
         wasSessionDownloaded={wasSessionDownloaded}
         downloadSession={downloadSession}
+        isCompleted={isCompleted || false}
       />
     </>
   );

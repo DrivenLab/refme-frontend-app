@@ -14,7 +14,13 @@ type Props = {
 const FONT_SIZE = 36;
 const TEXT_COLOR = "black";
 
-const TextInformation = ({ type, step, hasVideo, showRpeText }: Props) => {
+const TextInformation = ({
+  type,
+  step,
+  hasVideo,
+  showRpeText,
+  recognitionType,
+}: Props) => {
   let CMP: ReactNode | null = null;
   if ((step === 2 && !hasVideo) || showRpeText)
     CMP = (
@@ -24,7 +30,7 @@ const TextInformation = ({ type, step, hasVideo, showRpeText }: Props) => {
         </Text>
       </Box>
     );
-  if (type === "dm" && step === 1)
+  else if (type === "dm" && step === 1)
     CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
@@ -40,7 +46,7 @@ const TextInformation = ({ type, step, hasVideo, showRpeText }: Props) => {
         </Text>
       </Box>
     );
-  if (type === "dm" && step === 2)
+  else if (type === "dm" && step === 2)
     CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
@@ -58,7 +64,7 @@ const TextInformation = ({ type, step, hasVideo, showRpeText }: Props) => {
         </Text>
       </Box>
     );
-  if (type === "memory" && step === 1)
+  else if (type === "memory" && step === 1)
     CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
@@ -72,7 +78,7 @@ const TextInformation = ({ type, step, hasVideo, showRpeText }: Props) => {
         </Text>
       </Box>
     );
-  if (type === "memory" && step === 2) {
+  else if (type === "memory" && step === 2) {
     CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
@@ -86,18 +92,23 @@ const TextInformation = ({ type, step, hasVideo, showRpeText }: Props) => {
         </Text>
       </Box>
     );
-  }
-  if (type === "recognition") {
+  } else if (type === "recognition") {
     CMP = (
       <Box>
-        <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
-          Selecciona la
-          <Text bold>falta mano</Text>
+        <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR} bold>
+          {recognitionType === "hand" &&
+            i18n.t("workout_flow.recognition.pick_the_hand_ball")}
+          {recognitionType === "contact" &&
+            i18n.t("workout_flow.recognition.pick_contact_point")}
+          {recognitionType === "foul" &&
+            i18n.t("workout_flow.recognition.pick_the_foul")}
+          {recognitionType === "players" &&
+            i18n.t("workout_flow.recognition.pick_the_one_with_more_players")}
         </Text>
       </Box>
     );
   }
-  return <Box pl={"$8"}>{CMP}</Box>;
+  return <Box px={"$8"}>{CMP}</Box>;
 };
 
 export default TextInformation;

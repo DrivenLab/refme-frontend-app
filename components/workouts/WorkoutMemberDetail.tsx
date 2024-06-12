@@ -58,6 +58,7 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
       downloadSession();
     }
   };
+
   return (
     <>
       <DownloadProgressModal
@@ -65,6 +66,7 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
         onCancelDownload={cancelDownload}
         downloadProgress={downloadProgress}
       />
+      {/* {!session?.isCompleted ?? ( */}
       <Button
         onPress={handleOnPress}
         mt={"$6"}
@@ -77,6 +79,7 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
           {wasSessionDownloaded ? "Comenzar" : "Preparar"}
         </ButtonText>
       </Button>
+      {/* )} */}
     </>
   );
 };

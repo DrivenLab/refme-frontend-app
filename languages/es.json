@@ -57,11 +57,11 @@
   "ifk": "Tiro libre indirecto",
   "dfk": "Tiro libre directo",
   "pk": "Tiro penal",
-  "off": "Offiside",
-  "noff": "No Offiside",
+  "off": "Offside",
+  "noff": "No Offside",
   "yes": "yes",
   "no": "no",
-  "nc": "Sin Tarjeta",
+  "nc": "No Tarjeta",
   "yc": "Tarjeta Amarilla",
   "rc": "Tarjeta Roja",
   "rpe_nothing_at_all": "Nada en absoluto",
@@ -146,7 +146,13 @@
     "remember_infractor_3": "recibe la falta",
     "select_infractor_1": "Selecciona número de infractor y ",
     "select_infractor_2": "quien recibió ",
-    "select_infractor_3": "la falta"
+    "select_infractor_3": "la falta",
+    "recognition": {
+      "pick_the_hand_ball": "Selecciona la falta mano",
+      "pick_the_foul": "Selecciona  la falta ",
+      "pick_the_one_with_more_players": "Selecciona  el video con más jugadores",
+      "pick_contact_point": "Selecciona  el punto de contacto"
+    }
   },
   "create_workout": {
     "workout_name": "Nombre del entrenamiento",

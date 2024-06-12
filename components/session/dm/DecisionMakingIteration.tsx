@@ -1,5 +1,5 @@
 import { View } from "@gluestack-ui/themed";
-import React from "react";
+import React, { useEffect } from "react";
 import { DM_ANSWER, Steps } from "@/types/session";
 import { useDMWorkout } from "@/context/DmContext";
 import CVideo from "@/components/CVideo";
@@ -8,6 +8,8 @@ import DecisionMakingAnswer from "./DecisionMakingAnswer";
 import RPE from "../RPE";
 import SessionCountdown from "../SessionCountdown";
 import DecisionMakingAnswerAssistant from "./DecisionMakingAnswerAssistant";
+import { useWhistleContext } from "@/hooks/useWhistle";
+import { VIDEO_TIME_IN_SECONDS } from "@/constants/Session";
 
 const DecisionMakingIteration = () => {
   const {
@@ -19,6 +21,7 @@ const DecisionMakingIteration = () => {
     handleUserAnswer,
     handleUserRPE,
   } = useDMWorkout();
+  const whistle = useWhistleContext();
   const handleFinishCountdown = (step: Steps) => {
     // Defer the state update until after the current rendering cycle
     setTimeout(() => {
@@ -35,6 +38,14 @@ const DecisionMakingIteration = () => {
       handleNextIteration(i);
     }, 0);
   };
+  useEffect(() => {
+    if (
+      currentIterationStep === "beginning" &&
+      currentIterarion.timeToGetReadyInSec === 0
+    ) {
+      whistle.playLongSound();
+    }
+  }, [currentIterationStep, currentIterarion.timeToGetReadyInSec]);
 
   return (
     <View flex={1}>
@@ -53,7 +64,7 @@ const DecisionMakingIteration = () => {
         <SessionTrainingCountdown
           onFinishCountdown={() => handleFinishCountdown("video")}
           initialCountdown={currentIterarion.timeToWorkoutInSec}
-          hasVideo={!(currentIterarion.video == undefined)}
+          hasVideo={Boolean(currentIterarion.video)}
           iterationNumber={currentIterarion.iterationNumber}
           totalItaration={workout.iterations.length}
           type="dm"
@@ -63,6 +74,7 @@ const DecisionMakingIteration = () => {
         <>
           <CVideo
             uri={currentIterarion.video}
+            delayTime={VIDEO_TIME_IN_SECONDS["re"][workout.type]}
             onFinishVideo={() => handleFinishCountdown("decision")}
           />
         </>

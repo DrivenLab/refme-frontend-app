@@ -4,9 +4,10 @@ import TextInformation from "../workouts/TextInformation";
 import SessionCounter from "./SessionCounter";
 import { useMemo } from "react";
 import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
-import { get_image_from_name } from "@/utils/libs";
+import { getImageFromName } from "@/utils/libs";
 import CircularProgress from "../progress-bar/CircularProgressBar";
 import { TEXT_TYPES } from "@/types/workout";
+import { ImageSourcePropType } from "react-native";
 
 type Props = {
   count: number;
@@ -28,7 +29,7 @@ const IterationTextImageCountdown = ({
   totalItaration,
   recognitionType,
 }: Props) => {
-  const imageSource = useMemo(() => get_image_from_name(imageName), []);
+  const imageSource = useMemo(() => getImageFromName(imageName), []);
 
   return (
     <View
@@ -54,7 +55,7 @@ const IterationTextImageCountdown = ({
           borderRadius="$full"
         />
         <Image
-          source={imageSource}
+          source={imageSource as unknown as ImageSourcePropType}
           style={{ height: 100, width: 100 }}
           contentFit="contain"
         />

@@ -1,4 +1,4 @@
-import { Box } from "@gluestack-ui/themed";
+import { Box, HStack, Text } from "@gluestack-ui/themed";
 import {
   VictoryAxis,
   VictoryBar,
@@ -6,7 +6,12 @@ import {
   VictoryStack,
   VictoryTheme,
 } from "victory-native";
-import { WorkoutResultBarChart } from "@/types/workout";
+import {
+  MEMBER_TYPE,
+  WORKOUT_TYPE,
+  WorkoutResultBarChart,
+} from "@/types/workout";
+import { TIME_TO_ANSWER } from "@/constants/Session";
 export const PASTEL_RPE_COLORS = {
   "1": "#92e2f9",
   "2": "#92e2f9",
@@ -19,17 +24,25 @@ export const PASTEL_RPE_COLORS = {
   "9": "#f39592",
   "10": "#f39592",
 };
-type Props = { data: WorkoutResultBarChart[] };
-const SessionResultBarChart = ({ data }: Props) => {
+const ZONE_COLORS = ["#92e2f9", "#9ae3ab", "#e7e7c0", "#f3aa8b", "#f39592"];
+
+type Props = {
+  data: WorkoutResultBarChart[];
+  workoutType: WORKOUT_TYPE;
+  memberType: MEMBER_TYPE;
+};
+const labels = ["Zona 1", "Zona 2", "Zona 3", "Zona 4", "Zona 5"];
+const SessionResultBarChart = ({ data, workoutType, memberType }: Props) => {
   const colors = data.map(
     (d) => PASTEL_RPE_COLORS[`${d.rpe}` as keyof typeof PASTEL_RPE_COLORS]
   );
+  const maxYValue = TIME_TO_ANSWER[memberType][workoutType] || 6;
   return (
     <Box borderWidth={1} margin={10} borderColor="#a1a1a1" borderRadius={7}>
       <VictoryChart theme={VictoryTheme.material} height={220} width={500}>
         <VictoryStack
           colorScale={colors}
-          domain={{ x: [0, data.length + 1], y: [0, 7] }}
+          domain={{ x: [0, data.length + 1], y: [0, maxYValue] }}
         >
           <VictoryBar
             animate={{ duration: 1000, onLoad: { duration: 500 } }}
@@ -60,6 +73,33 @@ const SessionResultBarChart = ({ data }: Props) => {
           />
         </VictoryStack>
       </VictoryChart>
+      <HStack
+        bgColor=""
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-around"
+        gap={4}
+        alignItems="center"
+        marginBottom={"$2"}
+      >
+        {labels.map((label, i) => (
+          <Box
+            key={i}
+            display="flex"
+            flexDirection="row"
+            gap={4}
+            alignItems="center"
+          >
+            <Box
+              width={20}
+              height={20}
+              borderRadius={10}
+              backgroundColor={ZONE_COLORS[i]}
+            />
+            <Text>{label}</Text>
+          </Box>
+        ))}
+      </HStack>
     </Box>
   );
 };

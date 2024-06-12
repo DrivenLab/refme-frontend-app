@@ -14,8 +14,8 @@ import { SafeAreaViewStyle } from "@/utils/Styles";
 export default function LoginScreen() {
   const { setToken } = useAuth();
   const [loginData, setLoginData] = useState<LoginData>({
-    email: "refme.referee@dlab.software",
-    password: "12345",
+    email: "",
+    password: "",
   } as LoginData);
   const [error, setError] = useState("");
   const isBtnFormValid = useMemo(

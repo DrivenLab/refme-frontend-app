@@ -47,6 +47,7 @@ export default function AboutYouScreen() {
     const _profileData = {
       ...profileData,
       gender: genreMapping[profileData.gender],
+      expirationMedicalRecord: profileData.expirationMedicalRecord || null,
     };
     if (!profile) {
       return;
@@ -71,7 +72,7 @@ export default function AboutYouScreen() {
       : undefined;
 
   const medicalExpirationValue =
-    profileData.expirationMedicalRecord.length === 10
+    profileData?.expirationMedicalRecord?.length === 10
       ? new Date(Date.parse(profileData.expirationMedicalRecord))
       : undefined;
 

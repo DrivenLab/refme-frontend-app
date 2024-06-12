@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#080B21"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -18,7 +18,8 @@
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true
       },
-      "bundleIdentifier": "com.nundlab99.refmeproapp"
+      "bundleIdentifier": "com.nundlab99.refmeproapp",
+      "userInterfaceStyle": "light"
     },
     "android": {
       "adaptiveIcon": {
@@ -61,6 +62,19 @@
         "expo-screen-orientation",
         {
           "initialOrientation": "DEFAULT"
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "13.4"
+          }
         }
       ]
     ],

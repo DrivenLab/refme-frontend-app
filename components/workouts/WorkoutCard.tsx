@@ -2,9 +2,10 @@ import { WORKOUT_TYPE, Workout } from "@/types/workout";
 import { StyleSheet } from "react-native";
 import { Box, Pressable, Text } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
-import { Href, Link } from "expo-router";
+import { Link } from "expo-router";
 import DownloadSessionBtn from "./DownloadSessionBtn";
 import ExerciseLogo from "@/assets/svgs/ExerciseLogo";
+
 // TODO: ACA TIENE QUE SER TODO EL BG NO SOLO EL BORDER
 const COLOR_TYPE: Record<WORKOUT_TYPE, string> = {
   "dm+memory": "#A6ECB1",
@@ -12,27 +13,35 @@ const COLOR_TYPE: Record<WORKOUT_TYPE, string> = {
   dmar: "#FFC107",
   memory: "#ABEDFD",
   recognition: "#FFB290",
+  random: "#fff",
 };
 type Props = {
   id: number;
   workout: Workout;
-  downloadSession?: () => void;
   wasSessionDownloaded: boolean;
+  isCompleted: boolean;
+  downloadSession?: () => void;
 };
 const WorkoutCard = ({
   id,
   workout,
   wasSessionDownloaded,
+  isCompleted,
   downloadSession,
 }: Props) => {
   return (
-    <Link href={`/workouts/${id}/` as Href<string>} asChild>
+    <Link href={`/workouts/${id}/`} asChild>
       <Pressable marginBottom="$3">
         <Box
           rounded={"$md"}
           overflow="hidden"
-          borderBottomColor={COLOR_TYPE[workout.type]}
+          borderWidth={workout.type === "random" ? 1 : 0}
+          borderColor="#F3F3F4"
           borderBottomWidth={3}
+          borderBottomColor={COLOR_TYPE[workout.type]}
+          borderTopWidth={workout.type === "random" ? 1 : 0}
+          borderRightWidth={workout.type === "random" ? 1 : 0}
+          borderLeftWidth={workout.type === "random" ? 1 : 0}
           backgroundColor="#F3F3F4"
         >
           <Box bgColor={COLOR_TYPE[workout.type]}>
@@ -55,7 +64,7 @@ const WorkoutCard = ({
                   {i18n.t(`workout_type.${workout.type}`)}
                 </Text>
               </Box>
-              {downloadSession && (
+              {downloadSession && !isCompleted && (
                 <DownloadSessionBtn
                   wasDownloaded={wasSessionDownloaded}
                   downloadSession={downloadSession}

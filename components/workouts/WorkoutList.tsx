@@ -21,6 +21,7 @@ const WorkoutList = ({ workouts }: Props) => {
           height="$3/4"
           data={workouts}
           renderItem={({ item: workout }: ListRenderItemInfo<any>) => (
+            // TODO: Controlar isCompleted para entrenadores
             <WorkoutItem workout={workout as Workout} idSession={workout.id} />
           )}
           keyExtractor={(item: any) => item.id}

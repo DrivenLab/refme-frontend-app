@@ -67,7 +67,7 @@ export function DMProvider({ children }: PropsWithChildren) {
     oldIteration?: Iteration;
     workout: Workout;
   }) => {
-    const { excerciseDuration, type, memberType } = workout;
+    const { excerciseDuration, type, memberType, breakDuration } = workout;
     const i_: IterationDM = {
       idIteration: i.id,
       video: i.answers.length ? i.answers[0].video1.video : undefined,
@@ -75,9 +75,9 @@ export function DMProvider({ children }: PropsWithChildren) {
       answer2: i.answers.length ? i.answers[0].video1.answer2 : undefined,
       timeToGetReadyInSec: calculateNextTimeToGetReady({
         i: oldIteration,
-        breakDuration: workout.breakDuration,
-        type: workout.type,
-        memberType: workout.memberType || "ar",
+        breakDuration,
+        type,
+        memberType,
       }),
       timeToWorkoutInSec: excerciseDuration,
       timeToAnswerInSec: TIME_TO_ANSWER[memberType][type],
@@ -89,12 +89,17 @@ export function DMProvider({ children }: PropsWithChildren) {
     return i_;
   };
   const handleUserAnswer = (a: DM_ANSWER) => {
+    if (!workout || !workout.memberType) {
+      return;
+    }
     const a_: IterationDM = {
       ...currentIterarion,
       userAnswer1: a.answer1,
       userAnswer2: a.asnwer2,
       isCorrect: a.isCorrect ?? false,
-      answeredInMs: a.answeredInMs ?? 7,
+      answeredInMs:
+        a.answeredInMs ??
+        TIME_TO_ANSWER[workout.memberType][workout.type] * 1000,
     };
     setCurrentIterarion(a_);
   };
@@ -143,9 +148,7 @@ export function DMProvider({ children }: PropsWithChildren) {
       const newCurrentIteration = workout.iterations[iterationIndex + 1];
       setCurrentIterarion(newCurrentIteration);
       setIterationIndex((prev) => prev + 1);
-      setCurrentIterationStep(() =>
-        newCurrentIteration.timeToGetReadyInSec === 0 ? "workout" : "beginning"
-      );
+      setCurrentIterationStep("beginning");
     } else {
       const date = workout.date;
       date.end = new Date();
@@ -154,6 +157,7 @@ export function DMProvider({ children }: PropsWithChildren) {
       setResume(getWorkoutResume());
       setIterationIndex(0);
       setCurrentIterarion(workout.iterations[INITIAL_ITERATION_INDEX]);
+      saveSession();
     }
   };
   const updateIteration = (iteration: IterationDM) => {
@@ -182,11 +186,10 @@ export function DMProvider({ children }: PropsWithChildren) {
   };
   const getWorkoutResume = () => {
     const iterationWithVideos = workout.iterations.filter((i) => i.video);
-    const correctAnswers = iterationWithVideos.filter((i) => {
-      //Si al usuario le faltó responder algunas de las 2 preguntas, ya se pone como incorrecta.
-      if (!i.answer1 || !i.answer2) return false;
-      return i.answer1 == i.userAnswer1 && i.answer2 == i.userAnswer2;
-    }).length;
+    const correctAnswers = iterationWithVideos.reduce(
+      (prev, curr) => prev + (curr.isCorrect ? 1 : 0),
+      0
+    );
     //Manejo de Promedio
     let answerTotalTime = 0;
     for (const i of iterationWithVideos) {

@@ -8,10 +8,11 @@ import TextInformation from "../workouts/TextInformation";
 import CircularProgress from "../progress-bar/CircularProgressBar";
 import ManRunningWithColor from "@/assets/svgs/ManRunningWithColor";
 
-import { get_image_from_name } from "@/utils/libs";
+import { getImageFromName } from "@/utils/libs";
 import { TEXT_TYPES } from "@/types/workout";
 import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
-import { useWhistle } from "../../hooks/useWhistle";
+import { useWhistleContext } from "@/hooks/useWhistle";
+import { ImageSourcePropType } from "react-native";
 
 type Props = {
   initialCountdown: number;
@@ -34,13 +35,14 @@ const SessionTrainingCountdown = ({
   recognitionType,
   onFinishCountdown,
 }: Props) => {
-  const { playShortSound, playLongSound } = useWhistle();
+  const { playShortSound, playLongSound } = useWhistleContext();
 
   const [count, setCount] = useState(initialCountdown);
-  const imageSource = useMemo(
-    () => get_image_from_name(hasVideo ? imageName : "how_you_feel"),
-    [hasVideo]
-  );
+  const imageSource = useMemo(() => {
+    let img: NodeRequire | undefined;
+    img = getImageFromName(hasVideo ? imageName : "how_you_feel");
+    return img;
+  }, [hasVideo]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -60,7 +62,6 @@ const SessionTrainingCountdown = ({
         return newCountdownValue;
       });
     }, 1000);
-
     return () => clearInterval(interval); // Cleanup the interval on component unmount
   }, []);
 
@@ -98,7 +99,7 @@ const SessionTrainingCountdown = ({
                 bg="$primary"
               />
               <Image
-                source={imageSource}
+                source={imageSource as unknown as ImageSourcePropType}
                 style={{ height: 100, width: 100 }}
                 contentFit="contain"
               />
@@ -106,6 +107,7 @@ const SessionTrainingCountdown = ({
                 type={type}
                 step={2}
                 hasVideo={hasVideo}
+                showRpeText={hasVideo ? false : true}
                 recognitionType={recognitionType}
               />
             </Box>

@@ -1,11 +1,6 @@
 import { View } from "@gluestack-ui/themed";
 import React from "react";
-import {
-  IMAGE_NAME,
-  RECOGNITION_ANSWER,
-  RECOGNITION_STEPS,
-  RECOGNITION_VIDEO_TYPE,
-} from "@/types/session";
+import { RECOGNITION_STEPS, RecognitionSingularAnswer } from "@/types/session";
 import SessionTrainingCountdown from "../SessionTrainingCountdown";
 import RPE from "../RPE";
 import SessionCountdown from "../SessionCountdown";
@@ -30,9 +25,8 @@ const RecognitionIteration = () => {
       changeIterationStep(step);
     }, 0);
   };
-  const onFinishDecision = (answer: RECOGNITION_ANSWER[]) => {
-    // TODO: onFinish
-    // handleUserAnswer(answer);
+  const onFinishDecision = (answer: RecognitionSingularAnswer[]) => {
+    handleUserAnswer(answer);
     handleFinishCountdown("rpe");
   };
   const onFinishRPE = (rpe?: number) => {
@@ -42,27 +36,29 @@ const RecognitionIteration = () => {
     }, 0);
   };
   const handleSessionNextStep = () => {
-    if (currentIterarion.video) handleFinishCountdown("imageDecision");
-    else handleFinishCountdown("workout");
+    if (currentIterarion.answers.length) {
+      handleFinishCountdown("imageDecision");
+    } else handleFinishCountdown("rpe");
   };
+
   return (
     <View flex={1}>
       {currentIterationStep === "beginning" ? (
         <>
           <SessionCountdown
-            onFinishCountdown={handleSessionNextStep}
+            onFinishCountdown={() => handleFinishCountdown("workout")}
             initialCountdown={currentIterarion.timeToGetReadyInSec}
             imageName="man_running_ready_to_workout"
             iterationNumber={currentIterarion.iterationNumber}
             totalItaration={workout.iterations.length}
-            type="recognition"
+            type="dm"
           />
         </>
       ) : currentIterationStep === "workout" ? (
         <SessionTrainingCountdown
-          onFinishCountdown={() => handleFinishCountdown("imageDecision")}
+          onFinishCountdown={handleSessionNextStep}
           initialCountdown={currentIterarion.timeToWorkoutInSec}
-          hasVideo={!(currentIterarion.video == undefined)}
+          hasVideo={currentIterarion.answers.length > 0}
           iterationNumber={currentIterarion.iterationNumber}
           totalItaration={workout.iterations.length}
           imageName={RecognitionImageMap[currentIterarion.videoType]}

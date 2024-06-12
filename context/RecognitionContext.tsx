@@ -129,6 +129,7 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
       status: "pending",
       workoutId: w.id,
       type: w.type,
+      memberType: w.memberType,
     };
     setWorkout(workout_);
     setCurrentIterationStep("beginning");

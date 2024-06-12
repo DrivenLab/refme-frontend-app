@@ -9,3 +9,6 @@ Made with expo and react-native
 
 ## Upload update to EAS
 ``eas submit --profile genApk``
+
+## UPDATE BRANCH on Expo Go
+``eas update --branch dev-branch --message "Update ms time in coetext"``

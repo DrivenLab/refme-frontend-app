@@ -22,7 +22,7 @@ type Props = {
 const MemberItem = ({ member, idMember, idWorkout }: Props) => {
   const memberTypeMapping = {
     ["re"]: i18n.t("referee"),
-    ["ra"]: i18n.t("assistant_referee"),
+    ["ar"]: i18n.t("assistant_referee"),
   };
   const [selected, setSelected] = useState(false);
 

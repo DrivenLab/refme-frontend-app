@@ -1,6 +1,6 @@
 import { useAuth } from "@/context/auth";
 import CTextInput, { DisableTextInput } from "@/components/inputs/CTextInput";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Image } from "expo-image";
 import { SafeAreaView, StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
@@ -28,7 +28,20 @@ export default function VerifyAccountScreen() {
   const handleLogin = async () => {
     router.push("/update-password");
   };
-
+  const memberTypeValue = useMemo(() => {
+    let value = i18n.t("referee");
+    const memberTypeMapping = {
+      ["re"]: i18n.t("referee"),
+      ["ar"]: i18n.t("assistant_referee"),
+    };
+    if (profile && profile.length > 0) {
+      value =
+        memberTypeMapping[
+          profile[0].memberType as keyof typeof memberTypeMapping
+        ];
+    }
+    return value;
+  }, [profile]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <VStack style={{ flex: 1 }}>
@@ -106,7 +119,7 @@ export default function VerifyAccountScreen() {
             {/* Utiliza HStack para colocar los inputs lado a lado */}
             <DisableTextInput
               placeholder={i18n.t("common.role_label")}
-              value={profile && profile.length > 0 ? profile[0].memberType : ""}
+              value={memberTypeValue}
               containerStyle={{ width: "50%" }}
             />
             <DisableTextInput

@@ -34,6 +34,7 @@ type DMContextType = {
   handleNextIteration: (i: IterationDM) => void;
   updateWorkoutStatus: (s: DM_WORKOUT_STATUS) => void;
   saveSession: () => void;
+  getNextIteration: () => IterationDM | undefined;
 };
 
 const DMContext = createContext<DMContextType>({} as DMContextType);
@@ -157,7 +158,7 @@ export function DMProvider({ children }: PropsWithChildren) {
       setResume(getWorkoutResume());
       setIterationIndex(0);
       setCurrentIterarion(workout.iterations[INITIAL_ITERATION_INDEX]);
-      saveSession();
+      //   saveSession();
     }
   };
   const updateIteration = (iteration: IterationDM) => {
@@ -232,6 +233,9 @@ export function DMProvider({ children }: PropsWithChildren) {
     }));
     postSessionMutation.mutate(sessionsPayload);
   };
+  const getNextIteration = () => {
+    return workout.iterations[iterationIndex + 1];
+  };
   return (
     <DMContext.Provider
       value={{
@@ -249,6 +253,7 @@ export function DMProvider({ children }: PropsWithChildren) {
         updateWorkoutStatus,
         startWorkout,
         saveSession,
+        getNextIteration,
       }}
     >
       {children}

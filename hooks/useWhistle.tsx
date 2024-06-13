@@ -1,8 +1,10 @@
 import { createContext, useContext, useEffect, useRef } from "react";
 import { Audio } from "expo-av";
+import { Vibration } from "react-native";
 
 import ShortSound from "@/assets/audio/silbato-corto.mp3";
 import LongSound from "@/assets/audio/silbato-largo.mp3";
+
 const waitOneSecond = () => {
   return new Promise((resolve) => {
     setTimeout(resolve, 1000);
@@ -41,14 +43,21 @@ export const useWhistle = () => {
   const playLongSound = () => {
     longSound.current?.replayAsync();
   };
+  const vibrate = (x?: "long") => {
+    Vibration.vibrate(x === "long" ? 1200 : 500);
+  };
   const playAllSounds = async () => {
     shortSound.current?.replayAsync();
+    vibrate();
     await waitOneSecond();
     shortSound.current?.replayAsync();
+    vibrate();
     await waitOneSecond();
     shortSound.current?.replayAsync();
+    vibrate();
     await waitOneSecond();
     longSound.current?.replayAsync();
+    vibrate("long");
   };
 
   return {

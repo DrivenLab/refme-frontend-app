@@ -13,6 +13,7 @@ import api from "@/queries/api";
 import { Organization } from "@/types/organization";
 import { useQueryClient } from "@tanstack/react-query";
 import { User, Profile } from "@/types/user";
+import useDownloadVideos from "@/hooks/useDownloadVideos";
 
 type AuthContextType = {
   user: User | null;
@@ -40,6 +41,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
     useState<Organization | null>(null);
   const clientQuery = useQueryClient();
   const [profile, setProfile] = useState<Profile[] | null>(null);
+  const { cleanDownloadedVideos } = useDownloadVideos();
   const isUserVerified = useMemo(() => {
     return user?.isVerified ?? false;
   }, [user]);
@@ -114,12 +116,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   async function handleSignOut() {
     await removeData("token");
+    await cleanDownloadedVideos();
 
     clientQuery.clear();
     setProfile(null);
     setUser(null);
     clientQuery.removeQueries({ queryKey: ["sessions"] });
-
     setToken(null);
   }
   async function handleSetToken(token_: string) {

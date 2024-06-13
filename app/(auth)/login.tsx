@@ -1,10 +1,11 @@
-import { useAuth } from "@/context/auth";
-import CTextInput from "@/components/inputs/CTextInput";
-import { useMemo, useState } from "react";
-import { LoginData } from "@/types/user";
-import { baseURL } from "@/queries/api";
+import { useState } from "react";
 import axios from "axios";
 import { Image } from "expo-image";
+
+import { useAuth } from "@/context/auth";
+import CTextInput from "@/components/inputs/CTextInput";
+import { LoginData } from "@/types/user";
+import { baseURL } from "@/queries/api";
 import { SafeAreaView, StyleSheet } from "react-native";
 import CBtn from "@/components/CBtn";
 import { Box, Text, VStack } from "@gluestack-ui/themed";
@@ -18,10 +19,7 @@ export default function LoginScreen() {
     password: "",
   } as LoginData);
   const [error, setError] = useState("");
-  const isBtnFormValid = useMemo(
-    () => Boolean(loginData.email.length && loginData.password.length),
-    [loginData]
-  );
+
   const [isLogging, setIsLogging] = useState(false);
   function handleOnChange(name: string, value: string) {
     setLoginData((prev: LoginData) => ({ ...prev, [name]: value }));

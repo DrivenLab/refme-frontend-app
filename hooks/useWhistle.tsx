@@ -3,7 +3,11 @@ import { Audio } from "expo-av";
 
 import ShortSound from "@/assets/audio/silbato-corto.mp3";
 import LongSound from "@/assets/audio/silbato-largo.mp3";
-
+const waitOneSecond = () => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, 1000);
+  });
+};
 export const useWhistle = () => {
   const shortSound = useRef<Audio.Sound | null>(null);
   const longSound = useRef<Audio.Sound | null>(null);
@@ -37,20 +41,32 @@ export const useWhistle = () => {
   const playLongSound = () => {
     longSound.current?.replayAsync();
   };
+  const playAllSounds = async () => {
+    shortSound.current?.replayAsync();
+    await waitOneSecond();
+    shortSound.current?.replayAsync();
+    await waitOneSecond();
+    shortSound.current?.replayAsync();
+    await waitOneSecond();
+    longSound.current?.replayAsync();
+  };
 
   return {
     playShortSound,
     playLongSound,
+    playAllSounds,
   };
 };
 
 type Props = {
   playShortSound: () => void;
   playLongSound: () => void;
+  playAllSounds: () => Promise<void>;
 };
 const WhistleContext = createContext<Props>({
   playShortSound: () => {},
   playLongSound: () => {},
+  playAllSounds: async () => {},
 });
 
 export const useWhistleContext = () => useContext(WhistleContext);

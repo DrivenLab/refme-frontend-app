@@ -38,7 +38,7 @@ export const BarChart = ({
             const xdata = x / 2 + getAccumulativeX(i);
             return (
               <VictoryBar
-                key={i}
+                key={`bar-#-${i}`}
                 data={[{ x: xdata, y: y }]}
                 barWidth={x * 3}
                 // labels={({ datum }) =>

@@ -11,7 +11,6 @@ import ManRunningWithColor from "@/assets/svgs/ManRunningWithColor";
 import { getImageFromName } from "@/utils/libs";
 import { TEXT_TYPES } from "@/types/workout";
 import { IMAGE_NAME, RECOGNITION_VIDEO_TYPE } from "@/types/session";
-import { useWhistleContext } from "@/hooks/useWhistle";
 import { ImageSourcePropType } from "react-native";
 
 type Props = {
@@ -35,8 +34,6 @@ const SessionTrainingCountdown = ({
   recognitionType,
   onFinishCountdown,
 }: Props) => {
-  const { playShortSound, playLongSound } = useWhistleContext();
-
   const [count, setCount] = useState(initialCountdown);
   const imageSource = useMemo(() => {
     let img: NodeRequire | undefined;
@@ -53,12 +50,6 @@ const SessionTrainingCountdown = ({
           return 0;
         }
         const newCountdownValue = prevCount - 1;
-        if ([4, 3, 2].includes(prevCount)) {
-          playShortSound();
-        }
-        if (prevCount === 1) {
-          playLongSound();
-        }
         return newCountdownValue;
       });
     }, 1000);

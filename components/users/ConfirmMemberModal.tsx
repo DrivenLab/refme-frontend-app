@@ -38,7 +38,7 @@ const ConfirmMemberModal = ({
 }: Props) => {
   const memberTypeMapping = {
     ["re"]: i18n.t("referee"),
-    ["ra"]: i18n.t("assistant_referee"),
+    ["ar"]: i18n.t("assistant_referee"),
   };
   const { currentOrganization } = useAuth();
 

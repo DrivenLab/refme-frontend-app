@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View } from "@gluestack-ui/themed";
 
 import { DM_MEM_STEPS, IterationDMAndMem } from "@/types/session";
@@ -10,6 +10,8 @@ import DecisionMakingAnswer from "../dm/DecisionMakingAnswer";
 import RPE from "../RPE";
 import SessionCountdown from "../SessionCountdown";
 import MemoryAnswer from "../memory/MemoryAnswer";
+import { useWhistleContext } from "@/hooks/useWhistle";
+import { VIDEO_TIME_IN_SECONDS } from "@/constants/Session";
 
 const DMAndMemIteration = () => {
   const {
@@ -22,6 +24,7 @@ const DMAndMemIteration = () => {
     handleUserMemAnswer,
     handleUserDMRPE,
     handleUserMemRPE,
+    getNextIteration,
   } = useDMAndMemWorkout();
 
   const handleFinishCountdown = (step: DM_MEM_STEPS) => {
@@ -36,9 +39,45 @@ const DMAndMemIteration = () => {
       handleNextIteration(i);
     }, 0);
   };
+  const whistle = useWhistleContext();
+  useEffect(() => {
+    // WHISTLE LOGIC!
+    if (
+      currentIterationStep === "beginning" &&
+      !currentIterarion.memoryVideo &&
+      currentIterarion.timeToGetReadyInSec >= 3
+    ) {
+      setTimeout(async () => {
+        await whistle.playAllSounds();
+      }, (currentIterarion.timeToGetReadyInSec - 3) * 1000);
+    } else if (currentIterationStep === "mem-video") {
+      setTimeout(async () => {
+        await whistle.playAllSounds();
+      }, (VIDEO_TIME_IN_SECONDS[workout.memberType || "ar"]["dm"] - 3) * 1000);
+    } else if (currentIterationStep === "dm-rpe") {
+      setTimeout(async () => {
+        await whistle.playAllSounds();
+      }, 1000);
+    } else if (
+      currentIterationStep === "dm-workout" ||
+      currentIterationStep === "mem-workout"
+    ) {
+      setTimeout(async () => {
+        await whistle.playAllSounds();
+      }, (currentIterarion.timeToWorkoutInSec - 3) * 1000);
+    } else if (currentIterationStep === "mem-rpe") {
+      const nextIteration = getNextIteration();
+      const time = (nextIteration?.timeToGetReadyInSec || 0) + 3;
+      if (nextIteration && nextIteration?.timeToGetReadyInSec < 3) {
+        setTimeout(async () => {
+          await whistle.playAllSounds();
+        }, (time - 3) * 1000);
+      }
+    }
+  }, [currentIterationStep]);
+
   // Flujo normal: mem-beginning mem-video dm-beginning dm-workout
   // dm-video dm-rpe dm-decision mem-workout mem-decision rpe
-
   return (
     <View flex={1}>
       {currentIterationStep === "beginning" ? (

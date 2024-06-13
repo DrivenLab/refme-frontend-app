@@ -44,7 +44,7 @@ export const useWhistle = () => {
     longSound.current?.replayAsync();
   };
   const vibrate = (x?: "long") => {
-    Vibration.vibrate(x === "long" ? 1200 : 500);
+    Vibration.vibrate(x === "long" ? 1500 : 500);
   };
   const playAllSounds = async () => {
     shortSound.current?.replayAsync();

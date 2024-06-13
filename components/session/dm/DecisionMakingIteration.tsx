@@ -41,6 +41,7 @@ const DecisionMakingIteration = () => {
   };
 
   useEffect(() => {
+    // WHISTLE LOGIC!
     if (
       currentIterationStep === "beginning" &&
       currentIterarion.timeToGetReadyInSec >= 3

@@ -158,7 +158,7 @@ export function DMProvider({ children }: PropsWithChildren) {
       setResume(getWorkoutResume());
       setIterationIndex(0);
       setCurrentIterarion(workout.iterations[INITIAL_ITERATION_INDEX]);
-      //   saveSession();
+      saveSession();
     }
   };
   const updateIteration = (iteration: IterationDM) => {

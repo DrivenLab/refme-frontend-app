@@ -179,6 +179,9 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       setResume(getWorkoutResume());
       setIterationIndex(0);
       setCurrentIterarion(workout.iterations[INITIAL_ITERATION_INDEX]);
+      setTimeout(() => {
+        saveSession();
+      }, 500);
     }
   };
   const updateIteration = (iteration: IterationMemory) => {
@@ -244,7 +247,11 @@ export function MemoryProvider({ children }: PropsWithChildren) {
     setResultCharBarData(data_);
   };
   const startWorkout = () => {
-    setWorkout((prev) => ({ ...prev, status: "inCourse" }));
+    setWorkout((prev) => ({
+      ...prev,
+      status: "inCourse",
+      date: { ...prev.date, start: new Date() },
+    }));
   };
 
   const saveSession = () => {

@@ -151,6 +151,7 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
       calculateResultCharBarData();
       setWorkout((prev) => ({ ...prev, date, status: "finished" }));
       setResume(getWorkoutResume());
+      //   saveSession();
     }
   };
   const updateIteration = (iteration: IterationRecognition) => {
@@ -221,7 +222,11 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
     setResultCharBarData(data_);
   };
   const startWorkout = () => {
-    setWorkout((prev) => ({ ...prev, status: "inCourse" }));
+    setWorkout((prev) => ({
+      ...prev,
+      status: "inCourse",
+      date: { ...prev.date, start: new Date() },
+    }));
   };
 
   const saveSession = () => {

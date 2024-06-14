@@ -158,7 +158,10 @@ export function DMProvider({ children }: PropsWithChildren) {
       setResume(getWorkoutResume());
       setIterationIndex(0);
       setCurrentIterarion(workout.iterations[INITIAL_ITERATION_INDEX]);
-      saveSession();
+      setTimeout(() => {
+        saveSession();
+        // CLEAN VIDEOS MAYBE!
+      }, 500);
     }
   };
   const updateIteration = (iteration: IterationDM) => {
@@ -221,7 +224,11 @@ export function DMProvider({ children }: PropsWithChildren) {
     setResultCharBarData(data_);
   };
   const startWorkout = () => {
-    setWorkout((prev) => ({ ...prev, status: "inCourse" }));
+    setWorkout((prev) => ({
+      ...prev,
+      status: "inCourse",
+      date: { ...prev.date, start: new Date() },
+    }));
   };
   const saveSession = () => {
     const sessionsPayload: SessionPostType[] = workout.iterations.map((it) => ({

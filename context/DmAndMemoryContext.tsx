@@ -272,7 +272,11 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     setResultCharBarData(data);
   };
   const startWorkout = () => {
-    setWorkout((prev) => ({ ...prev, status: "inCourse" }));
+    setWorkout((prev) => ({
+      ...prev,
+      status: "inCourse",
+      date: { ...prev.date, start: new Date() },
+    }));
   };
   const saveSession = () => {
     const sessionsPayload: SessionPostType[] = [];

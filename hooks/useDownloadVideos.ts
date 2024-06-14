@@ -80,11 +80,13 @@ const useDownloadVideos = () => {
     setIsDownloading(true);
     try {
       const _downloads = await Promise.all(_downloadVideos);
+      // Aca se guardan todas las uris de videos necesarios para el entrenamiento seleccionado
       const storedUris: string[] = [];
       _downloads.forEach((download) => {
         if (download?.uri1) storedUris.push(download.uri1);
         if (download?.uri2) storedUris.push(download.uri2);
       });
+      // TODO: Cambiar key de Downloaded videos para incluir el workout ID y que no se sobreescriban al descargar varios workout
       await storeData({
         name: "DOWNLOADED_VIDEOS",
         value: JSON.stringify(storedUris),

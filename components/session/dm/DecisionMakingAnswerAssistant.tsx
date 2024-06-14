@@ -53,7 +53,7 @@ const DecisionMakingAnswerAssistant = ({ onFinish, iteration }: Props) => {
       <CProgress totalTimeInSec={iteration.timeToAnswerInSec} />
       <Box bg="$white" flex={1} p="$8" justifyContent="center">
         <VStack
-          p="$10"
+          p="$6"
           width={"100%"}
           flexDirection="row"
           space="md"

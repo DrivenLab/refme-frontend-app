@@ -10,12 +10,14 @@ type Props = {
   hasMarked: boolean;
   showAnswer: boolean;
   canTouch: boolean;
+  thisAnswerIsCorrect: boolean;
   handleUserAnswer: () => void;
 };
 const DecisionMakingOption = ({
   text,
   answerKey,
   isCorrect,
+  thisAnswerIsCorrect,
   hasMarked,
   showAnswer,
   canTouch,
@@ -26,10 +28,10 @@ const DecisionMakingOption = ({
   };
   const mode = useColorMode();
   const bgColor = useMemo(() => {
-    if (!hasMarked) return "#f5f5f6";
-    if (!showAnswer) return "#090b22";
-    if (isCorrect) return "#a6ebb1";
-    else return "#ff9c97";
+    if (showAnswer && thisAnswerIsCorrect) return "#a6ebb1";
+    if (hasMarked && !showAnswer) return "#090b22";
+    if (hasMarked && showAnswer && !thisAnswerIsCorrect) return "#ff9c97";
+    else return "#f5f5f6";
   }, [isCorrect, hasMarked, showAnswer]);
   const textColor = useMemo(() => {
     if (!hasMarked) return "#090b22";

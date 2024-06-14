@@ -38,6 +38,7 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
     onceTimer.start();
   }, []);
   const handleUserAnswer = (answerSelected: string, questionType: string) => {
+    if (hasCompleted) return;
     const answer_ = { ...asnwer };
     let completed = false;
     if (questionType === "q1") {
@@ -70,6 +71,7 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
               handleUserAnswer={() => handleUserAnswer(value, "q1")}
               hasMarked={value === asnwer.answer1}
               isCorrect={asnwer.answer1 === iteration.answer1}
+              thisAnswerIsCorrect={value === iteration.answer1}
               showAnswer={hasCompleted}
               canTouch={hasCompleted == false}
             />
@@ -90,6 +92,7 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
               handleUserAnswer={() => handleUserAnswer(value, "q2")}
               hasMarked={value === asnwer.asnwer2}
               isCorrect={asnwer.asnwer2 === iteration.answer2}
+              thisAnswerIsCorrect={value === iteration.answer2}
               showAnswer={hasCompleted}
               canTouch={hasCompleted == false}
             />

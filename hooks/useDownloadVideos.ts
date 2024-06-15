@@ -3,7 +3,8 @@ import * as FileSystem from "expo-file-system";
 
 import { Answer, Iteration, VideoAnswerDonwload } from "@/types/session";
 import { Workout } from "@/types/workout";
-import { getData, storeData } from "@/utils/storage";
+import { getData } from "@/utils/storage";
+import { storeDownloadedVideo,cleanWorkoutDownloadedVideos } from '@/utils/downloadedFilesUtils';
 
 type Props = {};
 const useDownloadVideos = () => {
@@ -66,6 +67,7 @@ const useDownloadVideos = () => {
     }
     return obj;
   };
+  // Esta función descarga todos los videos de un entrenamiento
   const downloadVideos = async (workout: Workout) => {
     const _downloadVideos: Promise<VideoAnswerDonwload | undefined>[] = [];
 
@@ -86,37 +88,43 @@ const useDownloadVideos = () => {
         if (download?.uri1) storedUris.push(download.uri1);
         if (download?.uri2) storedUris.push(download.uri2);
       });
-      // TODO: Cambiar key de Downloaded videos para incluir el workout ID y que no se sobreescriban al descargar varios workout
-      await storeData({
-        name: "DOWNLOADED_VIDEOS",
-        value: JSON.stringify(storedUris),
-      });
+
+      // Aca se guardan los workouts descargados
+      await storeDownloadedVideo(storedUris, workout.id);
+
       return _downloads;
     } catch (error) {
-      console.log("Error downloading");
       return null;
     } finally {
       setIsDownloading(false);
     }
   };
+
+  // Esta función limpia los videos descargados de un entrenamiento
   const cleanDownloadedVideos = async () => {
-    let urisToClean: string[] = [];
+    
     try {
-      const arr = JSON.parse(await getData("DOWNLOADED_VIDEOS"));
-      if (arr && Array.isArray(arr)) {
-        urisToClean = arr;
-      } else {
-        throw new Error(
-          `Stored data is not an array is ${typeof arr} Obj: ${arr}`
-        );
+      const workouts = await getData("DOWNLOADED_WORKOUTS");
+      //Se le pasan todos los workouts descargados (y no realizados) para limpiar los videos descargados
+      if (workouts) {
+          const parsedWorkouts = JSON.parse(workouts);
+          if (Array.isArray(parsedWorkouts)) {
+              for (const workoutId of parsedWorkouts) {
+                  await cleanWorkoutDownloadedVideos(workoutId);
+              }
+          } else {
+            throw new Error(
+              `Stored data is not an array is ${typeof parsedWorkouts} Obj: ${parsedWorkouts}`
+          );
+          }
       }
     } catch (error) {
-      console.log("Error cleaning downloaded videos", error);
+        console.error("Error cleaning downloaded videos", error);
     }
-    urisToClean.forEach((uri: string) => {
-      FileSystem.deleteAsync(uri, { idempotent: true });
-    });
+
+   
   };
+
   const downloadProgress =
     Object.values(progresses).reduce((prev, curr) => prev + curr, 0) /
     Object.values(progresses).length;

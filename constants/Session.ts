@@ -37,14 +37,14 @@ export type MapRefTypeWorkoutType = Record<
 export const VIDEO_TIME_IN_SECONDS: MapRefTypeWorkoutType = {
   re: {
     dm: 10,
-    memory: 10,
+    memory: 5,
     recognition: 10,
     dmar: 5,
     "dm+memory": 20,
   },
   ar: {
     dm: 5,
-    memory: 10,
+    memory: 5,
     recognition: 10,
     dmar: 5,
     "dm+memory": 15,
@@ -53,14 +53,14 @@ export const VIDEO_TIME_IN_SECONDS: MapRefTypeWorkoutType = {
 export const ITERATION_TOTAL_TIME: MapRefTypeWorkoutType = {
   re: {
     dm: 21,
-    memory: 21,
+    memory: 16,
     "dm+memory": 22,
     recognition: 14,
     dmar: 14,
   },
   ar: {
     dm: 14,
-    memory: 21,
+    memory: 16,
     "dm+memory": 22,
     recognition: 14,
     dmar: 14,

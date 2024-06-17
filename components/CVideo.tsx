@@ -44,8 +44,8 @@ const CVideo = ({
         volume={1.0}
         isMuted={true}
         resizeMode={ResizeMode.COVER}
-        onLoad={handleLoad}
-        isLooping={isLooping}
+        isLooping={false}
+        shouldPlay={true}
         style={[{ width: "100%", height: "100%" }, customStyles]}
       />
     </View>

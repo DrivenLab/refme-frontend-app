@@ -9,6 +9,8 @@ import SessionCountdown from "../SessionCountdown";
 import { useMemoryWorkout } from "@/context/MemoryContext";
 import MemoryAnswer from "./MemoryAnswer";
 import { useWhistleContext } from "@/hooks/useWhistle";
+import { TIME_TO_RPE, VIDEO_TIME_IN_SECONDS } from "@/constants/Session";
+
 
 const MemoryIteration = () => {
   const {
@@ -55,7 +57,7 @@ const MemoryIteration = () => {
     } else if (currentIterationStep === "video") {
       setTimeout(async () => {
         await whistle.playAllSounds();
-      }, 7000);
+      }, 2000);
     } else if (currentIterationStep === "workout") {
       setTimeout(async () => {
         await whistle.playAllSounds();
@@ -83,6 +85,7 @@ const MemoryIteration = () => {
         <>
           <CVideo
             uri={currentIterarion.video}
+            delayTime={VIDEO_TIME_IN_SECONDS["re"][workout.type]}
             onFinishVideo={() => handleFinishCountdown("beginMemoryWorkout")}
           />
         </>

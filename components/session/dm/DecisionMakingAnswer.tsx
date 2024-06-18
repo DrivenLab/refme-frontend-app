@@ -1,5 +1,5 @@
 import { Box, VStack } from "@gluestack-ui/themed";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { DM_ANSWER1, DM_ANSWER2 } from "@/constants/Session";
 import DecisionMakingOption from "./DecisionMakingOption";
 import i18n from "@/languages/i18n";
@@ -16,14 +16,7 @@ type Props = {
 const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
   const [asnwer, setAnswer] = useState<DM_ANSWER>({} as DM_ANSWER);
   const [hasCompleted, setHasCompleted] = useState(false);
-  const onceTimer = useDelay(
-    iteration.timeToAnswerInSec * 1000,
-    handleOnFinishCountdown
-  );
-  useEffect(() => {
-    onceTimer.start();
-  }, []);
-  function handleOnFinishCountdown() {
+  const handleOnFinishCountdown = useCallback(() => {
     const isCorrect =
       Boolean(asnwer.answer1) &&
       asnwer.answer1 === iteration.answer1 &&
@@ -35,8 +28,17 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
       isCorrect,
     };
     onFinish(a);
-  }
+  }, [asnwer, iteration]);
+
+  const onceTimer = useDelay(
+    iteration.timeToAnswerInSec * 1000,
+    handleOnFinishCountdown
+  );
+  useEffect(() => {
+    onceTimer.start();
+  }, []);
   const handleUserAnswer = (answerSelected: string, questionType: string) => {
+    if (hasCompleted) return;
     const answer_ = { ...asnwer };
     let completed = false;
     if (questionType === "q1") {
@@ -69,6 +71,7 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
               handleUserAnswer={() => handleUserAnswer(value, "q1")}
               hasMarked={value === asnwer.answer1}
               isCorrect={asnwer.answer1 === iteration.answer1}
+              thisAnswerIsCorrect={value === iteration.answer1}
               showAnswer={hasCompleted}
               canTouch={hasCompleted == false}
             />
@@ -89,6 +92,7 @@ const DecisionMakingAnswer = ({ onFinish, iteration }: Props) => {
               handleUserAnswer={() => handleUserAnswer(value, "q2")}
               hasMarked={value === asnwer.asnwer2}
               isCorrect={asnwer.asnwer2 === iteration.answer2}
+              thisAnswerIsCorrect={value === iteration.answer2}
               showAnswer={hasCompleted}
               canTouch={hasCompleted == false}
             />

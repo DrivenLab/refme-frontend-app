@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Modal,
   ModalBackdrop,
@@ -14,13 +14,13 @@ import {
 import i18n from "@/languages/i18n";
 type Props = {
   isModalOpen: boolean;
-  onCancelDownload: () => void;
   downloadProgress: number;
+  onCancelDownload: () => void;
 };
 const DownloadProgressModal = ({
   isModalOpen,
-  onCancelDownload,
   downloadProgress,
+  onCancelDownload,
 }: Props) => {
   const ref = React.useRef(null);
   const dynamicColor =

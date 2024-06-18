@@ -55,7 +55,7 @@ export default function CreateWorkoutScreen() {
 
   const memberTypeMapping = {
     [i18n.t("referee")]: "re",
-    [i18n.t("assistant_referee")]: "ra",
+    [i18n.t("assistant_referee")]: "ar",
   };
   const validate = () => {
     if (!workoutName.trim()) {

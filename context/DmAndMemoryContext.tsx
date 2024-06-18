@@ -39,6 +39,7 @@ type DMAndMemoryContextType = {
   handleNextIteration: (i: IterationDMAndMem) => void;
   updateWorkoutStatus: (s: DM_WORKOUT_STATUS) => void;
   saveSession: () => void;
+  getNextIteration: () => IterationDMAndMem | undefined;
 };
 
 const DMAndMemoryContext = createContext<DMAndMemoryContextType>(
@@ -187,6 +188,9 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
       setWorkout((prev) => ({ ...prev, date, status: "finished" }));
       setResume(getWorkoutResume());
       setCurrentIterarion(workout.iterations[INITIAL_ITERATION_INDEX]);
+      setTimeout(() => {
+        saveSession();
+      }, 100);
     }
   };
   const updateIteration = (iteration: IterationDMAndMem) => {
@@ -268,17 +272,36 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     setResultCharBarData(data);
   };
   const startWorkout = () => {
-    setWorkout((prev) => ({ ...prev, status: "inCourse" }));
+    setWorkout((prev) => ({
+      ...prev,
+      status: "inCourse",
+      date: { ...prev.date, start: new Date() },
+    }));
   };
   const saveSession = () => {
-    const sessionsPayload: SessionPostType[] = workout.iterations.map((it) => ({
-      workout_iteration: it.idIteration,
-      // answer_1: it.userAnswer1,
-      // answer_2: it.userAnswer2,
-      // borgScale: it.rpe,
-      // replyTime: it.answeredInMs,
-    }));
-    // postSessionMutation.mutate(sessionsPayload);
+    const sessionsPayload: SessionPostType[] = [];
+    workout.iterations.forEach((it) => {
+      sessionsPayload.push({
+        workout_iteration: it.idIteration,
+        answer_1: it.userAnswerDM1,
+        answer_2: it.userAnswerDM2,
+        borgScale: it.rpe,
+        replyTime: it.answeredDmInMs,
+      });
+      if (it.memoryVideo) {
+        sessionsPayload.push({
+          workout_iteration: it.idIteration,
+          answer_1: `${it.userAnswerMem1}`,
+          answer_2: `${it.userAnswerMem2}`,
+          borgScale: it.rpeMem,
+          replyTime: it.answeredMemInMs,
+        });
+      }
+    });
+    postSessionMutation.mutate(sessionsPayload);
+  };
+  const getNextIteration = () => {
+    return workout.iterations[iterationIndex + 1];
   };
   return (
     <DMAndMemoryContext.Provider
@@ -299,6 +322,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
         updateWorkoutStatus,
         startWorkout,
         saveSession,
+        getNextIteration,
       }}
     >
       {children}

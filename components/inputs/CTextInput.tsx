@@ -22,6 +22,7 @@ interface CTextInputProps {
   isDisabled?: boolean;
   required?: boolean;
   autoCapitalize?: "none" | "sentences" | "words" | "characters";
+  autoCorrect?: boolean;
   isNumberInput?: boolean;
   onChangeText: (text: string) => void;
 }
@@ -37,6 +38,7 @@ const CTextInput = ({
   isDisabled,
   required,
   autoCapitalize = "none",
+  autoCorrect = false,
   isNumberInput,
   ...props
 }: CTextInputProps) => {
@@ -133,6 +135,7 @@ const CTextInput = ({
               editable={!isDisabled}
               keyboardType={isNumberInput ? "numeric" : "default"}
               autoCapitalize={autoCapitalize}
+              autoCorrect={autoCorrect}
             />
           )}
         </View>

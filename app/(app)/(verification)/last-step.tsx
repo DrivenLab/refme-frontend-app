@@ -1,8 +1,9 @@
-import { useAuth } from "@/context/auth";
-
-import { useState } from "react";
-import api from "@/queries/api";
 import { StyleSheet } from "react-native";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+
+import { useAuth } from "@/context/auth";
+import api from "@/queries/api";
 import CBtn from "@/components/CBtn";
 import {
   Box,
@@ -13,7 +14,6 @@ import {
   View,
 } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
-import { useRouter } from "expo-router";
 
 import * as ImagePicker from "expo-image-picker";
 

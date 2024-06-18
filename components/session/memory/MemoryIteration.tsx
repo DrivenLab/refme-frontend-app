@@ -1,5 +1,6 @@
+import React, { useEffect } from "react";
+
 import { View } from "@gluestack-ui/themed";
-import React from "react";
 import { MEMORY_ANSWER, MEMORY_STEPS, Steps } from "@/types/session";
 import CVideo from "@/components/CVideo";
 import SessionTrainingCountdown from "../SessionTrainingCountdown";
@@ -7,6 +8,9 @@ import RPE from "../RPE";
 import SessionCountdown from "../SessionCountdown";
 import { useMemoryWorkout } from "@/context/MemoryContext";
 import MemoryAnswer from "./MemoryAnswer";
+import { useWhistleContext } from "@/hooks/useWhistle";
+import { TIME_TO_RPE, VIDEO_TIME_IN_SECONDS } from "@/constants/Session";
+
 
 const MemoryIteration = () => {
   const {
@@ -39,6 +43,27 @@ const MemoryIteration = () => {
     if (currentIterarion.video) handleFinishCountdown("video");
     else handleFinishCountdown("workout");
   };
+  const whistle = useWhistleContext();
+  useEffect(() => {
+    // WHISTLE LOGIC!
+    if (
+      currentIterationStep === "beginning" &&
+      !currentIterarion.video &&
+      currentIterarion.timeToGetReadyInSec >= 3
+    ) {
+      setTimeout(async () => {
+        await whistle.playAllSounds();
+      }, (currentIterarion.timeToGetReadyInSec - 3) * 1000);
+    } else if (currentIterationStep === "video") {
+      setTimeout(async () => {
+        await whistle.playAllSounds();
+      }, 2000);
+    } else if (currentIterationStep === "workout") {
+      setTimeout(async () => {
+        await whistle.playAllSounds();
+      }, (currentIterarion.timeToWorkoutInSec - 3) * 1000);
+    }
+  }, [currentIterationStep]);
   return (
     <View flex={1}>
       {currentIterationStep === "beginning" ? (
@@ -60,6 +85,7 @@ const MemoryIteration = () => {
         <>
           <CVideo
             uri={currentIterarion.video}
+            delayTime={VIDEO_TIME_IN_SECONDS["re"][workout.type]}
             onFinishVideo={() => handleFinishCountdown("beginMemoryWorkout")}
           />
         </>

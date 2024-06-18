@@ -16,6 +16,7 @@ import {
 import { SafeAreaViewStyle } from "@/utils/Styles";
 import { DisableTextInput } from "@/components/inputs/CTextInput";
 import i18n from "@/languages/i18n";
+import { genreMapping } from "@/utils";
 
 export default function TabTwoScreen() {
   const { signOut, user, profile, currentOrganization } = useAuth();
@@ -49,9 +50,9 @@ export default function TabTwoScreen() {
               <HStack justifyContent="center" space="sm" marginTop={10}>
                 <Badge backgroundColor="$secondary" rounded="$full" padding={6}>
                   <Text textAlign="center" color="white">
-                    {profile?.length && profile[0].memberType === "ra"
-                      ? "Asistant"
-                      : "Referee"}
+                    {profile?.length && profile[0].memberType === "ar"
+                      ? i18n.t("assistant_referee")
+                      : i18n.t("referee")}
                   </Text>
                 </Badge>
                 <Badge rounded="$full" bg="$orange500" padding={6}>
@@ -76,14 +77,14 @@ export default function TabTwoScreen() {
           </HStack>
           <HStack space="md" mb={12}>
             {/* Utiliza HStack para colocar los inputs lado a lado */}
-            <DisableTextInput
+            {/* <DisableTextInput
               placeholder={i18n.t("common.role_label")}
               value={currentProfile?.memberType || ""}
               containerStyle={{ width: "50%" }}
-            />
+            /> */}
             <DisableTextInput
               placeholder={i18n.t("common.category_label")}
-              containerStyle={{ width: "50%" }}
+              containerStyle={{ width: "100%" }}
               value={currentProfile?.category.toString() || ""}
             />
           </HStack>
@@ -99,7 +100,11 @@ export default function TabTwoScreen() {
             />
             <DisableTextInput
               placeholder={i18n.t("about_you_screen.genre_label")}
-              value={currentProfile?.gender || ""}
+              value={
+                currentProfile?.gender
+                  ? genreMapping[currentProfile?.gender as "m" | "f"]
+                  : ""
+              }
               containerStyle={{ width: "50%" }}
             />
           </HStack>

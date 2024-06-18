@@ -1,5 +1,5 @@
 import { Box, Divider, HStack } from "@gluestack-ui/themed";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MEMORY_ANSWER, IterationMemory } from "@/types/session";
 import CProgress from "@/components/progress-bar/CProgress";
 import MemoryOption from "./MemoryOption";
@@ -15,14 +15,7 @@ type Props = {
 const MemoryAnswer = ({ onFinish, iteration }: Props) => {
   const [asnwer, setAnswer] = useState<MEMORY_ANSWER>({} as MEMORY_ANSWER);
   const [hasCompleted, setHasCompleted] = useState(false);
-  const onceTimer = useDelay(
-    iteration.timeToAnswerInSec * 1000,
-    handleOnFinishCountdown
-  );
-  useEffect(() => {
-    onceTimer.start();
-  }, []);
-  function handleOnFinishCountdown() {
+  const handleOnFinishCountdown = useCallback(() => {
     const a: MEMORY_ANSWER = {
       ...asnwer,
       isCorrect:
@@ -30,7 +23,16 @@ const MemoryAnswer = ({ onFinish, iteration }: Props) => {
         asnwer.asnwer2 == iteration.answer2,
     };
     onFinish(a);
-  }
+  }, [asnwer, iteration]);
+
+  const onceTimer = useDelay(
+    iteration.timeToAnswerInSec * 1000,
+    handleOnFinishCountdown
+  );
+  useEffect(() => {
+    onceTimer.start();
+  }, []);
+
   const handleUserAnswer = (answerSelected: number, questionType: string) => {
     const answer_ = { ...asnwer };
     let completed = false;

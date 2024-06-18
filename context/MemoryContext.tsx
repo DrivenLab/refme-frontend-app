@@ -118,8 +118,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       userAnswer1: a.answer1,
       userAnswer2: a.asnwer2,
       answeredInMs:
-        a.answeredInMs ??
-        TIME_TO_ANSWER[workout.memberType][workout.type] * 1000,
+        a.answeredInMs ?? TIME_TO_ANSWER[workout.memberType]["memory"] * 1000,
       isCorrect: a.isCorrect ?? false,
     };
     setCurrentIterarion(a_);
@@ -156,6 +155,7 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       status: "pending",
       workoutId: w.id,
       type: w.type,
+      memberType: w.memberType,
     };
     setWorkout(workout_);
     setCurrentIterationStep("beginning");
@@ -179,6 +179,9 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       setResume(getWorkoutResume());
       setIterationIndex(0);
       setCurrentIterarion(workout.iterations[INITIAL_ITERATION_INDEX]);
+      setTimeout(() => {
+        saveSession();
+      }, 500);
     }
   };
   const updateIteration = (iteration: IterationMemory) => {
@@ -212,12 +215,12 @@ export function MemoryProvider({ children }: PropsWithChildren) {
       if (!i.answer1 || !i.answer2) return false;
       return i.answer1 == i.userAnswer1 && i.answer2 == i.userAnswer2;
     }).length;
+
     //Manejo de Promedio
     let answerTotalTime = 0;
     for (const i of iterationWithVideos) {
       answerTotalTime += i.answeredInMs;
     }
-
     return {
       date: formatDate(workout.date.start),
       totalTime: formatTimeDifference(workout.date.start, workout.date.end),
@@ -244,7 +247,11 @@ export function MemoryProvider({ children }: PropsWithChildren) {
     setResultCharBarData(data_);
   };
   const startWorkout = () => {
-    setWorkout((prev) => ({ ...prev, status: "inCourse" }));
+    setWorkout((prev) => ({
+      ...prev,
+      status: "inCourse",
+      date: { ...prev.date, start: new Date() },
+    }));
   };
 
   const saveSession = () => {

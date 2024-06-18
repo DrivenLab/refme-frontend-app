@@ -9,7 +9,7 @@ import RPE from "../RPE";
 import SessionCountdown from "../SessionCountdown";
 import DecisionMakingAnswerAssistant from "./DecisionMakingAnswerAssistant";
 import { useWhistleContext } from "@/hooks/useWhistle";
-import { VIDEO_TIME_IN_SECONDS } from "@/constants/Session";
+import { TIME_TO_RPE, VIDEO_TIME_IN_SECONDS } from "@/constants/Session";
 
 const DecisionMakingIteration = () => {
   const {
@@ -20,6 +20,7 @@ const DecisionMakingIteration = () => {
     changeIterationStep,
     handleUserAnswer,
     handleUserRPE,
+    getNextIteration,
   } = useDMWorkout();
   const whistle = useWhistleContext();
   const handleFinishCountdown = (step: Steps) => {
@@ -38,14 +39,32 @@ const DecisionMakingIteration = () => {
       handleNextIteration(i);
     }, 0);
   };
+
   useEffect(() => {
+    // WHISTLE LOGIC!
     if (
       currentIterationStep === "beginning" &&
-      currentIterarion.timeToGetReadyInSec === 0
+      currentIterarion.timeToGetReadyInSec >= 3
     ) {
-      whistle.playLongSound();
+      setTimeout(async () => {
+        await whistle.playAllSounds();
+      }, (currentIterarion.timeToGetReadyInSec - 3) * 1000);
+    } else if (currentIterationStep === "workout") {
+      setTimeout(async () => {
+        await whistle.playAllSounds();
+      }, (currentIterarion.timeToWorkoutInSec - 3) * 1000);
+    } else if (currentIterationStep === "rpe") {
+      const nextIteration = getNextIteration();
+      const time =
+        (nextIteration?.timeToGetReadyInSec || 0) +
+        TIME_TO_RPE[workout?.memberType || "ar"][workout.type];
+      if (nextIteration && nextIteration?.timeToGetReadyInSec < 3) {
+        setTimeout(async () => {
+          await whistle.playAllSounds();
+        }, (time - 3) * 1000);
+      }
     }
-  }, [currentIterationStep, currentIterarion.timeToGetReadyInSec]);
+  }, [currentIterationStep]);
 
   return (
     <View flex={1}>

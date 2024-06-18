@@ -62,7 +62,7 @@ export type IterationMemory = IterationWorkout & {
   answer_2Options: number[];
   isCorrect: boolean;
 };
-export type RECOGNITION_VIDEO_TYPE = "players" | "contact" | "foul" | "hand";
+export type RECOGNITION_VIDEO_TYPE = "players" | "contact" | "foul" | "hand" | "dm" | "memory";
 export type IterationRecognition = IterationWorkout & {
   answers: Answer[];
   //   userAnswers: [];

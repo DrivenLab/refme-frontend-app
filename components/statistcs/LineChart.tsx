@@ -1,16 +1,11 @@
-import { generateFakePoints } from "@/utils";
 import { Box, Text } from "@gluestack-ui/themed";
 import { ComponentProps } from "react";
 import { Circle } from "react-native-svg";
 import {
   VictoryAxis,
-  VictoryBar,
   VictoryChart,
-  VictoryContainer,
   VictoryGroup,
-  VictoryLabel,
   VictoryLine,
-  VictoryStack,
   VictoryTheme,
 } from "victory-native";
 
@@ -28,6 +23,7 @@ type Props = {
   yAxis?: number[];
   tickFormat?: ComponentProps<typeof VictoryAxis>["tickFormat"];
   domain?: DomainType;
+  width?: number;
 };
 
 export const LineChart = ({
@@ -36,16 +32,16 @@ export const LineChart = ({
   yAxis = yAxisDefault,
   tickFormat = tickFormatDefault,
   domain = domainDefault,
+  width = 200,
 }: Props) => {
   const lineNames = Object.keys(linesData);
-
-  
 
   return (
     <Box>
       <VictoryChart
         theme={VictoryTheme.material}
         height={400}
+        width={width}
         padding={{ top: 10, bottom: 40, left: 50, right: 60 }}
       >
         <VictoryAxis
@@ -53,20 +49,19 @@ export const LineChart = ({
           tickValues={yAxis}
           tickFormat={tickFormat}
           style={{
-            grid: {stroke:  "lightgray", strokeWidth: 1, strokeDasharray: "0", },
-            tickLabels: {fontSize: 12, padding: 10, fill: "black",},
-            ticks: {stroke: "none", padding: 0},
-            axis: {stroke: "none"},
-            
+            grid: { stroke: "lightgray", strokeWidth: 1, strokeDasharray: "0" },
+            tickLabels: { fontSize: 12, padding: 10, fill: "black" },
+            ticks: { stroke: "none", padding: 0 },
+            axis: { stroke: "none" },
           }}
         />
         <VictoryAxis
-          tickValues={xAxis}          
+          tickValues={xAxis}
           style={{
-            axis: {stroke: "none"},
-            ticks: {stroke: "none", padding: 0},
-            tickLabels: {fontSize: 12, padding: 10, fill: "black",},
-            grid: {stroke:  "lightgray", strokeWidth: 1, strokeDasharray: "0",},
+            axis: { stroke: "none" },
+            ticks: { stroke: "none", padding: 0 },
+            tickLabels: { fontSize: 12, padding: 10, fill: "black" },
+            grid: { stroke: "lightgray", strokeWidth: 1, strokeDasharray: "0" },
           }}
         />
         <VictoryGroup colorScale={COLORS} domain={domain}>
@@ -80,12 +75,7 @@ export const LineChart = ({
           ))}
         </VictoryGroup>
       </VictoryChart>
-      <Box
-       borderColor="lightgray"
-       mx={5}
-       borderWidth={1}
-       height={1}
-      />
+      <Box borderColor="lightgray" mx={5} borderWidth={1} height={1} />
       <Box
         display="flex"
         flexDirection="row"

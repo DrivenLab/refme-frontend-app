@@ -37,8 +37,8 @@ type _IterationDMAndMem = IterationWorkout & {
   dmAnswer2?: string;
   answeredMemInMs: number;
   answeredDmInMs: number;
-  memoryAnswer1?: string;
-  memoryAnswer2?: string;
+  memoryAnswer1?: number;
+  memoryAnswer2?: number;
   userAnswerDM1?: string;
   userAnswerDM2?: string;
   userAnswerMem1?: number;

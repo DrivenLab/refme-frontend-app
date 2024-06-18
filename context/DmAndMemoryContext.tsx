@@ -81,12 +81,12 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     const answerOptions = getOptions(i);
     const i_: IterationDMAndMem = {
       idIteration: i.id,
-      dmVideo: i.answers.length ? i.answers[0].video1.video : undefined,
-      memoryVideo: i.answers.length ? i.answers[1].video1.video : undefined,
-      dmAnswer1: i.answers.length ? i.answers[0].video1.answer1 : undefined,
-      dmAnswer2: i.answers.length ? i.answers[0].video1.answer2 : undefined,
-      memoryAnswer1: i.answers.length ? i.answers[1].video1.answer1 : undefined,
-      memoryAnswer2: i.answers.length ? i.answers[1].video1.answer2 : undefined,
+      dmVideo: i.answers.length ? i.answers[1].video1.video : undefined,
+      memoryVideo: i.answers.length ? i.answers[0].video1.video : undefined,
+      dmAnswer1: i.answers.length ? i.answers[1].video1.answer1 : undefined,
+      dmAnswer2: i.answers.length ? i.answers[1].video1.answer2 : undefined,
+      memoryAnswer1: i.answers.length ? Number(i.answers[0].video1.answer1) : undefined,
+      memoryAnswer2: i.answers.length ? Number(i.answers[0].video1.answer2) : undefined,
 
       timeToGetReadyInSec: calculateNextTimeToGetReady({
         i: oldIteration,
@@ -331,8 +331,8 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
 }
 
 const getOptions = (i: Iteration) => {
-  const a1 = i.answers.length ? i.answers[1].video1.answer1 : undefined;
-  const a2 = i.answers.length ? i.answers[1].video1.answer2 : undefined;
+  const a1 = i.answers.length ? i.answers[0].video1.answer1 : undefined;
+  const a2 = i.answers.length ? i.answers[0].video1.answer2 : undefined;
   let initialAnswerOptions = [];
   let optionsA1: number[] = [];
   let optionsA2: number[] = [];

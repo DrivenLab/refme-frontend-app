@@ -15,10 +15,9 @@ const xAxisDefault = ["Z1", "Z2", "Z3", "Z4", "Z5"];
 type Props = {
   data: { x: number; y: number }[];
   xAxis?: string[];
-
   yAxis?: number[];
-
   labels: string[];
+  width?: number;
 };
 
 export const BarChart = ({
@@ -26,13 +25,14 @@ export const BarChart = ({
   labels,
   yAxis = yAxisDefault,
   xAxis = xAxisDefault,
+  width = 0,
 }: Props) => {
   const getAccumulativeX = (i: number) =>
     data.slice(0, i).reduce((acc, { x }) => acc + x, 0);
 
   return (
     <Box>
-      <VictoryChart theme={VictoryTheme.material} height={400}>
+      <VictoryChart theme={VictoryTheme.material} height={400} width={width}>
         <VictoryStack colorScale={colors} domain={{ x: [0, 100], y: [0, 100] }}>
           {data.map(({ x, y }, i) => {
             const xdata = x / 2 + getAccumulativeX(i);
@@ -77,7 +77,7 @@ export const BarChart = ({
         p={10}
       >
         {labels.map((label, i) => (
-          <VStack>
+          <VStack key={i}>
             <Box
               key={i}
               display="flex"

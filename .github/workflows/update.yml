@@ -1,7 +1,7 @@
 name: update
 on:
   push:
-    branches: [main]
+    branches: [main, Testing, Oficial]
   workflow_dispatch:
 
 jobs:

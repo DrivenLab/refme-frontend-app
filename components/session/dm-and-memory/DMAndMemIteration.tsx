@@ -53,7 +53,7 @@ const DMAndMemIteration = () => {
     } else if (currentIterationStep === "mem-video") {
       setTimeout(async () => {
         await whistle.playAllSounds();
-      }, (VIDEO_TIME_IN_SECONDS[workout.memberType || "ar"]["dm"] - 3) * 1000);
+      }, (VIDEO_TIME_IN_SECONDS[workout.memberType || "ar"]["memory"] - 3) * 1000);
     } else if (currentIterationStep === "dm-rpe") {
       setTimeout(async () => {
         await whistle.playAllSounds();
@@ -65,15 +65,7 @@ const DMAndMemIteration = () => {
       setTimeout(async () => {
         await whistle.playAllSounds();
       }, (currentIterarion.timeToWorkoutInSec - 3) * 1000);
-    } else if (currentIterationStep === "mem-rpe") {
-      const nextIteration = getNextIteration();
-      const time = (nextIteration?.timeToGetReadyInSec || 0) + 3;
-      if (nextIteration && nextIteration?.timeToGetReadyInSec < 3) {
-        setTimeout(async () => {
-          await whistle.playAllSounds();
-        }, (time - 3) * 1000);
-      }
-    }
+    } 
   }, [currentIterationStep]);
 
   // Flujo normal: mem-beginning mem-video dm-beginning dm-workout
@@ -101,6 +93,7 @@ const DMAndMemIteration = () => {
         <>
           <CVideo
             uri={currentIterarion.memoryVideo}
+            delayTime={VIDEO_TIME_IN_SECONDS["re"]["memory"]}
             onFinishVideo={() => handleFinishCountdown("dm-beginning")}
           />
         </>

@@ -54,14 +54,14 @@ export const ITERATION_TOTAL_TIME: MapRefTypeWorkoutType = {
   re: {
     dm: 21,
     memory: 16,
-    "dm+memory": 22,
+    "dm+memory": 21,
     recognition: 14,
     dmar: 14,
   },
   ar: {
     dm: 14,
     memory: 16,
-    "dm+memory": 22,
+    "dm+memory": 21,
     recognition: 14,
     dmar: 14,
   },

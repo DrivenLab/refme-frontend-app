@@ -66,6 +66,7 @@ const MemoryAnswer = ({ onFinish, iteration }: Props) => {
               handleUserAnswer={() => handleUserAnswer(option, "q1")}
               hasMarked={option == asnwer.answer1}
               isCorrect={asnwer.answer1 == iteration.answer1}
+              thisAnswerIsCorrect={option === iteration.answer1}
               showAnswer={hasCompleted}
               canTouch={hasCompleted == false}
             />
@@ -100,6 +101,7 @@ const MemoryAnswer = ({ onFinish, iteration }: Props) => {
               handleUserAnswer={() => handleUserAnswer(option, "q2")}
               hasMarked={option == asnwer.asnwer2}
               isCorrect={asnwer.asnwer2 == iteration.answer2}
+              thisAnswerIsCorrect={option === iteration.answer2}
               showAnswer={hasCompleted}
               canTouch={hasCompleted == false}
             />

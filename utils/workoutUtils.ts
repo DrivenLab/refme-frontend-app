@@ -1,6 +1,7 @@
 import {
   ITERATION_TOTAL_TIME,
   TIME_TO_ANSWER,
+  TIME_TO_RPE,
   VIDEO_TIME_IN_SECONDS,
 } from "@/constants/Session";
 import { Iteration } from "@/types/session";
@@ -14,12 +15,20 @@ export const calculateNextTimeToGetReady = (props: {
 }) => {
   if (!props.i) return 3;
   if (props.i.answers.length === 0) {
-    const multiplier = props.type === "dm+memory" ? 2 : 1;
+    if (props.type === "dm+memory") {
+      return (
+        props.breakDuration +
+        VIDEO_TIME_IN_SECONDS[props.memberType]["dm"] +
+        TIME_TO_ANSWER[props.memberType]["dm"] -
+        ITERATION_TOTAL_TIME[props.memberType]["dm+memory"]
+      );
+    }
+
     return (
-      multiplier * props.breakDuration +
+      props.breakDuration +
       VIDEO_TIME_IN_SECONDS[props.memberType][props.type] +
-      multiplier * TIME_TO_ANSWER[props.memberType][props.type] -
-      multiplier * ITERATION_TOTAL_TIME[props.memberType][props.type]
+      TIME_TO_ANSWER[props.memberType][props.type] -
+      ITERATION_TOTAL_TIME[props.memberType][props.type]
     );
   }
   return (

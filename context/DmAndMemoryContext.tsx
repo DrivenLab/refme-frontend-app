@@ -4,7 +4,7 @@ import {
   DMAndMemWorkout,
   IterationDMAndMem,
   DM_WORKOUT_STATUS,
-  SessionPostType,
+  DMandMemorySessionPostType,
   DM_MEM_STEPS,
   MEMORY_ANSWER,
 } from "@/types/session";
@@ -40,6 +40,7 @@ type DMAndMemoryContextType = {
   updateWorkoutStatus: (s: DM_WORKOUT_STATUS) => void;
   saveSession: () => void;
   getNextIteration: () => IterationDMAndMem | undefined;
+  getPreviousIteration: () => IterationDMAndMem | undefined;
 };
 
 const DMAndMemoryContext = createContext<DMAndMemoryContextType>(
@@ -279,7 +280,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
     }));
   };
   const saveSession = () => {
-    const sessionsPayload: SessionPostType[] = [];
+    const sessionsPayload: DMandMemorySessionPostType[] = [];
     workout.iterations.forEach((it) => {
       sessionsPayload.push({
         workout_iteration: it.idIteration,
@@ -287,6 +288,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
         answer_2: it.userAnswerDM2,
         borgScale: it.rpe,
         replyTime: it.answeredDmInMs,
+        videoType: "dm"
       });
       if (it.memoryVideo) {
         sessionsPayload.push({
@@ -295,13 +297,18 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
           answer_2: `${it.userAnswerMem2}`,
           borgScale: it.rpeMem,
           replyTime: it.answeredMemInMs,
+          videoType: "memory",
         });
       }
     });
+    
     postSessionMutation.mutate(sessionsPayload);
   };
   const getNextIteration = () => {
     return workout.iterations[iterationIndex + 1];
+  };
+  const getPreviousIteration = () => {
+    return workout.iterations[iterationIndex - 1];
   };
   return (
     <DMAndMemoryContext.Provider
@@ -323,6 +330,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
         startWorkout,
         saveSession,
         getNextIteration,
+        getPreviousIteration,
       }}
     >
       {children}

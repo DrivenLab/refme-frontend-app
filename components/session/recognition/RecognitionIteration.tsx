@@ -1,5 +1,5 @@
 import { View } from "@gluestack-ui/themed";
-import React from "react";
+import React, { useEffect } from "react";
 import { RECOGNITION_STEPS, RecognitionSingularAnswer } from "@/types/session";
 import SessionTrainingCountdown from "../SessionTrainingCountdown";
 import RPE from "../RPE";
@@ -8,6 +8,8 @@ import SessionCountdown from "../SessionCountdown";
 import RecognitionAnswer from "./RecognitionAnswer";
 import { useRecognitionWorkout } from "@/context/RecognitionContext";
 import { RecognitionImageMap } from "@/utils/session";
+import { useWhistleContext } from "@/hooks/useWhistle";
+import { TIME_TO_RPE } from "@/constants/Session";
 
 const RecognitionIteration = () => {
   const {
@@ -18,6 +20,7 @@ const RecognitionIteration = () => {
     changeIterationStep,
     handleUserAnswer,
     handleUserRPE,
+    getNextIteration
   } = useRecognitionWorkout();
   const handleFinishCountdown = (step: RECOGNITION_STEPS) => {
     // Defer the state update until after the current rendering cycle
@@ -40,6 +43,34 @@ const RecognitionIteration = () => {
       handleFinishCountdown("imageDecision");
     } else handleFinishCountdown("rpe");
   };
+  const whistle = useWhistleContext();
+
+  useEffect(() => {
+    // WHISTLE LOGIC!
+    if (
+      currentIterationStep === "beginning" &&
+      currentIterarion.timeToGetReadyInSec >= 3
+    ) {
+      setTimeout(async () => {
+        await whistle.playAllSounds();
+      }, (currentIterarion.timeToGetReadyInSec - 3) * 1000);
+    } else if (currentIterationStep === "workout") {
+      setTimeout(async () => {
+        await whistle.playAllSounds();
+      }, (currentIterarion.timeToWorkoutInSec - 3) * 1000);
+    } else if (currentIterationStep === "rpe") {
+      const nextIteration = getNextIteration();
+      const time =
+        (nextIteration?.timeToGetReadyInSec || 0) +
+        TIME_TO_RPE[workout?.memberType || "ar"][workout.type];
+      if (nextIteration && nextIteration?.timeToGetReadyInSec < 3) {
+        setTimeout(async () => {
+          await whistle.playAllSounds();
+        }, (time - 3) * 1000);
+      }
+    }
+  }, [currentIterationStep]);
+
 
   return (
     <View flex={1}>

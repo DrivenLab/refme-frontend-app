@@ -32,6 +32,7 @@ type RecognitionContextType = {
   handleUserRPE: (a?: number) => IterationRecognition;
   handleNextIteration: (i: IterationRecognition) => void;
   updateWorkoutStatus: (s: RECOGNITION_WORKOUT_STATUS) => void;
+  getNextIteration: () => IterationRecognition | undefined;
 };
 
 const RecognitionContext = createContext<RecognitionContextType>(
@@ -228,6 +229,9 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
       date: { ...prev.date, start: new Date() },
     }));
   };
+  const getNextIteration = () => {
+    return workout.iterations[iterationIndex + 1];
+  };
 
   const saveSession = () => {
     // const sessionsPayload: SessionPostType[] = workout.iterations.map((it) => ({
@@ -255,6 +259,7 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
         updateWorkoutStatus,
         startWorkout,
         saveSession,
+        getNextIteration,
       }}
     >
       {children}

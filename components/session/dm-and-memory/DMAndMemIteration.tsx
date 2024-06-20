@@ -25,6 +25,7 @@ const DMAndMemIteration = () => {
     handleUserDMRPE,
     handleUserMemRPE,
     getNextIteration,
+    getPreviousIteration,
   } = useDMAndMemWorkout();
 
   const handleFinishCountdown = (step: DM_MEM_STEPS) => {
@@ -72,6 +73,27 @@ const DMAndMemIteration = () => {
   const iterationNumberMem = iterationNumberDm + 1;
   const totalIteration = workout.iterations.length * 2;
 
+  //Calcular el tiempo de Espera para el primer Preparate para el Entrenamiento Fisico
+  const calculateInitialCountdown = () => {
+    if (currentIterarion.iterationNumber === 1) {
+      return 0;
+
+    } else if (currentIterarion.dmVideo && getPreviousIteration()?.dmVideo) {      
+      return (currentIterarion.timeToGetReadyInSec ?? 0) + 4;
+
+    } else if (currentIterarion.dmVideo &&  !getPreviousIteration()?.dmVideo){      
+      return (currentIterarion.timeToGetReadyInSec ?? 0) - 6;
+
+    } else if (!currentIterarion.dmVideo &&  getPreviousIteration()?.dmVideo){
+      return (currentIterarion.timeToGetReadyInSec ?? 0) + 4 + 1 + 5;
+
+    } else {
+      return (currentIterarion.timeToGetReadyInSec ?? 0) - 6 + 1 + 5;
+
+    }
+  };
+  
+
   // Flujo normal: mem-beginning mem-video dm-beginning dm-workout
   // dm-video dm-rpe dm-decision mem-workout mem-decision rpe
   return (
@@ -105,13 +127,7 @@ const DMAndMemIteration = () => {
         <>
           <SessionCountdown
             onFinishCountdown={() => handleFinishCountdown("dm-workout")}
-            initialCountdown={
-              currentIterarion.iterationNumber === 1
-                ? 0
-                : currentIterarion.dmVideo
-                ? (getNextIteration()?.timeToGetReadyInSec ?? 0) + 4
-                : getNextIteration()?.timeToGetReadyInSec ?? 0
-            }
+            initialCountdown={calculateInitialCountdown()}
             imageName="man_running_ready_to_workout"
             iterationNumber={iterationNumberDm}
             totalItaration={totalIteration}

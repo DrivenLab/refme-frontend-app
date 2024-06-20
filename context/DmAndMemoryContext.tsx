@@ -40,6 +40,7 @@ type DMAndMemoryContextType = {
   updateWorkoutStatus: (s: DM_WORKOUT_STATUS) => void;
   saveSession: () => void;
   getNextIteration: () => IterationDMAndMem | undefined;
+  getPreviousIteration: () => IterationDMAndMem | undefined;
 };
 
 const DMAndMemoryContext = createContext<DMAndMemoryContextType>(
@@ -303,6 +304,9 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
   const getNextIteration = () => {
     return workout.iterations[iterationIndex + 1];
   };
+  const getPreviousIteration = () => {
+    return workout.iterations[iterationIndex - 1];
+  };
   return (
     <DMAndMemoryContext.Provider
       value={{
@@ -323,6 +327,7 @@ export function DMAndMemProvider({ children }: PropsWithChildren) {
         startWorkout,
         saveSession,
         getNextIteration,
+        getPreviousIteration,
       }}
     >
       {children}

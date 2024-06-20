@@ -170,5 +170,11 @@
     "recognition": "Reconocimiento",
     "dm+memory": "TD + Memoria",
     "random": "Random"
+  },
+  "video_replay_modal": {
+    "title": "Repeticion de video"
+  },
+  "instructions_modal": {
+    "title": "Instrucciones"
   }
 }

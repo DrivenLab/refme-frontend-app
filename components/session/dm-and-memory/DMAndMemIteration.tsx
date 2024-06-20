@@ -12,7 +12,6 @@ import SessionCountdown from "../SessionCountdown";
 import MemoryAnswer from "../memory/MemoryAnswer";
 import { useWhistleContext } from "@/hooks/useWhistle";
 import { TIME_TO_RPE, VIDEO_TIME_IN_SECONDS } from "@/constants/Session";
-import { calculateNextTimeToGetReady } from "@/utils/workoutUtils";
 
 const DMAndMemIteration = () => {
   const {
@@ -55,7 +54,7 @@ const DMAndMemIteration = () => {
     }
     if (currentIterationStep === "dm-rpe") {
       const rpeTime = TIME_TO_RPE[workout.memberType || "ar"]["dm"];
-      const waitTime = calculateInitialCountdownForMemory();
+      const waitTime = calculateInitialCountdownForMemory() ?? 0;
       setTimeout(async () => {
         await whistle.playAllSounds();
       }, (rpeTime + waitTime - 3) * 1000);
@@ -106,17 +105,15 @@ const DMAndMemIteration = () => {
     }
   };
   const calculateInitialCountdownForMemory = () => {
-    const iteration = workout.iterations.find(
-      (i) => i.idIteration === currentIterarion.idIteration
-    );
-    return iterationNumberMem === totalIteration
-      ? calculateNextTimeToGetReady({
-          i: iteration as unknown as Iteration,
-          type: workout.type,
-          memberType: workout.memberType ?? "ar",
-          breakDuration: workout.breakDuration,
-        })
-      : getNextIteration()?.timeToGetReadyInSec ?? 0;
+    if (getNextIteration()?.timeToGetReadyInSec){
+      return getNextIteration()?.timeToGetReadyInSec;
+    } else {
+      if (currentIterarion.dmVideo){
+        return workout.breakDuration - 21
+      }else{
+        return workout.breakDuration - 21 + 10 + 6 
+      }
+    }
   };
   // console.log("currentIterationStep", currentIterationStep);
   // Flujo normal: mem-beginning mem-video dm-beginning dm-workout
@@ -208,7 +205,7 @@ const DMAndMemIteration = () => {
       ) : currentIterationStep === "beginning-mem-workout" ? (
         <SessionCountdown
           onFinishCountdown={() => handleFinishCountdown("mem-workout")}
-          initialCountdown={calculateInitialCountdownForMemory()}
+          initialCountdown={calculateInitialCountdownForMemory() ?? 0}
           imageName="man_running_ready_to_workout"
           iterationNumber={iterationNumberMem}
           totalItaration={totalIteration}

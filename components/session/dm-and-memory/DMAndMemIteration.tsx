@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Text, View } from "@gluestack-ui/themed";
 
-import { DM_MEM_STEPS, IterationDMAndMem } from "@/types/session";
+import { DM_MEM_STEPS, Iteration, IterationDMAndMem } from "@/types/session";
 import CVideo from "@/components/CVideo";
 import { useDMAndMemWorkout } from "@/context/DmAndMemoryContext";
 
@@ -12,6 +12,7 @@ import SessionCountdown from "../SessionCountdown";
 import MemoryAnswer from "../memory/MemoryAnswer";
 import { useWhistleContext } from "@/hooks/useWhistle";
 import { TIME_TO_RPE, VIDEO_TIME_IN_SECONDS } from "@/constants/Session";
+import { calculateNextTimeToGetReady } from "@/utils/workoutUtils";
 
 const DMAndMemIteration = () => {
   const {
@@ -54,9 +55,10 @@ const DMAndMemIteration = () => {
     }
     if (currentIterationStep === "dm-rpe") {
       const rpeTime = TIME_TO_RPE[workout.memberType || "ar"]["dm"];
+      const waitTime = calculateInitialCountdownForMemory();
       setTimeout(async () => {
         await whistle.playAllSounds();
-      }, (rpeTime + currentIterarion.timeToGetReadyInSec - 3) * 1000);
+      }, (rpeTime + waitTime - 3) * 1000);
       return;
     }
     //no hay videos
@@ -102,6 +104,19 @@ const DMAndMemIteration = () => {
     } else {
       return (currentIterarion?.timeToGetReadyInSec ?? 0) - 6 + 1 + 5;
     }
+  };
+  const calculateInitialCountdownForMemory = () => {
+    const iteration = workout.iterations.find(
+      (i) => i.idIteration === currentIterarion.idIteration
+    );
+    return iterationNumberMem === totalIteration
+      ? calculateNextTimeToGetReady({
+          i: iteration as unknown as Iteration,
+          type: workout.type,
+          memberType: workout.memberType ?? "ar",
+          breakDuration: workout.breakDuration,
+        })
+      : getNextIteration()?.timeToGetReadyInSec ?? 0;
   };
   // console.log("currentIterationStep", currentIterationStep);
   // Flujo normal: mem-beginning mem-video dm-beginning dm-workout
@@ -193,7 +208,7 @@ const DMAndMemIteration = () => {
       ) : currentIterationStep === "beginning-mem-workout" ? (
         <SessionCountdown
           onFinishCountdown={() => handleFinishCountdown("mem-workout")}
-          initialCountdown={currentIterarion.timeToGetReadyInSec}
+          initialCountdown={calculateInitialCountdownForMemory()}
           imageName="man_running_ready_to_workout"
           iterationNumber={iterationNumberMem}
           totalItaration={totalIteration}

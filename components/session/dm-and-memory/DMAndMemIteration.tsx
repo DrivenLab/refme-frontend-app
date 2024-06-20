@@ -11,7 +11,7 @@ import RPE from "../RPE";
 import SessionCountdown from "../SessionCountdown";
 import MemoryAnswer from "../memory/MemoryAnswer";
 import { useWhistleContext } from "@/hooks/useWhistle";
-import { VIDEO_TIME_IN_SECONDS } from "@/constants/Session";
+import { TIME_TO_RPE, VIDEO_TIME_IN_SECONDS } from "@/constants/Session";
 
 const DMAndMemIteration = () => {
   const {
@@ -43,23 +43,36 @@ const DMAndMemIteration = () => {
   const whistle = useWhistleContext();
   useEffect(() => {
     // WHISTLE LOGIC!
+    // TODO: clear timeout or/and refactor to use a single timeout
+    if (currentIterationStep === "mem-video") {
+      const videoTime =
+        VIDEO_TIME_IN_SECONDS[workout.memberType || "ar"]["memory"];
+      setTimeout(async () => {
+        await whistle.playAllSounds();
+      }, (videoTime + calculateInitialCountdown(currentIterarion, getPreviousIteration()) - 3) * 1000);
+      return;
+    }
+    if (currentIterationStep === "dm-rpe") {
+      const rpeTime = TIME_TO_RPE[workout.memberType || "ar"]["dm"];
+      setTimeout(async () => {
+        await whistle.playAllSounds();
+      }, (rpeTime + currentIterarion.timeToGetReadyInSec - 3) * 1000);
+      return;
+    }
+    //no hay videos
+    if (currentIterationStep === "mem-rpe" && !getNextIteration()?.dmVideo) {
+      if (iterationNumberMem === totalIteration) return;
+      const rpeTime = TIME_TO_RPE[workout.memberType || "ar"]["memory"];
+      const waitTime = calculateInitialCountdown(
+        getNextIteration(),
+        currentIterarion
+      );
+      setTimeout(async () => {
+        await whistle.playAllSounds();
+      }, (rpeTime + waitTime - 3) * 1000);
+      return;
+    }
     if (
-      currentIterationStep === "beginning" &&
-      !currentIterarion.memoryVideo &&
-      currentIterarion.timeToGetReadyInSec >= 3
-    ) {
-      setTimeout(async () => {
-        await whistle.playAllSounds();
-      }, (currentIterarion.timeToGetReadyInSec - 3) * 1000);
-    } else if (currentIterationStep === "mem-video") {
-      setTimeout(async () => {
-        await whistle.playAllSounds();
-      }, (VIDEO_TIME_IN_SECONDS[workout.memberType || "ar"]["memory"] - 3) * 1000);
-    } else if (currentIterationStep === "dm-rpe") {
-      setTimeout(async () => {
-        await whistle.playAllSounds();
-      }, 1000);
-    } else if (
       currentIterationStep === "dm-workout" ||
       currentIterationStep === "mem-workout"
     ) {
@@ -74,26 +87,23 @@ const DMAndMemIteration = () => {
   const totalIteration = workout.iterations.length * 2;
 
   //Calcular el tiempo de Espera para el primer Preparate para el Entrenamiento Fisico
-  const calculateInitialCountdown = () => {
-    if (currentIterarion.iterationNumber === 1) {
+  const calculateInitialCountdown = (
+    currentIterarion?: IterationDMAndMem,
+    prevIteration?: IterationDMAndMem
+  ) => {
+    if (currentIterarion?.iterationNumber === 1) {
       return 0;
-
-    } else if (currentIterarion.dmVideo && getPreviousIteration()?.dmVideo) {      
-      return (currentIterarion.timeToGetReadyInSec ?? 0) + 4;
-
-    } else if (currentIterarion.dmVideo &&  !getPreviousIteration()?.dmVideo){      
-      return (currentIterarion.timeToGetReadyInSec ?? 0) - 6;
-
-    } else if (!currentIterarion.dmVideo &&  getPreviousIteration()?.dmVideo){
-      return (currentIterarion.timeToGetReadyInSec ?? 0) + 4 + 1 + 5;
-
+    } else if (currentIterarion?.dmVideo && prevIteration?.dmVideo) {
+      return (currentIterarion?.timeToGetReadyInSec ?? 0) + 4;
+    } else if (currentIterarion?.dmVideo && !prevIteration?.dmVideo) {
+      return (currentIterarion?.timeToGetReadyInSec ?? 0) - 6;
+    } else if (!currentIterarion?.dmVideo && prevIteration?.dmVideo) {
+      return (currentIterarion?.timeToGetReadyInSec ?? 0) + 4 + 1 + 5;
     } else {
-      return (currentIterarion.timeToGetReadyInSec ?? 0) - 6 + 1 + 5;
-
+      return (currentIterarion?.timeToGetReadyInSec ?? 0) - 6 + 1 + 5;
     }
   };
-  
-
+  // console.log("currentIterationStep", currentIterationStep);
   // Flujo normal: mem-beginning mem-video dm-beginning dm-workout
   // dm-video dm-rpe dm-decision mem-workout mem-decision rpe
   return (
@@ -127,7 +137,10 @@ const DMAndMemIteration = () => {
         <>
           <SessionCountdown
             onFinishCountdown={() => handleFinishCountdown("dm-workout")}
-            initialCountdown={calculateInitialCountdown()}
+            initialCountdown={calculateInitialCountdown(
+              currentIterarion,
+              getPreviousIteration()
+            )}
             imageName="man_running_ready_to_workout"
             iterationNumber={iterationNumberDm}
             totalItaration={totalIteration}
@@ -180,7 +193,7 @@ const DMAndMemIteration = () => {
       ) : currentIterationStep === "beginning-mem-workout" ? (
         <SessionCountdown
           onFinishCountdown={() => handleFinishCountdown("mem-workout")}
-          initialCountdown={getNextIteration()?.timeToGetReadyInSec ?? 0}
+          initialCountdown={currentIterarion.timeToGetReadyInSec}
           imageName="man_running_ready_to_workout"
           iterationNumber={iterationNumberMem}
           totalItaration={totalIteration}

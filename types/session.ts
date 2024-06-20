@@ -37,8 +37,8 @@ type _IterationDMAndMem = IterationWorkout & {
   dmAnswer2?: string;
   answeredMemInMs: number;
   answeredDmInMs: number;
-  memoryAnswer1?: string;
-  memoryAnswer2?: string;
+  memoryAnswer1?: number;
+  memoryAnswer2?: number;
   userAnswerDM1?: string;
   userAnswerDM2?: string;
   userAnswerMem1?: number;
@@ -62,7 +62,7 @@ export type IterationMemory = IterationWorkout & {
   answer_2Options: number[];
   isCorrect: boolean;
 };
-export type RECOGNITION_VIDEO_TYPE = "players" | "contact" | "foul" | "hand";
+export type RECOGNITION_VIDEO_TYPE = "players" | "contact" | "foul" | "hand" | "dm" | "memory";
 export type IterationRecognition = IterationWorkout & {
   answers: Answer[];
   //   userAnswers: [];

@@ -182,7 +182,7 @@ const ViewInstructionsModal = ({
   onClose,
 }: Props) => {
   return (
-    <Modal isOpen={modalIsOpen}>
+    <Modal isOpen={modalIsOpen} onClose={onClose}>
       <ModalBackdrop />
       <ModalContent>
         <ModalHeader>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   Text,
@@ -24,22 +24,34 @@ import CAlert from "@/components/CAlert";
 import WorkoutMemberDetail from "@/components/workouts/WorkoutMemberDetail";
 import WorkoutInstructorDetail from "@/components/workouts/WorkoutInstructorDetail";
 import { SafeAreaViewStyle } from "@/utils/Styles";
+import { ViewInstructionsModal } from "@/components/ViewInstructionsModal";
 
 const WorkoutDetail = () => {
   //TODO solo id
   const { id: id } = useLocalSearchParams();
+  const [instructionsModalIsOpen, setInstructionsModalIsOpen] = useState(false);
   const { userRole, currentOrganization } = useAuth();
   const idWorkout = id;
   const { workout, session } = useGetWorkoutById({
     idWorkout: Number(idWorkout as string),
   });
-
+  const handleInstructionsModalClose = () => {
+    setInstructionsModalIsOpen(!instructionsModalIsOpen);
+  };
+  const handleWatchTutorial = () => {
+    setInstructionsModalIsOpen(true);
+  };
   const date = workout?.createdAt
     ? new Date(Date.parse(workout.createdAt))
     : new Date();
   const materials: string[] = workout?.material || [];
   return (
     <>
+      <ViewInstructionsModal
+        modalIsOpen={instructionsModalIsOpen}
+        onClose={handleInstructionsModalClose}
+        workoutType={workout?.type || "dm"}
+      />
       <SafeAreaView bg="white" pb={"$2"} style={[SafeAreaViewStyle.s]}>
         <ImageBackground
           source={require("@/assets/images/workout_banner.png")}
@@ -100,7 +112,7 @@ const WorkoutDetail = () => {
                   typeText={i18n.t(`workout_type.${workout?.type}`)}
                   type={workout?.type || "dm"}
                 />
-                <Button variant="link">
+                <Button variant="link" onPress={handleWatchTutorial}>
                   <ButtonText fontWeight="medium">
                     {i18n.t("workout_flow.watch_tutorial_label")}
                   </ButtonText>

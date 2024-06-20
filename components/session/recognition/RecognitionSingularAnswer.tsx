@@ -106,8 +106,8 @@ const RecognitionSingularAnswerContactPoint = ({
     const random1 = getRandomItemFromArray(similarToFirstPart);
     const random2 = getRandomItemFromArray(similarToSecondPart);
 
-    return shuffleArray([random1, random2, answerStr]);
-  }, []);
+    return shuffleArray([random1.toLowerCase(), random2.toLowerCase(), firstPart+"/"+secondPart]);
+  }, [selectedAnswer]);
   const isCorrect = selectedAnswer === recognitionAnswer.video1.answer3;
   return (
     <HStack height="100%" bg="$white">
@@ -148,9 +148,9 @@ const RecognitionSingularAnswerContactPoint = ({
               paddingVertical={20}
               rounded="$xl"
               onPress={() => setAnswer(`${item}`)}
-              bgColor={isCorrect ? "##A6ECB1" : "#f5f5f6"}
+              bgColor={isCorrect && item == recognitionAnswer.video1.answer3 ? "#A6ECB1" : "#f5f5f6"}
               borderWidth={1}
-              borderColor={isCorrect ? "#4ED964" : "#f5f5f6"}
+              borderColor={isCorrect && item == recognitionAnswer.video1.answer3 ? "#4ED964" : "#f5f5f6"}
             >
               <Text
                 fontSize={"$2xl"}

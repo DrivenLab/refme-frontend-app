@@ -41,7 +41,7 @@ export function useRecognitionWorkout() {
   return useContext(RecognitionContext);
 }
 
-const INITIAL_ITERATION_INDEX = 1;
+const INITIAL_ITERATION_INDEX = 0;
 export function RecognitionProvider({ children }: PropsWithChildren) {
   const [workout, setWorkout] = useState<RecognitionWorkout>(
     {} as RecognitionWorkout

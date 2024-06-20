@@ -53,16 +53,16 @@ export const VIDEO_TIME_IN_SECONDS: MapRefTypeWorkoutType = {
 export const ITERATION_TOTAL_TIME: MapRefTypeWorkoutType = {
   re: {
     dm: 21,
-    memory: 16,
+    memory: 17,
     "dm+memory": 21,
-    recognition: 14,
+    recognition: 15,
     dmar: 14,
   },
   ar: {
     dm: 14,
-    memory: 16,
+    memory: 17,
     "dm+memory": 21,
-    recognition: 14,
+    recognition: 15,
     dmar: 14,
   },
 };

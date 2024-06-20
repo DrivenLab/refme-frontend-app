@@ -120,7 +120,13 @@ export type SessionPostType = {
   answer_2?: string;
   borgScale?: number | null;
   replyTime?: number;
+  
+
 };
+export type DMandMemorySessionPostType = {
+  videoType: string;
+} & SessionPostType;
+
 export interface Answer {
   id: number;
   video1: Video;

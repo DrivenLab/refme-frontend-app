@@ -3,7 +3,7 @@ import api from "./api";
 import { AxiosResponse } from "axios";
 import { useAuth } from "@/context/auth";
 import { Session, SessionPostType } from "@/types/session";
-import { cleanWorkoutDownloadedVideos } from '@/utils/downloadedFilesUtils';
+import { cleanWorkoutDownloadedVideos } from "@/utils/downloadedFilesUtils";
 
 /*Esta función es la encargada de obtener los datos de una sesión en especifica del servidor y guardar en el storage. */
 const useGetSessionDetailById = ({
@@ -85,12 +85,12 @@ const usePostSession = ({
     onMutate: async (payload: SessionPostType[]) => {
       await queryClient.cancelQueries({ queryKey: ["sessions"] });
       // updateLocalExerciseList(payload.id, payload.isDone, true);
-      await cleanWorkoutDownloadedVideos(workoutId)
       // TODO: Eliminar video
       // TODO: Marcar entrenamiento como completo en react query
     },
     onSuccess(data) {
-      queryClient.cancelQueries({ queryKey: ["sessions"] });      
+      queryClient.cancelQueries({ queryKey: ["sessions"] });
+      cleanWorkoutDownloadedVideos(workoutId);
       // updateLocalExerciseList(data.id, data.isDone, false);
     },
     onError: (error) => {

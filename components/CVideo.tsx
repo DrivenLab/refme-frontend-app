@@ -13,7 +13,7 @@ type Props = {
 };
 const CVideo = ({
   uri,
-  isLooping,
+  isLooping = false,
   customStyles,
   onFinishVideo,
   delayTime = 10,
@@ -44,7 +44,7 @@ const CVideo = ({
         volume={1.0}
         isMuted={true}
         resizeMode={ResizeMode.COVER}
-        isLooping={false}
+        isLooping={isLooping}
         shouldPlay={true}
         style={[{ width: "100%", height: "100%" }, customStyles]}
       />

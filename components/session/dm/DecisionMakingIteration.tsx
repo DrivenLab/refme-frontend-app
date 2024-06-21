@@ -93,6 +93,7 @@ const DecisionMakingIteration = () => {
         <>
           <CVideo
             uri={currentIterarion.video}
+            isLooping={true}
             delayTime={VIDEO_TIME_IN_SECONDS["re"][workout.type]}
             onFinishVideo={() => handleFinishCountdown("decision")}
           />

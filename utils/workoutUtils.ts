@@ -23,6 +23,13 @@ export const calculateNextTimeToGetReady = (props: {
         ITERATION_TOTAL_TIME[props.memberType]["dm+memory"]
       );
     }
+    if (props.type === "recognition") {
+      return (
+        props.breakDuration +
+        TIME_TO_ANSWER[props.memberType]["recognition"] -
+        ITERATION_TOTAL_TIME[props.memberType]["recognition"]
+      );
+    }
 
     return (
       props.breakDuration +

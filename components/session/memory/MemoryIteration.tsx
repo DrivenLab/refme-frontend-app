@@ -27,6 +27,7 @@ const MemoryIteration = () => {
     handleUserAnswer,
     handleUserRPE,
     getPreviousIteration,
+    getNextIteration
   } = useMemoryWorkout();
 
   const handleFinishCountdown = (step: MEMORY_STEPS) => {
@@ -55,20 +56,46 @@ const MemoryIteration = () => {
     if (
       currentIterationStep === "beginning" &&
       !currentIterarion.video &&
-      currentIterarion.timeToGetReadyInSec >= 3
+      currentIterarion.iterationNumber == 1
+      && currentIterarion.timeToGetReadyInSec >=3
     ) {
       setTimeout(async () => {
         await whistle.playAllSounds();
       }, (currentIterarion.timeToGetReadyInSec - 3) * 1000);
-    } else if (currentIterationStep === "video") {
+    }
+    if (currentIterationStep === "video") {
+      const videoTime =
+        VIDEO_TIME_IN_SECONDS[workout.memberType || "ar"]["memory"];
       setTimeout(async () => {
         await whistle.playAllSounds();
-      }, 2000);
-    } else if (currentIterationStep === "workout") {
+      }, (videoTime + calculateInitialCountdown(currentIterarion, getPreviousIteration()) - 3) * 1000);
+      return;
+    }
+    if (currentIterationStep === "rpe" && !getNextIteration()?.video) {
+      const rpeTime = TIME_TO_RPE[workout.memberType || "ar"]["memory"];
+      const nextIteration = getNextIteration();
+
+      const waitTime = calculateInitialCountdown(
+        nextIteration,
+        currentIterarion
+      );
+      
+      if (nextIteration) {
+        setTimeout(async () => {
+          await whistle.playAllSounds();
+        }, (rpeTime + waitTime - 3) * 1000);
+      }
+      return;
+    } 
+    
+    if (
+      currentIterationStep === "workout"
+    ) {
       setTimeout(async () => {
         await whistle.playAllSounds();
       }, (currentIterarion.timeToWorkoutInSec - 3) * 1000);
     }
+    
   }, [currentIterationStep]);
 
   const calculateInitialCountdown = (
@@ -89,7 +116,7 @@ const MemoryIteration = () => {
     
     } else {
       return (minimumTime ?? 0) + 6 + 1 + 5;
-      
+
     }
   };
 

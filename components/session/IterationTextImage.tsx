@@ -1,4 +1,4 @@
-import { View, Box } from "@gluestack-ui/themed";
+import { View, Box, SafeAreaView } from "@gluestack-ui/themed";
 import React, { useMemo } from "react";
 import { Image } from "expo-image";
 import { IMAGE_NAME } from "@/types/session";
@@ -8,28 +8,25 @@ type Props = {
   children: React.ReactNode;
   imageName: IMAGE_NAME;
   imageSize?: number;
-  isCenterContent?: boolean;
 };
 const IterationTextImage = ({
   children,
   imageName,
   imageSize = 150,
-  isCenterContent = false,
 }: Props) => {
   const imageSource = useMemo(() => getImageFromName(imageName), []);
-
   return (
-    <View
+    <SafeAreaView
       flex={1}
-      justifyContent={isCenterContent ? "center" : "space-evenly"}
+      justifyContent={"center"}
       flexDirection="row"
       alignItems="center"
       bg="$primary"
       w="$full"
       height={"100%"}
-      gap={isCenterContent ? 32 : 0}
+      gap={32}
     >
-      <Box height={"100%"} justifyContent="center">
+      <Box height={"100%"} justifyContent="center" maxWidth="60%">
         {children}
       </Box>
       <Box>
@@ -39,7 +36,7 @@ const IterationTextImage = ({
           contentFit="contain"
         />
       </Box>
-    </View>
+    </SafeAreaView>
   );
 };
 

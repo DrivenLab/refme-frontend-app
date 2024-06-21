@@ -1,4 +1,4 @@
-import { View, Box } from "@gluestack-ui/themed";
+import { Box, SafeAreaView } from "@gluestack-ui/themed";
 import { Image } from "expo-image";
 import TextInformation from "../workouts/TextInformation";
 import SessionCounter from "./SessionCounter";
@@ -32,7 +32,7 @@ const IterationTextImageCountdown = ({
   const imageSource = useMemo(() => getImageFromName(imageName), []);
 
   return (
-    <View
+    <SafeAreaView
       flex={1}
       justifyContent="space-evenly"
       flexDirection="row"
@@ -76,7 +76,7 @@ const IterationTextImageCountdown = ({
         </Box>
         <SessionCounter current={iterationNumber} total={totalItaration} />
       </Box>
-    </View>
+    </SafeAreaView>
   );
 };
 

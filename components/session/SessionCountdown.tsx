@@ -55,11 +55,7 @@ const SessionCountdown = ({
           recognitionType={recognitionType}
         />
       ) : (
-        <IterationTextImage
-          imageName={imageName}
-          imageSize={220}
-          isCenterContent
-        >
+        <IterationTextImage imageName={imageName} imageSize={220}>
           <TextInformation
             type={"go"}
             step={1}

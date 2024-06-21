@@ -119,7 +119,7 @@ const TextInformation = ({
       </Box>
     );
   }
-  return <Box px={"$8"}>{CMP}</Box>;
+  return <Box px={"$4"}>{CMP}</Box>;
 };
 
 export default TextInformation;

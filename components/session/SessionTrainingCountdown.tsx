@@ -1,4 +1,4 @@
-import { View, Box } from "@gluestack-ui/themed";
+import { View, Box, SafeAreaView } from "@gluestack-ui/themed";
 import React, { useEffect, useMemo, useState } from "react";
 import { Image, ImageSource } from "expo-image";
 import SessionCounter from "./SessionCounter";
@@ -59,7 +59,7 @@ const SessionTrainingCountdown = ({
   return (
     <View flex={1}>
       {count >= 1 ? (
-        <View
+        <SafeAreaView
           flex={1}
           justifyContent="space-evenly"
           flexDirection="row"
@@ -114,11 +114,11 @@ const SessionTrainingCountdown = ({
             </Box>
             <SessionCounter current={iterationNumber} total={totalItaration} />
           </Box>
-        </View>
+        </SafeAreaView>
       ) : (
         <IterationTextImage imageName={hasVideo ? imageName : "how_you_feel"}>
           <TextInformation
-            type={"go"}
+            type={type}
             step={2}
             hasVideo={hasVideo}
             recognitionType={recognitionType}

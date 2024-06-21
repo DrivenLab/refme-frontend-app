@@ -1,6 +1,7 @@
 import { IMAGE_NAME } from "@/types/session";
+import { ImageSource } from "expo-image";
 
-export const getImageFromName: (imageName: IMAGE_NAME) => NodeRequire = (
+export const getImageFromName: (imageName: IMAGE_NAME) => ImageSource = (
   imageName: IMAGE_NAME
 ) => {
   if (imageName === "man_running_ready_to_workout")

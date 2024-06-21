@@ -40,6 +40,7 @@ const SessionCountdown = ({
 
     return () => clearInterval(interval); // Cleanup the interval on component unmount
   }, []);
+
   return (
     <>
       {count >= 1 ? (
@@ -54,9 +55,9 @@ const SessionCountdown = ({
           recognitionType={recognitionType}
         />
       ) : (
-        <IterationTextImage imageName={imageName}>
+        <IterationTextImage imageName={imageName} imageSize={220}>
           <TextInformation
-            type={type}
+            type={"go"}
             step={1}
             recognitionType={recognitionType}
           />

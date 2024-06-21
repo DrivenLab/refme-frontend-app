@@ -43,7 +43,7 @@ export type WorkoutResume = {
   answerTotalTime: string;
 };
 
-export type TEXT_TYPES = "dm" | "memory" | "rpe" | "recognition";
+export type TEXT_TYPES = "dm" | "memory" | "rpe" | "recognition" | "go";
 
 export type MEMBER_TYPE = "re" | "ar";
 export type WORKOUT_TYPE =

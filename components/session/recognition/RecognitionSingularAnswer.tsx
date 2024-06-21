@@ -96,17 +96,40 @@ const RecognitionSingularAnswerContactPoint = ({
     const answerStrSplit = answerStr.split("-");
     const firstPart = answerStrSplit[0];
     const secondPart = answerStrSplit[1];
-
-    const similarToFirstPart = ContactPointOptions.filter((cp) => cp.toLowerCase().includes(firstPart) && cp !== answerStr
+    const options = Object.keys(ContactPointOptions);
+    const similarToFirstPart = options.filter(
+      (cp) => cp.includes(firstPart) && cp !== answerStr
     );
-    const similarToSecondPart = ContactPointOptions.filter((cp) => cp.toLowerCase().includes(secondPart) && cp !== answerStr
+    const similarToSecondPart = options.filter(
+      (cp) => cp.includes(secondPart) && cp !== answerStr
     );
     const random1 = getRandomItemFromArray(similarToFirstPart);
     const random2 = getRandomItemFromArray(similarToSecondPart);
 
-    return shuffleArray([random1.toLowerCase(), random2.toLowerCase(),answerStr]);
-  }, [selectedAnswer]);
+    return shuffleArray([random1, random2, answerStr]);
+  }, [recognitionAnswer.video1.answer3]);
   const isCorrect = selectedAnswer === recognitionAnswer.video1.answer3;
+
+  const getAnswerBgColor = (item: string) => {
+    if (isCorrect && item == recognitionAnswer.video1.answer3) return "#A6ECB1";
+    if (
+      selectedAnswer &&
+      !isCorrect &&
+      item == recognitionAnswer.video1.answer3
+    )
+      return "#f29490";
+    return "#f5f5f6";
+  };
+  const getAnswerBorderColor = (item: string) => {
+    if (isCorrect && item == recognitionAnswer.video1.answer3) return "#4ED964";
+    if (
+      selectedAnswer &&
+      !isCorrect &&
+      item == recognitionAnswer.video1.answer3
+    )
+      return "#FF3A31";
+    return "#f5f5f6";
+  };
   return (
     <HStack height="100%" bg="$white">
       <RecognitionOption
@@ -139,22 +162,20 @@ const RecognitionSingularAnswerContactPoint = ({
             height: "100%",
           }}
           data={possibleAnswers}
-          keyExtractor={(item, i) => `option-${i}`}
-          renderItem={({ item }) => (
+          keyExtractor={(item, i) => `option-${item}-${i}`}
+          renderItem={({ item }: { item: any }) => (
             <Pressable
               paddingHorizontal={50}
               paddingVertical={20}
               rounded="$xl"
               onPress={() => setAnswer(`${item}`)}
-              bgColor={isCorrect && item == recognitionAnswer.video1.answer3 ? "#A6ECB1" : "#f5f5f6"}
+              bgColor={getAnswerBgColor(item)}
               borderWidth={1}
-              borderColor={isCorrect && item == recognitionAnswer.video1.answer3 ? "#4ED964" : "#f5f5f6"}
+              borderColor={getAnswerBorderColor(item)}
             >
-              <Text
-                fontSize={"$2xl"}
-                textAlign="center"
-                color="$secondary"
-              >{`${item}`}</Text>
+              <Text fontSize={"$2xl"} textAlign="center" color="$secondary">
+                {ContactPointOptions[item as keyof typeof ContactPointOptions]}
+              </Text>
             </Pressable>
           )}
         />
@@ -162,4 +183,5 @@ const RecognitionSingularAnswerContactPoint = ({
     </HStack>
   );
 };
+
 export { RecognitionSingularAnswer, RecognitionSingularAnswerContactPoint };

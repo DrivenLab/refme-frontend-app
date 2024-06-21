@@ -5,6 +5,8 @@ import {
   IterationRecognition,
   RECOGNITION_WORKOUT_STATUS,
   RecognitionSingularAnswer,
+  SessionPostType,
+
 } from "@/types/session";
 import { Iteration } from "@/types/session";
 import {
@@ -152,7 +154,7 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
       calculateResultCharBarData();
       setWorkout((prev) => ({ ...prev, date, status: "finished" }));
       setResume(getWorkoutResume());
-      //   saveSession();
+      saveSession();
     }
   };
   const updateIteration = (iteration: IterationRecognition) => {
@@ -234,14 +236,21 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
   };
 
   const saveSession = () => {
-    // const sessionsPayload: SessionPostType[] = workout.iterations.map((it) => ({
-    //   workout_iteration: it.idIteration,
-    //   answer_1: `${it.userAnswer1}`,
-    //   answer_2: `${it.userAnswer2}`,
-    //   borgScale: it.rpe,
-    //   replyTime: it.answeredInMs,
-    // }));
-    // postSessionMutation.mutate(sessionsPayload);
+  
+    const sessionsPayload: SessionPostType[] = workout.iterations.map((it) => {
+      // Asegúrate de que it.userAnswers tiene al menos 3 elementos
+      const userAnswers = it.userAnswers || [];
+      return {
+        workout_iteration: it.idIteration,
+        answer_1: `${userAnswers[0]?.selectedAnswer || ""}`,
+        answer_2: `${userAnswers[1]?.selectedAnswer || ""}`,
+        answer_3: `${userAnswers[2]?.selectedAnswer || ""}`,
+        borgScale: it.rpe,
+        replyTime: it.answeredInMs,
+      };
+    });
+  
+    postSessionMutation.mutate(sessionsPayload);
   };
   return (
     <RecognitionContext.Provider

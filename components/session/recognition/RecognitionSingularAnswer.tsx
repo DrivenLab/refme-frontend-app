@@ -97,16 +97,14 @@ const RecognitionSingularAnswerContactPoint = ({
     const firstPart = answerStrSplit[0];
     const secondPart = answerStrSplit[1];
 
-    const similarToFirstPart = ContactPointOptions.filter((cp) =>
-      cp.toLowerCase().includes(firstPart)
+    const similarToFirstPart = ContactPointOptions.filter((cp) => cp.toLowerCase().includes(firstPart) && cp !== answerStr
     );
-    const similarToSecondPart = ContactPointOptions.filter((cp) =>
-      cp.toLowerCase().includes(secondPart)
+    const similarToSecondPart = ContactPointOptions.filter((cp) => cp.toLowerCase().includes(secondPart) && cp !== answerStr
     );
     const random1 = getRandomItemFromArray(similarToFirstPart);
     const random2 = getRandomItemFromArray(similarToSecondPart);
 
-    return shuffleArray([random1.toLowerCase(), random2.toLowerCase(), firstPart+"/"+secondPart]);
+    return shuffleArray([random1.toLowerCase(), random2.toLowerCase(),answerStr]);
   }, [selectedAnswer]);
   const isCorrect = selectedAnswer === recognitionAnswer.video1.answer3;
   return (

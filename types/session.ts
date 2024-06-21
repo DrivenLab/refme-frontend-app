@@ -123,6 +123,10 @@ export type SessionPostType = {
   
 
 };
+export type RecognitionSessionPostType = {
+  answer_3?: string;
+} & SessionPostType;
+
 export type DMandMemorySessionPostType = {
   videoType: string;
 } & SessionPostType;

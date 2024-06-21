@@ -1,6 +1,6 @@
 import { View, Box } from "@gluestack-ui/themed";
 import React, { useEffect, useMemo, useState } from "react";
-import { Image } from "expo-image";
+import { Image, ImageSource } from "expo-image";
 import SessionCounter from "./SessionCounter";
 
 import IterationTextImage from "./IterationTextImage";
@@ -36,7 +36,7 @@ const SessionTrainingCountdown = ({
 }: Props) => {
   const [count, setCount] = useState(initialCountdown);
   const imageSource = useMemo(() => {
-    let img: NodeRequire | undefined;
+    let img: ImageSource | undefined;
     img = getImageFromName(hasVideo ? imageName : "how_you_feel");
     return img;
   }, [hasVideo]);
@@ -118,7 +118,7 @@ const SessionTrainingCountdown = ({
       ) : (
         <IterationTextImage imageName={hasVideo ? imageName : "how_you_feel"}>
           <TextInformation
-            type={type}
+            type={"go"}
             step={2}
             hasVideo={hasVideo}
             recognitionType={recognitionType}

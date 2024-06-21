@@ -7,26 +7,35 @@ import { getImageFromName } from "@/utils/libs";
 type Props = {
   children: React.ReactNode;
   imageName: IMAGE_NAME;
+  imageSize?: number;
+  isCenterContent?: boolean;
 };
-const IterationTextImage = ({ children, imageName }: Props) => {
+const IterationTextImage = ({
+  children,
+  imageName,
+  imageSize = 150,
+  isCenterContent = false,
+}: Props) => {
   const imageSource = useMemo(() => getImageFromName(imageName), []);
 
   return (
     <View
       flex={1}
-      justifyContent="space-evenly"
+      justifyContent={isCenterContent ? "center" : "space-evenly"}
       flexDirection="row"
       alignItems="center"
       bg="$primary"
+      w="$full"
       height={"100%"}
+      gap={isCenterContent ? 32 : 0}
     >
-      <Box flex={2} height={"100%"} justifyContent="center">
+      <Box height={"100%"} justifyContent="center">
         {children}
       </Box>
-      <Box flex={1} pr="$8">
+      <Box>
         <Image
           source={imageSource}
-          style={{ height: 150, width: "100%" }}
+          style={{ height: imageSize, aspectRatio: 1 }}
           contentFit="contain"
         />
       </Box>

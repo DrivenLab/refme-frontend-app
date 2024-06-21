@@ -35,6 +35,8 @@ type MemoryContextType = {
   workout: MemoryWorkout;
   resultCharBarData: WorkoutResultBarChart[];
   //handleNextStep:()=>void
+  getNextIteration: () => IterationMemory | undefined;
+  getPreviousIteration: () => IterationMemory | undefined;
   saveSession: () => void;
 };
 
@@ -264,6 +266,14 @@ export function MemoryProvider({ children }: PropsWithChildren) {
     }));
     postSessionMutation.mutate(sessionsPayload);
   };
+
+  const getPreviousIteration = () => {
+    return workout.iterations[iterationIndex - 1];
+  };
+  const getNextIteration = () => {
+    return workout.iterations[iterationIndex + 1];
+  };
+
   return (
     <MemoryContext.Provider
       value={{
@@ -280,6 +290,8 @@ export function MemoryProvider({ children }: PropsWithChildren) {
         updateWorkoutStatus,
         startWorkout,
         saveSession,
+        getPreviousIteration,
+        getNextIteration,
       }}
     >
       {children}

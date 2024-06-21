@@ -64,13 +64,18 @@ const DMAndMemIteration = () => {
     if (currentIterationStep === "mem-rpe" && !getNextIteration()?.dmVideo) {
       if (iterationNumberMem === totalIteration) return;
       const rpeTime = TIME_TO_RPE[workout.memberType || "ar"]["memory"];
+      const nextIteration = getNextIteration();
+
       const waitTime = calculateInitialCountdown(
-        getNextIteration(),
+        nextIteration,
         currentIterarion
       );
-      setTimeout(async () => {
-        await whistle.playAllSounds();
-      }, (rpeTime + waitTime - 3) * 1000);
+
+      if(nextIteration){
+        setTimeout(async () => {
+          await whistle.playAllSounds();
+        }, (rpeTime + waitTime - 3) * 1000);
+      }
       return;
     }
     if (

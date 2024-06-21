@@ -204,7 +204,8 @@ export type MEMORY_STEPS =
   | "video"
   | "decision"
   | "rpe"
-  | "beginMemoryWorkout";
+  | "beginMemoryWorkout"
+  | "videoBeginning"
 
 export type VideoAnswerDonwload = {
   uri1?: string;

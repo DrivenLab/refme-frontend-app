@@ -122,24 +122,28 @@ const RecognitionSingularAnswerContactPoint = ({
   const isCorrect = selectedAnswer === recognitionAnswer.video1.answer3;
 
   const getAnswerBgColor = (item: string) => {
-    if (isCorrect && item == recognitionAnswer.video1.answer3) return "#A6ECB1";
-    if (
-      selectedAnswer &&
-      !isCorrect &&
-      item == recognitionAnswer.video1.answer3
-    )
-      return "#f29490";
+    if (!selectedAnswer) return "#f5f5f6";
+    const correctAnswer = recognitionAnswer.video1.answer3;
+    const hasSelCorrectItem = // item == selectedAnswer == correctAnswer;
+      new Set([item, selectedAnswer, correctAnswer]).size === 1;
+
+    if (hasSelCorrectItem) return "#A6ECB1";
+
+    if (item == correctAnswer) return "#A6ECB1"; //mark correct answer
+    if (item == selectedAnswer) return "#f29490"; //mark wrong answer
+
     return "#f5f5f6";
   };
   const getAnswerBorderColor = (item: string) => {
-    if (isCorrect && item == recognitionAnswer.video1.answer3) return "#4ED964";
-    if (
-      selectedAnswer &&
-      !isCorrect &&
-      item == recognitionAnswer.video1.answer3
-    )
-      return "#FF3A31";
-    return "#f5f5f6";
+    if (!selectedAnswer) return "";
+    const correctAnswer = recognitionAnswer.video1.answer3;
+    const hasSelCorrectItem = // item == selectedAnswer == correctAnswer;
+      new Set([item, selectedAnswer, correctAnswer]).size === 1;
+
+    if (hasSelCorrectItem) return "#4ED964";
+
+    if (item == correctAnswer) return "#4ED964"; //mark correct answer
+    if (item == selectedAnswer) return "#FF3A31"; //mark wrong answer
   };
   return (
     <HStack height="100%" bg="$white">

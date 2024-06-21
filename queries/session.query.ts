@@ -78,19 +78,25 @@ const usePostSession = ({
   const postSessionMutation = useMutation({
     mutationKey: ["sessions"],
     mutationFn: async (payload: SessionPostType[]) =>
-      api.post(
+      /*api.post(
         `organizations/${currentOrganization?.id}/users/${_userId}/workouts/${workoutId}/`,
         payload
-      ),
+      ),*/
+      console.log("Post session mutation"),
+      
     onMutate: async (payload: SessionPostType[]) => {
-      await queryClient.cancelQueries({ queryKey: ["sessions"] });
+      //await queryClient.cancelQueries({ queryKey: ["sessions"] });
+      console.log("onMutate");
+      
       // updateLocalExerciseList(payload.id, payload.isDone, true);
       // TODO: Eliminar video
       // TODO: Marcar entrenamiento como completo en react query
     },
     onSuccess(data) {
-      queryClient.cancelQueries({ queryKey: ["sessions"] });
-      cleanWorkoutDownloadedVideos(workoutId);
+      //queryClient.cancelQueries({ queryKey: ["sessions"] });
+      //cleanWorkoutDownloadedVideos(workoutId);
+      console.log("onSuccess");
+      
       // updateLocalExerciseList(data.id, data.isDone, false);
     },
     onError: (error) => {

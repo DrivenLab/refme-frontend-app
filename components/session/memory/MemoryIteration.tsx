@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 import { View } from "@gluestack-ui/themed";
-import { MEMORY_ANSWER, MEMORY_STEPS, Steps } from "@/types/session";
+import { MEMORY_ANSWER, MEMORY_STEPS, Steps, IterationMemory } from "@/types/session";
 import CVideo from "@/components/CVideo";
 import SessionTrainingCountdown from "../SessionTrainingCountdown";
 import RPE from "../RPE";
@@ -9,7 +9,12 @@ import SessionCountdown from "../SessionCountdown";
 import { useMemoryWorkout } from "@/context/MemoryContext";
 import MemoryAnswer from "./MemoryAnswer";
 import { useWhistleContext } from "@/hooks/useWhistle";
-import { TIME_TO_RPE, VIDEO_TIME_IN_SECONDS } from "@/constants/Session";
+import {
+  ITERATION_TOTAL_TIME,
+  TIME_TO_ANSWER,
+  TIME_TO_RPE,
+  VIDEO_TIME_IN_SECONDS,
+} from "@/constants/Session";
 
 
 const MemoryIteration = () => {
@@ -21,6 +26,8 @@ const MemoryIteration = () => {
     changeIterationStep,
     handleUserAnswer,
     handleUserRPE,
+    getPreviousIteration,
+    getNextIteration
   } = useMemoryWorkout();
 
   const handleFinishCountdown = (step: MEMORY_STEPS) => {
@@ -49,28 +56,81 @@ const MemoryIteration = () => {
     if (
       currentIterationStep === "beginning" &&
       !currentIterarion.video &&
-      currentIterarion.timeToGetReadyInSec >= 3
+      currentIterarion.iterationNumber == 1
+      && currentIterarion.timeToGetReadyInSec >=3
     ) {
       setTimeout(async () => {
         await whistle.playAllSounds();
       }, (currentIterarion.timeToGetReadyInSec - 3) * 1000);
-    } else if (currentIterationStep === "video") {
+    }
+    if (currentIterationStep === "video") {
+      const videoTime =
+        VIDEO_TIME_IN_SECONDS[workout.memberType || "ar"]["memory"];
       setTimeout(async () => {
         await whistle.playAllSounds();
-      }, 2000);
-    } else if (currentIterationStep === "workout") {
+      }, (videoTime + calculateInitialCountdown(currentIterarion, getPreviousIteration()) - 3) * 1000);
+      return;
+    }
+    if (currentIterationStep === "rpe" && !getNextIteration()?.video) {
+      const rpeTime = TIME_TO_RPE[workout.memberType || "ar"]["memory"];
+      const nextIteration = getNextIteration();
+
+      const waitTime = calculateInitialCountdown(
+        nextIteration,
+        currentIterarion
+      );
+      
+      if (nextIteration) {
+        setTimeout(async () => {
+          await whistle.playAllSounds();
+        }, (rpeTime + waitTime - 3) * 1000);
+      }
+      return;
+    } 
+    
+    if (
+      currentIterationStep === "workout"
+    ) {
       setTimeout(async () => {
         await whistle.playAllSounds();
       }, (currentIterarion.timeToWorkoutInSec - 3) * 1000);
     }
+    
   }, [currentIterationStep]);
+
+  const calculateInitialCountdown = (
+    currentIterarion?: IterationMemory,
+    prevIteration?: IterationMemory
+  ) => {
+    const minimumTime = workout.breakDuration - ITERATION_TOTAL_TIME[workout.memberType || "re"]["memory"]
+    if (currentIterarion?.iterationNumber === 1) {
+      return 0;
+    } else if (currentIterarion?.video && prevIteration?.video) {      
+      return (minimumTime ?? 0) ;
+    
+    } else if (currentIterarion?.video && !prevIteration?.video) {
+      return (minimumTime ?? 0) + 6;
+    
+    } else if (!currentIterarion?.video && prevIteration?.video) {
+      return (minimumTime ?? 0)  + 1 + 5;
+    
+    } else {
+      return (minimumTime ?? 0) + 6 + 1 + 5;
+
+    }
+  };
+
   return (
     <View flex={1}>
       {currentIterationStep === "beginning" ? (
-        <>
+        <BeginningStep
+        currentIteration={currentIterarion}
+        handleFinishCountdown={handleFinishCountdown}
+      />): currentIterationStep === "videoBeginning" ? (
+        <> 
           <SessionCountdown
             onFinishCountdown={handleSessionNextStep}
-            initialCountdown={currentIterarion.timeToGetReadyInSec}
+            initialCountdown={currentIterarion?.iterationNumber === 1 ? 3 : 0}
             imageName={
               currentIterarion.video
                 ? "play_video"
@@ -93,7 +153,10 @@ const MemoryIteration = () => {
         <>
           <SessionCountdown
             onFinishCountdown={() => handleFinishCountdown("workout")}
-            initialCountdown={0}
+            initialCountdown={calculateInitialCountdown(
+              currentIterarion,
+              getPreviousIteration()
+            )}
             iterationNumber={currentIterarion.iterationNumber}
             totalItaration={workout.iterations.length}
             imageName="man_running_ready_to_workout"
@@ -123,3 +186,16 @@ const MemoryIteration = () => {
 };
 
 export default MemoryIteration;
+
+type BeginningStepProps = {
+  currentIteration: IterationMemory;
+  handleFinishCountdown: (step: MEMORY_STEPS) => void;
+};
+const BeginningStep = ({
+  currentIteration,
+  handleFinishCountdown,
+}: BeginningStepProps) => {
+  if (!currentIteration.video && currentIteration?.iterationNumber !== 1) handleFinishCountdown("beginMemoryWorkout");
+  else handleFinishCountdown("videoBeginning");
+  return <></>;
+};

@@ -6,7 +6,6 @@ import {
   RECOGNITION_WORKOUT_STATUS,
   RecognitionSingularAnswer,
   SessionPostType,
-
 } from "@/types/session";
 import { Iteration } from "@/types/session";
 import {
@@ -236,7 +235,6 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
   };
 
   const saveSession = () => {
-  
     const sessionsPayload: SessionPostType[] = workout.iterations.map((it) => {
       // Asegúrate de que it.userAnswers tiene al menos 3 elementos
       const userAnswers = it.userAnswers || [];
@@ -249,7 +247,7 @@ export function RecognitionProvider({ children }: PropsWithChildren) {
         replyTime: it.answeredInMs,
       };
     });
-  
+
     postSessionMutation.mutate(sessionsPayload);
   };
   return (

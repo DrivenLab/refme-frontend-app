@@ -36,14 +36,32 @@ const RecognitionSingularAnswer = ({
   );
   const firstIsCorrect = recognitionAnswer.video1.answer1 === "yes";
   const secondIsCorrect = recognitionAnswer.video2?.answer1 === "yes";
+
+  const option1Component = (
+    <RecognitionOption
+      uri={recognitionAnswer.video1.video}
+      onPress={() => setAnswer(recognitionAnswer.video1.answer1)}
+      isCorrect={firstIsCorrect}
+      isMarked={selectedAnswer === recognitionAnswer.video1.answer1}
+    />
+  );
+  const option2Component = recognitionAnswer.video2 && (
+    <RecognitionOption
+      uri={recognitionAnswer.video2.video}
+      onPress={() => setAnswer(recognitionAnswer.video2?.answer1 || "no")}
+      isCorrect={secondIsCorrect}
+      isMarked={selectedAnswer === recognitionAnswer.video2.answer1}
+    />
+  );
+
+  const randomOrder = useMemo(
+    () => Math.random() > 0.5,
+    [recognitionAnswer.video1.video, recognitionAnswer.video2?.video]
+  );
+
   return (
     <HStack height="100%" bg="$white">
-      <RecognitionOption
-        uri={recognitionAnswer.video1.video}
-        onPress={() => setAnswer(recognitionAnswer.video1.answer1)}
-        isCorrect={firstIsCorrect}
-        isMarked={selectedAnswer === recognitionAnswer.video1.answer1}
-      />
+      {randomOrder ? option1Component : option2Component}
       <Box w="15%" display="flex" alignItems="center" justifyContent="center">
         <ArrowLeftIcon
           color={firstIsCorrect ? "#4ed964" : "#ff3a31"}
@@ -67,14 +85,7 @@ const RecognitionSingularAnswer = ({
           h="$16"
         />
       </Box>
-      {recognitionAnswer.video2 && (
-        <RecognitionOption
-          uri={recognitionAnswer.video2.video}
-          onPress={() => setAnswer(recognitionAnswer.video2?.answer1 || "no")}
-          isCorrect={secondIsCorrect}
-          isMarked={selectedAnswer === recognitionAnswer.video2.answer1}
-        />
-      )}
+      {!randomOrder ? option1Component : option2Component}
     </HStack>
   );
 };

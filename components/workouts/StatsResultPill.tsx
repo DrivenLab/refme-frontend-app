@@ -26,7 +26,7 @@ const StatsResultPill = ({ type, text }: Props) => {
       {type === "time" && <TimeIcon />}
       {type === "success" && <SuccessIcon />}
       {type === "error" && <ErrorIcon />}
-      <Text color="$secondary" fontSize={30} bold>
+      <Text color="$secondary" fontSize={24} bold>
         {text}
       </Text>
     </Box>

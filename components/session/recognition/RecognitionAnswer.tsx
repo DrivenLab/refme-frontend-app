@@ -78,12 +78,21 @@ const RecognitionAnswer = ({ iteration, onFinish }: Props) => {
         isCorrect =
           userSelectedAnswer.toLowerCase() === currentAnswer?.video1.answer3;
       }
-      newAnswer[currentAnswerIndex] = {
+      const answeredInMs = onceTimer.getElapsedResumedTime();
+      const newAns = {
         selectedAnswer: userSelectedAnswer,
-        answeredInMs: onceTimer.getElapsedResumedTime(),
+        answeredInMs,
         isCorrect,
       };
-      // TODO: HANDLE CONTACT!! Type
+      newAnswer[currentAnswerIndex] =
+        currentAnswerIndex > 1
+          ? {
+              ...newAns,
+              answeredInMs:
+                answeredInMs - newAnswer[currentAnswerIndex - 1].answeredInMs,
+            }
+          : newAns;
+
       return newAnswer;
     });
 

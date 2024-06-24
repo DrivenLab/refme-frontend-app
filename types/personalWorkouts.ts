@@ -1,8 +1,9 @@
 export interface PersonalWorkoutConfig {
   velocidad: PersonalWorkoutDistance;
   resistencia: PersonalWorkoutDistance;
+  agilidad: PersonalWorkoutDistance;
 }
-export type PersonalWorkoutType = "velocidad" | "resistencia";
+export type PersonalWorkoutType = "velocidad" | "resistencia" | "agilidad";
 export interface PersonalWorkoutDistance {
   [key: string]: PersonalWorkoutName;
 }

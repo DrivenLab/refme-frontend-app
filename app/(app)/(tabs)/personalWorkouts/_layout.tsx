@@ -16,6 +16,18 @@ const _layout = () => {
           headerTitle: "Resistencia",
         }}
       />
+      <Stack.Screen
+        name="agilityTraining"
+        options={{
+          headerTitle: "Agilidad y Cambio de dirección",
+        }}
+      />
+      <Stack.Screen
+        name="velocityTraining"
+        options={{
+          headerTitle: "Velocidad - RSA",
+        }}
+      />
     </Stack>
   );
 };

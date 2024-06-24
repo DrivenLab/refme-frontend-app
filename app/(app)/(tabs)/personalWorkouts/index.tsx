@@ -12,13 +12,13 @@ const PersonalWorkouts = () => {
         <Spinner />
       ) : (
         <VStack space="lg" flex={1} paddingBottom={10}>
-          <Text my={"$5"} color="primary">
+          <Text my={"$1"} color="primary" fontWeight={"400"}>
             ¿Qué habilidad necesitas trabajar hoy?
           </Text>
           <WorkoutTypeCard
             bgImage={require("@/assets/images/personalWorkout/velocity_home.png/")}
             title={"Velocidad - RSA"}
-            href="/personalWorkouts/resistanceTraining/"
+            href="/personalWorkouts/velocityTraining/"
           />
           <WorkoutTypeCard
             bgImage={require("@/assets/images/personalWorkout/resistance_home.png")}
@@ -28,7 +28,7 @@ const PersonalWorkouts = () => {
           <WorkoutTypeCard
             bgImage={require("@/assets/images/personalWorkout/agility_home.png/")}
             title={"Agilidad y  Cambio de dirección"}
-            href="/workouts/"
+            href="/personalWorkouts/agilityTraining/"
           />
         </VStack>
       )}

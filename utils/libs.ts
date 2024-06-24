@@ -22,4 +22,6 @@ export const getImageFromName: (imageName: IMAGE_NAME) => ImageSource = (
     return require("@/assets/images/recognition/whistle.png");
   else if (imageName === "touching_with_finger")
     return require("@/assets/images/touching_with_finger.png");
+  else if (imageName === "distance")
+    return require("@/assets/images/personalWorkout/distance.jpeg");
 };

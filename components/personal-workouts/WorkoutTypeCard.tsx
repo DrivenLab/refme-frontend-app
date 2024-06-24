@@ -26,7 +26,12 @@ const WorkoutTypeCard = (props: Props) => {
             style={styles.backgroundLinearGradient}
           >
             <Box flex={1} px={"$7"}>
-              <Text fontWeight="bold" fontSize={20} style={{ color: "white" }}>
+              <Text
+                fontWeight="bold"
+                fontSize={20}
+                maxWidth={"80%"}
+                style={{ color: "white" }}
+              >
                 {props.title}
               </Text>
             </Box>
@@ -51,8 +56,5 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 10,
     overflow: "hidden",
-    borderBottomColor: "rgba(255, 102, 34, 1)",
-    borderBottomLeftRadius: 10,
-    borderBottomWidth: 5,
   },
 });

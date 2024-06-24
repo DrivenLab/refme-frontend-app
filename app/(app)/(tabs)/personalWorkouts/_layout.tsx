@@ -10,6 +10,12 @@ const _layout = () => {
           headerTitle: "Entrenamiento Personal",
         }}
       />
+      <Stack.Screen
+        name="resistanceTraining"
+        options={{
+          headerTitle: "Resistencia",
+        }}
+      />
     </Stack>
   );
 };

@@ -1,6 +1,6 @@
-import { View, Box } from "@gluestack-ui/themed";
+import { View, Box, SafeAreaView } from "@gluestack-ui/themed";
 import React, { useEffect, useMemo, useState } from "react";
-import { Image } from "expo-image";
+import { Image, ImageSource } from "expo-image";
 import SessionCounter from "./SessionCounter";
 
 import IterationTextImage from "./IterationTextImage";
@@ -36,7 +36,7 @@ const SessionTrainingCountdown = ({
 }: Props) => {
   const [count, setCount] = useState(initialCountdown);
   const imageSource = useMemo(() => {
-    let img: NodeRequire | undefined;
+    let img: ImageSource | undefined;
     img = getImageFromName(hasVideo ? imageName : "how_you_feel");
     return img;
   }, [hasVideo]);
@@ -59,7 +59,7 @@ const SessionTrainingCountdown = ({
   return (
     <View flex={1}>
       {count >= 1 ? (
-        <View
+        <SafeAreaView
           flex={1}
           justifyContent="space-evenly"
           flexDirection="row"
@@ -114,7 +114,7 @@ const SessionTrainingCountdown = ({
             </Box>
             <SessionCounter current={iterationNumber} total={totalItaration} />
           </Box>
-        </View>
+        </SafeAreaView>
       ) : (
         <IterationTextImage imageName={hasVideo ? imageName : "how_you_feel"}>
           <TextInformation

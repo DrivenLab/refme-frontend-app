@@ -22,7 +22,18 @@ const TextInformation = ({
   recognitionType,
 }: Props) => {
   let CMP: ReactNode | null = null;
-  if ((step === 2 && !hasVideo) || showRpeText)
+  if (type === "go") {
+    CMP = (
+      <Box>
+        <Text fontSize={FONT_SIZE} textAlign="center" color={TEXT_COLOR}>
+          {/* ¡VAMOS! */}
+          <Text fontWeight={700} fontSize={96} color={TEXT_COLOR}>
+            {i18n.t("workout_flow.go")}
+          </Text>
+        </Text>
+      </Box>
+    );
+  } else if ((step === 2 && !hasVideo) || showRpeText)
     CMP = (
       <Box>
         <Text fontSize={FONT_SIZE} textAlign="center" bold color={TEXT_COLOR}>
@@ -108,7 +119,7 @@ const TextInformation = ({
       </Box>
     );
   }
-  return <Box px={"$8"}>{CMP}</Box>;
+  return <Box px={"$4"}>{CMP}</Box>;
 };
 
 export default TextInformation;

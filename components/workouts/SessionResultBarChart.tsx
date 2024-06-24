@@ -39,7 +39,7 @@ const SessionResultBarChart = ({ data, workoutType, memberType }: Props) => {
   const maxYValue = TIME_TO_ANSWER[memberType][workoutType] || 6;
   return (
     <Box borderWidth={1} margin={10} borderColor="#a1a1a1" borderRadius={7}>
-      <VictoryChart theme={VictoryTheme.material} height={220} width={500}>
+      <VictoryChart theme={VictoryTheme.material} height={200} width={500}>
         <VictoryStack
           colorScale={colors}
           domain={{ x: [0, data.length + 1], y: [0, maxYValue] }}
@@ -77,8 +77,8 @@ const SessionResultBarChart = ({ data, workoutType, memberType }: Props) => {
         bgColor=""
         display="flex"
         flexDirection="row"
-        justifyContent="space-around"
-        gap={4}
+        justifyContent="center"
+        gap={15}
         alignItems="center"
         marginBottom={"$2"}
       >
@@ -91,12 +91,12 @@ const SessionResultBarChart = ({ data, workoutType, memberType }: Props) => {
             alignItems="center"
           >
             <Box
-              width={20}
-              height={20}
+              width={15}
+              height={15}
               borderRadius={10}
               backgroundColor={ZONE_COLORS[i]}
             />
-            <Text>{label}</Text>
+            <Text fontSize={"$sm"}>{label}</Text>
           </Box>
         ))}
       </HStack>

@@ -6,7 +6,9 @@ const _layout = () => {
     <Stack>
       <Stack.Screen
         name="index"
-        options={{ headerBackTitleVisible: false, headerShown: false }}
+        options={{
+          headerTitle: "Entrenamiento Personal",
+        }}
       />
     </Stack>
   );

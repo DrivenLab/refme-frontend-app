@@ -1,42 +1,34 @@
 import React from "react";
-import {
-  Icon,
-  SafeAreaView,
-  Text,
-  VStack,
-  SettingsIcon,
-} from "@gluestack-ui/themed";
+import { Text, ScrollView, VStack } from "@gluestack-ui/themed";
 
-import { Image } from "expo-image";
+import i18n from "@/languages/i18n";
 
-import { SafeAreaViewStyle } from "@/utils/Styles";
+import WorkoutTypeCard from "@/components/personal-workouts/WorkoutTypeCard";
 
 const PersonalWorkouts = () => {
   return (
-    <SafeAreaView bg="$white" style={SafeAreaViewStyle.s}>
-      <Image
-        source={require("@/assets/images/workout_list.png")}
-        style={{ height: 130, width: "100%" }}
-      />
-      <VStack
-        px={"$3"}
-        // space="xl"
-        borderTopLeftRadius={30}
-        borderTopRightRadius={30}
-        position="relative"
-        top={-20}
-        bg="$white"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        h={"90%"}
-      >
-        <Text fontSize="$lg" bold marginBottom={10} color="$secondary">
-          Coming soon!
+    <ScrollView bgColor="white" px={"$3"} flex={1}>
+      <VStack space="lg" flex={1} paddingBottom={10}>
+        <Text my={"$5"} color="primary">
+          ¿Qué habilidad necesitas trabajar hoy?
         </Text>
-        <Icon as={SettingsIcon} w="$12" h="$12" />
+        <WorkoutTypeCard
+          bgImage={require("@/assets/images/personalWorkout/velocity_home.png/")}
+          title={"Velocidad - RSA"}
+          href="/workouts/"
+        />
+        <WorkoutTypeCard
+          bgImage={require("@/assets/images/personalWorkout/resistance_home.png")}
+          title={"Resistencia"}
+          href="/workouts/"
+        />
+        <WorkoutTypeCard
+          bgImage={require("@/assets/images/personalWorkout/agility_home.png/")}
+          title={"Agilidad y  Cambio de dirección"}
+          href="/workouts/"
+        />
       </VStack>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 

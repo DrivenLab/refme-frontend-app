@@ -15,7 +15,7 @@ const WorkoutNameItem = ({
   description,
   params,
 }: Props) => {
-  console.log("params", params);
+  console.log("params------", params);
   return (
     <Link
       href={{

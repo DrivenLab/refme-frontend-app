@@ -12,6 +12,13 @@ import { Image } from "expo-image";
 import { getImageFromName } from "@/utils/libs";
 import CTextInput from "@/components/inputs/CTextInput";
 import i18n from "@/languages/i18n";
+import { useMemo, useState } from "react";
+import CInputSelect from "@/components/inputs/CInputSelect";
+import {
+  LEVEL_INPUT_SELECT_OPTIONS,
+  WORKOUT_TYPE_INPUT_SELECT_OPTIONS,
+} from "@/constants/PersonalWorkouts";
+import { useGetPersonalWorkoutsConfig } from "@/queries/personalWorkouts.query";
 
 const PERSONAL_WORKOUT = {
   id: 1,
@@ -37,16 +44,24 @@ const PERSONAL_WORKOUT = {
     "https://s3-neural.s3.amazonaws.com/refme/workouts/personal/tutorial/images/34.png?AWSAccessKeyId=AKIA54EFFCNP56D5YBFD&Signature=4R1gOcwwhEnABco%2B%2Fnkk39ZIU%2FY%3D&Expires=1719248026",
 };
 const Config = () => {
-  const {
-    ability = "agilidad",
-    distance,
-    name,
-  } = useLocalSearchParams<{
+  const { ability, distance, name } = useLocalSearchParams<{
     ability: PersonalWorkoutAbility;
     distance: string;
     name: string;
   }>();
-  console.log("rest---", ability, distance, name);
+  const { personalWorkoutsConfig } = useGetPersonalWorkoutsConfig();
+
+  const [form, setForm] = useState<{
+    level: string;
+    workoutType: string;
+  }>({ level: "", workoutType: "" });
+  const handleOnPress = () => {
+    if (!ability || !distance || !name) return;
+    console.log(personalWorkoutsConfig[ability][distance][name]);
+  };
+  const isDisabled = useMemo(() => {
+    return Boolean(!form.level.length && !form.workoutType.length);
+  }, [form]);
   return (
     <ScrollView backgroundColor="white">
       <Image
@@ -60,11 +75,13 @@ const Config = () => {
         <Text color="#091233" fontWeight={400}>
           {PERSONAL_WORKOUT.description}
         </Text>
-        <CTextInput
-          value={1}
-          placeholder={"Nivel de dificultad  "}
-          options={["Principiante"]}
-          onChangeText={() => console.log("ha")}
+        <CInputSelect
+          initialValue={form.level}
+          placeholder={"Nivel de dificultad"}
+          options={LEVEL_INPUT_SELECT_OPTIONS}
+          onChangeValue={(v: string | number) =>
+            setForm((prev) => ({ ...prev, level: v + "" }))
+          }
           error=""
           secureTextEntry={false}
           width="100%"
@@ -72,11 +89,13 @@ const Config = () => {
         />
         <VStack flexDirection="row" space="sm" alignItems="center">
           <Box flex={1}>
-            <CTextInput
-              value={1}
-              placeholder={"Habilidad cognitiva"}
-              options={["Principiante"]}
-              onChangeText={() => console.log("ha")}
+            <CInputSelect
+              initialValue={form.workoutType}
+              placeholder={"Nivel de dificultad"}
+              options={WORKOUT_TYPE_INPUT_SELECT_OPTIONS}
+              onChangeValue={(v: string | number) =>
+                setForm((prev) => ({ ...prev, workoutType: v + "" }))
+              }
               error=""
               secureTextEntry={false}
               width="100%"
@@ -100,7 +119,7 @@ const Config = () => {
         </Text>
         <VStack flexDirection="row" space="sm">
           {PERSONAL_WORKOUT.material.map((m) => (
-            <Text color="#091233" fontWeight={400}>
+            <Text color="#091233" fontWeight={400} key={m}>
               {m}
             </Text>
           ))}
@@ -111,9 +130,11 @@ const Config = () => {
           rounded="$full"
           height={50}
           mb={20}
-          disabled
+          disabled={isDisabled}
+          opacity={isDisabled ? 0.5 : 1}
+          onPress={handleOnPress}
         >
-          <ButtonText color="black" fontWeight="medium">
+          <ButtonText disabled color="black" fontWeight="medium">
             {"Preparar"}
           </ButtonText>
         </Button>

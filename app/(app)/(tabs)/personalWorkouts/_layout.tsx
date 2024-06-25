@@ -17,7 +17,7 @@ const _layout = () => {
           headerTitle: "Nombre de la Habilidad",
         }}
       />
-      <Stack.Screen name="config" options={{ headerShown: false }} />
+      <Stack.Screen name="config" options={{ headerTitle: "Configuración" }} />
     </Stack>
   );
 };

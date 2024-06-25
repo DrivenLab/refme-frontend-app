@@ -62,7 +62,13 @@ export type IterationMemory = IterationWorkout & {
   answer_2Options: number[];
   isCorrect: boolean;
 };
-export type RECOGNITION_VIDEO_TYPE = "players" | "contact" | "foul" | "hand" | "dm" | "memory";
+export type RECOGNITION_VIDEO_TYPE =
+  | "players"
+  | "contact"
+  | "foul"
+  | "hand"
+  | "dm"
+  | "memory";
 export type IterationRecognition = IterationWorkout & {
   answers: Answer[];
   //   userAnswers: [];
@@ -120,8 +126,6 @@ export type SessionPostType = {
   answer_2?: string;
   borgScale?: number | null;
   replyTime?: number;
-  
-
 };
 export type RecognitionSessionPostType = {
   answer_3?: string;
@@ -150,7 +154,8 @@ export type IMAGE_NAME =
   | "shirt_plus"
   | "target_image"
   | "whistle"
-  | "touching_with_finger";
+  | "touching_with_finger"
+  | "distance";
 
 export type DM_ANSWER = {
   answer1?: string;
@@ -205,7 +210,7 @@ export type MEMORY_STEPS =
   | "decision"
   | "rpe"
   | "beginMemoryWorkout"
-  | "videoBeginning"
+  | "videoBeginning";
 
 export type VideoAnswerDonwload = {
   uri1?: string;

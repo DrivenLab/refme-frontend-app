@@ -1,6 +1,18 @@
 import { Iteration } from "./session";
 import { User } from "./user";
 
+export interface CreateWorkout {
+  name: string;
+  description: string;
+  memberType: string;
+  type: string;
+  material: string[];
+  numberOfRepetitions: number;
+  numberOfDecisions: number;
+  excerciseDuration: number;
+  breakDuration: number;
+  usageType: WORKOUT_USAGE_TYPE;
+}
 export interface Workout {
   id: number;
   participants: User[];
@@ -12,7 +24,7 @@ export interface Workout {
   description: string;
   memberType: MEMBER_TYPE;
   type: WORKOUT_TYPE;
-  usageType: string;
+  usageType: WORKOUT_USAGE_TYPE;
   material?: string[];
   numberOfRepetitions: number;
   numberOfDecisions: number;
@@ -53,3 +65,4 @@ export type WORKOUT_TYPE =
   | "dm+memory"
   | "recognition"
   | "random";
+export type WORKOUT_USAGE_TYPE = "personal" | "official";

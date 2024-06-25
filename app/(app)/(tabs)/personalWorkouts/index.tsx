@@ -1,42 +1,38 @@
 import React from "react";
-import {
-  Icon,
-  SafeAreaView,
-  Text,
-  VStack,
-  SettingsIcon,
-} from "@gluestack-ui/themed";
+import { Text, ScrollView, VStack, Spinner } from "@gluestack-ui/themed";
 
-import { Image } from "expo-image";
-
-import { SafeAreaViewStyle } from "@/utils/Styles";
+import WorkoutTypeCard from "@/components/personal-workouts/WorkoutTypeCard";
+import { useGetPersonalWorkoutsConfig } from "@/queries/personalWorkouts.query";
 
 const PersonalWorkouts = () => {
+  const { isLoadingPersonalWorkoutsConfig } = useGetPersonalWorkoutsConfig();
   return (
-    <SafeAreaView bg="$white" style={SafeAreaViewStyle.s}>
-      <Image
-        source={require("@/assets/images/workout_list.png")}
-        style={{ height: 130, width: "100%" }}
-      />
-      <VStack
-        px={"$3"}
-        // space="xl"
-        borderTopLeftRadius={30}
-        borderTopRightRadius={30}
-        position="relative"
-        top={-20}
-        bg="$white"
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        h={"90%"}
-      >
-        <Text fontSize="$lg" bold marginBottom={10} color="$secondary">
-          Coming soon!
-        </Text>
-        <Icon as={SettingsIcon} w="$12" h="$12" />
-      </VStack>
-    </SafeAreaView>
+    <ScrollView bgColor="white" px={"$3"} flex={1}>
+      {isLoadingPersonalWorkoutsConfig ? (
+        <Spinner />
+      ) : (
+        <VStack space="lg" flex={1} paddingBottom={10}>
+          <Text my={"$1"} color="primary" fontWeight={"400"}>
+            ¿Qué habilidad necesitas trabajar hoy?
+          </Text>
+          <WorkoutTypeCard
+            bgImage={require("@/assets/images/personalWorkout/velocity_home.png/")}
+            title={"Velocidad - RSA"}
+            href="/personalWorkouts/velocidad/"
+          />
+          <WorkoutTypeCard
+            bgImage={require("@/assets/images/personalWorkout/resistance_home.png")}
+            title={"Resistencia"}
+            href="/personalWorkouts/resistencia/"
+          />
+          <WorkoutTypeCard
+            bgImage={require("@/assets/images/personalWorkout/agility_home.png/")}
+            title={"Agilidad y  Cambio de dirección"}
+            href="/personalWorkouts/agilidad/"
+          />
+        </VStack>
+      )}
+    </ScrollView>
   );
 };
 

@@ -7,8 +7,9 @@ import useDownloadVideos from "./useDownloadVideos";
 
 type Props = {
   idSession: number;
+  onCompleteDownloading?: () => void;
 };
-const useDownloadSession = ({ idSession }: Props) => {
+const useDownloadSession = ({ idSession, onCompleteDownloading }: Props) => {
   const [session, setSession] = useState<Session>();
   const [wasSessionDownloaded, setWasSessionDownloaded] = useState(false);
   const { downloadProgress, isDownloading, downloadVideos, setIsDownloading } =
@@ -90,6 +91,7 @@ const useDownloadSession = ({ idSession }: Props) => {
       });
       updateSessionIterations({ iterations: iterationsUpdated });
       setWasSessionDownloaded(true);
+      if (onCompleteDownloading) onCompleteDownloading();
     } catch (error) {
       console.log("error en download session", error);
     } finally {

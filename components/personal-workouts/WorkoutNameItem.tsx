@@ -1,7 +1,3 @@
-import {
-  PersonalWorkoutDistance,
-  PersonalWorkoutAbility,
-} from "@/types/personalWorkouts";
 import { IMAGE_NAME } from "@/types/session";
 import { getImageFromName } from "@/utils/libs";
 import { Text, View, Box, Pressable } from "@gluestack-ui/themed";

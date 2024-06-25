@@ -67,7 +67,6 @@ const Config = () => {
         w
       );
       setSession(data);
-      console.log("sessioooon", data);
     } catch (error) {
       console.log("show error---", error);
     } finally {

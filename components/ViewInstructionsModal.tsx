@@ -267,7 +267,7 @@ const ViewInstructionsModal = ({
             marginBottom={"$2"}
           >
             {new Array(steps).fill(0).map((s, i) => (
-              <Pressable onPress={() => handleNavChange(i)}>
+              <Pressable onPress={() => handleNavChange(i)} key={i}>
                 <Box
                   w="$4"
                   h="$4"

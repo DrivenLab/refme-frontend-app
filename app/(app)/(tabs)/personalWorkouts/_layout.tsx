@@ -11,23 +11,13 @@ const _layout = () => {
         }}
       />
       <Stack.Screen
-        name="resistanceTraining"
+        name="[ability]"
+        getId={({ params }) => String(Date.now())}
         options={{
-          headerTitle: "Resistencia",
+          headerTitle: "Nombre de la Habilidad",
         }}
       />
-      <Stack.Screen
-        name="agilityTraining"
-        options={{
-          headerTitle: "Agilidad y Cambio de dirección",
-        }}
-      />
-      <Stack.Screen
-        name="velocityTraining"
-        options={{
-          headerTitle: "Velocidad - RSA",
-        }}
-      />
+      <Stack.Screen name="config" options={{ headerShown: false }} />
     </Stack>
   );
 };

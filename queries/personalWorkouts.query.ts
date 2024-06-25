@@ -7,20 +7,21 @@ import { useGetSessionById } from "@/queries/session.query";
 import {
   PersonalWorkoutConfig,
   PersonalWorkoutDistance,
-  PersonalWorkoutType,
+  PersonalWorkoutAbility,
 } from "@/types/personalWorkouts";
 
 const PW_QUERY_KEY = "personal-workouts-config";
 const useGetPersonalWorkoutsConfigByType = ({
-  type,
+  ability,
 }: {
-  type: PersonalWorkoutType;
+  ability: PersonalWorkoutAbility;
 }) => {
   const queryClient = useQueryClient();
   const data = queryClient.getQueryData<AxiosResponse<PersonalWorkoutConfig>>([
     PW_QUERY_KEY,
   ]);
-  const personalWorkout = data?.data[type] || ({} as PersonalWorkoutDistance);
+  const personalWorkout =
+    data?.data[ability] || ({} as PersonalWorkoutDistance);
   return { personalWorkout };
 };
 

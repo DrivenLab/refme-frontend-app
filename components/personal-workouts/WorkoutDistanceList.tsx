@@ -1,11 +1,15 @@
-import { PersonalWorkoutDistance } from "@/types/personalWorkouts";
-import { FlatList, Text, VStack } from "@gluestack-ui/themed";
+import {
+  PersonalWorkoutAbility,
+  PersonalWorkoutDistance,
+} from "@/types/personalWorkouts";
+import { Text, VStack } from "@gluestack-ui/themed";
 import WorkoutNameList from "./WorkoutNameList";
 
 type Props = {
   personalWorkoutDistance: PersonalWorkoutDistance;
+  ability: PersonalWorkoutAbility;
 };
-const WorkoutDistanceList = ({ personalWorkoutDistance }: Props) => {
+const WorkoutDistanceList = ({ personalWorkoutDistance, ability }: Props) => {
   return (
     <VStack space="md">
       {Object.keys(personalWorkoutDistance).map((distance) => (
@@ -16,6 +20,7 @@ const WorkoutDistanceList = ({ personalWorkoutDistance }: Props) => {
           <WorkoutNameList
             personalWorkoutDistance={personalWorkoutDistance}
             distance={distance}
+            ability={ability}
           />
         </VStack>
       ))}

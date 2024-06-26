@@ -25,6 +25,7 @@ import WorkoutMemberDetail from "@/components/workouts/WorkoutMemberDetail";
 import WorkoutInstructorDetail from "@/components/workouts/WorkoutInstructorDetail";
 import { SafeAreaViewStyle } from "@/utils/Styles";
 import { ViewInstructionsModal } from "@/components/ViewInstructionsModal";
+import WorkoutConfigutationList from "@/components/workouts/WorkoutConfigutationList";
 
 const WorkoutDetail = () => {
   //TODO solo id
@@ -140,28 +141,8 @@ const WorkoutDetail = () => {
                 </VStack>
               </VStack>
             )}
-            <VStack mt="$2" space="md">
-              <Text fontSize={20} fontWeight="bold" color="black">
-                {i18n.t("common.configuration")}
-              </Text>
-              <WorkoutConfigItem
-                configName="Repeticiones"
-                quantity={workout?.numberOfRepetitions}
-              />
-              <WorkoutConfigItem
-                configName="Decisiones"
-                quantity={workout?.numberOfDecisions}
-              />
-              <WorkoutConfigItem
-                configName="Tiempo de ejercicio"
-                quantity={workout?.excerciseDuration}
-                inSeconds={true}
-              />
-              <WorkoutConfigItem
-                configName="Tiempo de pausa"
-                quantity={workout?.breakDuration}
-                inSeconds={true}
-              />
+            <VStack mt="$2">
+              <WorkoutConfigutationList workout={workout} />
             </VStack>
           </VStack>
           {!session?.isCompleted && (

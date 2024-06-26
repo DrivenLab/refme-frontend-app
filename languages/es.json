@@ -155,6 +155,20 @@
       "pick_contact_point": "Selecciona  el punto de contacto"
     }
   },
+  "personal_workout_flow": {
+    "velocidad_header_title": "Velocidad - RSA",
+    "agilidad_header_title": "Agilidad y Cambio de dirección",
+    "resistencia_header_title": "Resistencia",
+    "home_title_question": "¿Qué habilidad necesitas trabajar hoy?",
+    "choose_an_space_message": "Elige una opción de acuerdo al espacio que tienes disponible",
+    "config": {
+      "tutorial": "Tutorial",
+      "characteristics": "Características",
+      "materials": "Materiales",
+      "difficulty_level": "Nivel de dificultad",
+      "cognitive_ability": "Habilidad cognitiva"
+    }
+  },
   "create_workout": {
     "workout_name": "Nombre del entrenamiento",
     "create_new_workout": "Crear nuevo entrenamiento",

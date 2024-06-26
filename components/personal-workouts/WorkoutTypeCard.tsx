@@ -4,16 +4,26 @@ import { StyleSheet } from "react-native";
 import { ImageBackground } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
+import { PERSONAL_WORKOUT_CARD_COLORS } from "@/constants/PersonalWorkouts";
+import { PersonalWorkoutAbility } from "@/types/personalWorkouts";
+import i18n from "@/languages/i18n";
 
 type Props = {
   bgImage: any;
   title: string;
   href: string;
+  ability: PersonalWorkoutAbility;
 };
 const WorkoutTypeCard = (props: Props) => {
   return (
     <Link href={props.href} asChild>
-      <Pressable>
+      <Pressable
+        overflow="hidden"
+        rounded={"$md"}
+        backgroundColor={PERSONAL_WORKOUT_CARD_COLORS[props.ability]}
+        borderBottomWidth={4}
+        borderBottomColor={PERSONAL_WORKOUT_CARD_COLORS[props.ability]}
+      >
         <ImageBackground
           source={props.bgImage}
           style={styles.backgroundImage}
@@ -32,7 +42,7 @@ const WorkoutTypeCard = (props: Props) => {
                 maxWidth={"80%"}
                 style={{ color: "white" }}
               >
-                {props.title}
+                {i18n.t(`personal_workout_flow.${props.ability}_header_title`)}
               </Text>
             </Box>
           </LinearGradient>
@@ -54,7 +64,5 @@ const styles = StyleSheet.create({
     height: 150,
     width: "100%",
     flex: 1,
-    borderRadius: 10,
-    overflow: "hidden",
   },
 });

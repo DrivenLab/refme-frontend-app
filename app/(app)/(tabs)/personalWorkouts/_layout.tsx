@@ -13,9 +13,6 @@ const _layout = () => {
       <Stack.Screen
         name="[ability]"
         getId={({ params }) => String(Date.now())}
-        options={{
-          headerTitle: "Nombre de la Habilidad",
-        }}
       />
       <Stack.Screen name="config" options={{ headerTitle: "Configuración" }} />
     </Stack>

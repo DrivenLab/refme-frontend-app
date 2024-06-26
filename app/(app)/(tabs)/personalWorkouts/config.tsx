@@ -21,10 +21,11 @@ import {
 import { useGetPersonalWorkoutsConfig } from "@/queries/personalWorkouts.query";
 import api from "@/queries/api";
 import { useAuth } from "@/context/auth";
-import { CreateWorkout } from "@/types/workout";
+import { CreateWorkout, WORKOUT_TYPE } from "@/types/workout";
 import { Session } from "@/types/session";
 import usePrepareWorkout from "@/hooks/usePrepareWorkout";
 import DownloadSessionModal from "@/components/personal-workouts/DonwloadSessionModal";
+import { ViewInstructionsModal } from "@/components/ViewInstructionsModal";
 
 const Config = () => {
   /*STATES */
@@ -34,6 +35,7 @@ const Config = () => {
     workoutType: string;
   }>({ level: "", workoutType: "" });
   const [session, setSession] = useState<Session>();
+  const [instructionsModalIsOpen, setInstructionsModalIsOpen] = useState(false);
   /**HOOKS */
   const {
     ability = "agilidad",
@@ -95,10 +97,10 @@ const Config = () => {
     };
     await createWorkout(w);
   };
-  const handleOnCompleteDownloading = () => {
-    if (!session) return;
-    prepareWorkout(session?.workout);
-    goToWorkout(session?.workout.type);
+  const handleOnCompleteDownloading = (session_?: Session) => {
+    if (!session_) return;
+    prepareWorkout(session_?.workout);
+    goToWorkout(session_?.workout.type);
   };
   return (
     <>
@@ -109,6 +111,11 @@ const Config = () => {
         />
       )}
 
+      <ViewInstructionsModal
+        modalIsOpen={instructionsModalIsOpen}
+        onClose={() => setInstructionsModalIsOpen((prev) => !prev)}
+        workoutType={(form.workoutType as WORKOUT_TYPE) || "dm"}
+      />
       <ScrollView backgroundColor="white">
         <Image
           source={getImageFromName("distance")}
@@ -116,14 +123,16 @@ const Config = () => {
         />
         <VStack px={"$3"} pt={"$2"} space="md">
           <Text color="#091233" fontWeight={"$bold"} fontSize={"$lg"}>
-            Tutorial
+            {i18n.t("personal_workout_flow.config.tutorial")}
           </Text>
           <Text color="#091233" fontWeight={400}>
             {generalWorkoutInfo?.description}
           </Text>
           <CInputSelect
             initialValue={form.level}
-            placeholder={"Nivel de dificultad"}
+            placeholder={i18n.t(
+              "personal_workout_flow.config.difficulty_level"
+            )}
             options={LEVEL_INPUT_SELECT_OPTIONS}
             onChangeValue={(v: string | number) =>
               setForm((prev) => ({ ...prev, level: v + "" }))
@@ -137,7 +146,9 @@ const Config = () => {
             <Box flex={1}>
               <CInputSelect
                 initialValue={form.workoutType}
-                placeholder={"Nivel de dificultad"}
+                placeholder={i18n.t(
+                  "personal_workout_flow.config.cognitive_ability"
+                )}
                 options={WORKOUT_TYPE_INPUT_SELECT_OPTIONS}
                 onChangeValue={(v: string | number) =>
                   setForm((prev) => ({ ...prev, workoutType: v + "" }))
@@ -148,20 +159,25 @@ const Config = () => {
                 required
               />
             </Box>
-            <Button variant="link">
-              <ButtonText fontWeight="medium">
+            <Button
+              variant="link"
+              onPress={() => setInstructionsModalIsOpen(true)}
+              disabled={form.workoutType.length === 0}
+              opacity={form.workoutType.length ? 1 : 0.8}
+            >
+              <ButtonText fontWeight="medium" color="black" underline>
                 {i18n.t("workout_flow.watch_tutorial_label")}
               </ButtonText>
             </Button>
           </VStack>
           <Text color="#091233" fontWeight={"$bold"} fontSize={"$lg"}>
-            Características
+            {i18n.t("personal_workout_flow.config.characteristics")}
           </Text>
           <Text color="#091233" fontWeight={400}>
             -
           </Text>
           <Text color="#091233" fontWeight={"$bold"} fontSize={"$lg"}>
-            Materiales
+            {i18n.t("personal_workout_flow.config.materials")}
           </Text>
           <VStack flexDirection="row" space="sm">
             {generalWorkoutInfo?.material.map((m) => (

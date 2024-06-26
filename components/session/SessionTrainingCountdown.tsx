@@ -90,7 +90,7 @@ const SessionTrainingCountdown = ({
                 bg="$primary"
               />
               <Image
-                source={imageSource as unknown as ImageSourcePropType}
+                source={imageSource}
                 style={{ height: 100, width: 100 }}
                 contentFit="contain"
               />

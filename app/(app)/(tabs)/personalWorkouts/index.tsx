@@ -3,6 +3,7 @@ import { Text, ScrollView, VStack, Spinner } from "@gluestack-ui/themed";
 
 import WorkoutTypeCard from "@/components/personal-workouts/WorkoutTypeCard";
 import { useGetPersonalWorkoutsConfig } from "@/queries/personalWorkouts.query";
+import i18n from "@/languages/i18n";
 
 const PersonalWorkouts = () => {
   const { isLoadingPersonalWorkoutsConfig } = useGetPersonalWorkoutsConfig();
@@ -13,7 +14,7 @@ const PersonalWorkouts = () => {
       ) : (
         <VStack space="lg" flex={1} paddingBottom={10}>
           <Text my={"$1"} color="primary" fontWeight={"400"}>
-            ¿Qué habilidad necesitas trabajar hoy?
+            {i18n.t("personal_workout_flow.home_title_question")}
           </Text>
           <WorkoutTypeCard
             bgImage={require("@/assets/images/personalWorkout/velocity_home.png/")}

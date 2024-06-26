@@ -1,5 +1,3 @@
-import { PersonalWorkoutAbility } from "@/types/personalWorkouts";
-
 export const LEVEL_INPUT_SELECT_OPTIONS = [
   { label: "Principiante", value: "principiante" },
   { label: "Intermedio", value: "intermedio" },

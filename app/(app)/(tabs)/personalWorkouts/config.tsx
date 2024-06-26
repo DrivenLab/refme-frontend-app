@@ -123,14 +123,16 @@ const Config = () => {
         />
         <VStack px={"$3"} pt={"$2"} space="md">
           <Text color="#091233" fontWeight={"$bold"} fontSize={"$lg"}>
-            Tutorial
+            {i18n.t("personal_workout_flow.config.tutorial")}
           </Text>
           <Text color="#091233" fontWeight={400}>
             {generalWorkoutInfo?.description}
           </Text>
           <CInputSelect
             initialValue={form.level}
-            placeholder={"Nivel de dificultad"}
+            placeholder={i18n.t(
+              "personal_workout_flow.config.difficulty_level"
+            )}
             options={LEVEL_INPUT_SELECT_OPTIONS}
             onChangeValue={(v: string | number) =>
               setForm((prev) => ({ ...prev, level: v + "" }))
@@ -144,7 +146,9 @@ const Config = () => {
             <Box flex={1}>
               <CInputSelect
                 initialValue={form.workoutType}
-                placeholder={"Nivel de dificultad"}
+                placeholder={i18n.t(
+                  "personal_workout_flow.config.cognitive_ability"
+                )}
                 options={WORKOUT_TYPE_INPUT_SELECT_OPTIONS}
                 onChangeValue={(v: string | number) =>
                   setForm((prev) => ({ ...prev, workoutType: v + "" }))
@@ -167,13 +171,13 @@ const Config = () => {
             </Button>
           </VStack>
           <Text color="#091233" fontWeight={"$bold"} fontSize={"$lg"}>
-            Características
+            {i18n.t("personal_workout_flow.config.characteristics")}
           </Text>
           <Text color="#091233" fontWeight={400}>
             -
           </Text>
           <Text color="#091233" fontWeight={"$bold"} fontSize={"$lg"}>
-            Materiales
+            {i18n.t("personal_workout_flow.config.materials")}
           </Text>
           <VStack flexDirection="row" space="sm">
             {generalWorkoutInfo?.material.map((m) => (

@@ -6,6 +6,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
 import { PERSONAL_WORKOUT_CARD_COLORS } from "@/constants/PersonalWorkouts";
 import { PersonalWorkoutAbility } from "@/types/personalWorkouts";
+import i18n from "@/languages/i18n";
 
 type Props = {
   bgImage: any;
@@ -41,7 +42,7 @@ const WorkoutTypeCard = (props: Props) => {
                 maxWidth={"80%"}
                 style={{ color: "white" }}
               >
-                {props.title}
+                {i18n.t(`personal_workout_flow.${props.ability}_header_title`)}
               </Text>
             </Box>
           </LinearGradient>

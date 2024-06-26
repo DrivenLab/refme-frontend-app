@@ -12,10 +12,9 @@ type Props = {
 const useDownloadSession = ({ idSession, onCompleteDownloading }: Props) => {
   const [session, setSession] = useState<Session>();
   const [wasSessionDownloaded, setWasSessionDownloaded] = useState(false);
-  const { downloadProgress, isDownloading, downloadVideos, setIsDownloading } =
-    useDownloadVideos();
+  const { downloadProgress, downloadVideos } = useDownloadVideos();
   const queryClient = useQueryClient();
-
+  const [isDownloading, setIsDownloading] = useState(false);
   const { refetchSession } = useGetSessionDetailById({
     idSession,
     enabled: false,
@@ -56,6 +55,7 @@ const useDownloadSession = ({ idSession, onCompleteDownloading }: Props) => {
 
   const downloadSession = async () => {
     setIsDownloading(true);
+    let success = false;
     try {
       const { data, isSuccess } = await refetchSession();
       if (!isSuccess) return;
@@ -94,13 +94,16 @@ const useDownloadSession = ({ idSession, onCompleteDownloading }: Props) => {
       });
       updateSessionIterations({ iterations: iterationsUpdated });
       setWasSessionDownloaded(true);
-      if (onCompleteDownloading) {
-        const data = getSession();
-        onCompleteDownloading(data?.data);
-      }
+      success = true;
     } catch (error) {
       console.log("error en download session", error);
     } finally {
+      setIsDownloading(false);
+
+      if (success && onCompleteDownloading) {
+        const data = getSession();
+        onCompleteDownloading(data?.data);
+      }
     }
   };
   const cancelDownload = () => {

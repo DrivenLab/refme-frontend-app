@@ -23,7 +23,6 @@ import api from "@/queries/api";
 import { useAuth } from "@/context/auth";
 import { CreateWorkout, WORKOUT_TYPE } from "@/types/workout";
 import { Session } from "@/types/session";
-import usePrepareWorkout from "@/hooks/usePrepareWorkout";
 import DownloadSessionModal from "@/components/personal-workouts/DonwloadSessionModal";
 import { ViewInstructionsModal } from "@/components/ViewInstructionsModal";
 import WorkoutConfigutationList from "@/components/workouts/WorkoutConfigutationList";
@@ -47,7 +46,6 @@ const Config = () => {
     distance: string;
     name: string;
   }>();
-  const { prepareWorkout, goToWorkout } = usePrepareWorkout();
   const { personalWorkoutsConfig } = useGetPersonalWorkoutsConfig();
   const { currentOrganization, profile } = useAuth();
 
@@ -60,7 +58,7 @@ const Config = () => {
   }, [form.level]);
 
   const isDisabled = useMemo(() => {
-    return Boolean(!form.level.length && !form.workoutType.length);
+    return Boolean(!form.level.length || !form.workoutType.length);
   }, [form]);
 
   /*FUNCTIONS */
@@ -102,19 +100,10 @@ const Config = () => {
     };
     await createWorkout(w);
   };
-  const handleOnCompleteDownloading = (session_?: Session) => {
-    if (!session_) return;
-    prepareWorkout(session_?.workout);
-    goToWorkout(session_?.workout.type);
-  };
+
   return (
     <>
-      {session && (
-        <DownloadSessionModal
-          idSession={session.id}
-          onCompleteDownloading={handleOnCompleteDownloading}
-        />
-      )}
+      {session && <DownloadSessionModal idSession={session.id} />}
 
       <ViewInstructionsModal
         modalIsOpen={instructionsModalIsOpen}

@@ -171,5 +171,19 @@
     "recognition": "Reconocimiento",
     "dm+memory": "Decision Making + Memory",
     "random": "Random"
+  },
+  "personal_workout_flow": {
+    "velocidad_header_title": "Speed ​​- RSA",
+    "agilidad_header_title": "Agility and Change of direction",
+    "resistencia_header_title": "Resistance",
+    "home_title_question": "What skill do you need to work on today?",
+    "choose_an_space_message": "Choose an option according to the space you have available",
+    "config": {
+      "tutorial": "Tutorial",
+      "characteristics": "Characteristics",
+      "materials": "Materials",
+      "difficulty_level": "Difficulty level",
+      "cognitive_ability": "Cognitive ability"
+    }
   }
 }

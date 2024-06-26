@@ -10,3 +10,9 @@ export const WORKOUT_TYPE_INPUT_SELECT_OPTIONS = [
   { label: "Toma de decisión y Memoria", value: "dm+memory" },
   { label: "Random", value: "random" },
 ];
+
+export const PERSONAL_WORKOUT_CARD_COLORS: Record<string, string> = {
+  agilidad: "#58DAFC",
+  resistencia: "#090B22",
+  velocidad: "#FF6622",
+};

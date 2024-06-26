@@ -7,7 +7,7 @@ import useDownloadVideos from "./useDownloadVideos";
 
 type Props = {
   idSession: number;
-  onCompleteDownloading?: () => void;
+  onCompleteDownloading?: (s?: Session) => void;
 };
 const useDownloadSession = ({ idSession, onCompleteDownloading }: Props) => {
   const [session, setSession] = useState<Session>();
@@ -21,11 +21,14 @@ const useDownloadSession = ({ idSession, onCompleteDownloading }: Props) => {
     enabled: false,
   });
 
-  useEffect(() => {
-    const data = queryClient.getQueryData<AxiosResponse<Session>>([
+  const getSession = () => {
+    return queryClient.getQueryData<AxiosResponse<Session>>([
       "sessions",
       idSession,
     ]);
+  };
+  useEffect(() => {
+    const data = getSession();
     if (data) {
       setWasSessionDownloaded(true);
       setSession(data?.data);
@@ -91,7 +94,10 @@ const useDownloadSession = ({ idSession, onCompleteDownloading }: Props) => {
       });
       updateSessionIterations({ iterations: iterationsUpdated });
       setWasSessionDownloaded(true);
-      if (onCompleteDownloading) onCompleteDownloading();
+      if (onCompleteDownloading) {
+        const data = getSession();
+        onCompleteDownloading(data?.data);
+      }
     } catch (error) {
       console.log("error en download session", error);
     } finally {

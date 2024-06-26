@@ -1,3 +1,8 @@
+import PagerView from "react-native-pager-view";
+import { Dimensions, Pressable, StyleSheet } from "react-native";
+import { useRef, useState } from "react";
+import { ImageSource } from "expo-image";
+
 import {
   HStack,
   Modal,
@@ -9,26 +14,18 @@ import {
   View,
 } from "@gluestack-ui/themed";
 import i18n from "@/languages/i18n";
-import PagerView from "react-native-pager-view";
-import {
-  Dimensions,
-  ImageSourcePropType,
-  Pressable,
-  StyleSheet,
-} from "react-native";
 import { WORKOUT_TYPE } from "@/types/workout";
 import { Image, Box } from "@gluestack-ui/themed";
-import { useRef, useState } from "react";
 
 type PageProps = {
   key: number;
   text?: string;
-  asset: NodeRequire;
+  asset: ImageSource;
 };
 const PageViewItem = ({ key, text = "Swipe ➡️", asset }: PageProps) => (
   <View style={styles.page} key={key}>
     <Image
-      source={asset as unknown as ImageSourcePropType}
+      source={asset}
       width={Dimensions.get("window").width}
       height={300}
       alt="Instructions image"

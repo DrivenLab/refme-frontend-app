@@ -47,6 +47,7 @@
   "recognition": "Reconocimiento",
   "dm+memory": "TD + Memoria",
   "random": "Aleatorio",
+  "start": "Comenzar",
   "prepare": "Preparar",
   "repetitions": "Repeticiones",
   "decisions": "Decisiones",
@@ -153,7 +154,11 @@
       "pick_the_foul": "Selecciona  la falta ",
       "pick_the_one_with_more_players": "Selecciona  el video con más jugadores",
       "pick_contact_point": "Selecciona  el punto de contacto"
-    }
+    },
+    "numberOfRepetitions": "Repeticiones",
+    "numberOfDecisions": "Decisiones",
+    "excerciseDuration": "Tiempo de ejercicio",
+    "breakDuration": "Tiempo de pausa"
   },
   "personal_workout_flow": {
     "velocidad_header_title": "Velocidad - RSA",

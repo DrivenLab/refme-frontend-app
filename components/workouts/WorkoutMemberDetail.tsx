@@ -6,6 +6,7 @@ import DownloadProgressModal from "./DownloadProgressModal";
 import useDownloadSession from "@/hooks/useDownloadSession";
 
 import usePrepareWorkout from "@/hooks/usePrepareWorkout";
+import i18n from "@/languages/i18n";
 
 type Props = {
   idSession: number;
@@ -49,7 +50,7 @@ const WorkoutMemberDetail = ({ idSession }: Props) => {
         mb={20}
       >
         <ButtonText color="black" fontWeight="medium">
-          {wasSessionDownloaded ? "Comenzar" : "Preparar"}
+          {wasSessionDownloaded ? i18n.t("start") : i18n.t("prepare")}
         </ButtonText>
       </Button>
       {/* )} */}

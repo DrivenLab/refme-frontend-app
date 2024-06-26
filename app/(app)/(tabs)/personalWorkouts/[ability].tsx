@@ -21,7 +21,7 @@ const PersonalWorkoutList = () => {
   });
   return (
     <ScrollView px={"$3"} pt={"$2"} bg="$white">
-      <Text fontWeight={"$bold"} fontSize={"$xl"} color="#051232" mb={"$3"}>
+      <Text mb={"$3"} color="#051232" fontWeight={"400"}>
         {i18n.t("personal_workout_flow.choose_an_space_message")}
       </Text>
       <WorkoutDistanceList

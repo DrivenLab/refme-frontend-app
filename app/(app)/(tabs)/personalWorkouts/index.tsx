@@ -13,7 +13,7 @@ const PersonalWorkouts = () => {
         <Spinner />
       ) : (
         <VStack space="lg" flex={1} paddingBottom={10}>
-          <Text my={"$1"} color="primary" fontWeight={"400"}>
+          <Text my={"$1"} color="#051232" fontWeight={"400"}>
             {i18n.t("personal_workout_flow.home_title_question")}
           </Text>
           <WorkoutTypeCard

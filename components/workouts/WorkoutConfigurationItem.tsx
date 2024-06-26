@@ -1,8 +1,12 @@
+import i18n from "@/languages/i18n";
 import { Box, Text, VStack } from "@gluestack-ui/themed";
-import React from "react";
 
 type Props = {
-  configName: string;
+  configName:
+    | "numberOfRepetitions"
+    | "numberOfDecisions"
+    | "excerciseDuration"
+    | "breakDuration";
   quantity?: string | number;
   inSeconds?: boolean;
 };
@@ -16,7 +20,7 @@ const WorkoutConfigItem = (props: Props) => {
       borderBottomWidth={1}
       borderBottomColor="#0000001A"
     >
-      <Text color="#666666">{props.configName}</Text>
+      <Text color="#666666">{i18n.t(`workout_flow.${props.configName}`)}</Text>
       <VStack flexDirection="row">
         <Text fontWeight="bold" fontSize={16} color="black">
           {props.quantity}

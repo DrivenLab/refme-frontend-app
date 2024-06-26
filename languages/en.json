@@ -47,7 +47,6 @@
   "recognition": "Recognition",
   "dm+memory": "Decision Making + Memory",
   "random": "Random",
-  "prepare": "Prepare",
   "repetitions": "Repetitions",
   "decisions": "Decisions",
   "exercise_time": "Exercise time",
@@ -77,6 +76,8 @@
   "rpe_maximal_exertion": "Maximal exertion",
   "rpe_how_do_you_feel": "How do you feel?",
   "elearning_title": "E-Learning",
+  "start": "Start",
+  "prepare": "Prepare",
   "common": {
     "name_label": "Name",
     "last_name_label": "Lastname",
@@ -153,7 +154,11 @@
       "pick_the_foul": "Select the foul",
       "pick_the_one_with_more_players": "Select the video with more players",
       "pick_contact_point": "Select the contact point"
-    }
+    },
+    "numberOfRepetitions": "Repetitions",
+    "numberOfDecisions": "Decisions",
+    "excerciseDuration": "Excercise duration",
+    "breakDuration": "Break duration"
   },
   "create_workout": {
     "workout_name": "Workout name",

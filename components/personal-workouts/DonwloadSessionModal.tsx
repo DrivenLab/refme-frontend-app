@@ -1,9 +1,10 @@
 import DownloadProgressModal from "@/components/workouts/DownloadProgressModal";
 import useDownloadSession from "@/hooks/useDownloadSession";
+import { Session } from "@/types/session";
 import { useEffect } from "react";
 type Props = {
   idSession: number;
-  onCompleteDownloading: () => void;
+  onCompleteDownloading: (s?: Session) => void;
 };
 const DownloadSessionModal = ({ idSession, onCompleteDownloading }: Props) => {
   const { isDownloading, downloadProgress, cancelDownload, downloadSession } =

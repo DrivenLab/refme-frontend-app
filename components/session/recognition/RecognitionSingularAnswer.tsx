@@ -74,10 +74,7 @@ const RecognitionSingularAnswer = ({
           padding={10}
           style={{ transform: "scale(0.7)" }}
         >
-          <Image
-            source={imageIconSource as unknown as ImageSourcePropType}
-            alt={PROP_IMAGE_NAME}
-          />
+          <Image source={imageIconSource} alt={PROP_IMAGE_NAME} />
         </Box>
         <ArrowRightIcon
           color={secondIsCorrect ? "#4ed964" : "#ff3a31"}
@@ -160,10 +157,7 @@ const RecognitionSingularAnswerContactPoint = ({
           padding={10}
           style={{ transform: "scale(0.7)" }}
         >
-          <Image
-            source={imageIconSource as unknown as ImageSourcePropType}
-            alt={PROP_IMAGE_NAME}
-          />
+          <Image source={imageIconSource} alt={PROP_IMAGE_NAME} />
         </Box>
       </Box>
       <VStack>

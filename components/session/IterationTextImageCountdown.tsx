@@ -55,7 +55,7 @@ const IterationTextImageCountdown = ({
           borderRadius="$full"
         />
         <Image
-          source={imageSource as unknown as ImageSourcePropType}
+          source={imageSource}
           style={{ height: 100, width: 100 }}
           contentFit="contain"
         />

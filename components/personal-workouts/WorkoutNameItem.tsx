@@ -1,3 +1,4 @@
+import { PERSONAL_WORKOUT_CARD_COLORS } from "@/constants/PersonalWorkouts";
 import { IMAGE_NAME } from "@/types/session";
 import { getImageFromName } from "@/utils/libs";
 import { Text, View, Box, Pressable } from "@gluestack-ui/themed";
@@ -24,7 +25,15 @@ const WorkoutNameItem = ({
       asChild
     >
       <Pressable>
-        <View width={200} style={styles.container} mr={"$3"}>
+        <View
+          width={200}
+          overflow="hidden"
+          style={styles.container}
+          mr={"$3"}
+          rounded={"$md"}
+          borderBottomWidth={3}
+          borderBottomColor={PERSONAL_WORKOUT_CARD_COLORS[params.ability]}
+        >
           <Image
             source={getImageFromName(imgName)}
             style={{ height: 130, width: "100%" }}
@@ -45,5 +54,5 @@ const WorkoutNameItem = ({
 
 export default WorkoutNameItem;
 const styles = StyleSheet.create({
-  container: { borderRadius: 15, backgroundColor: "#f3f3f4" },
+  container: { backgroundColor: "#f3f3f4" },
 });

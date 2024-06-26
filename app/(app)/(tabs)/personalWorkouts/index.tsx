@@ -19,16 +19,19 @@ const PersonalWorkouts = () => {
             bgImage={require("@/assets/images/personalWorkout/velocity_home.png/")}
             title={"Velocidad - RSA"}
             href="/personalWorkouts/velocidad/"
+            ability="velocidad"
           />
           <WorkoutTypeCard
             bgImage={require("@/assets/images/personalWorkout/resistance_home.png")}
             title={"Resistencia"}
             href="/personalWorkouts/resistencia/"
+            ability="resistencia"
           />
           <WorkoutTypeCard
             bgImage={require("@/assets/images/personalWorkout/agility_home.png/")}
             title={"Agilidad y  Cambio de dirección"}
             href="/personalWorkouts/agilidad/"
+            ability="agilidad"
           />
         </VStack>
       )}

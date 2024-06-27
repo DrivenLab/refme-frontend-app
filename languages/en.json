@@ -84,6 +84,11 @@
   "general_error_description": "There was a error in {{entity}}",
   "request_error": "Your request could not be processed",
   "unknown_error": "Unknown error",
+  "home": "Home",
+  "statistics": "Statistics",
+  "profile": "Profile",
+  "coming_soon": "Coming soon !!",
+  "working_on_that": "We are working on this functionality.",
   "common": {
     "name_label": "Name",
     "last_name_label": "Lastname",
@@ -239,5 +244,19 @@
   },
   "instructions_modal": {
     "title": "Instructions"
+  },
+
+  "statistics_flow": {
+    "successByType": "% Accuracy by Skill",
+    "userDataRpeZone": "Responses / RPE",
+    "activityEvolution": "Activity Evolution",
+    "dmEvolution": "Decision-Making Evolution",
+    "answerEvolution": "Response Time Evolution",
+    "all_refme_user_average": "Average of All REFME Users",
+    "personal_average": "Personal Average",
+    "percentage_successes": "% Successes",
+    "hands": "Hands",
+    "tactical_fouls": "Tactical Fouls",
+    "disputes": "Disputes"
   }
 }

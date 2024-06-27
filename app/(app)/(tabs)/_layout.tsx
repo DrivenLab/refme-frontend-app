@@ -9,6 +9,7 @@ import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import HomeIconTab from "@/components/HomeIconTab";
 import ProfileTabBarIcon from "@/components/ProfileTabBarIcon";
 import StatsTabBarIcon from "@/components/StatsTabBarIcon";
+import i18n from "@/languages/i18n";
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 // function TabBarIcon(props: {
 //   name: React.ComponentProps<typeof FontAwesome>["name"];
@@ -32,7 +33,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="statistics"
         options={{
-          title: "Estadisticas",
+          title: i18n.t("statistics"),
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused }) => (
             <StatsTabBarIcon color={color} isFocused={focused} />
@@ -42,7 +43,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: "Home",
+          title: i18n.t("home"),
           tabBarIcon: ({ color }) => <HomeIconTab />,
           tabBarShowLabel: false,
         }}
@@ -50,7 +51,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Perfil",
+          title: i18n.t("profile"),
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused }) => (
             <ProfileTabBarIcon color={color} isFocused={focused} />

@@ -84,6 +84,11 @@
   "general_error_description": "Hubo un error en {{entity}}",
   "request_error": "No se pudo procesar su solicitud",
   "unknown_error": "Error desconocido",
+  "home": "Inicio",
+  "statistics": "Estadísticas",
+  "profile": "Perfil",
+  "coming_soon": "Pronto !!",
+  "working_on_that": "Estamos trabajando en esta funcionalidad.",
   "common": {
     "name_label": "Nombre",
     "last_name_label": "Apellido",
@@ -242,5 +247,18 @@
   },
   "instructions_modal": {
     "title": "Instrucciones"
+  },
+  "statistics_flow": {
+    "successByType": "% de acierto por habilidad",
+    "userDataRpeZone": "Respuestas / RPE",
+    "activityEvolution": "Evolución de actividades",
+    "dmEvolution": "Evolución de toma de decisión",
+    "answerEvolution": "Evolución de tiempo de respuesta",
+    "all_refme_user_average": "Promedio de todos los usuarios REFME",
+    "personal_average": "Promedio personal",
+    "percentage_successes": "% de Aciertos",
+    "hands": "Manos",
+    "tactical_fouls": "Faltas tácticas",
+    "disputes": "Disputas"
   }
 }

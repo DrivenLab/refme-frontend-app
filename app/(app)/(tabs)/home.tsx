@@ -39,7 +39,6 @@ export default function TabOneScreen() {
               title={i18n.t("official_test")}
               hasNewItems={false}
               iconName=""
-              href="/workouts/"
             />
             <Text
               fontWeight="$semibold"
@@ -55,7 +54,6 @@ export default function TabOneScreen() {
               title={i18n.t("video_test")}
               hasNewItems={false}
               iconName=""
-              href="/workouts/"
             />
             <SectionItem
               bgImage={require("@/assets/images/topic_home.png")}
@@ -63,7 +61,6 @@ export default function TabOneScreen() {
               title={i18n.t("topics")}
               hasNewItems={false}
               iconName=""
-              href="/workouts/"
             />
           </>
         ) : userRole === "instructor" ? (
@@ -77,7 +74,6 @@ export default function TabOneScreen() {
               title={i18n.t("video_test")}
               hasNewItems={false}
               iconName=""
-              href="/workouts/"
             />
             <SectionItem
               bgImage={require("@/assets/images/topic_home.png")}
@@ -85,7 +81,6 @@ export default function TabOneScreen() {
               title={i18n.t("topics")}
               hasNewItems={false}
               iconName=""
-              href="/workouts/"
             />
           </>
         ) : null}

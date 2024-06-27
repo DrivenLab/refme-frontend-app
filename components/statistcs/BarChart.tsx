@@ -1,3 +1,4 @@
+import i18n from "@/languages/i18n";
 import { Box, Text, VStack } from "@gluestack-ui/themed";
 import {
   VictoryAxis,
@@ -54,7 +55,7 @@ export const BarChart = ({
             dependentAxis
             tickValues={yAxis}
             tickFormat={(t) => `${t}%`}
-            label={"% de Aciertos"}
+            label={i18n.t("statistics_flow.percentage_successes")}
             axisLabelComponent={<VictoryLabel dy={-170} angle={0} />}
             style={{
               axis: { stroke: "none" },

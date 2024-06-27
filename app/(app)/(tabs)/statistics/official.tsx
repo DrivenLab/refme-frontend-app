@@ -11,6 +11,7 @@ import { generateFakePoints } from "@/utils";
 
 import { useGetStats } from "@/queries/stats.query";
 import { Stats } from "@/types/stats";
+import i18n from "@/languages/i18n";
 
 const winWidth = Dimensions.get("window").width;
 
@@ -42,7 +43,7 @@ export default function TabTwoScreen() {
           debounceSetWidth(layout.width);
         }}
       >
-        <ChartCard title="% de acierto por habilidad">
+        <ChartCard title={i18n.t("statistics_flow.successByType")}>
           <RadarChart
             labels={radarLabels}
             characterData={characterData}
@@ -50,16 +51,16 @@ export default function TabTwoScreen() {
           />
         </ChartCard>
 
-        <ChartCard title="Respuestas / RPE">
+        <ChartCard title={i18n.t("statistics_flow.userDataRpeZone")}>
           <BarChart data={barchartData} labels={barchartLabels} width={width} />
         </ChartCard>
-        <ChartCard title="Evolución de actividades">
+        <ChartCard title={i18n.t("statistics_flow.activityEvolution")}>
           <LineChart width={width} linesData={activitiesData2} />
         </ChartCard>
-        <ChartCard title="Evolución de toma de decisión">
+        <ChartCard title={i18n.t("statistics_flow.dmEvolution")}>
           <LineChart width={width} linesData={decisionData} />
         </ChartCard>
-        <ChartCard title="Evolución de tiempo de respuesta">
+        <ChartCard title={i18n.t("statistics_flow.answerEvolution")}>
           <LineChart
             width={width}
             linesData={timeResponseData}
@@ -109,18 +110,28 @@ function getRadarData(stats: Stats) {
 
   const characterData = [
     {
-      Memoria: stats?.successByType?.[0]?.user?.[1]?.prom ?? 0,
-      "Toma de Decisión": stats?.successByType?.[0]?.user?.[0]?.prom ?? 0,
-      Random: stats?.successByType?.[0]?.user?.[4]?.prom ?? 0,
-      Reconocimiento: stats?.successByType?.[0]?.user?.[3]?.prom ?? 0,
-      "TD + Memoria": stats?.successByType?.[0]?.user?.[2]?.prom ?? 0,
+      [`${i18n.t("workout_type.memory")}`]:
+        stats?.successByType?.[0]?.user?.[1]?.prom ?? 0,
+      [`${i18n.t("workout_type.dm")}`]:
+        stats?.successByType?.[0]?.user?.[0]?.prom ?? 0,
+      [`${i18n.t("workout_type.random")}`]:
+        stats?.successByType?.[0]?.user?.[4]?.prom ?? 0,
+      [`${i18n.t("workout_type.recognition")}`]:
+        stats?.successByType?.[0]?.user?.[3]?.prom ?? 0,
+      [`${i18n.t("workout_type.dm+memory")}`]:
+        stats?.successByType?.[0]?.user?.[2]?.prom ?? 0,
     },
     {
-      Memoria: stats?.successByType?.[1]?.refme?.[1]?.prom ?? 0,
-      "Toma de Decisión": stats?.successByType?.[1]?.refme?.[0]?.prom ?? 0,
-      Random: stats?.successByType?.[1]?.refme?.[4]?.prom ?? 0,
-      Reconocimiento: stats?.successByType?.[1]?.refme?.[3]?.prom ?? 0,
-      "TD + Memoria": stats?.successByType?.[1]?.refme?.[2]?.prom ?? 0,
+      [`${i18n.t("workout_type.memory")}`]:
+        stats?.successByType?.[1]?.refme?.[1]?.prom ?? 0,
+      [`${i18n.t("workout_type.dm")}`]:
+        stats?.successByType?.[1]?.refme?.[0]?.prom ?? 0,
+      [`${i18n.t("workout_type.random")}`]:
+        stats?.successByType?.[1]?.refme?.[4]?.prom ?? 0,
+      [`${i18n.t("workout_type.recognition")}`]:
+        stats?.successByType?.[1]?.refme?.[3]?.prom ?? 0,
+      [`${i18n.t("workout_type.dm+memory")}`]:
+        stats?.successByType?.[1]?.refme?.[2]?.prom ?? 0,
     },
   ];
 
@@ -129,35 +140,35 @@ function getRadarData(stats: Stats) {
 
 function getActivitiesData(stats: Stats) {
   const activitiesData2 = {
-    "Toma de decisión": [
+    [`${i18n.t("workout_type.dm")}`]: [
       { x: 1, y: stats?.successByTypeAndTime?.dm?.[0]?.prom ?? 0 },
       { x: 2, y: stats?.successByTypeAndTime?.dm?.[1]?.prom ?? 0 },
       { x: 3, y: stats?.successByTypeAndTime?.dm?.[2]?.prom ?? 0 },
       { x: 4, y: stats?.successByTypeAndTime?.dm?.[3]?.prom ?? 0 },
       { x: 5, y: stats?.successByTypeAndTime?.dm?.[4]?.prom ?? 0 },
     ],
-    Memoria: [
+    [`${i18n.t("workout_type.memory")}`]: [
       { x: 1, y: stats?.successByTypeAndTime?.memory?.[0]?.prom ?? 0 },
       { x: 2, y: stats?.successByTypeAndTime?.memory?.[1]?.prom ?? 0 },
       { x: 3, y: stats?.successByTypeAndTime?.memory?.[2]?.prom ?? 0 },
       { x: 4, y: stats?.successByTypeAndTime?.memory?.[3]?.prom ?? 0 },
       { x: 5, y: stats?.successByTypeAndTime?.memory?.[4]?.prom ?? 0 },
     ],
-    Reconocimiento: [
+    [`${i18n.t("workout_type.recognition")}`]: [
       { x: 1, y: stats?.successByTypeAndTime?.recognition?.[0]?.prom ?? 0 },
       { x: 2, y: stats?.successByTypeAndTime?.recognition?.[1]?.prom ?? 0 },
       { x: 3, y: stats?.successByTypeAndTime?.recognition?.[2]?.prom ?? 0 },
       { x: 4, y: stats?.successByTypeAndTime?.recognition?.[3]?.prom ?? 0 },
       { x: 5, y: stats?.successByTypeAndTime?.recognition?.[4]?.prom ?? 0 },
     ],
-    "T.D. + Memoria": [
+    [`${i18n.t("workout_type.dm+memory")}`]: [
       { x: 1, y: stats?.successByTypeAndTime?.dmMemory?.[0]?.prom ?? 0 },
       { x: 2, y: stats?.successByTypeAndTime?.dmMemory?.[1]?.prom ?? 0 },
       { x: 3, y: stats?.successByTypeAndTime?.dmMemory?.[2]?.prom ?? 0 },
       { x: 4, y: stats?.successByTypeAndTime?.dmMemory?.[3]?.prom ?? 0 },
       { x: 5, y: stats?.successByTypeAndTime?.dmMemory?.[4]?.prom ?? 0 },
     ],
-    Random: [
+    [`${i18n.t("workout_type.random")}`]: [
       { x: 1, y: stats?.successByTypeAndTime?.random?.[0]?.prom ?? 0 },
       { x: 2, y: stats?.successByTypeAndTime?.random?.[1]?.prom ?? 0 },
       { x: 3, y: stats?.successByTypeAndTime?.random?.[2]?.prom ?? 0 },
@@ -171,14 +182,14 @@ function getActivitiesData(stats: Stats) {
 
 function getDecisionData(stats: Stats) {
   const decisionData = {
-    Manos: [
+    [`${i18n.t("statistics_flow.hands")}`]: [
       { x: 1, y: stats?.successByTopicAndTime?.hand?.[0]?.prom ?? 0 },
       { x: 2, y: stats?.successByTopicAndTime?.hand?.[1]?.prom ?? 0 },
       { x: 3, y: stats?.successByTopicAndTime?.hand?.[2]?.prom ?? 0 },
       { x: 4, y: stats?.successByTopicAndTime?.hand?.[3]?.prom ?? 0 },
       { x: 5, y: stats?.successByTopicAndTime?.hand?.[4]?.prom ?? 0 },
     ],
-    "Faltas tácticas": [
+    [`${i18n.t("statistics_flow.tactical_fouls")}`]: [
       {
         x: 1,
         y: stats?.successByTopicAndTime?.tacticalFouls?.[0]?.prom ?? 0,
@@ -200,7 +211,7 @@ function getDecisionData(stats: Stats) {
         y: stats?.successByTopicAndTime?.tacticalFouls?.[4]?.prom ?? 0,
       },
     ],
-    Disputas: [
+    [`${i18n.t("statistics_flow.disputes")}`]: [
       { x: 1, y: stats?.successByTopicAndTime?.disputes?.[0]?.prom ?? 0 },
       { x: 2, y: stats?.successByTopicAndTime?.disputes?.[1]?.prom ?? 0 },
       { x: 3, y: stats?.successByTopicAndTime?.disputes?.[2]?.prom ?? 0 },
@@ -213,14 +224,14 @@ function getDecisionData(stats: Stats) {
 
 function getTimeResponseData(stats: Stats) {
   const timeResponseData = {
-    "Toma de decisión": [
+    [`${i18n.t("workout_type.dm")}`]: [
       { x: 1, y: stats?.successByTypeAndTime?.dm?.[0]?.responseAvgTime ?? 0 },
       { x: 2, y: stats?.successByTypeAndTime?.dm?.[1]?.responseAvgTime ?? 0 },
       { x: 3, y: stats?.successByTypeAndTime?.dm?.[2]?.responseAvgTime ?? 0 },
       { x: 4, y: stats?.successByTypeAndTime?.dm?.[3]?.responseAvgTime ?? 0 },
       { x: 5, y: stats?.successByTypeAndTime?.dm?.[4]?.responseAvgTime ?? 0 },
     ],
-    Memoria: [
+    [`${i18n.t("workout_type.memory")}`]: [
       {
         x: 1,
         y: stats?.successByTypeAndTime?.memory?.[0]?.responseAvgTime ?? 0,
@@ -242,7 +253,7 @@ function getTimeResponseData(stats: Stats) {
         y: stats?.successByTypeAndTime?.memory?.[4]?.responseAvgTime ?? 0,
       },
     ],
-    Reconocimiento: [
+    [`${i18n.t("workout_type.recognition")}`]: [
       {
         x: 1,
         y: stats?.successByTypeAndTime?.recognition?.[0]?.responseAvgTime ?? 0,
@@ -264,7 +275,7 @@ function getTimeResponseData(stats: Stats) {
         y: stats?.successByTypeAndTime?.recognition?.[4]?.responseAvgTime ?? 0,
       },
     ],
-    "T.D. + Memoria": [
+    [`${i18n.t("workout_type.dm+memory")}`]: [
       {
         x: 1,
         y: stats?.successByTypeAndTime?.dmMemory?.[0]?.responseAvgTime ?? 0,
@@ -286,7 +297,7 @@ function getTimeResponseData(stats: Stats) {
         y: stats?.successByTypeAndTime?.dmMemory?.[4]?.responseAvgTime ?? 0,
       },
     ],
-    Random: [
+    [`${i18n.t("workout_type.random")}`]: [
       {
         x: 1,
         y: stats?.successByTypeAndTime?.random?.[0]?.responseAvgTime ?? 0,

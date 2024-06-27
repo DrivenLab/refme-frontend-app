@@ -16,6 +16,7 @@ import { Image } from "@gluestack-ui/themed";
 import { ImageSourcePropType } from "react-native";
 import { RecognitionImageMap, shuffleArray } from "@/utils/session";
 import { ContactPointOptions } from "@/constants/Session";
+import i18n from "@/languages/i18n";
 type Props = {
   recognitionAnswer: Answer;
   selectedAnswer: string | null;
@@ -183,7 +184,7 @@ const RecognitionSingularAnswerContactPoint = ({
               borderColor={getAnswerBorderColor(item)}
             >
               <Text fontSize={"$2xl"} textAlign="center" color="$secondary">
-                {ContactPointOptions[item as keyof typeof ContactPointOptions]}
+                {i18n.t(`workout_flow.recognition.contact_point.${item}`)}
               </Text>
             </Pressable>
           )}

@@ -15,6 +15,8 @@
   "official_test": "Test oficiales",
   "new": "Nuevo",
   "video_test": "Video Test",
+  "video": "Video",
+  "videos": "Vídeos",
   "topics": "Tópicos",
   "download": "Descargar",
   "downloaded": "Descargado",
@@ -78,6 +80,15 @@
   "rpe_almost_maximal": "Casi máximo",
   "rpe_maximal_exertion": "Esfuerzo máximo",
   "rpe_how_do_you_feel": "¿Cómo te sientes?",
+  "general_error": "Error",
+  "general_error_description": "Hubo un error en {{entity}}",
+  "request_error": "No se pudo procesar su solicitud",
+  "unknown_error": "Error desconocido",
+  "home": "Inicio",
+  "statistics": "Estadísticas",
+  "profile": "Perfil",
+  "coming_soon": "Pronto !!",
+  "working_on_that": "Estamos trabajando en esta funcionalidad.",
   "common": {
     "name_label": "Nombre",
     "last_name_label": "Apellido",
@@ -153,7 +164,43 @@
       "pick_the_hand_ball": "Selecciona la falta mano",
       "pick_the_foul": "Selecciona  la falta ",
       "pick_the_one_with_more_players": "Selecciona  el video con más jugadores",
-      "pick_contact_point": "Selecciona  el punto de contacto"
+      "pick_contact_point": "Selecciona  el punto de contacto",
+      "contact_point": {
+        "tapon-tobillo": "Tapón / Tobillo",
+        "tapon-canilla": "Tapón / Canilla",
+        "tapon-pantorrilla": "Tapón / Pantorrilla",
+        "tapon-rodilla": "Tapón / Rodilla",
+        "tapon-muslo": "Tapón / Muslo",
+        "tapon-cadera": "Tapón / Cadera",
+        "tapon-espalda": "Tapón / Espalda",
+        "tapon-cara": "Tapón / Cara",
+
+        "pie-tobillo": "Pie / Tobillo",
+        "pie-canilla": "Pie / Canilla",
+        "pie-pantorrilla": "Pie / Pantorrilla",
+        "pie-rodilla": "Pie / Rodilla",
+        "pie-muslo": "Pie / Muslo",
+        "pie-cadera": "Pie / Cadera",
+        "pie-espalda": "Pie / Espalda",
+        "pie-cara": "Pie / Cara",
+        "pie-pie": "Pie / Pie",
+
+        "rodilla-muslo": "Rodilla / Muslo",
+        "rodilla-cadera": "Rodilla / Cadera",
+        "rodilla-espalda": "Rodilla / Espalda",
+        "rodilla-cara": "Rodilla / Cara",
+
+        "canilla-canilla": "Canilla / Canilla",
+        "canilla-pantorrilla": "Canilla / Pantorrilla",
+        "canilla-muslo": "Canilla / Muslo",
+        "canilla-cadera": "Canilla / Cadera",
+
+        "pierna-tobillo": "Pierna / Tobillo",
+        "pierna-canilla": "Pierna / Canilla",
+        "pierna-pantorrilla": "Pierna / Pantorrilla",
+        "pierna-cadera": "Pierna / Cadera",
+        "pierna-espalda": "Pierna / Espalda"
+      }
     },
     "numberOfRepetitions": "Repeticiones",
     "numberOfDecisions": "Decisiones",
@@ -161,6 +208,7 @@
     "breakDuration": "Tiempo de pausa"
   },
   "personal_workout_flow": {
+    "personal_workout_header_title": "Entrenamiento personal",
     "velocidad_header_title": "Velocidad - RSA",
     "agilidad_header_title": "Agilidad y Cambio de dirección",
     "resistencia_header_title": "Resistencia",
@@ -171,7 +219,10 @@
       "characteristics": "Características",
       "materials": "Materiales",
       "difficulty_level": "Nivel de dificultad",
-      "cognitive_ability": "Habilidad cognitiva"
+      "cognitive_ability": "Habilidad cognitiva",
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado"
     }
   },
   "create_workout": {
@@ -196,5 +247,18 @@
   },
   "instructions_modal": {
     "title": "Instrucciones"
+  },
+  "statistics_flow": {
+    "successByType": "% de acierto por habilidad",
+    "userDataRpeZone": "Respuestas / RPE",
+    "activityEvolution": "Evolución de actividades",
+    "dmEvolution": "Evolución de toma de decisión",
+    "answerEvolution": "Evolución de tiempo de respuesta",
+    "all_refme_user_average": "Promedio de todos los usuarios REFME",
+    "personal_average": "Promedio personal",
+    "percentage_successes": "% de Aciertos",
+    "hands": "Manos",
+    "tactical_fouls": "Faltas tácticas",
+    "disputes": "Disputas"
   }
 }

@@ -10,6 +10,7 @@ import {
   VictoryTheme,
 } from "victory-native";
 import { Box, Text } from "@gluestack-ui/themed";
+import i18n from "@/languages/i18n";
 
 type Data = Record<string, number>[];
 
@@ -125,7 +126,9 @@ export function RadarChart({ labels, characterData, width = 0 }: Props) {
               borderRadius={10}
               backgroundColor={"#FF6622"}
             />
-            <Text size="sm">Promedio de todos los usuarios REFME</Text>
+            <Text size="sm">
+              {i18n.t("statistics_flow.all_refme_user_average")}
+            </Text>
           </Box>
           <Box display="flex" flexDirection="row" gap={4} alignItems="center">
             <Box
@@ -134,7 +137,7 @@ export function RadarChart({ labels, characterData, width = 0 }: Props) {
               borderRadius={10}
               backgroundColor={"#ABEDFD"}
             />
-            <Text size="sm">Promedio personal</Text>
+            <Text size="sm">{i18n.t("statistics_flow.personal_average")}</Text>
           </Box>
         </Box>
       </Box>

@@ -15,6 +15,8 @@
   "official_test": "Official Tests",
   "new": "New",
   "video_test": "Video Test",
+  "video": "Video",
+  "videos": "Videos",
   "topics": "Topics",
   "download": "Download",
   "downloaded": "Downloaded",
@@ -78,6 +80,15 @@
   "elearning_title": "E-Learning",
   "start": "Start",
   "prepare": "Prepare",
+  "general_error": "Error",
+  "general_error_description": "There was a error in {{entity}}",
+  "request_error": "Your request could not be processed",
+  "unknown_error": "Unknown error",
+  "home": "Home",
+  "statistics": "Statistics",
+  "profile": "Profile",
+  "coming_soon": "Coming soon !!",
+  "working_on_that": "We are working on this functionality.",
   "common": {
     "name_label": "Name",
     "last_name_label": "Lastname",
@@ -153,7 +164,43 @@
       "pick_the_hand_ball": "Select the hand ball",
       "pick_the_foul": "Select the foul",
       "pick_the_one_with_more_players": "Select the video with more players",
-      "pick_contact_point": "Select the contact point"
+      "pick_contact_point": "Select the contact point",
+      "contact_point": {
+        "tapon-tobillo": "Heel / Ankle",
+        "tapon-canilla": "Heel / Shin",
+        "tapon-pantorrilla": "Heel / Calf",
+        "tapon-rodilla": "Heel / Knee",
+        "tapon-muslo": "Heel / Thigh",
+        "tapon-cadera": "Heel / Hip",
+        "tapon-espalda": "Heel / Back",
+        "tapon-cara": "Heel / Face",
+
+        "pie-tobillo": "Foot / Ankle",
+        "pie-canilla": "Foot / Shin",
+        "pie-pantorrilla": "Foot / Calf",
+        "pie-rodilla": "Foot / Knee",
+        "pie-muslo": "Foot / Thigh",
+        "pie-cadera": "Foot / Hip",
+        "pie-espalda": "Foot / Back",
+        "pie-cara": "Foot / Face",
+        "pie-pie": "Foot / Foot",
+
+        "rodilla-muslo": "Knee / Thigh",
+        "rodilla-cadera": "Knee / Hip",
+        "rodilla-espalda": "Knee / Back",
+        "rodilla-cara": "Knee / Face",
+
+        "canilla-canilla": "Shin / Shin",
+        "canilla-pantorrilla": "Shin / Calf",
+        "canilla-muslo": "Shin / Thigh",
+        "canilla-cadera": "Shin / Hip",
+
+        "pierna-tobillo": "Leg / Ankle",
+        "pierna-canilla": "Leg / Shin",
+        "pierna-pantorrilla": "Leg / Calf",
+        "pierna-cadera": "Leg / Hip",
+        "pierna-espalda": "Leg / Back"
+      }
     },
     "numberOfRepetitions": "Repetitions",
     "numberOfDecisions": "Decisions",
@@ -173,11 +220,12 @@
     "dm": "Decision Making",
     "dmar": "Decision Making",
     "memory": "Memory",
-    "recognition": "Reconocimiento",
+    "recognition": "Recognition",
     "dm+memory": "Decision Making + Memory",
     "random": "Random"
   },
   "personal_workout_flow": {
+    "personal_workout_header_title": "Personal workout",
     "velocidad_header_title": "Speed ​​- RSA",
     "agilidad_header_title": "Agility and Change of direction",
     "resistencia_header_title": "Resistance",
@@ -188,7 +236,27 @@
       "characteristics": "Characteristics",
       "materials": "Materials",
       "difficulty_level": "Difficulty level",
-      "cognitive_ability": "Cognitive ability"
+      "cognitive_ability": "Cognitive ability",
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
     }
+  },
+  "instructions_modal": {
+    "title": "Instructions"
+  },
+
+  "statistics_flow": {
+    "successByType": "% Accuracy by Skill",
+    "userDataRpeZone": "Responses / RPE",
+    "activityEvolution": "Activity Evolution",
+    "dmEvolution": "Decision-Making Evolution",
+    "answerEvolution": "Response Time Evolution",
+    "all_refme_user_average": "Average of All REFME Users",
+    "personal_average": "Personal Average",
+    "percentage_successes": "% Successes",
+    "hands": "Hands",
+    "tactical_fouls": "Tactical Fouls",
+    "disputes": "Disputes"
   }
 }

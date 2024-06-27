@@ -3,6 +3,7 @@ import { Box } from "@gluestack-ui/themed";
 import { Stack, useNavigation, usePathname } from "expo-router";
 
 import { CTabScroll } from "@/components/CTabScroll";
+import i18n from "@/languages/i18n";
 
 export default function Layout() {
   const navigation = useNavigation<any>();
@@ -26,7 +27,7 @@ export default function Layout() {
           tabs={[
             // { label: "Personales", value: "personal" },
             // { label: "Ranking", value: "ranking" },
-            { label: "Ejercicios oficiales", value: "official" },
+            { label: i18n.t("official_training"), value: "official" },
             // { label: "Tests oficiales", value: "tests" },
           ]}
           changeCurrentTab={function (tab: string): void {

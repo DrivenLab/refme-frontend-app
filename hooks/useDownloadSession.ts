@@ -4,6 +4,8 @@ import { useGetSessionDetailById } from "@/queries/session.query";
 import { useQueryClient } from "@tanstack/react-query";
 import { AxiosResponse } from "axios";
 import useDownloadVideos from "./useDownloadVideos";
+import useToast from "./useToast";
+import i18n from "@/languages/i18n";
 
 type Props = {
   idSession: number;
@@ -19,7 +21,7 @@ const useDownloadSession = ({ idSession, onCompleteDownloading }: Props) => {
     idSession,
     enabled: false,
   });
-
+  const { showToast } = useToast();
   const getSession = () => {
     return queryClient.getQueryData<AxiosResponse<Session>>([
       "sessions",
@@ -63,8 +65,13 @@ const useDownloadSession = ({ idSession, onCompleteDownloading }: Props) => {
       const responses = await downloadVideos(data.data.workout);
       const iterationsUpdated = data.data.workout.iterations;
       if (!responses) {
-        // Toast("Error descargando");
-        console.warn("TODO: Mostrar toast de error en descarga");
+        showToast({
+          title: i18n.t("general_error"),
+          description: i18n.t("general_error_description", {
+            entity: `${i18n.t("download")} ${i18n.t("videos")}`,
+          }),
+          action: "error",
+        });
         setWasSessionDownloaded(false);
         return;
       }

@@ -66,7 +66,7 @@ const WorkoutDetail = () => {
             style={styles.backgroundLinearGradient}
           >
             <Text color="white" px="$3" fontSize="$lg" bold>
-              {workout?.name}
+              {workout?.name}aaa
             </Text>
           </LinearGradient>
         </ImageBackground>

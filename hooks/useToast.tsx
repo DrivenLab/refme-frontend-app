@@ -16,7 +16,7 @@ type Props = {
 };
 export default function useToast() {
   const toast = useToast_();
-  const showToast = ({ action, title, description }: Props) => {
+  const showToast = ({ action = "error", title, description }: Props) => {
     toast.show({
       placement: "bottom",
       render: ({ id }) => {

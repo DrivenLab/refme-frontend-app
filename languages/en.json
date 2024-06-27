@@ -78,6 +78,9 @@
   "elearning_title": "E-Learning",
   "start": "Start",
   "prepare": "Prepare",
+  "general_error": "Error",
+  "request_error": "Your request could not be processed",
+  "unknown_error": "Unknown error",
   "common": {
     "name_label": "Name",
     "last_name_label": "Lastname",

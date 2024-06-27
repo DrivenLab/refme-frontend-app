@@ -26,6 +26,8 @@ import { Session } from "@/types/session";
 import DownloadSessionModal from "@/components/personal-workouts/DonwloadSessionModal";
 import { ViewInstructionsModal } from "@/components/ViewInstructionsModal";
 import WorkoutConfigutationList from "@/components/workouts/WorkoutConfigutationList";
+import useToast from "@/hooks/useToast";
+import { AxiosError } from "axios";
 
 const Config = () => {
   /*STATES */
@@ -60,7 +62,7 @@ const Config = () => {
   const isDisabled = useMemo(() => {
     return Boolean(!form.level.length || !form.workoutType.length);
   }, [form]);
-
+  const { showToast } = useToast();
   /*FUNCTIONS */
 
   /*CREATE WORKOUT */
@@ -73,7 +75,11 @@ const Config = () => {
       );
       setSession(data);
     } catch (error) {
-      console.log("show error---", error);
+      showToast({
+        title: i18n.t("general_error"),
+        description: error as string,
+        action: "error",
+      });
     } finally {
       setIsLoading(false);
     }

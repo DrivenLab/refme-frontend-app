@@ -78,6 +78,9 @@
   "rpe_almost_maximal": "Casi máximo",
   "rpe_maximal_exertion": "Esfuerzo máximo",
   "rpe_how_do_you_feel": "¿Cómo te sientes?",
+  "general_error": "Error",
+  "request_error": "No se pudo procesar su solicitud",
+  "unknown_error": "Error desconocido",
   "common": {
     "name_label": "Nombre",
     "last_name_label": "Apellido",

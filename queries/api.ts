@@ -1,6 +1,6 @@
 import { getData } from "@/utils/storage";
 import axios from "axios";
-
+import i18n from "@/languages/i18n";
 //todo: Ver si se puede usar env in rn
 const url = false;
 //192.168.100.52
@@ -33,12 +33,12 @@ const handleError = (error: any) => {
     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
     // http.ClientRequest in node.js
 
-    errorMessage = "No se pudo procesar su solicitud.";
+    errorMessage = i18n.t("request_error");
   } else {
     // Something happened in setting up the request that triggered an Error
-    errorMessage = "Error desconocido.";
+    errorMessage = i18n.t("unknown_error");
   }
-  console.log("error en el server", errorMessage, error);
+  console.log("error en el server", errorMessage);
   return Promise.reject(errorMessage);
 };
 

@@ -159,7 +159,43 @@
       "pick_the_hand_ball": "Selecciona la falta mano",
       "pick_the_foul": "Selecciona  la falta ",
       "pick_the_one_with_more_players": "Selecciona  el video con más jugadores",
-      "pick_contact_point": "Selecciona  el punto de contacto"
+      "pick_contact_point": "Selecciona  el punto de contacto",
+      "contact_point": {
+        "tapon-tobillo": "Tapón / Tobillo",
+        "tapon-canilla": "Tapón / Canilla",
+        "tapon-pantorrilla": "Tapón / Pantorrilla",
+        "tapon-rodilla": "Tapón / Rodilla",
+        "tapon-muslo": "Tapón / Muslo",
+        "tapon-cadera": "Tapón / Cadera",
+        "tapon-espalda": "Tapón / Espalda",
+        "tapon-cara": "Tapón / Cara",
+
+        "pie-tobillo": "Pie / Tobillo",
+        "pie-canilla": "Pie / Canilla",
+        "pie-pantorrilla": "Pie / Pantorrilla",
+        "pie-rodilla": "Pie / Rodilla",
+        "pie-muslo": "Pie / Muslo",
+        "pie-cadera": "Pie / Cadera",
+        "pie-espalda": "Pie / Espalda",
+        "pie-cara": "Pie / Cara",
+        "pie-pie": "Pie / Pie",
+
+        "rodilla-muslo": "Rodilla / Muslo",
+        "rodilla-cadera": "Rodilla / Cadera",
+        "rodilla-espalda": "Rodilla / Espalda",
+        "rodilla-cara": "Rodilla / Cara",
+
+        "canilla-canilla": "Canilla / Canilla",
+        "canilla-pantorrilla": "Canilla / Pantorrilla",
+        "canilla-muslo": "Canilla / Muslo",
+        "canilla-cadera": "Canilla / Cadera",
+
+        "pierna-tobillo": "Pierna / Tobillo",
+        "pierna-canilla": "Pierna / Canilla",
+        "pierna-pantorrilla": "Pierna / Pantorrilla",
+        "pierna-cadera": "Pierna / Cadera",
+        "pierna-espalda": "Pierna / Espalda"
+      }
     },
     "numberOfRepetitions": "Repeticiones",
     "numberOfDecisions": "Decisiones",

@@ -159,7 +159,43 @@
       "pick_the_hand_ball": "Select the hand ball",
       "pick_the_foul": "Select the foul",
       "pick_the_one_with_more_players": "Select the video with more players",
-      "pick_contact_point": "Select the contact point"
+      "pick_contact_point": "Select the contact point",
+      "contact_point": {
+        "tapon-tobillo": "Heel / Ankle",
+        "tapon-canilla": "Heel / Shin",
+        "tapon-pantorrilla": "Heel / Calf",
+        "tapon-rodilla": "Heel / Knee",
+        "tapon-muslo": "Heel / Thigh",
+        "tapon-cadera": "Heel / Hip",
+        "tapon-espalda": "Heel / Back",
+        "tapon-cara": "Heel / Face",
+
+        "pie-tobillo": "Foot / Ankle",
+        "pie-canilla": "Foot / Shin",
+        "pie-pantorrilla": "Foot / Calf",
+        "pie-rodilla": "Foot / Knee",
+        "pie-muslo": "Foot / Thigh",
+        "pie-cadera": "Foot / Hip",
+        "pie-espalda": "Foot / Back",
+        "pie-cara": "Foot / Face",
+        "pie-pie": "Foot / Foot",
+
+        "rodilla-muslo": "Knee / Thigh",
+        "rodilla-cadera": "Knee / Hip",
+        "rodilla-espalda": "Knee / Back",
+        "rodilla-cara": "Knee / Face",
+
+        "canilla-canilla": "Shin / Shin",
+        "canilla-pantorrilla": "Shin / Calf",
+        "canilla-muslo": "Shin / Thigh",
+        "canilla-cadera": "Shin / Hip",
+
+        "pierna-tobillo": "Leg / Ankle",
+        "pierna-canilla": "Leg / Shin",
+        "pierna-pantorrilla": "Leg / Calf",
+        "pierna-cadera": "Leg / Hip",
+        "pierna-espalda": "Leg / Back"
+      }
     },
     "numberOfRepetitions": "Repetitions",
     "numberOfDecisions": "Decisions",

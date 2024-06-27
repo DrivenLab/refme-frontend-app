@@ -179,11 +179,12 @@
     "dm": "Decision Making",
     "dmar": "Decision Making",
     "memory": "Memory",
-    "recognition": "Reconocimiento",
+    "recognition": "Recognition",
     "dm+memory": "Decision Making + Memory",
     "random": "Random"
   },
   "personal_workout_flow": {
+    "personal_workout_header_title": "Personal workout",
     "velocidad_header_title": "Speed ​​- RSA",
     "agilidad_header_title": "Agility and Change of direction",
     "resistencia_header_title": "Resistance",
@@ -194,7 +195,13 @@
       "characteristics": "Characteristics",
       "materials": "Materials",
       "difficulty_level": "Difficulty level",
-      "cognitive_ability": "Cognitive ability"
+      "cognitive_ability": "Cognitive ability",
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
     }
+  },
+  "instructions_modal": {
+    "title": "Instructions"
   }
 }

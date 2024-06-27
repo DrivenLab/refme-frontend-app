@@ -23,12 +23,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        // tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
-        //headerShown: false,
         tabBarStyle: {
           borderRadius: 20,
         },
@@ -60,20 +55,6 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <ProfileTabBarIcon color={color} isFocused={focused} />
           ),
-          //   headerRight: () => (
-          //     <Link href="/profile/modal" asChild>
-          //       <Pressable>
-          //         {({ pressed }) => (
-          //           <FontAwesome
-          //             name="info-circle"
-          //             size={25}
-          //             color={Colors[colorScheme ?? "light"].text}
-          //             style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-          //           />
-          //         )}
-          //       </Pressable>
-          //     </Link>
-          //   ),
         }}
       />
       {/**TABS HIDDEN */}

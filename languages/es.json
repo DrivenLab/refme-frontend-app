@@ -167,6 +167,7 @@
     "breakDuration": "Tiempo de pausa"
   },
   "personal_workout_flow": {
+    "personal_workout_header_title": "Entrenamiento personal",
     "velocidad_header_title": "Velocidad - RSA",
     "agilidad_header_title": "Agilidad y Cambio de dirección",
     "resistencia_header_title": "Resistencia",
@@ -177,7 +178,10 @@
       "characteristics": "Características",
       "materials": "Materiales",
       "difficulty_level": "Nivel de dificultad",
-      "cognitive_ability": "Habilidad cognitiva"
+      "cognitive_ability": "Habilidad cognitiva",
+      "beginner": "Principiante",
+      "intermediate": "Intermedio",
+      "advanced": "Avanzado"
     }
   },
   "create_workout": {

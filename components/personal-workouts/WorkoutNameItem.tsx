@@ -31,7 +31,9 @@ const WorkoutNameItem = ({ personalWorkout, params }: Props) => {
           borderBottomColor={PERSONAL_WORKOUT_CARD_COLORS[params.ability]}
         >
           <Image
-            source={personalWorkout.imgVideoMiniature.split(".png?")[0]}
+            source={
+              personalWorkout.imgVideoMiniature.split(".png?")[0] + ".png"
+            }
             style={{ height: 130, width: "100%" }}
           />
           <Box p={"$2"}>

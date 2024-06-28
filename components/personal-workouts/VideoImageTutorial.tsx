@@ -30,17 +30,17 @@ const VideoImageTutorial = ({
         onPageSelected={(e) => setCurrentStep(e.nativeEvent.position)}
       >
         <CVideo
-          uri={videoTutorial?.split(".mp4?")[0] + ".mp4?" ?? ""}
+          uri={videoTutorial?.split(".mp4?")[0] + ".mp4" ?? ""}
           key="1"
           isLooping
         />
         <Image
-          source={imgTutorial?.split(".png?")[0] + ".png?"}
+          source={imgTutorial?.split(".png?")[0] + ".png"}
           style={{ height: "100%", width: "100%" }}
           key="2"
         />
         <Image
-          source={imgVideoMiniature?.split(".png?")[0] + ".png?"}
+          source={imgVideoMiniature?.split(".png?")[0] + ".png"}
           style={{ height: "100%", width: "100%" }}
           key="3"
         />

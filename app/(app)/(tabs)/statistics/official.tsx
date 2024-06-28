@@ -24,15 +24,15 @@ export default function TabTwoScreen() {
   const { stats, isLoadingStats } = useGetStats();
 
   /* %de Acierto por Habilidad Cognitiva */
-  const { radarLabels, characterData } = getRadarData(stats as Stats);
+  const { radarLabels, characterData } = getRadarData(stats[0] as Stats);
   /* % de Acierto por zona de RPE  */
-  const { barchartLabels, barchartData } = getBarChartData(stats as Stats);
+  const { barchartLabels, barchartData } = getBarChartData(stats[0] as Stats);
   /* Evolucion de actividades */
-  const activitiesData2 = getActivitiesData(stats as Stats);
+  const activitiesData2 = getActivitiesData(stats[0] as Stats);
   /* Evolucion de Toma de Decision */
-  const { decisionData } = getDecisionData(stats as Stats);
+  const { decisionData } = getDecisionData(stats[0] as Stats);
   /* Evolución de tiempo de respuesta */
-  const { timeResponseData } = getTimeResponseData(stats as Stats);
+  const { timeResponseData } = getTimeResponseData(stats[0] as Stats);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   },
 });
 
-function getRadarData(stats: Stats) {
+function getRadarData(stats?: Stats | null) {
   const radarLabels = [
     `${stats?.successByType?.[0]?.user?.[1]?.decisions ?? 0} reps. ${
       stats?.successByType?.[0]?.user?.[1]?.prom ?? 0
@@ -138,7 +138,7 @@ function getRadarData(stats: Stats) {
   return { radarLabels, characterData };
 }
 
-function getActivitiesData(stats: Stats) {
+function getActivitiesData(stats?: Stats | null) {
   const activitiesData2 = {
     [`${i18n.t("workout_type.dm")}`]: [
       { x: 1, y: stats?.successByTypeAndTime?.dm?.[0]?.prom ?? 0 },
@@ -180,7 +180,7 @@ function getActivitiesData(stats: Stats) {
   return activitiesData2;
 }
 
-function getDecisionData(stats: Stats) {
+function getDecisionData(stats?: Stats | null) {
   const decisionData = {
     [`${i18n.t("statistics_flow.hands")}`]: [
       { x: 1, y: stats?.successByTopicAndTime?.hand?.[0]?.prom ?? 0 },
@@ -222,7 +222,7 @@ function getDecisionData(stats: Stats) {
   return { decisionData };
 }
 
-function getTimeResponseData(stats: Stats) {
+function getTimeResponseData(stats?: Stats | null) {
   const timeResponseData = {
     [`${i18n.t("workout_type.dm")}`]: [
       { x: 1, y: stats?.successByTypeAndTime?.dm?.[0]?.responseAvgTime ?? 0 },
@@ -323,7 +323,7 @@ function getTimeResponseData(stats: Stats) {
   return { timeResponseData };
 }
 
-const getBarChartData = (stats: Stats) => {
+const getBarChartData = (stats?: Stats | null) => {
   const barchartLabels = ["Z1", "Z2", "Z3", "Z4", "Z5"];
   const barchartData = [
     {

@@ -263,5 +263,10 @@
     "hands": "Manos",
     "tactical_fouls": "Faltas tácticas",
     "disputes": "Disputas"
+  },
+  "materials": {
+    "co": "Cono",
+    "cu": "Cuerda",
+    "ca": "Caminadora"
   }
 }

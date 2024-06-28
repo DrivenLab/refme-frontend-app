@@ -23,6 +23,7 @@ export interface PersonalWorkout {
   name: string;
   description: string;
   material: string[];
+  cognitiveAbility: string[];
   numberOfRepetitions: number;
   numberOfDecisions: number;
   excerciseDuration: number;
@@ -31,4 +32,5 @@ export interface PersonalWorkout {
   pauseBetweenSeries: number;
   videoTutorial: string;
   imgTutorial: string;
+  imgVideoMiniature: string;
 }

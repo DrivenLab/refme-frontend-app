@@ -16,7 +16,9 @@
       "supportsTablet": true,
       "requireFullScreen": true,
       "infoPlist": {
-        "CFBundleAllowMixedLocalizations": true
+        "CFBundleAllowMixedLocalizations": true,
+        "CFBundleLocalizations": ["es"],
+        "CFBundleDevelopmentRegion": "es"
       },
       "bundleIdentifier": "com.nundlab99.refmeproapp",
       "userInterfaceStyle": "light"
@@ -93,9 +95,7 @@
         "projectId": "8164efdf-7782-445a-a13a-aa8c993166dd"
       }
     },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/8164efdf-7782-445a-a13a-aa8c993166dd"
     },

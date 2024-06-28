@@ -259,7 +259,10 @@
     "personal_average": "Personal Average",
     "percentage_successes": "% Successes",
     "hands": "Handball",
-    "tactical_fouls": "Tactical Fouls",
+    "tactical_fouls": "Tactical Fouls",
     "disputes": "Challenges"
-  }
+  },
+  "NSCameraUsageDescription": "To upload your profile photo, we need access to your camera",
+  "NSMicrophoneUsageDescription": "To use some type of trainings, we need access to your microphone",
+  "NSPhotoLibraryUsageDescription": "To upload your profile photo, we need access to your photo library"
 }

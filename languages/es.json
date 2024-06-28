@@ -4,6 +4,8 @@
   "update_password": "Dado que tu contraseña actual fue creada por nosotros de forma automática, puedes cambiarla por una creada por ti.",
   "update_password_title": "Actualizar Contraseña",
   "workout": "Entrenamiento",
+  "workout_home_card": "Entrenamiento",
+  "personal_home_card": "Personal",
   "personal": "Personal",
   "dm": "Toma de decisión",
   "dmar": "Toma de decisión",
@@ -89,6 +91,7 @@
   "profile": "Perfil",
   "coming_soon": "Pronto !!",
   "working_on_that": "Estamos trabajando en esta funcionalidad.",
+  "zone": "Zona",
   "common": {
     "name_label": "Nombre",
     "last_name_label": "Apellido",

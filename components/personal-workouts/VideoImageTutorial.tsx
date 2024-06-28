@@ -25,7 +25,7 @@ const VideoImageTutorial = ({
     <Box>
       <PagerView
         ref={ref}
-        style={{ height: 300, width: "100%" }}
+        style={{ height: 400, width: "100%" }}
         initialPage={0}
         onPageSelected={(e) => setCurrentStep(e.nativeEvent.position)}
       >
@@ -38,11 +38,6 @@ const VideoImageTutorial = ({
           source={imgTutorial?.split(".png?")[0] + ".png"}
           style={{ height: "100%", width: "100%" }}
           key="2"
-        />
-        <Image
-          source={imgVideoMiniature?.split(".png?")[0] + ".png"}
-          style={{ height: "100%", width: "100%" }}
-          key="3"
         />
       </PagerView>
 

@@ -30,6 +30,8 @@ import { ViewInstructionsModal } from "@/components/ViewInstructionsModal";
 import WorkoutConfigutationList from "@/components/workouts/WorkoutConfigutationList";
 import useToast from "@/hooks/useToast";
 import VideoImageTutorial from "@/components/personal-workouts/VideoImageTutorial";
+import ConeIcon from "@/assets/svgs/ConeIcon";
+import Materials from "@/components/personal-workouts/Materials";
 
 const Config = () => {
   /*STATES */
@@ -143,13 +145,7 @@ const Config = () => {
             <Text color="#091233" fontWeight={"$bold"} fontSize={"$lg"}>
               {i18n.t("personal_workout_flow.config.materials")}
             </Text>
-            <VStack flexDirection="row" space="sm">
-              {generalWorkoutInfo?.material.map((m) => (
-                <Text color="#091233" fontWeight={400} key={m}>
-                  {m}
-                </Text>
-              ))}
-            </VStack>
+            <Materials materials={generalWorkoutInfo.material} />
           </>
           {/*INPUTS SELECTS */}
           <>

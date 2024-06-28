@@ -261,5 +261,10 @@
     "hands": "Handball",
     "tactical_fouls": "Tactical Fouls",
     "disputes": "Challenges"
+  },
+  "materials": {
+    "co": "Cone",
+    "cu": "Rope",
+    "ca": "Treadmill"
   }
 }

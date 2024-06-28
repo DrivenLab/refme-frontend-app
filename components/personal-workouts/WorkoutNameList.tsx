@@ -19,13 +19,9 @@ const WorkoutNameList = ({
     <VStack space="md">
       <FlatList
         data={Object.keys(personalWorkoutDistance[distance])}
-        renderItem={({ item }: { item: unknown }) => (
+        renderItem={({ item }: { item: any }) => (
           <WorkoutNameItem
-            description={
-              personalWorkoutDistance[distance][
-                Object.keys(personalWorkoutDistance[distance])[0]
-              ][0].description
-            }
+            personalWorkout={personalWorkoutDistance[distance][item][0]}
             params={{ distance, name: item as string, ability }}
           />
         )}

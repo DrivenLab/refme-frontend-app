@@ -14,7 +14,12 @@ const WorkoutDistanceList = ({ personalWorkoutDistance, ability }: Props) => {
     <VStack space="md">
       {Object.keys(personalWorkoutDistance).map((distance) => (
         <VStack key={distance} space="md">
-          <Text color="#091233" fontSize={"$xl"} fontWeight={"$bold"}>
+          <Text
+            color="#091233"
+            fontSize={"$xl"}
+            fontWeight={"$bold"}
+            textTransform="capitalize"
+          >
             {isNaN(Number(distance)) ? distance : distance + " m"}
           </Text>
           <WorkoutNameList

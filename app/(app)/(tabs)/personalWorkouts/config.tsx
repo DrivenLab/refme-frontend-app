@@ -1,4 +1,8 @@
-import { PersonalWorkoutAbility } from "@/types/personalWorkouts";
+import {
+  PersonalWorkout,
+  PersonalWorkoutAbility,
+  PersonalWorkoutConfig,
+} from "@/types/personalWorkouts";
 import {
   Text,
   ScrollView,
@@ -9,8 +13,6 @@ import {
   ButtonSpinner,
 } from "@gluestack-ui/themed";
 import { useLocalSearchParams } from "expo-router";
-import { Image } from "expo-image";
-import { getImageFromName } from "@/utils/libs";
 import i18n from "@/languages/i18n";
 import { useMemo, useState } from "react";
 import CInputSelect from "@/components/inputs/CInputSelect";
@@ -27,7 +29,9 @@ import DownloadSessionModal from "@/components/personal-workouts/DonwloadSession
 import { ViewInstructionsModal } from "@/components/ViewInstructionsModal";
 import WorkoutConfigutationList from "@/components/workouts/WorkoutConfigutationList";
 import useToast from "@/hooks/useToast";
-import { AxiosError } from "axios";
+import VideoImageTutorial from "@/components/personal-workouts/VideoImageTutorial";
+import ConeIcon from "@/assets/svgs/ConeIcon";
+import Materials from "@/components/personal-workouts/Materials";
 
 const Config = () => {
   /*STATES */
@@ -53,8 +57,10 @@ const Config = () => {
 
   const generalWorkoutInfo = useMemo(() => {
     if (form.level)
-      return personalWorkoutsConfig[ability][distance][name].find(
-        (w) => w.level === form.level
+      return (
+        personalWorkoutsConfig[ability][distance][name].find(
+          (w) => w.level === form.level
+        ) ?? ({} as PersonalWorkout)
       );
     else return personalWorkoutsConfig[ability][distance][name][0];
   }, [form.level]);
@@ -117,9 +123,10 @@ const Config = () => {
         workoutType={(form.workoutType as WORKOUT_TYPE) || "dm"}
       />
       <ScrollView backgroundColor="white">
-        <Image
-          source={getImageFromName("distance")}
-          style={{ height: 300, width: "100%" }}
+        <VideoImageTutorial
+          imgTutorial={generalWorkoutInfo?.imgTutorial}
+          imgVideoMiniature={generalWorkoutInfo?.imgVideoMiniature}
+          videoTutorial={generalWorkoutInfo?.videoTutorial}
         />
         <VStack px={"$3"} pt={"$2"} space="md">
           {/* TUTORIAL */}
@@ -128,7 +135,9 @@ const Config = () => {
               {i18n.t("personal_workout_flow.config.tutorial")}
             </Text>
             <Text color="#091233" fontWeight={400}>
-              {generalWorkoutInfo?.description}
+              {distance === "caminadora" && !form.level
+                ? "-"
+                : generalWorkoutInfo?.description}
             </Text>
           </>
           {/* MATERIALS */}
@@ -136,13 +145,7 @@ const Config = () => {
             <Text color="#091233" fontWeight={"$bold"} fontSize={"$lg"}>
               {i18n.t("personal_workout_flow.config.materials")}
             </Text>
-            <VStack flexDirection="row" space="sm">
-              {generalWorkoutInfo?.material.map((m) => (
-                <Text color="#091233" fontWeight={400} key={m}>
-                  {m}
-                </Text>
-              ))}
-            </VStack>
+            <Materials materials={generalWorkoutInfo.material} />
           </>
           {/*INPUTS SELECTS */}
           <>
@@ -167,14 +170,16 @@ const Config = () => {
                   placeholder={i18n.t(
                     "personal_workout_flow.config.cognitive_ability"
                   )}
-                  options={WORKOUT_TYPE_INPUT_SELECT_OPTIONS}
+                  options={generalWorkoutInfo?.cognitiveAbility.map((h) => ({
+                    label: i18n.t(h),
+                    value: h,
+                  }))}
                   onChangeValue={(v: string | number) =>
                     setForm((prev) => ({ ...prev, workoutType: v + "" }))
                   }
-                  error=""
-                  secureTextEntry={false}
                   width="100%"
                   required
+                  isDisabled={!form.level.length}
                 />
               </Box>
               <Button

@@ -1,4 +1,5 @@
 import { PERSONAL_WORKOUT_CARD_COLORS } from "@/constants/PersonalWorkouts";
+import { PersonalWorkout, PersonalWorkoutName } from "@/types/personalWorkouts";
 import { IMAGE_NAME } from "@/types/session";
 import { getImageFromName } from "@/utils/libs";
 import { Text, View, Box, Pressable } from "@gluestack-ui/themed";
@@ -7,15 +8,10 @@ import { Link } from "expo-router";
 import { StyleSheet } from "react-native";
 
 type Props = {
-  imgName?: IMAGE_NAME;
-  description: string;
   params: Record<string, string>;
+  personalWorkout: PersonalWorkout;
 };
-const WorkoutNameItem = ({
-  imgName = "distance",
-  description,
-  params,
-}: Props) => {
+const WorkoutNameItem = ({ personalWorkout, params }: Props) => {
   return (
     <Link
       href={{
@@ -35,15 +31,20 @@ const WorkoutNameItem = ({
           borderBottomColor={PERSONAL_WORKOUT_CARD_COLORS[params.ability]}
         >
           <Image
-            source={getImageFromName(imgName)}
+            source={personalWorkout.imgVideoMiniature.split(".png?")[0]}
             style={{ height: 130, width: "100%" }}
           />
           <Box p={"$2"}>
-            <Text fontWeight={"$bold"} color="#000000" fontSize={"$xl"}>
+            <Text
+              fontWeight={"$bold"}
+              color="#000000"
+              fontSize={"$xl"}
+              textTransform="capitalize"
+            >
               {params.name}
             </Text>
             <Text color="#000000" numberOfLines={1}>
-              {description}
+              {personalWorkout.description}
             </Text>
           </Box>
         </View>

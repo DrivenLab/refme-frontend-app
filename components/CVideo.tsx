@@ -8,7 +8,7 @@ type Props = {
   uri: string;
   isLooping?: boolean;
   customStyles?: StyleProp<ViewStyle>;
-  onFinishVideo: () => void;
+  onFinishVideo?: () => void;
   delayTime?: number;
 };
 const CVideo = ({
@@ -20,7 +20,9 @@ const CVideo = ({
 }: Props) => {
   const video = useRef<Video>(null);
 
-  const onceTimer = useDelay(delayTime * 1000, () => onFinishVideo());
+  const onceTimer = useDelay(delayTime * 1000, () => {
+    if (onFinishVideo) onFinishVideo;
+  });
   useEffect(() => {
     onceTimer.start();
   }, []);

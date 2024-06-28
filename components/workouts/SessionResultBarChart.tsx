@@ -12,6 +12,7 @@ import {
   WorkoutResultBarChart,
 } from "@/types/workout";
 import { TIME_TO_ANSWER } from "@/constants/Session";
+import i18n from "@/languages/i18n";
 export const PASTEL_RPE_COLORS = {
   "1": "#92e2f9",
   "2": "#92e2f9",
@@ -96,7 +97,7 @@ const SessionResultBarChart = ({ data, workoutType, memberType }: Props) => {
               borderRadius={10}
               backgroundColor={ZONE_COLORS[i]}
             />
-            <Text fontSize={"$sm"}>{label}</Text>
+            <Text fontSize={"$sm"}>{`${i18n.t("zone")} ${i + 1}`}</Text>
           </Box>
         ))}
       </HStack>

@@ -12,7 +12,7 @@ const SingleMaterial = ({ material }: Props) => {
     return material.split("-")[1];
   }, [material]);
   const quantity = useMemo(() => {
-    return material.split("-")[0];
+    return Number(material.split("-")[0]);
   }, [material]);
   return (
     <Box flexDirection="row" alignItems="center" gap={3}>
@@ -29,7 +29,7 @@ const SingleMaterial = ({ material }: Props) => {
           {quantity}
         </Text>
         <Text color="#091233" fontWeight={400}>
-          {i18n.t(`materials.${name}`)}
+          {i18n.t(`materials.${name}`) + `${quantity > 1 ? "s" : ""}`}
         </Text>
       </Box>
     </Box>

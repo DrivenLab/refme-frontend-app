@@ -26,10 +26,10 @@ const PersonalWorkoutCard = () => {
           <VStack flex={1} maxWidth={200}>
             <Box>
               <Text fontWeight="bold" fontSize={20} color="white">
-                {i18n.t("workout")}
+                {i18n.t("workout_home_card")}
               </Text>
               <Text fontSize={20} color="white">
-                {i18n.t("personal").toLocaleLowerCase()}
+                {i18n.t("personal_home_card").toLocaleLowerCase()}
               </Text>
             </Box>
             <Text fontSize={16} color="white">

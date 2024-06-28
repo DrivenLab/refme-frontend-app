@@ -4,6 +4,8 @@
   "update_password": "Since your actual password was created by us, you can chage it for another one.",
   "update_password_title": "Update password",
   "workout": "Workout",
+  "workout_home_card": "Personal",
+  "personal_home_card": "Workout",
   "personal": "Personal",
   "dm": "Decision Making",
   "dmar": "Decision Making",
@@ -89,6 +91,7 @@
   "profile": "Profile",
   "coming_soon": "Coming soon !!",
   "working_on_that": "We are working on this functionality.",
+  "zone": "Zone",
   "common": {
     "name_label": "Name",
     "last_name_label": "Lastname",
@@ -145,7 +148,7 @@
     "prepare_for": "for the ",
     "prepare_to_bold": "physical training",
     "go": "GO",
-    "look_at_bold": "Look ",
+    "look_at_bold": "Watch ",
     "look_at_the": "the ",
     "look_at_video_bold": "video ",
     "look_at_take": "and take a ",
@@ -156,10 +159,10 @@
     "before_rpe_text": "Select your level of perceived exertion",
     "remember_infractor_1": "Remember the number of the infractor and ",
     "remember_infractor_2": "who ",
-    "remember_infractor_3": "recieved the fault",
+    "remember_infractor_3": "recieved the foul",
     "select_infractor_1": "Select the number of the infractor and ",
     "select_infractor_2": "who recieved ",
-    "select_infractor_3": "the fault",
+    "select_infractor_3": "the foul",
     "recognition": {
       "pick_the_hand_ball": "Select the hand ball",
       "pick_the_foul": "Select the foul",
@@ -228,7 +231,7 @@
     "personal_workout_header_title": "Personal workout",
     "velocidad_header_title": "Speed ​​- RSA",
     "agilidad_header_title": "Agility and Change of direction",
-    "resistencia_header_title": "Resistance",
+    "resistencia_header_title": "Endurance",
     "home_title_question": "What skill do you need to work on today?",
     "choose_an_space_message": "Choose an option according to the space you have available",
     "config": {
@@ -255,8 +258,8 @@
     "all_refme_user_average": "Average of All REFME Users",
     "personal_average": "Personal Average",
     "percentage_successes": "% Successes",
-    "hands": "Hands",
-    "tactical_fouls": "Tactical Fouls",
-    "disputes": "Disputes"
+    "hands": "Handball",
+    "tactical_fouls": "Tactical Fouls",
+    "disputes": "Challenges"
   }
 }

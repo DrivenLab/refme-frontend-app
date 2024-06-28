@@ -46,6 +46,7 @@ const CInputSelect = ({
   const labelPosition = useRef(new Animated.Value(value ? 1 : 0)).current;
 
   const handleFocus = () => {
+    if (isDisabled) return;
     setIsFocused(true);
     animatedLabel(1);
     if (options.length > 0) {

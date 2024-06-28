@@ -1,4 +1,8 @@
-import { PersonalWorkoutAbility } from "@/types/personalWorkouts";
+import {
+  PersonalWorkout,
+  PersonalWorkoutAbility,
+  PersonalWorkoutConfig,
+} from "@/types/personalWorkouts";
 import {
   Text,
   ScrollView,
@@ -9,8 +13,6 @@ import {
   ButtonSpinner,
 } from "@gluestack-ui/themed";
 import { useLocalSearchParams } from "expo-router";
-import { Image } from "expo-image";
-import { getImageFromName } from "@/utils/libs";
 import i18n from "@/languages/i18n";
 import { useMemo, useState } from "react";
 import CInputSelect from "@/components/inputs/CInputSelect";
@@ -27,7 +29,6 @@ import DownloadSessionModal from "@/components/personal-workouts/DonwloadSession
 import { ViewInstructionsModal } from "@/components/ViewInstructionsModal";
 import WorkoutConfigutationList from "@/components/workouts/WorkoutConfigutationList";
 import useToast from "@/hooks/useToast";
-import { AxiosError } from "axios";
 import VideoImageTutorial from "@/components/personal-workouts/VideoImageTutorial";
 
 const Config = () => {
@@ -54,8 +55,10 @@ const Config = () => {
 
   const generalWorkoutInfo = useMemo(() => {
     if (form.level)
-      return personalWorkoutsConfig[ability][distance][name].find(
-        (w) => w.level === form.level
+      return (
+        personalWorkoutsConfig[ability][distance][name].find(
+          (w) => w.level === form.level
+        ) ?? ({} as PersonalWorkout)
       );
     else return personalWorkoutsConfig[ability][distance][name][0];
   }, [form.level]);
@@ -171,14 +174,16 @@ const Config = () => {
                   placeholder={i18n.t(
                     "personal_workout_flow.config.cognitive_ability"
                   )}
-                  options={WORKOUT_TYPE_INPUT_SELECT_OPTIONS}
+                  options={generalWorkoutInfo?.cognitiveAbility.map((h) => ({
+                    label: i18n.t(h),
+                    value: h,
+                  }))}
                   onChangeValue={(v: string | number) =>
                     setForm((prev) => ({ ...prev, workoutType: v + "" }))
                   }
-                  error=""
-                  secureTextEntry={false}
                   width="100%"
                   required
+                  isDisabled={!form.level.length}
                 />
               </Box>
               <Button

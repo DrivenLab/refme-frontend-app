@@ -1,0 +1,5 @@
+{
+  "NSCameraUsageDescription": "Para subir tu foto de perfil, necesitamos acceso a tu camara",
+  "NSMicrophoneUsageDescription": "Para algunos entrenamientos, necesitamos acceso a tu micrófono",
+  "NSPhotoLibraryUsageDescription": "Para subir tu foto de perfil, necesitamos acceso a tu galería de fotos"
+}

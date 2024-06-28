@@ -84,8 +84,8 @@
       "typedRoutes": true
     },
     "locales": {
-      "es": "./languages/es.json",
-      "en": "./languages/en.json"
+      "es": "./languages/metadataEn.json",
+      "en": "./languages/metadataEs.json"
     },
     "extra": {
       "router": {

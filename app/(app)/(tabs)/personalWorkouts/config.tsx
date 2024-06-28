@@ -28,6 +28,7 @@ import { ViewInstructionsModal } from "@/components/ViewInstructionsModal";
 import WorkoutConfigutationList from "@/components/workouts/WorkoutConfigutationList";
 import useToast from "@/hooks/useToast";
 import { AxiosError } from "axios";
+import VideoImageTutorial from "@/components/personal-workouts/VideoImageTutorial";
 
 const Config = () => {
   /*STATES */
@@ -117,9 +118,10 @@ const Config = () => {
         workoutType={(form.workoutType as WORKOUT_TYPE) || "dm"}
       />
       <ScrollView backgroundColor="white">
-        <Image
-          source={getImageFromName("distance")}
-          style={{ height: 300, width: "100%" }}
+        <VideoImageTutorial
+          imgTutorial={generalWorkoutInfo?.imgTutorial}
+          imgVideoMiniature={generalWorkoutInfo?.imgVideoMiniature}
+          videoTutorial={generalWorkoutInfo?.videoTutorial}
         />
         <VStack px={"$3"} pt={"$2"} space="md">
           {/* TUTORIAL */}
@@ -128,7 +130,9 @@ const Config = () => {
               {i18n.t("personal_workout_flow.config.tutorial")}
             </Text>
             <Text color="#091233" fontWeight={400}>
-              {generalWorkoutInfo?.description}
+              {distance === "caminadora" && !form.level
+                ? "-"
+                : generalWorkoutInfo?.description}
             </Text>
           </>
           {/* MATERIALS */}

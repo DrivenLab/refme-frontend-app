@@ -14,7 +14,10 @@ export const baseURL = url ? url : "https://api.refme.dlab.software/api/";
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL });
+const api = axios.create({
+  baseURL,
+  headers: { "Accept-Language": i18n.locale },
+});
 
 const handleError = (error: any) => {
   if (error?.response?.status == 401) {

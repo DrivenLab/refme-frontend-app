@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "refme-pro-app",
+    "name": "Refme Pro",
     "slug": "refme",
     "version": "1.0.0",
     "icon": "./assets/images/icon.png",
@@ -11,24 +11,33 @@
       "resizeMode": "contain",
       "backgroundColor": "#080B21"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "requireFullScreen": true,
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true,
-        "CFBundleLocalizations": ["es"],
+        "CFBundleLocalizations": [
+          "es"
+        ],
         "CFBundleDevelopmentRegion": "es"
       },
-      "bundleIdentifier": "com.nundlab99.refmeproapp",
-      "userInterfaceStyle": "light"
+      "bundleIdentifier": "com.refmepro.refmeaiosapp",
+      "userInterfaceStyle": "light",
+      "buildNumber": "3"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.nundlab99.refmeproapp"
+      "package": "com.nundlab99.refmeproapp",
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -44,7 +53,9 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ],
-      ["expo-asset"],
+      [
+        "expo-asset"
+      ],
       [
         "expo-font",
         {
@@ -92,13 +103,13 @@
         "origin": false
       },
       "eas": {
-        "projectId": "8164efdf-7782-445a-a13a-aa8c993166dd"
+        "projectId": "ee595d57-8b1a-4d77-8d1d-a190e9bb12d9"
       }
     },
     "runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/8164efdf-7782-445a-a13a-aa8c993166dd"
     },
-    "owner": "dlabsoftware"
+    "owner": "refme"
   }
 }

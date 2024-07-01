@@ -1,9 +1,6 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "./api";
-import { Workout } from "@/types/workout";
 import { AxiosResponse } from "axios";
-import { useAuth } from "@/context/auth";
-import { useGetSessionById } from "@/queries/session.query";
 import {
   PersonalWorkoutConfig,
   PersonalWorkoutDistance,

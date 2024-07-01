@@ -3,7 +3,6 @@ import api from "./api";
 import { AxiosResponse } from "axios";
 import { useAuth } from "@/context/auth";
 import { Session, SessionPostType } from "@/types/session";
-import { cleanWorkoutDownloadedVideos } from "@/utils/downloadedFilesUtils";
 
 /*Esta función es la encargada de obtener los datos de una sesión en especifica del servidor y guardar en el storage. */
 const useGetSessionDetailById = ({
@@ -35,11 +34,19 @@ const useGetSessionDetailById = ({
   };
 };
 /*Esta función obtiene los datos de una sessión, pero lo que está almacenado en el sessions query cache */
-const useGetSessionById = ({ idSession }: { idSession: number }) => {
+const useGetSessionById = ({
+  idSession,
+  params,
+}: {
+  idSession: number;
+  params?: Record<string, string>;
+}) => {
   const queryClient = useQueryClient();
-  const { currentOrganization, userRole } = useAuth();
 
-  const data = queryClient.getQueryData<AxiosResponse<Session[]>>(["sessions"]);
+  const data = queryClient.getQueryData<AxiosResponse<Session[]>>([
+    "sessions",
+    params,
+  ]);
   const session = data?.data.find((s) => s.id === idSession);
 
   return { session };
@@ -58,7 +65,7 @@ const useGetSessions = ({ params }: { params: Record<string, string> }) => {
   // Queries
   // Realizar la consulta usando react-query
   const { data, isLoading, isFetched, ...rest } = useQuery({
-    queryKey: ["sessions"],
+    queryKey: ["sessions", params],
     queryFn: getSessions,
   });
   return {
@@ -84,11 +91,11 @@ const usePostSession = ({
         payload
       ),*/
       console.log("Post session mutation"),
-      
+
     onMutate: async (payload: SessionPostType[]) => {
       //await queryClient.cancelQueries({ queryKey: ["sessions"] });
       console.log("onMutate");
-      
+
       // updateLocalExerciseList(payload.id, payload.isDone, true);
       // TODO: Eliminar video
       // TODO: Marcar entrenamiento como completo en react query
@@ -97,7 +104,7 @@ const usePostSession = ({
       //queryClient.cancelQueries({ queryKey: ["sessions"] });
       //cleanWorkoutDownloadedVideos(workoutId);
       console.log("onSuccess");
-      
+
       // updateLocalExerciseList(data.id, data.isDone, false);
     },
     onError: (error) => {

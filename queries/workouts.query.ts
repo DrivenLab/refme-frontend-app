@@ -7,13 +7,14 @@ import { useGetSessionById } from "@/queries/session.query";
 
 const useGetWorkoutById = ({ idWorkout }: { idWorkout: number }) => {
   const queryClient = useQueryClient();
-  const { currentOrganization, userRole } = useAuth();
+  const { userRole } = useAuth();
   let workout;
   let session;
   //Si es miembro el id realmente es una Session , si es instructor, el id es Workout
   if (userRole === "member") {
     const result = useGetSessionById({
       idSession: Number(idWorkout),
+      params: { workout__usage_type: "official" },
     });
     session = result.session;
     workout = result.session?.workout;

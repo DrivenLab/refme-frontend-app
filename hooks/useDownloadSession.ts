@@ -10,6 +10,7 @@ import i18n from "@/languages/i18n";
 type Props = {
   idSession: number;
   onCompleteDownloading?: (s?: Session) => void;
+  params?: Record<string, string>;
 };
 const useDownloadSession = ({ idSession, onCompleteDownloading }: Props) => {
   const [session, setSession] = useState<Session>();

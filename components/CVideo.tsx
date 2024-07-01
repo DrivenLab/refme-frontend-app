@@ -21,7 +21,7 @@ const CVideo = ({
   const video = useRef<Video>(null);
 
   const onceTimer = useDelay(delayTime * 1000, () => {
-    if (onFinishVideo) onFinishVideo;
+    if (onFinishVideo) onFinishVideo();
   });
   useEffect(() => {
     onceTimer.start();

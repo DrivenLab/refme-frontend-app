@@ -12,18 +12,24 @@
       },
       "ios": {
         "image": "latest"
-      }
+      },
+      "channel": "development"
     },
     "genApk": {
       "developmentClient": false,
       "distribution": "internal",
       "android": {
         "buildType": "apk"
-      }
+      },
+      "channel": "preview"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "channel": "preview"
     },
-    "production": {}
+    "production": {
+      "channel": "production",
+      "node": "20.9.0"
+    }
   }
 }

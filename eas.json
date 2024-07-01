@@ -28,7 +28,8 @@
       "channel": "preview"
     },
     "production": {
-      "channel": "production"
+      "channel": "production",
+      "node": "20.9.0"
     }
   }
 }
